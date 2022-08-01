@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marajoara.Cinema.Management.Domain", "Marajoara.Cinema.Management.Domain\Marajoara.Cinema.Management.Domain.csproj", "{9AEFEC2E-8D2E-4F2C-889E-163DCF434156}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3-Domain", "3-Domain", "{1A636B99-8E1F-4200-AEF7-8AC7924A270F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-Presentation", "1-Presentation", "{5FC3D867-B3E0-4B92-B4EA-976175B1A12F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-Distributed Services", "2-Distributed Services", "{266D5FA4-C6CC-482B-B157-37D3B3356807}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4-Infraestructure", "4-Infraestructure", "{6E4E0047-63D2-4072-989F-5FE977B52D8C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0F90A68B-F153-4527-A2AA-7A37F78903A4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{35842D4C-814E-42CB-981D-B686134E0155}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9AEFEC2E-8D2E-4F2C-889E-163DCF434156}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AEFEC2E-8D2E-4F2C-889E-163DCF434156}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AEFEC2E-8D2E-4F2C-889E-163DCF434156}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AEFEC2E-8D2E-4F2C-889E-163DCF434156}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9AEFEC2E-8D2E-4F2C-889E-163DCF434156} = {1A636B99-8E1F-4200-AEF7-8AC7924A270F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {293CCE32-062C-40F1-976D-2B4BBB118D5C}
+	EndGlobalSection
+EndGlobal
