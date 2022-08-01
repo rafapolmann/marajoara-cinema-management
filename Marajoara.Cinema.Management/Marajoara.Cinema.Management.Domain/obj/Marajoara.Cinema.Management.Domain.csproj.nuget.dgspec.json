@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\git\\Source\\Repos\\marajoara-cinema-management\\Marajoara.Cinema.Management.Domain\\Marajoara.Cinema.Management.Domain\\Marajoara.Cinema.Management.Domain.csproj": {}
+    "E:\\git\\Source\\Repos\\marajoara-cinema-management\\Marajoara.Cinema.Management\\Marajoara.Cinema.Management.Domain\\Marajoara.Cinema.Management.Domain.csproj": {}
   },
   "projects": {
-    "E:\\git\\Source\\Repos\\marajoara-cinema-management\\Marajoara.Cinema.Management.Domain\\Marajoara.Cinema.Management.Domain\\Marajoara.Cinema.Management.Domain.csproj": {
+    "E:\\git\\Source\\Repos\\marajoara-cinema-management\\Marajoara.Cinema.Management\\Marajoara.Cinema.Management.Domain\\Marajoara.Cinema.Management.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\git\\Source\\Repos\\marajoara-cinema-management\\Marajoara.Cinema.Management.Domain\\Marajoara.Cinema.Management.Domain\\Marajoara.Cinema.Management.Domain.csproj",
+        "projectUniqueName": "E:\\git\\Source\\Repos\\marajoara-cinema-management\\Marajoara.Cinema.Management\\Marajoara.Cinema.Management.Domain\\Marajoara.Cinema.Management.Domain.csproj",
         "projectName": "Marajoara.Cinema.Management.Domain",
-        "projectPath": "E:\\git\\Source\\Repos\\marajoara-cinema-management\\Marajoara.Cinema.Management.Domain\\Marajoara.Cinema.Management.Domain\\Marajoara.Cinema.Management.Domain.csproj",
+        "projectPath": "E:\\git\\Source\\Repos\\marajoara-cinema-management\\Marajoara.Cinema.Management\\Marajoara.Cinema.Management.Domain\\Marajoara.Cinema.Management.Domain.csproj",
         "packagesPath": "C:\\Users\\Rafael\\.nuget\\packages\\",
-        "outputPath": "E:\\git\\Source\\Repos\\marajoara-cinema-management\\Marajoara.Cinema.Management.Domain\\Marajoara.Cinema.Management.Domain\\obj\\",
+        "outputPath": "E:\\git\\Source\\Repos\\marajoara-cinema-management\\Marajoara.Cinema.Management\\Marajoara.Cinema.Management.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Rafael\\AppData\\Roaming\\NuGet\\NuGet.Config",

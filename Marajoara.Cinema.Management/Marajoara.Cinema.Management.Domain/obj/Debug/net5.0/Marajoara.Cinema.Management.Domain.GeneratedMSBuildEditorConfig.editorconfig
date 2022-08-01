@@ -7,4 +7,4 @@ build_property.PublishSingleFile =
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
 build_property.RootNamespace = Marajoara.Cinema.Management.Domain
-build_property.ProjectDir = E:\git\Source\Repos\marajoara-cinema-management\Marajoara.Cinema.Management.Domain\Marajoara.Cinema.Management.Domain\
+build_property.ProjectDir = E:\git\Source\Repos\marajoara-cinema-management\Marajoara.Cinema.Management\Marajoara.Cinema.Management.Domain\
