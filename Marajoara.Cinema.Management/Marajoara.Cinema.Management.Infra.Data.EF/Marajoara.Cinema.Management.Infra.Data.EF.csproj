@@ -4,4 +4,12 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Marajoara.Cinema.Management.Domain\Marajoara.Cinema.Management.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,5 @@
+E:\git\Source\Repos\marajoara-cinema-management\Marajoara.Cinema.Management\Marajoara.Cinema.Management.Infra.EFManager\obj\Debug\net5.0\Marajoara.Cinema.Management.Infra.EFManager.csproj.AssemblyReference.cache
+E:\git\Source\Repos\marajoara-cinema-management\Marajoara.Cinema.Management\Marajoara.Cinema.Management.Infra.EFManager\obj\Debug\net5.0\Marajoara.Cinema.Management.Infra.EFManager.GeneratedMSBuildEditorConfig.editorconfig
+E:\git\Source\Repos\marajoara-cinema-management\Marajoara.Cinema.Management\Marajoara.Cinema.Management.Infra.EFManager\obj\Debug\net5.0\Marajoara.Cinema.Management.Infra.EFManager.AssemblyInfoInputs.cache
+E:\git\Source\Repos\marajoara-cinema-management\Marajoara.Cinema.Management\Marajoara.Cinema.Management.Infra.EFManager\obj\Debug\net5.0\Marajoara.Cinema.Management.Infra.EFManager.AssemblyInfo.cs
+E:\git\Source\Repos\marajoara-cinema-management\Marajoara.Cinema.Management\Marajoara.Cinema.Management.Infra.EFManager\obj\Debug\net5.0\Marajoara.Cinema.Management.Infra.EFManager.csproj.CoreCompileInputs.cache
