@@ -1,4 +1,4 @@
-﻿namespace Marajoara.Cinema.Management.Domain.UserModule
+﻿namespace Marajoara.Cinema.Management.Domain.UserAccountModule
 {
     public enum AccessLevel
     {
