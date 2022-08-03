@@ -1,13 +1,17 @@
-﻿using Marajoara.Cinema.Management.Domain.UnitOfWork;
+﻿using Marajoara.Cinema.Management.Domain.CineRoomModule;
+using Marajoara.Cinema.Management.Domain.UnitOfWork;
 
 namespace Marajoara.Cinema.Management.Infra.Data.EF.Commom
 {
     public class MarajoaraUnitOfWork : IMarajoaraUnitOfWork
     {
-        private readonly MarajoaraContext _DBContext;
-        public MarajoaraUnitOfWork(MarajoaraContext DBContext)
+        private readonly MarajoaraContext DBContext;
+        public ICineRoomRepository CineRooms { get; private set; }
+
+        public MarajoaraUnitOfWork(MarajoaraContext dbContext, ICineRoomRepository cineRooms)
         {
-            _DBContext = DBContext;
+            DBContext = dbContext;
+            CineRooms = cineRooms;
         }
 
         public void CleanDb()
@@ -17,12 +21,12 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF.Commom
 
         public void Commit()
         {
-            _DBContext.SaveChanges();
+            DBContext.SaveChanges();
         }
 
         public void Dispose()
         {
-            _DBContext.Dispose();
+            DBContext.Dispose();
         }
     }
 }

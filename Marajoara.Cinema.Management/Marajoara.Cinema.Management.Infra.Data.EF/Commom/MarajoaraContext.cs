@@ -20,11 +20,11 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF.Commom
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Configurations.Add(new UserAccountConfiguration());
-            modelBuilder.Configurations.Add(new TicketConfiguration());
+            //modelBuilder.Configurations.Add(new UserAccountConfiguration());
+            //modelBuilder.Configurations.Add(new TicketConfiguration());
             modelBuilder.Configurations.Add(new CineRoomConfiguration());
-            modelBuilder.Configurations.Add(new SessionConfiguration());
-            modelBuilder.Configurations.Add(new MovieConfiguration());
+            //modelBuilder.Configurations.Add(new SessionConfiguration());
+            //modelBuilder.Configurations.Add(new MovieConfiguration());
         }
 
         public DbSet<UserAccount> UserAccounts { get; set; }

@@ -1,4 +1,6 @@
-﻿using Marajoara.Cinema.Management.Domain.UnitOfWork;
+﻿using Marajoara.Cinema.Management.Domain.CineRoomModule;
+using Marajoara.Cinema.Management.Domain.UnitOfWork;
+using Marajoara.Cinema.Management.Infra.Data.EF;
 using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
 using Ninject;
 using System.Data.SqlClient;
@@ -15,13 +17,27 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
 
         private IoC()
         {
+            DatabaseSetup();
+            RepositoriesSetup();
+        }
+        private void RepositoriesSetup()
+        {
+            _kernel.Bind<ICineRoomRepository>().To<CineRoomRepository>();
+        }
+
+        private void DatabaseSetup()
+        {
             SqlConnectionStringBuilder _connectionStringBuilder = new SqlConnectionStringBuilder
             {
-                InitialCatalog = "teste",
+                InitialCatalog = "CineMarajoara",
                 DataSource = "(localdb)\\mssqllocaldb"
-            };   
-            
-            _kernel.Bind<IMarajoaraUnitOfWorkFactory>().To<MarajoaraUnitOfWorkFactory>().WithConstructorArgument(_connectionStringBuilder.ConnectionString);
+            };
+
+            _kernel.Bind<MarajoaraContext>().ToSelf()
+                                            .InSingletonScope()
+                                            .WithConstructorArgument("dbConnection", new SqlConnection(_connectionStringBuilder.ConnectionString));
+
+            _kernel.Bind<IMarajoaraUnitOfWork>().To<MarajoaraUnitOfWork>();
         }
 
         public static IoC GetInstance()
