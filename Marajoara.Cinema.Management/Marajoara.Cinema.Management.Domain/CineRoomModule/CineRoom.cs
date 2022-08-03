@@ -6,7 +6,7 @@
         public string Name { get; set; }
         public int SeatsRow { get; set; }
         public int SeatsColumn { get; set; }
-        public int Total
+        public int TotalSeats
         {
             get { return SeatsColumn * SeatsRow; }
         }
