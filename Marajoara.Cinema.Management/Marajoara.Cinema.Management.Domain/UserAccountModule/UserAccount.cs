@@ -9,6 +9,6 @@ namespace Marajoara.Cinema.Management.Domain.UserAccountModule
         public string Mail { get; set; }
         public string Password { get; set; }
         public AccessLevel Level { set; get; }
-        public FileStream Photo { get; set; }
+        public byte[] Photo { get; set; }
     }
 }

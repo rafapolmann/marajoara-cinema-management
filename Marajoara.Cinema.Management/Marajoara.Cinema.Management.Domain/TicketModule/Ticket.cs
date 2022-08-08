@@ -9,7 +9,9 @@ namespace Marajoara.Cinema.Management.Domain.TicketModule
         public int TicketID { get; set; }
         public DateTime PurchaseDate { get; set; }
         public Guid Code { get; set; }
+        public int UserAccountID { get; set; }
         public UserAccount UserAccount { get; set; }
+        public int SessionID { get; set; }
         public Session Session { get; set; }
         public decimal Price { get; set; }
         public int SeatNumber { get; set; }

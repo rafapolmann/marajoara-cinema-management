@@ -1,9 +1,7 @@
 ﻿using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Domain.UnitOfWork;
-using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
 using Marajoara.Cinema.Management.Infra.Framework.IoC;
 using System;
-using System.Data.SqlClient;
 
 namespace Marajoara.Cinema.Management.ConsoleTest
 {
@@ -12,6 +10,14 @@ namespace Marajoara.Cinema.Management.ConsoleTest
         static void Main(string[] args)
         {
             var uow = IoC.GetInstance().Get<IMarajoaraUnitOfWork>();
+
+            var all = uow.CineRooms.RetriveByName("RoomName2");
+
+
+            all.SeatsRow = 10;
+
+            uow.CineRooms.Delete(all);
+            uow.Commit();
 
             var cineRoom = new CineRoom
             {
