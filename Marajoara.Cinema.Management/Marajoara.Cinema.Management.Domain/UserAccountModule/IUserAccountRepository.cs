@@ -10,5 +10,12 @@ namespace Marajoara.Cinema.Management.Domain.UserAccountModule
         UserAccount RetriveByFullName(string fullName);
         UserAccount RetriveByMail(string email);
         IEnumerable<UserAccount> RetriveAll();
+
+        /// <summary>
+        /// Retrieves a UserAccount with a given mail
+        /// </summary>
+        /// <param name="userAccountID"></param>
+        /// <returns></returns>
+        UserAccount RetrieveByMail(string userAccountMail);
     }
 }
