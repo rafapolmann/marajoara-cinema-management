@@ -1,5 +1,9 @@
 ﻿using Marajoara.Cinema.Management.Domain.CineRoomModule;
+using Marajoara.Cinema.Management.Domain.MovieModule;
+using Marajoara.Cinema.Management.Domain.SessionModule;
+using Marajoara.Cinema.Management.Domain.TicketModule;
 using Marajoara.Cinema.Management.Domain.UnitOfWork;
+using Marajoara.Cinema.Management.Domain.UserAccountModule;
 using Marajoara.Cinema.Management.Infra.Data.EF;
 using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -33,8 +37,14 @@ namespace Marajoara.Cinema.Management.Tests.Common
             context.Database.Initialize(true);
 
             ICineRoomRepository cineRoomRepository = new CineRoomRepository(context);
+            IMovieRepository movieRepository = new MovieRepository(context);
+            ISessionRepository sessionRepository = new SessionRepository(context);
+            ITicketRepository ticketRepository = new TicketRepository(context);
+            IUserAccountRepository userAccountRepository = new UserAccountRepository(context);
+            
 
-            IMarajoaraUnitOfWork unitOfWork = new MarajoaraUnitOfWork(context, cineRoomRepository);
+
+            IMarajoaraUnitOfWork unitOfWork = new MarajoaraUnitOfWork(context, cineRoomRepository, movieRepository,sessionRepository,ticketRepository,userAccountRepository);
 
             return unitOfWork;
         }

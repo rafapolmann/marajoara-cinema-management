@@ -10,7 +10,7 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF.Configuration
                 ToTable("UserAccounts");
                 HasKey(cr => cr.UserAccountID).Property(cr => cr.UserAccountID).HasColumnName("UserAccountID");
                 HasIndex(cr => cr.Mail).IsUnique();
-                Property(cr => cr.Mail).IsRequired().HasColumnName("Mail");
+                Property(cr => cr.Mail).IsRequired().HasColumnName("Mail").HasMaxLength(512) ;
                 Property(cr => cr.Name).IsRequired().HasColumnName("Name").HasMaxLength(1024);
                 Property(cr => cr.Level).HasColumnName("AccessLevel");
                 Property(cr => cr.Password).HasColumnName("Password");

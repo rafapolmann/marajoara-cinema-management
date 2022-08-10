@@ -1,5 +1,9 @@
 ﻿using Marajoara.Cinema.Management.Domain.CineRoomModule;
+using Marajoara.Cinema.Management.Domain.MovieModule;
+using Marajoara.Cinema.Management.Domain.SessionModule;
+using Marajoara.Cinema.Management.Domain.TicketModule;
 using Marajoara.Cinema.Management.Domain.UnitOfWork;
+using Marajoara.Cinema.Management.Domain.UserAccountModule;
 using Marajoara.Cinema.Management.Infra.Data.EF;
 using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
 using Ninject;
@@ -23,6 +27,11 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
         private void RepositoriesSetup()
         {
             _kernel.Bind<ICineRoomRepository>().To<CineRoomRepository>();
+            _kernel.Bind<IMovieRepository>().To<MovieRepository>();
+            _kernel.Bind<ISessionRepository>().To<SessionRepository>();
+            _kernel.Bind<ITicketRepository>().To<TicketRepository>();
+            _kernel.Bind<IUserAccountRepository>().To<UserAccountRepository>();
+
         }
 
         private void DatabaseSetup()
