@@ -29,7 +29,7 @@ namespace Marajoara.Cinema.Management.Tests
             userAccounts.Should().HaveCount(1);
             userAccounts[0].Should().NotBeNull();
             userAccounts[0].UserAccountID.Should().Be(1);
-            userAccounts[0].FullName.Should().Be("FullName");
+            userAccounts[0].Name.Should().Be("FullName");
             userAccounts[0].Mail.Should().Be("email");
             userAccounts[0].Password.Should().Be("P@ssW0rd");
             userAccounts[0].Level.Should().Be(AccessLevel.Manager);
@@ -73,14 +73,14 @@ namespace Marajoara.Cinema.Management.Tests
         }
 
         #region HelperMethods
-        private UserAccount GetUserAccountToTest(string fullName = "FullName",
+        private UserAccount GetUserAccountToTest(string name = "FullName",
                                          string mail = "email",
                                          string password = "P@ssW0rd",
                                          AccessLevel accountLevel = AccessLevel.Manager)
         {
             return new UserAccount
             {
-                FullName = fullName,
+                Name = name,
                 Mail = mail,
                 Password = password,
                 Level = accountLevel

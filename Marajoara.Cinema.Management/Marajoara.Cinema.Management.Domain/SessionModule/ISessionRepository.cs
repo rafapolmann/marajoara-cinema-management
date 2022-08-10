@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Marajoara.Cinema.Management.Domain.SessionModule
 {
@@ -12,14 +9,12 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
         void Update(Session sessionToUpdate);
         void Delete(Session sessionToDelete);        
         IEnumerable<Session> RetriveAll();
-
         /// <summary>
         /// Returns all sessions that are presenting a given movie
         /// </summary>
         /// <param name="movieTitle">The movie title</param>
         /// <returns>A list of Session</returns>
         IEnumerable<Session> RetriveByMovieTitle(string movieTitle);
-
         /// <summary>
         /// Returns the sessions for a specific date
         /// </summary>
@@ -33,6 +28,5 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
         /// <param name="lastSessionDate">The end date</param>
         /// <returns>A list of Session</returns>
         IEnumerable<Session> RetrieveByDate(DateTime minSessionDate, DateTime lastSessionDate);
-
     }
 }

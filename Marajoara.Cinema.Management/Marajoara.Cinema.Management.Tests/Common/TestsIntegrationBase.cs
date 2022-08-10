@@ -30,7 +30,7 @@ namespace Marajoara.Cinema.Management.Tests.Common
             if (recreateContext)
             {
                 try
-                {
+                {   
                     //context.Database.ForceDelete();
                 }
                 catch (SqlException) { /*Could not delete, because database was not createad*/ }
@@ -39,9 +39,7 @@ namespace Marajoara.Cinema.Management.Tests.Common
 
             }
             else
-            {
                 Database.SetInitializer<MarajoaraContext>(null);
-            }
 
             context.Database.Initialize(recreateContext);
 
@@ -50,10 +48,10 @@ namespace Marajoara.Cinema.Management.Tests.Common
             ISessionRepository sessionRepository = new SessionRepository(context);
             ITicketRepository ticketRepository = new TicketRepository(context);
             IUserAccountRepository userAccountRepository = new UserAccountRepository(context);
-            
 
-
-            IMarajoaraUnitOfWork unitOfWork = new MarajoaraUnitOfWork(context, cineRoomRepository, movieRepository,sessionRepository,ticketRepository,userAccountRepository);
+            IMarajoaraUnitOfWork unitOfWork = new MarajoaraUnitOfWork(context, cineRoomRepository,
+                                                                      movieRepository, sessionRepository,
+                                                                      ticketRepository, userAccountRepository);
 
             return unitOfWork;
         }

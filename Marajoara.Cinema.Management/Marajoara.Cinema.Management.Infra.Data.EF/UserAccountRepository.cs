@@ -3,8 +3,6 @@ using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Marajoara.Cinema.Management.Infra.Data.EF
 {
@@ -32,17 +30,17 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
             return DBContext.UserAccounts;
         }
 
-        public UserAccount RetriveByFullName(string fullName)
+        public UserAccount RetriveByName(string name)
         {
             return DBContext.UserAccounts
-                            .Where(ua => ua.FullName.Equals(fullName, StringComparison.InvariantCultureIgnoreCase))
+                            .Where(ua => ua.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase))
                             .FirstOrDefault();
         }
 
-        public UserAccount RetriveByMail(string email)
+        public UserAccount RetrieveByMail(string userAccountMail)
         {
             return DBContext.UserAccounts
-                            .Where(ua => ua.Mail.Equals(email, StringComparison.InvariantCultureIgnoreCase))
+                            .Where(ua => ua.Mail.Equals(userAccountMail, StringComparison.InvariantCultureIgnoreCase))
                             .FirstOrDefault();
         }
 

@@ -39,7 +39,6 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
             _kernel.Bind<ISessionRepository>().To<SessionRepository>();
             _kernel.Bind<ITicketRepository>().To<TicketRepository>();
             _kernel.Bind<IUserAccountRepository>().To<UserAccountRepository>();
-
         }
 
         private void DatabaseSetup()

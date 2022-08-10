@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Marajoara.Cinema.Management.Domain.MovieModule
 {
@@ -13,6 +9,5 @@ namespace Marajoara.Cinema.Management.Domain.MovieModule
         void Delete(Movie movieToDelete);
         Movie RetriveByTitle(string movieTitle);
         IEnumerable<Movie> RetriveAll();
-
     }
 }

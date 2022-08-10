@@ -7,10 +7,8 @@ namespace Marajoara.Cinema.Management.Domain.UserAccountModule
         void Add(UserAccount userAccountToAdd);
         void Update(UserAccount userAccountToUpdate);
         void Delete(UserAccount userAccountToDelete);
-        UserAccount RetriveByFullName(string fullName);
-        UserAccount RetriveByMail(string email);
+        UserAccount RetriveByName(string name);
         IEnumerable<UserAccount> RetriveAll();
-
         /// <summary>
         /// Retrieves a UserAccount with a given mail
         /// </summary>
