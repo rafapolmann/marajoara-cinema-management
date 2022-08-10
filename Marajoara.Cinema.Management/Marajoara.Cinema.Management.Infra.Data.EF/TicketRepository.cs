@@ -1,6 +1,7 @@
 ﻿using Marajoara.Cinema.Management.Domain.SessionModule;
 using Marajoara.Cinema.Management.Domain.TicketModule;
 using Marajoara.Cinema.Management.Domain.UserAccountModule;
+using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,12 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
 {
     public class TicketRepository : ITicketRepository
     {
+        private readonly MarajoaraContext DBContext;
+
+        public TicketRepository(MarajoaraContext dbContext)
+        {
+            DBContext = dbContext;
+        }
         public void Add(Ticket ticketToAdd)
         {
             throw new NotImplementedException();

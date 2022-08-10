@@ -1,4 +1,5 @@
 ﻿using Marajoara.Cinema.Management.Domain.MovieModule;
+using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,13 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
 {
     public class MovieRepository : IMovieRepository
     {
+        private readonly MarajoaraContext DBContext;
+
+        public MovieRepository(MarajoaraContext dbContext)
+        {
+            DBContext = dbContext;
+        }
+
         public void Add(Movie movieToAdd)
         {
             throw new NotImplementedException();

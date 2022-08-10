@@ -1,4 +1,5 @@
 ﻿using Marajoara.Cinema.Management.Domain.SessionModule;
+using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,13 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
 {
     public class SessionRepository : ISessionRepository
     {
+        private readonly MarajoaraContext DBContext;
+
+        public SessionRepository(MarajoaraContext dbContext)
+        {
+            DBContext = dbContext;
+        }
+
         public void Add(Session sessionToAdd)
         {
             throw new NotImplementedException();

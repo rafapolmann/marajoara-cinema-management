@@ -18,7 +18,7 @@ namespace Marajoara.Cinema.Management.Domain.TicketModule
         /// <summary>
         /// Retrieves a list of the tickets of a given custumer (UserAccount)
         /// </summary>
-        /// <param name="customer"></param>
+        /// <param name="customer">UserAccount object</param>
         /// <returns></returns>
         IEnumerable<Ticket> RetriveByUserAccount(UserAccount customer);
 
