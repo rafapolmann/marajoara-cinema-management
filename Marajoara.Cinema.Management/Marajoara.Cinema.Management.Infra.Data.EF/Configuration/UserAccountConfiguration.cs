@@ -15,7 +15,6 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF.Configuration
                 Property(cr => cr.Level).HasColumnName("AccessLevel");
                 Property(cr => cr.Password).HasColumnName("Password");
                 Property(cr => cr.Photo).HasColumnName("Photo");
-
         }
     }
 }

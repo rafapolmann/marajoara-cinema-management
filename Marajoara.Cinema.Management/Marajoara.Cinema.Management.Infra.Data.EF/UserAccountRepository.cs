@@ -3,8 +3,6 @@ using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Marajoara.Cinema.Management.Infra.Data.EF
 {
@@ -16,29 +14,39 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
         {
             DBContext = dbContext;
         }
+
         public void Add(UserAccount userAccountToAdd)
         {
-            throw new NotImplementedException();
+            DBContext.UserAccounts.Add(userAccountToAdd);
         }
 
         public void Delete(UserAccount userAccountToDelete)
         {
-            throw new NotImplementedException();
-        }
-
-        public UserAccount RetrieveByMail(string userAccountMail)
-        {
-            throw new NotImplementedException();
+            DBContext.Entry(userAccountToDelete).State = System.Data.Entity.EntityState.Deleted;
         }
 
         public IEnumerable<UserAccount> RetriveAll()
         {
-            throw new NotImplementedException();
+            return DBContext.UserAccounts;
+        }
+
+        public UserAccount RetriveByName(string name)
+        {
+            return DBContext.UserAccounts
+                            .Where(ua => ua.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase))
+                            .FirstOrDefault();
+        }
+
+        public UserAccount RetrieveByMail(string userAccountMail)
+        {
+            return DBContext.UserAccounts
+                            .Where(ua => ua.Mail.Equals(userAccountMail, StringComparison.InvariantCultureIgnoreCase))
+                            .FirstOrDefault();
         }
 
         public void Update(UserAccount userAccountToUpdate)
         {
-            throw new NotImplementedException();
+            DBContext.Entry(userAccountToUpdate).State = System.Data.Entity.EntityState.Modified;
         }
     }
 }

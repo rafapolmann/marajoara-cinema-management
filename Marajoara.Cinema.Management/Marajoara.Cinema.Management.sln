@@ -29,7 +29,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-Presentation", "1-Present
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marajoara.Cinema.Management.ConsoleTest", "Marajoara.Cinema.Management.ConsoleTest\Marajoara.Cinema.Management.ConsoleTest.csproj", "{6F14EC77-B22A-4769-B101-444953203863}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marajoara.Cinema.Management.Tests", "Marajoara.Cinema.Management.Tests\Marajoara.Cinema.Management.Tests.csproj", "{91B9A945-9D23-41E0-BAC4-FC263263A9BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marajoara.Cinema.Management.Tests", "Marajoara.Cinema.Management.Tests\Marajoara.Cinema.Management.Tests.csproj", "{91B9A945-9D23-41E0-BAC4-FC263263A9BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marajoara.Cinema.Management.Application", "Marajoara.Cinema.Management.Application\Marajoara.Cinema.Management.Application.csproj", "{5EEF07ED-EE18-402A-87B9-E9E369A1DCF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{91B9A945-9D23-41E0-BAC4-FC263263A9BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91B9A945-9D23-41E0-BAC4-FC263263A9BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91B9A945-9D23-41E0-BAC4-FC263263A9BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EEF07ED-EE18-402A-87B9-E9E369A1DCF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EEF07ED-EE18-402A-87B9-E9E369A1DCF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EEF07ED-EE18-402A-87B9-E9E369A1DCF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EEF07ED-EE18-402A-87B9-E9E369A1DCF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +75,7 @@ Global
 		{C3A6C40B-0D2C-4BCE-8FC9-22223E96654C} = {B705428C-02B2-4C96-8C36-069C745140E8}
 		{6F14EC77-B22A-4769-B101-444953203863} = {35842D4C-814E-42CB-981D-B686134E0155}
 		{91B9A945-9D23-41E0-BAC4-FC263263A9BD} = {0F90A68B-F153-4527-A2AA-7A37F78903A4}
+		{5EEF07ED-EE18-402A-87B9-E9E369A1DCF8} = {266D5FA4-C6CC-482B-B157-37D3B3356807}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {293CCE32-062C-40F1-976D-2B4BBB118D5C}

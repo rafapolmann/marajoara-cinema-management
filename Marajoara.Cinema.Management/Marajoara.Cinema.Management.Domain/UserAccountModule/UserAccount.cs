@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Marajoara.Cinema.Management.Domain.UserAccountModule
+﻿namespace Marajoara.Cinema.Management.Domain.UserAccountModule
 {
     public class UserAccount
     {

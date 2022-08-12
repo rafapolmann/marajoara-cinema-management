@@ -14,20 +14,19 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF.Commom
         public IMovieRepository Movies { get; private set; }
         public ISessionRepository Sessions { get; private set; }
         public ITicketRepository Tickets { get; private set; }
-        public IUserAccountRepository UserAccounts{ get; private set; }
+        public IUserAccountRepository UserAccounts { get; private set; }
 
-        public MarajoaraUnitOfWork(MarajoaraContext dbContext, 
-            ICineRoomRepository cineRooms, 
-            IMovieRepository movies, 
-            ISessionRepository sessions, 
-            ITicketRepository tickets,
-            IUserAccountRepository userAccounts
-            )
+        public MarajoaraUnitOfWork(MarajoaraContext dbContext,
+                                   ICineRoomRepository cineRooms,
+                                   IMovieRepository movies,
+                                   ISessionRepository sessions,
+                                   ITicketRepository tickets,
+                                   IUserAccountRepository userAccounts)
         {
             DBContext = dbContext;
             CineRooms = cineRooms;
             Movies = movies;
-            Sessions = sessions;   
+            Sessions = sessions;
             Tickets = tickets;
             UserAccounts = userAccounts;
         }

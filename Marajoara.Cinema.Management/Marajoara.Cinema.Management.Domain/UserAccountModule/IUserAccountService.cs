@@ -2,14 +2,11 @@
 
 namespace Marajoara.Cinema.Management.Domain.UserAccountModule
 {
-    interface IUserAccountService
+    public interface IUserAccountService
     {
-        void AddUserAccount(UserAccount userAccount);
-
-        UserAccount RetrieveUserAccountByID(int userAccountID);        
-        
+        UserAccount CreateUserAccount(string name, string email, string password, AccessLevel accessLevel);
+        UserAccount RetrieveUserAccountByID(int userAccountID);
         IEnumerable<UserAccount> RetrieveAll();
-
         bool RemoveUserAccount(UserAccount userAccount);
     }
 }
