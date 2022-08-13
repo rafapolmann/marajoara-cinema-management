@@ -7,7 +7,7 @@ namespace Marajoara.Cinema.Management.Domain.UserAccountModule
         /// <summary>
         /// Add new registrer of UserAccount on database.
         /// </summary>
-        /// <param name="userAccountToAdd">UserAccount that should added.</param>
+        /// <param name="userAccountToAdd">UserAccount that should be added.</param>
         void Add(UserAccount userAccountToAdd);
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Marajoara.Cinema.Management.Domain.UserAccountModule
         /// <summary>
         /// Retrieves the collection of UserAccounts
         /// </summary>
-        /// <returns>Returns collection of the UserAccount from database.</returns>
+        /// <returns>Returns collection of the UserAccounts from database.</returns>
         IEnumerable<UserAccount> RetrieveAll();
     }
 }

@@ -2,6 +2,7 @@ using FluentAssertions;
 using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Tests.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Marajoara.Cinema.Management.Tests
@@ -17,38 +18,169 @@ namespace Marajoara.Cinema.Management.Tests
         }
 
         [TestMethod]
-        public void UnitOfWork_Should_Insert_CineRoom_In_Database()
+        public void UnitOfWork_Should_Insert_CineRoom_On_Database()
         {
-            _marajoaraUnitOfWork.CineRooms.Add(new CineRoom { Name = "cineRoom01", SeatsColumn = 50, SeatsRow = 30 });
-            _marajoaraUnitOfWork.Commit();
-            _marajoaraUnitOfWork.Dispose();
+            CineRoom cineRoomToAdd = GetCineRoomToTest();
 
+            _marajoaraUnitOfWork.CineRooms.Add(cineRoomToAdd);
+            _marajoaraUnitOfWork.Commit();
+            int cineRoomID = cineRoomToAdd.CineRoomID;
+
+            _marajoaraUnitOfWork.Dispose();
             _marajoaraUnitOfWork = GetNewEmptyUnitOfWorkInstance(false);
 
-            var cineAdded = _marajoaraUnitOfWork.CineRooms.RetriveByName("cineRoom01");
+            var cineAdded = _marajoaraUnitOfWork.CineRooms.Retrieve(cineRoomID);
             cineAdded.Should().NotBeNull();
-            cineAdded.Name.Should().Be("cineRoom01");
-            cineAdded.CineRoomID.Should().NotBe(0);
+            cineAdded.Name.Should().Be("CineRoomName");
+            cineAdded.SeatsRow.Should().Be(10);
+            cineAdded.SeatsColumn.Should().Be(20);
+            cineAdded.TotalSeats.Should().Be(200);
 
             _marajoaraUnitOfWork.Dispose();
         }
 
         [TestMethod]
-        public void UnitOfWork_Should_Return_All_CineRooms_Inserted_In_Database()
+        public void UnitOfWork_Should_Delete_Existing_CineRoom_On_Database()
         {
-            _marajoaraUnitOfWork.CineRooms.Add(new CineRoom { Name = "cineRoom01", SeatsColumn = 50, SeatsRow = 10 });
-            _marajoaraUnitOfWork.CineRooms.Add(new CineRoom { Name = "cineRoom02", SeatsColumn = 40, SeatsRow = 30 });
-            _marajoaraUnitOfWork.CineRooms.Add(new CineRoom { Name = "cineRoom03", SeatsColumn = 20, SeatsRow = 20 });
-            _marajoaraUnitOfWork.Commit();
-            _marajoaraUnitOfWork.Dispose();
+            CineRoom cineRoomToAdd = GetCineRoomToTest();
 
+            _marajoaraUnitOfWork.CineRooms.Add(cineRoomToAdd);
+            _marajoaraUnitOfWork.Commit();
+            int cineRoomID = cineRoomToAdd.CineRoomID;
+
+            _marajoaraUnitOfWork.Dispose();
             _marajoaraUnitOfWork = GetNewEmptyUnitOfWorkInstance(false);
 
-            var allCineRoomsOnDB = _marajoaraUnitOfWork.CineRooms.RetriveAll();
-            allCineRoomsOnDB.Should().NotBeNullOrEmpty();
-            allCineRoomsOnDB.Should().HaveCount(3);
+            CineRoom cineRoomToDelete = _marajoaraUnitOfWork.CineRooms.Retrieve(cineRoomID);
+            _marajoaraUnitOfWork.CineRooms.Delete(cineRoomToDelete);
+            _marajoaraUnitOfWork.Commit();
+
+            _marajoaraUnitOfWork.Dispose();
+            _marajoaraUnitOfWork = GetNewEmptyUnitOfWorkInstance(false);
+
+            _marajoaraUnitOfWork.CineRooms.Retrieve(cineRoomID).Should().BeNull();
+            _marajoaraUnitOfWork.Dispose();
+        }
+
+        [TestMethod]
+        public void UnitOfWork_Should_Update_All_Properties_Of_Existing_CineRoom_On_Database()
+        {
+            CineRoom cineRoomToAdd = GetCineRoomToTest();
+            _marajoaraUnitOfWork.CineRooms.Add(cineRoomToAdd);
+            _marajoaraUnitOfWork.Commit();
+
+            int cineRoomID = cineRoomToAdd.CineRoomID;
+
+            _marajoaraUnitOfWork.Dispose();
+            _marajoaraUnitOfWork = GetNewEmptyUnitOfWorkInstance(false);
+
+            CineRoom cineRoomToUpdate = _marajoaraUnitOfWork.CineRooms.Retrieve(cineRoomID);
+            cineRoomToUpdate.Name = "CineNameUpdated";
+            cineRoomToUpdate.SeatsRow = 35;
+            cineRoomToUpdate.SeatsColumn = 25;
+            _marajoaraUnitOfWork.CineRooms.Update(cineRoomToUpdate);
+            _marajoaraUnitOfWork.Commit();
+
+            _marajoaraUnitOfWork.Dispose();
+            _marajoaraUnitOfWork = GetNewEmptyUnitOfWorkInstance(false);
+
+            CineRoom cineRoomToAssert = _marajoaraUnitOfWork.CineRooms.Retrieve(cineRoomID);
+            cineRoomToAssert.Should().NotBeNull();
+            cineRoomToAssert.CineRoomID.Should().Be(cineRoomID);
+            cineRoomToAssert.Name.Should().Be("CineNameUpdated");
+            cineRoomToAssert.SeatsRow.Should().Be(35);
+            cineRoomToAssert.SeatsColumn.Should().Be(25);
+            cineRoomToAssert.TotalSeats.Should().Be(875);
 
             _marajoaraUnitOfWork.Dispose();
         }
+
+        [TestMethod]
+        public void UnitOfWork_Should_Return_Persisted_CineRoom_On_Database_By_CineRoomID()
+        {
+            CineRoom cineRoomToAdd = GetCineRoomToTest();
+
+            _marajoaraUnitOfWork.CineRooms.Add(cineRoomToAdd);
+            _marajoaraUnitOfWork.Commit();
+            int cineRoomID = cineRoomToAdd.CineRoomID;
+
+            _marajoaraUnitOfWork.Dispose();
+            _marajoaraUnitOfWork = GetNewEmptyUnitOfWorkInstance(false);
+
+            CineRoom cineRoomToAssert = _marajoaraUnitOfWork.CineRooms.Retrieve(cineRoomID);
+
+            cineRoomToAssert.Should().NotBeNull();
+            cineRoomToAssert.CineRoomID.Should().Be(cineRoomID);
+            cineRoomToAssert.Name.Should().Be("CineRoomName");
+            cineRoomToAssert.SeatsColumn.Should().Be(20);
+            cineRoomToAssert.SeatsRow.Should().Be(10);
+            cineRoomToAssert.TotalSeats.Should().Be(200);
+
+            _marajoaraUnitOfWork.Dispose();
+        }
+
+        [TestMethod]
+        public void UnitOfWork_Should_Return_Persisted_CineRoom_On_Database_By_Name()
+        {
+            CineRoom cineRoomToAdd = GetCineRoomToTest();
+            string cineRoomName = cineRoomToAdd.Name;
+
+            _marajoaraUnitOfWork.CineRooms.Add(cineRoomToAdd);
+            _marajoaraUnitOfWork.Commit();
+            int cineRoomID = cineRoomToAdd.CineRoomID;
+
+            _marajoaraUnitOfWork.Dispose();
+            _marajoaraUnitOfWork = GetNewEmptyUnitOfWorkInstance(false);
+
+            CineRoom cineRoomToAssert = _marajoaraUnitOfWork.CineRooms.RetrieveByName(cineRoomName);
+
+            cineRoomToAssert.Should().NotBeNull();
+            cineRoomToAssert.CineRoomID.Should().Be(cineRoomID);
+            cineRoomToAssert.Name.Should().Be("CineRoomName");
+            cineRoomToAssert.SeatsColumn.Should().Be(20);
+            cineRoomToAssert.SeatsRow.Should().Be(10);
+            cineRoomToAssert.TotalSeats.Should().Be(200);
+
+            _marajoaraUnitOfWork.Dispose();
+        }
+
+        [TestMethod]
+        public void UnitOfWork_Should_Return_All_CineRooms_From_Database()
+        {
+            CineRoom cineRoomToAdd01 = GetCineRoomToTest("cineRoom01", 50, 10);
+            CineRoom cineRoomToAdd02 = GetCineRoomToTest("cineRoom02", 40, 30);
+            CineRoom cineRoomToAdd03 = GetCineRoomToTest("cineRoom03", 30, 20);
+
+            _marajoaraUnitOfWork.CineRooms.Add(cineRoomToAdd01);
+            _marajoaraUnitOfWork.CineRooms.Add(cineRoomToAdd02);
+            _marajoaraUnitOfWork.CineRooms.Add(cineRoomToAdd03);
+            _marajoaraUnitOfWork.Commit();
+
+            _marajoaraUnitOfWork.Dispose();
+            _marajoaraUnitOfWork = GetNewEmptyUnitOfWorkInstance(false);
+
+            List<CineRoom> allCineRoomsOnDB = _marajoaraUnitOfWork.CineRooms.RetrieveAll().ToList();
+            allCineRoomsOnDB.Should().NotBeNullOrEmpty();
+            allCineRoomsOnDB.Should().HaveCount(3);
+            allCineRoomsOnDB.Find(us => us.Name.Equals("cineRoom01")).Should().NotBeNull();
+            allCineRoomsOnDB.Find(us => us.Name.Equals("cineRoom02")).Should().NotBeNull();
+            allCineRoomsOnDB.Find(us => us.Name.Equals("cineRoom03")).Should().NotBeNull();
+
+            _marajoaraUnitOfWork.Dispose();
+        }
+
+        #region HelperMethods
+        private CineRoom GetCineRoomToTest(string name = "CineRoomName",
+                                           int seatsColumn = 20,
+                                           int seatsRow = 10)
+        {
+            return new CineRoom
+            {
+                Name = name,
+                SeatsColumn = seatsColumn,
+                SeatsRow = seatsRow
+            };
+        }
+        #endregion HelperMethods
     }
 }
