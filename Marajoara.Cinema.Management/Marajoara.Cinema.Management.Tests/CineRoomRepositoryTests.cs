@@ -1,6 +1,5 @@
 using FluentAssertions;
 using Marajoara.Cinema.Management.Domain.CineRoomModule;
-using Marajoara.Cinema.Management.Domain.UserAccountModule;
 using Marajoara.Cinema.Management.Tests.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
@@ -8,33 +7,13 @@ using System.Linq;
 namespace Marajoara.Cinema.Management.Tests
 {
     [TestClass]
-    public class MarajoaraUnitOfWorkTests : TestsIntegrationBase
+    public class CineRoomRepositoryTests : UnitOfWorkIntegrationBase
     {
 
         [TestInitialize]
         public void Initialize()
         {
             _marajoaraUnitOfWork = GetNewEmptyUnitOfWorkInstance();
-        }
-
-        [TestMethod]
-        public void UnitOfWork_Should_Insert_UserAccount_In_Database()
-        {
-            _marajoaraUnitOfWork.UserAccounts.Add(GetUserAccountToTest());
-            _marajoaraUnitOfWork.Commit();
-            _marajoaraUnitOfWork.Dispose();
-
-            _marajoaraUnitOfWork = GetNewEmptyUnitOfWorkInstance(false);
-            var userAccounts = _marajoaraUnitOfWork.UserAccounts.RetriveAll().ToList();
-            userAccounts.Should().HaveCount(1);
-            userAccounts[0].Should().NotBeNull();
-            userAccounts[0].UserAccountID.Should().Be(1);
-            userAccounts[0].Name.Should().Be("FullName");
-            userAccounts[0].Mail.Should().Be("email");
-            userAccounts[0].Password.Should().Be("P@ssW0rd");
-            userAccounts[0].Level.Should().Be(AccessLevel.Manager);
-
-            _marajoaraUnitOfWork.Dispose();
         }
 
         [TestMethod]
@@ -68,24 +47,8 @@ namespace Marajoara.Cinema.Management.Tests
             var allCineRoomsOnDB = _marajoaraUnitOfWork.CineRooms.RetriveAll();
             allCineRoomsOnDB.Should().NotBeNullOrEmpty();
             allCineRoomsOnDB.Should().HaveCount(3);
-            
+
             _marajoaraUnitOfWork.Dispose();
         }
-
-        #region HelperMethods
-        private UserAccount GetUserAccountToTest(string name = "FullName",
-                                         string mail = "email",
-                                         string password = "P@ssW0rd",
-                                         AccessLevel accountLevel = AccessLevel.Manager)
-        {
-            return new UserAccount
-            {
-                Name = name,
-                Mail = mail,
-                Password = password,
-                Level = accountLevel
-            };
-        }
-        #endregion HelperMethods
     }
 }

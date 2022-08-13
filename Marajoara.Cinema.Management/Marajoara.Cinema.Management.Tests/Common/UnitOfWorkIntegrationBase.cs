@@ -14,7 +14,7 @@ using System.Data.SqlClient;
 namespace Marajoara.Cinema.Management.Tests.Common
 {
     [TestClass]
-    public class TestsIntegrationBase
+    public class UnitOfWorkIntegrationBase
     {
         private static string _connectionString;
         protected static IMarajoaraUnitOfWork _marajoaraUnitOfWork;

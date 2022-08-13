@@ -3,7 +3,7 @@
     public enum AccessLevel
     {
         Manager = 1,
-        User = 2,
+        Attendant = 2,
         Customer = 3
     }
 }
