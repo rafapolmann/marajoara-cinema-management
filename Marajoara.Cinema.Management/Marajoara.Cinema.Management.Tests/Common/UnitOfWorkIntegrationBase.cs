@@ -7,6 +7,7 @@ using Marajoara.Cinema.Management.Domain.UserAccountModule;
 using Marajoara.Cinema.Management.Infra.Data.EF;
 using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Data.Entity;
 using System.Data.SqlClient;
 
@@ -30,7 +31,7 @@ namespace Marajoara.Cinema.Management.Tests.Common
             if (recreateContext)
             {
                 try
-                {   
+                {
                     //context.Database.ForceDelete();
                 }
                 catch (SqlException) { /*Could not delete, because database was not createad*/ }
@@ -55,5 +56,49 @@ namespace Marajoara.Cinema.Management.Tests.Common
 
             return unitOfWork;
         }
+
+        #region HelperMethods
+        protected UserAccount GetUserAccountToTest(string name = "FullName",
+                                         string mail = "email",
+                                         string password = "P@ssW0rd",
+                                         AccessLevel accountLevel = AccessLevel.Manager)
+        {
+            return new UserAccount
+            {
+                Name = name,
+                Mail = mail,
+                Password = password,
+                Level = accountLevel
+            };
+        }
+
+        protected CineRoom GetCineRoomToTest(string name = "CineRoomName",
+                                           int seatsColumn = 20,
+                                           int seatsRow = 10)
+        {
+            return new CineRoom
+            {
+                Name = name,
+                SeatsColumn = seatsColumn,
+                SeatsRow = seatsRow
+            };
+        }
+
+        protected Movie GetMovieToTest(string title = "Title",
+                                       string description = "Description",
+                                       bool is3D = false,
+                                       bool isOrignalAudio = false)
+        {
+
+            return new Movie
+            {
+                Title = title,
+                Description = description,
+                Duration = new TimeSpan(1, 30, 0),
+                Is3D = is3D,
+                IsOrignalAudio = isOrignalAudio
+            };
+        }
+        #endregion HelperMethods
     }
 }

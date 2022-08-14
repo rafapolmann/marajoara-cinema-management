@@ -29,12 +29,12 @@ namespace Marajoara.Cinema.Management.Tests
             _marajoaraUnitOfWork.Dispose();
             _marajoaraUnitOfWork = GetNewEmptyUnitOfWorkInstance(false);
 
-            var cineAdded = _marajoaraUnitOfWork.CineRooms.Retrieve(cineRoomID);
-            cineAdded.Should().NotBeNull();
-            cineAdded.Name.Should().Be("CineRoomName");
-            cineAdded.SeatsRow.Should().Be(10);
-            cineAdded.SeatsColumn.Should().Be(20);
-            cineAdded.TotalSeats.Should().Be(200);
+            CineRoom cineRoomAdded = _marajoaraUnitOfWork.CineRooms.Retrieve(cineRoomID);
+            cineRoomAdded.Should().NotBeNull();
+            cineRoomAdded.Name.Should().Be("CineRoomName");
+            cineRoomAdded.SeatsRow.Should().Be(10);
+            cineRoomAdded.SeatsColumn.Should().Be(20);
+            cineRoomAdded.TotalSeats.Should().Be(200);
 
             _marajoaraUnitOfWork.Dispose();
         }
@@ -168,19 +168,5 @@ namespace Marajoara.Cinema.Management.Tests
 
             _marajoaraUnitOfWork.Dispose();
         }
-
-        #region HelperMethods
-        private CineRoom GetCineRoomToTest(string name = "CineRoomName",
-                                           int seatsColumn = 20,
-                                           int seatsRow = 10)
-        {
-            return new CineRoom
-            {
-                Name = name,
-                SeatsColumn = seatsColumn,
-                SeatsRow = seatsRow
-            };
-        }
-        #endregion HelperMethods
     }
 }

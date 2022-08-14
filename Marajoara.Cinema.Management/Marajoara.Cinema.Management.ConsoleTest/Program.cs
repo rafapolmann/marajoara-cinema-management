@@ -11,7 +11,7 @@ namespace Marajoara.Cinema.Management.ConsoleTest
         {
             var uow = IoC.GetInstance().Get<IMarajoaraUnitOfWork>();
 
-            var all = uow.CineRooms.RetriveByName("RoomName2");
+            var all = uow.CineRooms.RetrieveByName("RoomName2");
 
 
             all.SeatsRow = 10;

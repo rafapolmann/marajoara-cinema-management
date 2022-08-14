@@ -196,21 +196,5 @@ namespace Marajoara.Cinema.Management.Tests
 
             _marajoaraUnitOfWork.Dispose();
         }
-
-        #region HelperMethods
-        private UserAccount GetUserAccountToTest(string name = "FullName",
-                                         string mail = "email",
-                                         string password = "P@ssW0rd",
-                                         AccessLevel accountLevel = AccessLevel.Manager)
-        {
-            return new UserAccount
-            {
-                Name = name,
-                Mail = mail,
-                Password = password,
-                Level = accountLevel
-            };
-        }
-        #endregion HelperMethods
     }
 }
