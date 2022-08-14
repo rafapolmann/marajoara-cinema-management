@@ -1,6 +1,5 @@
 ﻿using Marajoara.Cinema.Management.Domain.MovieModule;
 using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 

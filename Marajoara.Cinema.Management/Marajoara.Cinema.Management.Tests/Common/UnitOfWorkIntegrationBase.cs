@@ -99,6 +99,17 @@ namespace Marajoara.Cinema.Management.Tests.Common
                 IsOrignalAudio = isOrignalAudio
             };
         }
+
+        protected Session GetSessionToTest(CineRoom cineRoom, Movie movie, DateTime sessionDate, decimal price = 30)
+        {
+            return new Session
+            {
+                SessionDate = sessionDate,
+                Price = price,
+                CineRoom = cineRoom,
+                Movie = movie
+            };
+        }
         #endregion HelperMethods
     }
 }
