@@ -305,7 +305,11 @@ namespace Marajoara.Cinema.Management.Tests
             string movieTitle = "MovieTitle";
             Movie sessionsMovie = GetMovieToTest(movieTitle);
 
+            string otherMovieTitle = "OtherMovieTitle";
+            Movie otherSessionsMovie = GetMovieToTest(otherMovieTitle);
+
             _marajoaraUnitOfWork.Movies.Add(sessionsMovie);
+            _marajoaraUnitOfWork.Movies.Add(otherSessionsMovie);
             _marajoaraUnitOfWork.Commit();
             int movieID = sessionsMovie.MovieID;
 
@@ -321,9 +325,14 @@ namespace Marajoara.Cinema.Management.Tests
             DateTime sessionDate02 = DateTime.Parse("20:00:00 15/08/2022");
             Session session02 = GetSessionToTest(sessionCineRoom01, sessionsMovie, sessionDate02);
 
+            DateTime sessionWithOtherMovieDate = DateTime.Parse("21:00:00 15/08/2022");
+            Session sessionWithOtherMovie = GetSessionToTest(sessionCineRoom01, otherSessionsMovie, sessionWithOtherMovieDate);
+
             _marajoaraUnitOfWork.Sessions.Add(session01);
             _marajoaraUnitOfWork.Sessions.Add(session02);
+            _marajoaraUnitOfWork.Sessions.Add(sessionWithOtherMovie);
             _marajoaraUnitOfWork.Commit();
+            int sessionWithOtherMovieID = sessionWithOtherMovie.SessionID;
 
             _marajoaraUnitOfWork.Dispose();
             _marajoaraUnitOfWork = GetNewEmptyUnitOfWorkInstance(false);
@@ -338,6 +347,7 @@ namespace Marajoara.Cinema.Management.Tests
             movieSessions[1].MovieID.Should().Be(movieID);
             movieSessions[1].Movie.Should().NotBeNull();
             movieSessions[1].Movie.Title.Should().Be(movieTitle);
+            movieSessions.Should().NotContain(s => s.SessionID.Equals(sessionWithOtherMovieID));
 
             _marajoaraUnitOfWork.Dispose();
         }
