@@ -1,10 +1,7 @@
 ﻿using Marajoara.Cinema.Management.Domain.MovieModule;
 using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Marajoara.Cinema.Management.Infra.Data.EF
 {
@@ -19,27 +16,36 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
 
         public void Add(Movie movieToAdd)
         {
-            throw new NotImplementedException();
+            DBContext.Movies.Add(movieToAdd);
         }
 
         public void Delete(Movie movieToDelete)
         {
-            throw new NotImplementedException();
+            DBContext.Entry(movieToDelete).State = System.Data.Entity.EntityState.Deleted;
         }
 
-        public IEnumerable<Movie> RetriveAll()
+        public IEnumerable<Movie> RetrieveAll()
         {
-            throw new NotImplementedException();
+            return DBContext.Movies;
         }
 
-        public Movie RetriveByTitle(string movieTitle)
+        public Movie Retrieve(int movieID)
         {
-            throw new NotImplementedException();
+            return DBContext.Movies
+                            .Where(mv => mv.MovieID.Equals(movieID))
+                            .FirstOrDefault();
+        }
+
+        public Movie RetrieveByTitle(string movieTitle)
+        {
+            return DBContext.Movies
+                            .Where(mv => mv.Title.Equals(movieTitle))
+                            .FirstOrDefault();
         }
 
         public void Update(Movie movieToUpdate)
         {
-            throw new NotImplementedException();
+            DBContext.Entry(movieToUpdate).State = System.Data.Entity.EntityState.Modified;
         }
     }
 }

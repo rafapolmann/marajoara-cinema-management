@@ -30,14 +30,21 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
             DBContext.Entry(cineRoomToDelete).State = System.Data.Entity.EntityState.Deleted;
         }
 
-        public CineRoom RetriveByName(string cineRoomName)
+        public CineRoom Retrieve(int cineRoomID)
+        {
+            return DBContext.CineRooms
+                            .Where(cr => cr.CineRoomID.Equals(cineRoomID))
+                            .FirstOrDefault();
+        }
+
+        public CineRoom RetrieveByName(string cineRoomName)
         {
             return DBContext.CineRooms
                             .Where(cr => cr.Name.Equals(cineRoomName, StringComparison.InvariantCultureIgnoreCase))
                             .FirstOrDefault();
         }
 
-        public IEnumerable<CineRoom> RetriveAll()
+        public IEnumerable<CineRoom> RetrieveAll()
         {
             return DBContext.CineRooms;
         }

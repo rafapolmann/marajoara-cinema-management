@@ -25,12 +25,19 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
             DBContext.Entry(userAccountToDelete).State = System.Data.Entity.EntityState.Deleted;
         }
 
-        public IEnumerable<UserAccount> RetriveAll()
+        public void Update(UserAccount userAccountToUpdate)
         {
-            return DBContext.UserAccounts;
+            DBContext.Entry(userAccountToUpdate).State = System.Data.Entity.EntityState.Modified;
         }
 
-        public UserAccount RetriveByName(string name)
+        public UserAccount Retrieve(int userAccountID)
+        {
+            return DBContext.UserAccounts
+                            .Where(ua => ua.UserAccountID.Equals(userAccountID))
+                            .FirstOrDefault();
+        }
+
+        public UserAccount RetrieveByName(string name)
         {
             return DBContext.UserAccounts
                             .Where(ua => ua.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase))
@@ -44,9 +51,9 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
                             .FirstOrDefault();
         }
 
-        public void Update(UserAccount userAccountToUpdate)
+        public IEnumerable<UserAccount> RetrieveAll()
         {
-            DBContext.Entry(userAccountToUpdate).State = System.Data.Entity.EntityState.Modified;
+            return DBContext.UserAccounts;
         }
     }
 }

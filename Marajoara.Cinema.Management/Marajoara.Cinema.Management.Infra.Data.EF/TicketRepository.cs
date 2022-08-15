@@ -4,9 +4,8 @@ using Marajoara.Cinema.Management.Domain.UserAccountModule;
 using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Marajoara.Cinema.Management.Infra.Data.EF
 {
@@ -18,34 +17,73 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
         {
             DBContext = dbContext;
         }
+
         public void Add(Ticket ticketToAdd)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(Ticket ticketToDelete)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Ticket> RetriveAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Ticket> RetriveBySession(Session session)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Ticket> RetriveByUserAccount(UserAccount customer)
-        {
-            throw new NotImplementedException();
+            DBContext.Tickets.Add(ticketToAdd);
         }
 
         public void Update(Ticket ticketToUpdate)
         {
-            throw new NotImplementedException();
+            DBContext.Entry(ticketToUpdate).State = EntityState.Modified;
         }
+
+        public void Delete(Ticket ticketToDelete)
+        {
+            DBContext.Entry(ticketToDelete).State = EntityState.Deleted;
+        }
+
+        public Ticket Retrieve(int ticketID)
+        {
+            return DBContext.Tickets.Include(t => t.UserAccount)
+                                    .Include(t => t.Session)
+                                    .Include(t => t.Session.CineRoom)
+                                    .Include(t => t.Session.Movie)
+                                    .Where(t => t.TicketID.Equals(ticketID))
+                                    .FirstOrDefault();
+        }
+
+        public Ticket RetrieveByCode(Guid guidCode)
+        {
+            return DBContext.Tickets.Include(t => t.UserAccount)
+                                    .Include(t => t.Session)
+                                    .Include(t => t.Session.CineRoom)
+                                    .Include(t => t.Session.Movie)
+                                    .Where(t => t.Code.Equals(guidCode))
+                                    .FirstOrDefault();
+        }
+
+        public IEnumerable<Ticket> RetrieveAll()
+        {
+            return DBContext.Tickets.Include(t => t.UserAccount)
+                                    .Include(t => t.Session)
+                                    .Include(t => t.Session.CineRoom)
+                                    .Include(t => t.Session.Movie);
+        }
+
+        public IEnumerable<Ticket> RetrieveBySession(Session session)
+        {
+            if (session == null)
+                throw new ArgumentException("Session parameter cannot be null.", nameof(session));
+
+            return DBContext.Tickets.Include(t => t.UserAccount)
+                                    .Include(t => t.Session)
+                                    .Include(t => t.Session.CineRoom)
+                                    .Include(t => t.Session.Movie)
+                                    .Where(t => t.SessionID.Equals(session.SessionID));
+        }
+
+        public IEnumerable<Ticket> RetrieveByUserAccount(UserAccount customer)
+        {
+            if (customer == null)
+                throw new ArgumentException("UserAccount parameter cannot be null.", nameof(customer));
+
+            return DBContext.Tickets.Include(t => t.UserAccount)
+                                    .Include(t => t.Session)
+                                    .Include(t => t.Session.CineRoom)
+                                    .Include(t => t.Session.Movie)
+                                    .Where(t => t.UserAccountID.Equals(customer.UserAccountID));
+        }
+
     }
 }

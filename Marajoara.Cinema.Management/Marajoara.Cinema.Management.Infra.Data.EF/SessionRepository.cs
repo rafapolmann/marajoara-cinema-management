@@ -2,9 +2,8 @@
 using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Marajoara.Cinema.Management.Infra.Data.EF
 {
@@ -19,37 +18,55 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
 
         public void Add(Session sessionToAdd)
         {
-            throw new NotImplementedException();
+            DBContext.Sessions.Add(sessionToAdd);
         }
 
         public void Delete(Session sessionToDelete)
         {
-            throw new NotImplementedException();
+            DBContext.Entry(sessionToDelete).State = EntityState.Deleted;
+        }
+
+        public Session Retrieve(int sessionID)
+        {
+            return DBContext.Sessions.Include(s => s.Movie)
+                                     .Include(s => s.CineRoom)
+                                     .Where(s => s.SessionID.Equals(sessionID))
+                                     .FirstOrDefault();
+        }
+
+        public IEnumerable<Session> RetrieveByDate(DateTime sessionDate)
+        {
+            return DBContext.Sessions.Include(s => s.Movie)
+                                     .Include(s => s.CineRoom)
+                                     .Where(s => s.SessionDate.Day.Equals(sessionDate.Day) &&
+                                                 s.SessionDate.Month.Equals(sessionDate.Month) &&
+                                                 s.SessionDate.Year.Equals(sessionDate.Year));
         }
 
         public IEnumerable<Session> RetrieveByDate(DateTime minSessionDate, DateTime lastSessionDate)
         {
-            throw new NotImplementedException();
+            return DBContext.Sessions.Include(s => s.Movie)
+                                     .Include(s => s.CineRoom)
+                                     .Where(s => s.SessionDate >= minSessionDate &&
+                                                 s.SessionDate <= lastSessionDate);
         }
 
-        public IEnumerable<Session> RetriveAll()
+        public IEnumerable<Session> RetrieveByMovieTitle(string movieTitle)
         {
-            throw new NotImplementedException();
+            return DBContext.Sessions.Include(s => s.Movie)
+                                     .Include(s => s.CineRoom)
+                                     .Where(s => s.Movie.Title.Equals(movieTitle, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        public IEnumerable<Session> RetriveByDate(DateTime sessionDate)
+        public IEnumerable<Session> RetrieveAll()
         {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Session> RetriveByMovieTitle(string movieTitle)
-        {
-            throw new NotImplementedException();
+            return DBContext.Sessions.Include(s => s.Movie)
+                                     .Include(s => s.CineRoom);
         }
 
         public void Update(Session sessionToUpdate)
         {
-            throw new NotImplementedException();
+            DBContext.Entry(sessionToUpdate).State = EntityState.Modified;
         }
     }
 }
