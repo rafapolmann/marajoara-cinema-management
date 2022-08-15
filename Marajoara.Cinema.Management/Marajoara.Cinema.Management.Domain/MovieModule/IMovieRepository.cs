@@ -5,7 +5,7 @@ namespace Marajoara.Cinema.Management.Domain.MovieModule
     public interface IMovieRepository
     {
         /// <summary>
-        /// Add new registrer of Movie on database.
+        /// Add new register of Movie on database.
         /// </summary>
         /// <param name="movieToAdd">Movie that should be added.</param>
         void Add(Movie movieToAdd);

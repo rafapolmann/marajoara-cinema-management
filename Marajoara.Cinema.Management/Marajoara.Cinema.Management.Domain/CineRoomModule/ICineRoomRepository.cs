@@ -5,7 +5,7 @@ namespace Marajoara.Cinema.Management.Domain.CineRoomModule
     public interface ICineRoomRepository
     {
         /// <summary>
-        /// Add new registrer of CineRoom on database.
+        /// Add new register of CineRoom on database.
         /// </summary>
         /// <param name="cineRoomToAdd">CineRoom that should be added.</param>
         void Add(CineRoom cineRoomToAdd);

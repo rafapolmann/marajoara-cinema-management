@@ -100,7 +100,10 @@ namespace Marajoara.Cinema.Management.Tests.Common
             };
         }
 
-        protected Session GetSessionToTest(CineRoom cineRoom, Movie movie, DateTime sessionDate, decimal price = 30)
+        protected Session GetSessionToTest(CineRoom cineRoom,
+                                           Movie movie,
+                                           DateTime sessionDate,
+                                           decimal price = 30)
         {
             return new Session
             {
@@ -108,6 +111,26 @@ namespace Marajoara.Cinema.Management.Tests.Common
                 Price = price,
                 CineRoom = cineRoom,
                 Movie = movie
+            };
+        }
+
+        protected Ticket GetTicketToTest(UserAccount userAccount,
+                                         Session session,
+                                         Guid code,
+                                         DateTime purchaseDate,
+                                         decimal price = 45,
+                                         int seatNumber = 11,
+                                         bool used = false)
+        {
+            return new Ticket
+            {
+                Used = used,
+                SeatNumber = seatNumber,
+                PurchaseDate = purchaseDate,
+                Price = price,
+                Code = code,
+                UserAccount = userAccount,
+                Session = session
             };
         }
         #endregion HelperMethods

@@ -5,7 +5,7 @@ namespace Marajoara.Cinema.Management.Domain.UserAccountModule
     public interface IUserAccountRepository
     {
         /// <summary>
-        /// Add new registrer of UserAccount on database.
+        /// Add new register of UserAccount on database.
         /// </summary>
         /// <param name="userAccountToAdd">UserAccount that should be added.</param>
         void Add(UserAccount userAccountToAdd);

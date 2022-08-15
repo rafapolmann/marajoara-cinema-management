@@ -6,7 +6,7 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
     public interface ISessionRepository
     {
         /// <summary>
-        /// Add new registrer of Session on database.
+        /// Add new register of Session on database.
         /// </summary>
         /// <param name="sessionToAdd">Session that should be added.</param>
         void Add(Session sessionToAdd);
