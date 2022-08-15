@@ -6,6 +6,7 @@ using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Domain.SessionModule;
 using Marajoara.Cinema.Management.Domain.MovieModule;
 using Marajoara.Cinema.Management.Infra.Data.EF.Configuration;
+using System.Diagnostics;
 
 namespace Marajoara.Cinema.Management.Infra.Data.EF.Commom
 {
@@ -25,6 +26,8 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF.Commom
             modelBuilder.Configurations.Add(new CineRoomConfiguration());
             modelBuilder.Configurations.Add(new SessionConfiguration());
             modelBuilder.Configurations.Add(new MovieConfiguration());
+
+            Database.Log = (query) => Debug.Write(query);
         }
 
         public DbSet<UserAccount> UserAccounts { get; set; }
