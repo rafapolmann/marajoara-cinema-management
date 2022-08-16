@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -6,14 +6,14 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="10.0.1" />
-    <PackageReference Include="MediatR.Ninject" Version="3.2.0" />
-    <PackageReference Include="Ninject" Version="3.3.6" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Marajoara.Cinema.Management.Application\Marajoara.Cinema.Management.Application.csproj" />
-    <ProjectReference Include="..\Marajoara.Cinema.Management.Domain\Marajoara.Cinema.Management.Domain.csproj" />
     <ProjectReference Include="..\Marajoara.Cinema.Management.Infra.Data.EF\Marajoara.Cinema.Management.Infra.Data.EF.csproj" />
+    <ProjectReference Include="..\Marajoara.Cinema.Management.Infra.Framework.IoC\Marajoara.Cinema.Management.Infra.Framework.IoC.csproj" />
   </ItemGroup>
 
 </Project>
