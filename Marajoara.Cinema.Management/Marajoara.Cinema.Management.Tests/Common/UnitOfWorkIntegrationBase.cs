@@ -24,8 +24,7 @@ namespace Marajoara.Cinema.Management.Tests.Common
         {
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
             builder.InitialCatalog = "CineMarajoara";
-            //builder.InitialCatalog = "MarajoaraTestIntegration";
-            builder.DataSource = "(localdb)\\mssqllocaldb";
+            builder.InitialCatalog = "MarajoaraTestIntegration";
             _connectionString = builder.ConnectionString;
 
             MarajoaraContext context = new MarajoaraContext(new SqlConnection(_connectionString));
