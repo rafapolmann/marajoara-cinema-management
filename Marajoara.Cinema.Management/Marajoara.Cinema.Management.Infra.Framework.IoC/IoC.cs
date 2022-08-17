@@ -1,5 +1,6 @@
 ﻿using Marajoara.Cinema.Management.Application;
 using Marajoara.Cinema.Management.Application.Features.CineRoom;
+using Marajoara.Cinema.Management.Application.Features.CineRoom.Commands;
 using Marajoara.Cinema.Management.Application.Features.CineRoom.Handlers;
 using Marajoara.Cinema.Management.Application.Features.CineRoom.Models;
 using Marajoara.Cinema.Management.Application.Features.CineRoom.Queries;
@@ -55,6 +56,8 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
         {
             _kernel.BindMediatR();
             _kernel.Bind<IRequestHandler<AllCineRoomsQuery, Result<Exception, List<CineRoomModel>>>>().To<AllCineRoomsHandler>();
+            _kernel.Bind<IRequestHandler<AddCineRoomCommand, Result<Exception, int>>>().To<AddCineRoomHandler>();
+            _kernel.Bind<IRequestHandler<DeleteCineRoomCommand, Result<Exception, bool>>>().To<DeleteCineRoomHandler>();
         }
 
         private void DatabaseSetup()

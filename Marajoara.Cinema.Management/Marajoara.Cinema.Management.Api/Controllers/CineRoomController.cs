@@ -1,4 +1,5 @@
 ﻿using Marajoara.Cinema.Management.Api.Base;
+using Marajoara.Cinema.Management.Application.Features.CineRoom.Commands;
 using Marajoara.Cinema.Management.Application.Features.CineRoom.Queries;
 using Marajoara.Cinema.Management.Infra.Framework.IoC;
 using MediatR;
@@ -25,6 +26,18 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         public async Task<IActionResult> Get()
         {
             return HandleResult(await _mediator.Send(new AllCineRoomsQuery()));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] AddCineRoomCommand AddCineRoomCommand)
+        {
+            return HandleResult(await _mediator.Send(AddCineRoomCommand));
+        }
+
+        [HttpDelete("{name}")]
+        public async Task<IActionResult> Delete(string name)
+        {
+            return HandleResult(await _mediator.Send(new DeleteCineRoomCommand(name)));
         }
     }
 }
