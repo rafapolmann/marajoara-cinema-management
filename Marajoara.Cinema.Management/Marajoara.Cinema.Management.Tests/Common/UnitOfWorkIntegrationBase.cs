@@ -23,8 +23,8 @@ namespace Marajoara.Cinema.Management.Tests.Common
         public static IMarajoaraUnitOfWork GetNewEmptyUnitOfWorkInstance(bool recreateContext = true)
         {
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.InitialCatalog = "CineMarajoara";
             builder.InitialCatalog = "MarajoaraTestIntegration";
+            builder.DataSource = "(localdb)\\mssqllocaldb";
             _connectionString = builder.ConnectionString;
 
             MarajoaraContext context = new MarajoaraContext(new SqlConnection(_connectionString));
