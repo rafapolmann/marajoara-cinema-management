@@ -33,8 +33,8 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
             cineRoomAdded.Should().NotBeNull();
             cineRoomAdded.Name.Should().Be("CineRoomName");
             cineRoomAdded.SeatsRow.Should().Be(10);
-            cineRoomAdded.SeatsColumn.Should().Be(20);
-            cineRoomAdded.TotalSeats.Should().Be(200);
+            cineRoomAdded.SeatsColumn.Should().Be(5);
+            cineRoomAdded.TotalSeats.Should().Be(50);
 
             _marajoaraUnitOfWork.Dispose();
         }
@@ -112,9 +112,9 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
             cineRoomToAssert.Should().NotBeNull();
             cineRoomToAssert.CineRoomID.Should().Be(cineRoomID);
             cineRoomToAssert.Name.Should().Be("CineRoomName");
-            cineRoomToAssert.SeatsColumn.Should().Be(20);
+            cineRoomToAssert.SeatsColumn.Should().Be(5);
             cineRoomToAssert.SeatsRow.Should().Be(10);
-            cineRoomToAssert.TotalSeats.Should().Be(200);
+            cineRoomToAssert.TotalSeats.Should().Be(50);
 
             _marajoaraUnitOfWork.Dispose();
         }
@@ -137,9 +137,9 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
             cineRoomToAssert.Should().NotBeNull();
             cineRoomToAssert.CineRoomID.Should().Be(cineRoomID);
             cineRoomToAssert.Name.Should().Be("CineRoomName");
-            cineRoomToAssert.SeatsColumn.Should().Be(20);
+            cineRoomToAssert.SeatsColumn.Should().Be(5);
             cineRoomToAssert.SeatsRow.Should().Be(10);
-            cineRoomToAssert.TotalSeats.Should().Be(200);
+            cineRoomToAssert.TotalSeats.Should().Be(50);
 
             _marajoaraUnitOfWork.Dispose();
         }

@@ -15,6 +15,9 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule
 
         public int AddCineRoom(CineRoom cineRoom)
         {
+            if (cineRoom == null)
+                throw new ArgumentException("CineRoom parameter cannot be null.", nameof(cineRoom));
+
             int totalSeats = cineRoom.SeatsColumn * cineRoom.SeatsRow;
             if (totalSeats <= 0)
                 throw new Exception($"Seat number cannot be equals zero or negative.");
@@ -31,8 +34,11 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule
 
         public bool RemoveCineRoom(CineRoom cineRoom)
         {
-            CineRoom cineRoomToDelete = cineRoom.CineRoomID > 0 ? 
-                                        _unitOfWork.CineRooms.Retrieve(cineRoom.CineRoomID) : 
+            if (cineRoom == null)
+                throw new ArgumentException("CineRoom parameter cannot be null.", nameof(cineRoom));
+
+            CineRoom cineRoomToDelete = cineRoom.CineRoomID > 0 ?
+                                        _unitOfWork.CineRooms.Retrieve(cineRoom.CineRoomID) :
                                         _unitOfWork.CineRooms.RetrieveByName(cineRoom.Name);
 
             if (cineRoomToDelete == null)

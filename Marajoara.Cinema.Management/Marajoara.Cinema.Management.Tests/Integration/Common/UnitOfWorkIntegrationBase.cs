@@ -73,7 +73,7 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Common
         }
 
         protected CineRoom GetCineRoomToTest(string name = "CineRoomName",
-                                           int seatsColumn = 20,
+                                           int seatsColumn = 5,
                                            int seatsRow = 10)
         {
             return new CineRoom
