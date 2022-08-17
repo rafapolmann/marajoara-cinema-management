@@ -1,6 +1,6 @@
 ﻿using Marajoara.Cinema.Management.Api.Base;
-using Marajoara.Cinema.Management.Application.Features.CineRoom.Commands;
-using Marajoara.Cinema.Management.Application.Features.CineRoom.Queries;
+using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Commands;
+using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Queries;
 using Marajoara.Cinema.Management.Infra.Framework.IoC;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

@@ -1,4 +1,4 @@
-﻿namespace Marajoara.Cinema.Management.Application.Features.CineRoom.Models
+﻿namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Models
 {
     public class CineRoomModel
     {

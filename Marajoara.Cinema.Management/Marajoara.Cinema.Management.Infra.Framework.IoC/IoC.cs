@@ -1,9 +1,9 @@
 ﻿using Marajoara.Cinema.Management.Application;
-using Marajoara.Cinema.Management.Application.Features.CineRoom;
-using Marajoara.Cinema.Management.Application.Features.CineRoom.Commands;
-using Marajoara.Cinema.Management.Application.Features.CineRoom.Handlers;
-using Marajoara.Cinema.Management.Application.Features.CineRoom.Models;
-using Marajoara.Cinema.Management.Application.Features.CineRoom.Queries;
+using Marajoara.Cinema.Management.Application.Features.CineRoomModule;
+using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Commands;
+using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handlers;
+using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Models;
+using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Queries;
 using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Domain.Common.ResultModule;
 using Marajoara.Cinema.Management.Domain.MovieModule;

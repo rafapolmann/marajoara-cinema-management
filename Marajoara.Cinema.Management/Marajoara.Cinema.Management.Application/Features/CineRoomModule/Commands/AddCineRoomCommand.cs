@@ -2,7 +2,7 @@
 using MediatR;
 using System;
 
-namespace Marajoara.Cinema.Management.Application.Features.CineRoom.Commands
+namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Commands
 {
     public class AddCineRoomCommand : IRequest<Result<Exception, int>>
     {

@@ -1,5 +1,5 @@
-﻿using Marajoara.Cinema.Management.Application.Features.CineRoom.Models;
-using Marajoara.Cinema.Management.Application.Features.CineRoom.Queries;
+﻿using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Models;
+using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Queries;
 using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Domain.Common.ResultModule;
 using Marajoara.Cinema.Management.Domain.UnitOfWork;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Marajoara.Cinema.Management.Application.Features.CineRoom.Handlers
+namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handlers
 {
     public class AllCineRoomsHandler : IRequestHandler<AllCineRoomsQuery, Result<Exception, List<CineRoomModel>>>
     {

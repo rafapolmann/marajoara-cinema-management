@@ -3,7 +3,7 @@ using Marajoara.Cinema.Management.Domain.UnitOfWork;
 using System;
 using System.Collections.Generic;
 
-namespace Marajoara.Cinema.Management.Application.Features.CineRoom
+namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule
 {
     public class CineRoomService : ICineRoomService
     {
@@ -13,7 +13,7 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoom
             _unitOfWork = unitOfWork;
         }
 
-        public int AddCineRoom(Domain.CineRoomModule.CineRoom cineRoom)
+        public int AddCineRoom(CineRoom cineRoom)
         {
             int totalSeats = cineRoom.SeatsColumn * cineRoom.SeatsRow;
             if (totalSeats <= 0)
@@ -29,9 +29,9 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoom
             return cineRoom.CineRoomID;
         }
 
-        public bool RemoveCineRoom(Domain.CineRoomModule.CineRoom cineRoom)
+        public bool RemoveCineRoom(CineRoom cineRoom)
         {
-            Domain.CineRoomModule.CineRoom cineRoomToDelete = _unitOfWork.CineRooms.RetrieveByName(cineRoom.Name);
+            CineRoom cineRoomToDelete = _unitOfWork.CineRooms.RetrieveByName(cineRoom.Name);
             if (cineRoomToDelete == null)
                 throw new Exception($"Cine room \"{cineRoom.Name}\" not found.");
 
@@ -41,7 +41,7 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoom
             return true;
         }
 
-        public IEnumerable<Domain.CineRoomModule.CineRoom> RetrieveAll()
+        public IEnumerable<CineRoom> RetrieveAll()
         {
             return _unitOfWork.CineRooms.RetrieveAll();
         }

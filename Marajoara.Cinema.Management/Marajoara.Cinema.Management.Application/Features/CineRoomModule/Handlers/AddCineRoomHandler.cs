@@ -1,4 +1,4 @@
-﻿using Marajoara.Cinema.Management.Application.Features.CineRoom.Commands;
+﻿using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Commands;
 using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Domain.Common.ResultModule;
 using MediatR;
@@ -6,7 +6,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Marajoara.Cinema.Management.Application.Features.CineRoom.Handlers
+namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handlers
 {
     public class AddCineRoomHandler : IRequestHandler<AddCineRoomCommand, Result<Exception, int>>
     {
