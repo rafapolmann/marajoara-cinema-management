@@ -2,11 +2,9 @@
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Queries;
 using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Domain.Common.ResultModule;
-using Marajoara.Cinema.Management.Domain.UnitOfWork;
 using MediatR;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,10 +23,11 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handle
             Result<Exception, List<CineRoomModel>> result = Result.Run(() =>
             {
                 List<CineRoomModel> cineRoomsToReturn = new List<CineRoomModel>();
-                foreach (Domain.CineRoomModule.CineRoom cineRoom in _cineRoomService.RetrieveAll())
+                foreach (CineRoom cineRoom in _cineRoomService.RetrieveAll())
                 {
                     cineRoomsToReturn.Add(new CineRoomModel
                     {
+                        CineRoomID = cineRoom.CineRoomID,
                         Name = cineRoom.Name,
                         SeatNumbers = cineRoom.TotalSeats
                     });

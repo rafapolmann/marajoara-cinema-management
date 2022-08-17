@@ -20,8 +20,9 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handle
         {
             Result<Exception, bool> result = Result.Run(() =>
             {
-                return _cineRoomService.RemoveCineRoom(new Domain.CineRoomModule.CineRoom
+                return _cineRoomService.RemoveCineRoom(new CineRoom
                 {
+                    CineRoomID = request.CineRoomID,
                     Name = request.Name
                 });
             });

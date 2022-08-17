@@ -6,11 +6,17 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Comman
 {
     public class DeleteCineRoomCommand : IRequest<Result<Exception, bool>>
     {
+        public int CineRoomID { get; set; }
         public string Name { get; set; }
 
         public DeleteCineRoomCommand(string name)
         {
             Name = name;
+        }
+
+        public DeleteCineRoomCommand(int id)
+        {
+            CineRoomID = id;
         }
     }
 }

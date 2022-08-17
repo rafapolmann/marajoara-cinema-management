@@ -20,7 +20,7 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handle
         {
             Result<Exception, int> result = Result.Run(() =>
             {
-                return _cineRoomService.AddCineRoom(new Domain.CineRoomModule.CineRoom
+                return _cineRoomService.AddCineRoom(new CineRoom
                 {
                     Name = request.Name,
                     SeatsColumn = request.ColumnsNumber,

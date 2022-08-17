@@ -31,9 +31,12 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule
 
         public bool RemoveCineRoom(CineRoom cineRoom)
         {
-            CineRoom cineRoomToDelete = _unitOfWork.CineRooms.RetrieveByName(cineRoom.Name);
+            CineRoom cineRoomToDelete = cineRoom.CineRoomID > 0 ? 
+                                        _unitOfWork.CineRooms.Retrieve(cineRoom.CineRoomID) : 
+                                        _unitOfWork.CineRooms.RetrieveByName(cineRoom.Name);
+
             if (cineRoomToDelete == null)
-                throw new Exception($"Cine room \"{cineRoom.Name}\" not found.");
+                throw new Exception($"Cine room not found.");
 
             _unitOfWork.CineRooms.Delete(cineRoomToDelete);
             _unitOfWork.Commit();
