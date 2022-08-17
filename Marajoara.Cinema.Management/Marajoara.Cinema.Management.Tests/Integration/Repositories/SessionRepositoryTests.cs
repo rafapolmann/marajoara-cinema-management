@@ -2,13 +2,13 @@
 using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Domain.MovieModule;
 using Marajoara.Cinema.Management.Domain.SessionModule;
-using Marajoara.Cinema.Management.Tests.Common;
+using Marajoara.Cinema.Management.Tests.Integration.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Marajoara.Cinema.Management.Tests
+namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
 {
     [TestClass]
     public class SessionRepositoryTests : UnitOfWorkIntegrationBase

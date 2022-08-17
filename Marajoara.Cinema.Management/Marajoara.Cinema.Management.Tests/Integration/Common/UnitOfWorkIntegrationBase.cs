@@ -12,7 +12,7 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 
 
-namespace Marajoara.Cinema.Management.Tests.Common
+namespace Marajoara.Cinema.Management.Tests.Integration.Common
 {
     [TestClass]
     public class UnitOfWorkIntegrationBase

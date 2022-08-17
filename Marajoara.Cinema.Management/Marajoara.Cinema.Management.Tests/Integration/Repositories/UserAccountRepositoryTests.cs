@@ -1,11 +1,11 @@
 ﻿using FluentAssertions;
 using Marajoara.Cinema.Management.Domain.UserAccountModule;
-using Marajoara.Cinema.Management.Tests.Common;
+using Marajoara.Cinema.Management.Tests.Integration.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Marajoara.Cinema.Management.Tests
+namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
 {
     [TestClass]
     public class UserAccountRepositoryTests : UnitOfWorkIntegrationBase
