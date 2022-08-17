@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="10.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Marajoara.Cinema.Management.Domain\Marajoara.Cinema.Management.Domain.csproj" />
   </ItemGroup>
 

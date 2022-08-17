@@ -2,10 +2,10 @@
 
 namespace Marajoara.Cinema.Management.Domain.CineRoomModule
 {
-    internal interface ICineRoomService
+    public interface ICineRoomService
     {
-        void AddCineRoom(CineRoom cineRoom);
+        int AddCineRoom(CineRoom cineRoom);
         IEnumerable<CineRoom> RetrieveAll();
-        bool RemoveCineRoom(CineRoom cineRoom);        
+        bool RemoveCineRoom(CineRoom cineRoom);
     }
 }
