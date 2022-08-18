@@ -268,7 +268,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
             _unitOfWorkMock.Setup(uow => uow.CineRooms.Retrieve(cineRoomOnBDToUpdate.CineRoomID)).Returns(cineRoomOnBDToUpdate);
             _unitOfWorkMock.Setup(uow => uow.CineRooms.RetrieveByName(otherCineRoomOnDB.Name)).Returns(otherCineRoomOnDB);
 
-            _cineRoomService.UpdateCineRoom(cineRoomToUpdate);
+            _cineRoomService.UpdateCineRoom(cineRoomToUpdate).Should().BeTrue();
 
             _unitOfWorkMock.Verify(uow => uow.CineRooms.Update(cineRoomOnBDToUpdate), Times.Once);
             _unitOfWorkMock.Verify(uow => uow.CineRooms.Update(It.Is<CineRoom>(c => c.Name.Equals(cineRoomToUpdate.Name) &&

@@ -18,7 +18,7 @@ namespace Marajoara.Cinema.Management.Domain.CineRoomModule
         /// In case of the cine room parameter is null or cine room will not find in system, will throw exception.
         /// </summary>
         /// <param name="cineRoom">Cine room with properties to update.</param>
-        void UpdateCineRoom(CineRoom cineRoom);
+        bool UpdateCineRoom(CineRoom cineRoom);
 
         /// <summary>
         /// Remove a given cine room of the system.

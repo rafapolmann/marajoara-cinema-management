@@ -46,6 +46,12 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             return HandleResult(await _mediator.Send(AddCineRoomCommand));
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] UpdateCineRoomCommand updateCineRoomCommand)
+        {
+            return HandleResult(await _mediator.Send(updateCineRoomCommand));
+        }
+
         [HttpDelete("ByName/{name}")]
         public async Task<IActionResult> Delete(string name)
         {

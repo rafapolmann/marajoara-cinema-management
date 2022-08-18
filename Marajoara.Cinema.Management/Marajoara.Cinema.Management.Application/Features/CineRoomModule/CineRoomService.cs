@@ -59,7 +59,7 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule
             return _unitOfWork.CineRooms.RetrieveByName(cineRoomName);
         }
 
-        public void UpdateCineRoom(CineRoom cineRoom)
+        public bool UpdateCineRoom(CineRoom cineRoom)
         {
             ValidateCineRoom(cineRoom);
 
@@ -73,6 +73,8 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule
             
             _unitOfWork.CineRooms.Update(cineRoomOnDB);
             _unitOfWork.Commit();
+
+            return true;
         }
 
         private void ValidateCineRoom(CineRoom cineRoom)
