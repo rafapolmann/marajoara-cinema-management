@@ -23,7 +23,7 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handle
             Result<Exception, List<CineRoomModel>> result = Result.Run(() =>
             {
                 List<CineRoomModel> cineRoomsToReturn = new List<CineRoomModel>();
-                foreach (CineRoom cineRoom in _cineRoomService.RetrieveAll())
+                foreach (CineRoom cineRoom in _cineRoomService.GetAllCineRooms())
                 {
                     cineRoomsToReturn.Add(new CineRoomModel
                     {
