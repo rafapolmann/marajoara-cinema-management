@@ -13,6 +13,20 @@ namespace Marajoara.Cinema.Management.Domain.CineRoomModule
             get { return SeatsColumn * SeatsRow; }
         }
 
+        public bool Validate()
+        {
+            if (string.IsNullOrWhiteSpace(this.Name))
+                throw new Exception($"Cine room name cannot be null or empty.");
+            if (TotalSeats <= 0)
+                throw new Exception($"Seat number cannot be equals zero or negative.");
+            if (TotalSeats > 100)
+                throw new Exception($"Invalid seat number \"{TotalSeats}\". Max of seat per cine room is 100.");
+            if (TotalSeats < 20)
+                throw new Exception($"Invalid seat number \"{TotalSeats}\". Min of seat per cine room is 20.");
+            
+            return true;
+        }
+
         public void CopyTo(CineRoom cineRoomToCopy)
         {
             ValidateCopyToArguments(cineRoomToCopy);
