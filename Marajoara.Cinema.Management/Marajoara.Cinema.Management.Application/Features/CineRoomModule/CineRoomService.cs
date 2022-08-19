@@ -81,14 +81,8 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule
         {
             if (cineRoom == null)
                 throw new ArgumentException("CineRoom parameter cannot be null.", nameof(cineRoom));
-            if (string.IsNullOrWhiteSpace(cineRoom.Name))
-                throw new Exception($"Cine room name cannot be null or empty.");
 
-            int totalSeats = cineRoom.SeatsColumn * cineRoom.SeatsRow;
-            if (totalSeats <= 0)
-                throw new Exception($"Seat number cannot be equals zero or negative.");
-            if (totalSeats > 100)
-                throw new Exception($"Invalid seat number \"{totalSeats}\". Max of seat per cine room is 100.");
+            cineRoom.Validate();
         }
     }
 }

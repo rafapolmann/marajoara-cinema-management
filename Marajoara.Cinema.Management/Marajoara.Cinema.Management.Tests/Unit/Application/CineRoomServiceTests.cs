@@ -241,6 +241,18 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         }
 
         [TestMethod]
+        public void CineRoomService_AddCineRoom_Should_Throw_Exception_When_CineRoom_To_Add_Has_Total_Seats_Less_Than_20()
+        {
+            CineRoom cineRoomToAdd = GetCineRoomToTest(0, "CineRoomName", 3, 3);
+            int totalSeats = cineRoomToAdd.TotalSeats;
+            Action action = () => _cineRoomService.AddCineRoom(cineRoomToAdd);
+            action.Should().Throw<Exception>().WithMessage($"Invalid seat number \"{totalSeats}\". Min of seat per cine room is 20.");
+
+            _unitOfWorkMock.Verify(uow => uow.CineRooms.Add(It.IsAny<CineRoom>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
         public void CineRoomService_AddCineRoom_Should_Throw_Exception_When_CineRoom_To_Add_Name_Already_Exists()
         {
             CineRoom cineRoomOnDB = GetCineRoomToTest(0, "CineRoomName");
@@ -354,10 +366,22 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         [TestMethod]
         public void CineRoomService_UpdateCineRoom_Should_Throw_Exception_When_CineRoom_To_Add_Has_Total_Seats_Higher_Than_100()
         {
-            CineRoom cineRoomToAdd = GetCineRoomToTest(0, "CineRoomName", 11, 11);
-            int totalSeats = cineRoomToAdd.TotalSeats;
-            Action action = () => _cineRoomService.UpdateCineRoom(cineRoomToAdd);
+            CineRoom cineRoomToUpdate = GetCineRoomToTest(3, "CineRoomName", 11, 11);
+            int totalSeats = cineRoomToUpdate.TotalSeats;
+            Action action = () => _cineRoomService.UpdateCineRoom(cineRoomToUpdate);
             action.Should().Throw<Exception>().WithMessage($"Invalid seat number \"{totalSeats}\". Max of seat per cine room is 100.");
+
+            _unitOfWorkMock.Verify(uow => uow.CineRooms.Update(It.IsAny<CineRoom>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void CineRoomService_UpdateCineRoom_Should_Throw_Exception_When_CineRoom_To_Add_Has_Total_Seats_Less_Than_20()
+        {
+            CineRoom cineRoomToUpdate = GetCineRoomToTest(3, "CineRoomName", 3, 3);
+            int totalSeats = cineRoomToUpdate.TotalSeats;
+            Action action = () => _cineRoomService.UpdateCineRoom(cineRoomToUpdate);
+            action.Should().Throw<Exception>().WithMessage($"Invalid seat number \"{totalSeats}\". Min of seat per cine room is 20.");
 
             _unitOfWorkMock.Verify(uow => uow.CineRooms.Update(It.IsAny<CineRoom>()), Times.Never);
             _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
