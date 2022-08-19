@@ -8,7 +8,7 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Comman
     {
         public int CineRoomID { get; set; }
         public string Name { get; set; }
-        public int ColumnsNumber { get; set; }
-        public int RowsNumber { get; set; }
+        public int SeatsRow { get; set; }
+        public int SeatsColumn { get; set; }
     }
 }

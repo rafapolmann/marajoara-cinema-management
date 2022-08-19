@@ -7,7 +7,7 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Comman
     public class AddCineRoomCommand : IRequest<Result<Exception, int>>
     {
         public string Name { get; set; }
-        public int ColumnsNumber { get; set; }
-        public int RowsNumber { get; set; }
+        public int SeatsRow { get; set; }
+        public int SeatsColumn { get; set; }
     }
 }

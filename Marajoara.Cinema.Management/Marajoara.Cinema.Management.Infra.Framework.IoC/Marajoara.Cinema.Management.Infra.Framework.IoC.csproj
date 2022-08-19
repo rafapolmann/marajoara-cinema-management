@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="MediatR.Ninject" Version="3.2.0" />
     <PackageReference Include="Ninject" Version="3.3.6" />

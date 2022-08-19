@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Marajoara.Cinema.Management.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class CineRoomController : ApiControllerBase
     {
         private readonly IMediator _mediator;

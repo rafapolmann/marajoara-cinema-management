@@ -1,4 +1,5 @@
-﻿using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Models;
+﻿using AutoMapper;
+using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Models;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Queries;
 using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Domain.Common.ResultModule;
@@ -11,9 +12,11 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handle
 {
     public class GetCineRoomHandler : IRequestHandler<GetCineRoomQuery, Result<Exception, CineRoomModel>>
     {
+        private readonly IMapper _mapper;
         private readonly ICineRoomService _cineRoomService;
-        public GetCineRoomHandler(ICineRoomService cineRoomService)
+        public GetCineRoomHandler(IMapper mapper, ICineRoomService cineRoomService)
         {
+            _mapper = mapper;
             _cineRoomService = cineRoomService;
         }
 
@@ -22,25 +25,12 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handle
             Result<Exception, CineRoomModel> result = Result.Run(() =>
             {
                 if (request.CineRoomID > 0)
-                    return ConvertToCineRoomModel(_cineRoomService.GetCineRoom(request.CineRoomID));
+                    return _mapper.Map<CineRoomModel>(_cineRoomService.GetCineRoom(request.CineRoomID));
                 else
-                    return ConvertToCineRoomModel(_cineRoomService.GetCineRoom(request.Name));
+                    return _mapper.Map<CineRoomModel>(_cineRoomService.GetCineRoom(request.Name));
             });
 
             return Task.FromResult(result);
-        }
-
-        private CineRoomModel ConvertToCineRoomModel(CineRoom cineRoom)
-        {
-            if (cineRoom == null)
-                return null;
-
-            return new CineRoomModel
-            {
-                CineRoomID = cineRoom.CineRoomID,
-                Name = cineRoom.Name,
-                SeatNumbers = cineRoom.TotalSeats
-            };
         }
     }
 }

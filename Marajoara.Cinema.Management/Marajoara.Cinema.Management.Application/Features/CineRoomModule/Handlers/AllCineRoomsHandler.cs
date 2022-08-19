@@ -1,4 +1,5 @@
-﻿using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Models;
+﻿using AutoMapper;
+using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Models;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Queries;
 using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Domain.Common.ResultModule;
@@ -12,9 +13,11 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handle
 {
     public class AllCineRoomsHandler : IRequestHandler<AllCineRoomsQuery, Result<Exception, List<CineRoomModel>>>
     {
+        private readonly IMapper _mapper;
         private readonly ICineRoomService _cineRoomService;
-        public AllCineRoomsHandler(ICineRoomService cineRoomService)
+        public AllCineRoomsHandler(IMapper mapper, ICineRoomService cineRoomService)
         {
+            _mapper = mapper;
             _cineRoomService = cineRoomService;
         }
 
@@ -22,17 +25,7 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handle
         {
             Result<Exception, List<CineRoomModel>> result = Result.Run(() =>
             {
-                List<CineRoomModel> cineRoomsToReturn = new List<CineRoomModel>();
-                foreach (CineRoom cineRoom in _cineRoomService.GetAllCineRooms())
-                {
-                    cineRoomsToReturn.Add(new CineRoomModel
-                    {
-                        CineRoomID = cineRoom.CineRoomID,
-                        Name = cineRoom.Name,
-                        SeatNumbers = cineRoom.TotalSeats
-                    });
-                }
-                return cineRoomsToReturn;
+                return _mapper.Map<List<CineRoomModel>>(_cineRoomService.GetAllCineRooms());
             });
 
             return Task.FromResult(result);

@@ -1,4 +1,5 @@
-﻿using Marajoara.Cinema.Management.Application;
+﻿using AutoMapper;
+using Marajoara.Cinema.Management.Application;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handlers;
@@ -19,6 +20,7 @@ using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Reflection;
 
 namespace Marajoara.Cinema.Management.Infra.Framework.IoC
 {
@@ -36,6 +38,7 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
             RepositoriesSetup();
             ApplicationSetup();
             MediatR();
+            AutoMapper();
         }
 
         private void ApplicationSetup()
@@ -61,6 +64,13 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
             _kernel.Bind<IRequestHandler<AddCineRoomCommand, Result<Exception, int>>>().To<AddCineRoomHandler>();
             _kernel.Bind<IRequestHandler<DeleteCineRoomCommand, Result<Exception, bool>>>().To<DeleteCineRoomHandler>();
             _kernel.Bind<IRequestHandler<UpdateCineRoomCommand, Result<Exception, bool>>>().To<UpdateCineRoomHandler>();
+        }
+
+        private void AutoMapper()
+        {
+            // Add all profiles in current assembly          
+            MapperConfiguration mapperConfiguration = new MapperConfiguration(cfg => { cfg.AddMaps(typeof(AppModule).Assembly); });
+            _kernel.Bind<IMapper>().ToConstructor(c => new Mapper(mapperConfiguration)).InSingletonScope();
         }
 
         private void DatabaseSetup()

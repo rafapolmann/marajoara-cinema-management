@@ -1,4 +1,5 @@
-﻿using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Commands;
+﻿using AutoMapper;
+using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Commands;
 using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Domain.Common.ResultModule;
 using MediatR;
@@ -10,9 +11,11 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handle
 {
     public class UpdateCineRoomHandler : IRequestHandler<UpdateCineRoomCommand, Result<Exception, bool>>
     {
+        private readonly IMapper _mapper;
         private readonly ICineRoomService _cineRoomService;
-        public UpdateCineRoomHandler(ICineRoomService cineRoomService)
+        public UpdateCineRoomHandler(IMapper mapper, ICineRoomService cineRoomService)
         {
+            _mapper = mapper;
             _cineRoomService = cineRoomService;
         }
 
@@ -20,13 +23,7 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handle
         {
             Result<Exception, bool> result = Result.Run(() =>
             {
-                return _cineRoomService.UpdateCineRoom(new CineRoom
-                {
-                    CineRoomID = request.CineRoomID,
-                    Name = request.Name,
-                    SeatsColumn = request.ColumnsNumber,
-                    SeatsRow = request.RowsNumber
-                });
+                return _cineRoomService.UpdateCineRoom(_mapper.Map<CineRoom>(request));
             });
 
             return Task.FromResult(result);
