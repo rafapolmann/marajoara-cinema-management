@@ -5,6 +5,7 @@ using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handlers;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Models;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Queries;
+using Marajoara.Cinema.Management.Application.Features.MovieModule;
 using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Domain.Common.ResultModule;
 using Marajoara.Cinema.Management.Domain.MovieModule;
@@ -20,7 +21,6 @@ using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Reflection;
 
 namespace Marajoara.Cinema.Management.Infra.Framework.IoC
 {
@@ -45,6 +45,7 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
         {
             _kernel.Bind<IUserAccountService>().To<UserAccountService>();
             _kernel.Bind<ICineRoomService>().To<CineRoomService>();
+            _kernel.Bind<IMovieService>().To<MovieService>();
         }
 
         private void RepositoriesSetup()
