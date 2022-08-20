@@ -19,7 +19,7 @@ namespace Marajoara.Cinema.Management.Application.Features.MovieModule
             throw new System.NotImplementedException();
         }
 
-        public bool DeleteteMovie(Movie movie)
+        public bool RemoveMovie(Movie movie)
         {
             throw new System.NotImplementedException();
         }
