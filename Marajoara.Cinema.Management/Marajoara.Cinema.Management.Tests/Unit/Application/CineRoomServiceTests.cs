@@ -122,7 +122,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
             CineRoom cineRoomToDelete = new CineRoom { CineRoomID = 1 };
             _cineRoomService.RemoveCineRoom(cineRoomToDelete).Should().BeTrue();
 
-            _unitOfWorkMock.Verify(uow => uow.Sessions.RetrieveByCineRoom(cineRoomToDelete), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Sessions.RetrieveByCineRoom(cineRoomOnDB), Times.Once);
             _unitOfWorkMock.Verify(uow => uow.CineRooms.Delete(cineRoomOnDB), Times.Once);
             _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
         }
@@ -138,7 +138,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
             CineRoom cineRoomToDelete = new CineRoom { CineRoomID = 0, Name = "CineRoomName" };
             _cineRoomService.RemoveCineRoom(cineRoomToDelete).Should().BeTrue();
 
-            _unitOfWorkMock.Verify(uow => uow.Sessions.RetrieveByCineRoom(cineRoomToDelete), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Sessions.RetrieveByCineRoom(cineRoomOnDB), Times.Once);
             _unitOfWorkMock.Verify(uow => uow.CineRooms.Delete(cineRoomOnDB), Times.Once);
             _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
         }
