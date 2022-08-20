@@ -119,9 +119,11 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
             _unitOfWorkMock.Setup(uow => uow.Sessions.RetrieveByCineRoom(cineRoomOnDB)).Returns(new List<Session>());
             _unitOfWorkMock.Setup(uow => uow.CineRooms.Retrieve(cineRoomOnDB.CineRoomID)).Returns(cineRoomOnDB);
 
-            _cineRoomService.RemoveCineRoom(new CineRoom { CineRoomID = 1 }).Should().BeTrue();
+            CineRoom cineRoomToDelete = new CineRoom { CineRoomID = 1 };
+            _cineRoomService.RemoveCineRoom(cineRoomToDelete).Should().BeTrue();
 
-            _unitOfWorkMock.Verify(uow => uow.CineRooms.Delete(cineRoomOnDB));
+            _unitOfWorkMock.Verify(uow => uow.Sessions.RetrieveByCineRoom(cineRoomToDelete), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.CineRooms.Delete(cineRoomOnDB), Times.Once);
             _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
         }
 
@@ -133,9 +135,11 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
             _unitOfWorkMock.Setup(uow => uow.Sessions.RetrieveByCineRoom(cineRoomOnDB)).Returns(new List<Session>());
             _unitOfWorkMock.Setup(uow => uow.CineRooms.RetrieveByName(cineRoomOnDB.Name)).Returns(cineRoomOnDB);
 
-            _cineRoomService.RemoveCineRoom(new CineRoom { CineRoomID = 0, Name = "CineRoomName" }).Should().BeTrue();
+            CineRoom cineRoomToDelete = new CineRoom { CineRoomID = 0, Name = "CineRoomName" };
+            _cineRoomService.RemoveCineRoom(cineRoomToDelete).Should().BeTrue();
 
-            _unitOfWorkMock.Verify(uow => uow.CineRooms.Delete(cineRoomOnDB));
+            _unitOfWorkMock.Verify(uow => uow.Sessions.RetrieveByCineRoom(cineRoomToDelete), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.CineRooms.Delete(cineRoomOnDB), Times.Once);
             _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
         }
 
