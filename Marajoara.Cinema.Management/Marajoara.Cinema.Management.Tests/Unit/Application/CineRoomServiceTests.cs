@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule;
 using Marajoara.Cinema.Management.Domain.CineRoomModule;
+using Marajoara.Cinema.Management.Domain.SessionModule;
 using Marajoara.Cinema.Management.Domain.UnitOfWork;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -114,6 +115,8 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         public void CineRoomService_RemoveCineRoom_Should_Remove_A_Given_CineRoom_When_CineRoomID_Exists()
         {
             CineRoom cineRoomOnDB = GetCineRoomToTest();
+
+            _unitOfWorkMock.Setup(uow => uow.Sessions.RetrieveByCineRoom(cineRoomOnDB)).Returns(new List<Session>());
             _unitOfWorkMock.Setup(uow => uow.CineRooms.Retrieve(cineRoomOnDB.CineRoomID)).Returns(cineRoomOnDB);
 
             _cineRoomService.RemoveCineRoom(new CineRoom { CineRoomID = 1 }).Should().BeTrue();
@@ -126,6 +129,8 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         public void CineRoomService_RemoveCineRoom_Should_Remove_A_Given_CineRoom_When_CineRoom_Name_Exists()
         {
             CineRoom cineRoomOnDB = GetCineRoomToTest();
+
+            _unitOfWorkMock.Setup(uow => uow.Sessions.RetrieveByCineRoom(cineRoomOnDB)).Returns(new List<Session>());
             _unitOfWorkMock.Setup(uow => uow.CineRooms.RetrieveByName(cineRoomOnDB.Name)).Returns(cineRoomOnDB);
 
             _cineRoomService.RemoveCineRoom(new CineRoom { CineRoomID = 0, Name = "CineRoomName" }).Should().BeTrue();
@@ -133,6 +138,24 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
             _unitOfWorkMock.Verify(uow => uow.CineRooms.Delete(cineRoomOnDB));
             _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
         }
+
+        [TestMethod]
+        public void CineRoomService_RemoveCineRoom_Should_Throw_Exception_When_CineRoom_To_Remove_Is_Linked_With_Some_Session()
+        {
+            CineRoom cineRoomOnDB = GetCineRoomToTest();
+            Session cineRoomSession = new Session { CineRoom = cineRoomOnDB };
+
+            _unitOfWorkMock.Setup(uow => uow.Sessions.RetrieveByCineRoom(cineRoomOnDB)).Returns(new List<Session> { cineRoomSession });
+            _unitOfWorkMock.Setup(uow => uow.CineRooms.RetrieveByName(cineRoomOnDB.Name)).Returns(cineRoomOnDB);
+            _unitOfWorkMock.Setup(uow => uow.CineRooms.Retrieve(cineRoomOnDB.CineRoomID)).Returns(cineRoomOnDB);
+
+            Action action = () => _cineRoomService.RemoveCineRoom(cineRoomOnDB);
+            action.Should().Throw<Exception>().WithMessage($"Cannot possible remove cine room {cineRoomOnDB.Name}. There are sessions linked with this cine room.");
+
+            _unitOfWorkMock.Verify(uow => uow.CineRooms.Delete(It.IsAny<CineRoom>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
 
         [TestMethod]
         public void CineRoomService_RemoveCineRoom_Should_Throw_Exception_When_CineRoom_Name_And_CineRoomID_Not_Exists()
