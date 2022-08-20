@@ -1,4 +1,5 @@
 ﻿using Marajoara.Cinema.Management.Api.Base;
+using Marajoara.Cinema.Management.Application.Features.MovieModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.MovieModule.Queries;
 using Marajoara.Cinema.Management.Infra.Framework.IoC;
 using MediatR;
@@ -37,6 +38,18 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         public async Task<IActionResult> Get()
         {
             return HandleResult(await _mediator.Send(new AllMoviesQuery()));
+        }
+
+        [HttpDelete("ByTitle/{title}")]
+        public async Task<IActionResult> Delete(string title)
+        {
+            return HandleResult(await _mediator.Send(new DeleteMovieCommand(title)));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            return HandleResult(await _mediator.Send(new DeleteMovieCommand(id)));
         }
     }
 }

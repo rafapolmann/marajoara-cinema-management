@@ -6,6 +6,7 @@ using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handlers;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Models;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Queries;
 using Marajoara.Cinema.Management.Application.Features.MovieModule;
+using Marajoara.Cinema.Management.Application.Features.MovieModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.MovieModule.Handlers;
 using Marajoara.Cinema.Management.Application.Features.MovieModule.Models;
 using Marajoara.Cinema.Management.Application.Features.MovieModule.Queries;
@@ -75,6 +76,7 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
             #region Movie
             _kernel.Bind<IRequestHandler<GetMovieQuery, Result<Exception, MovieModel>>>().To<GetMovieHandler>();
             _kernel.Bind<IRequestHandler<AllMoviesQuery, Result<Exception, List<MovieModel>>>>().To<AllMoviesHandler>();
+            _kernel.Bind<IRequestHandler<DeleteMovieCommand, Result<Exception, bool>>>().To<DeleteMovieHandler>();
             #endregion Movie
         }
 
