@@ -1,4 +1,5 @@
-﻿using Marajoara.Cinema.Management.Domain.SessionModule;
+﻿using Marajoara.Cinema.Management.Domain.CineRoomModule;
+using Marajoara.Cinema.Management.Domain.SessionModule;
 using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
 using System;
 using System.Collections.Generic;
@@ -67,6 +68,13 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
         public void Update(Session sessionToUpdate)
         {
             DBContext.Entry(sessionToUpdate).State = EntityState.Modified;
+        }
+
+        public IEnumerable<Session> RetrieveByCineRoom(CineRoom cineRoom)
+        {
+            return DBContext.Sessions.Include(s => s.Movie)
+                                     .Include(s => s.CineRoom)
+                                     .Where(s => s.CineRoomID.Equals(cineRoom.CineRoomID));
         }
     }
 }

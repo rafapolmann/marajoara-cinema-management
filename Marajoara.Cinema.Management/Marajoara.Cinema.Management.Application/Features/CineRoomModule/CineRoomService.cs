@@ -2,6 +2,7 @@
 using Marajoara.Cinema.Management.Domain.UnitOfWork;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule
 {
@@ -37,6 +38,8 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule
 
             if (cineRoomToDelete == null)
                 throw new Exception($"Cine room not found.");
+            if (_unitOfWork.Sessions.RetrieveByCineRoom(cineRoom).ToList().Count > 0)
+                throw new Exception($"Cannot possible remove cine room {cineRoom.Name}. There are sessions linked with this cine room.");
 
             _unitOfWork.CineRooms.Delete(cineRoomToDelete);
             _unitOfWork.Commit();
@@ -68,9 +71,9 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule
                 throw new Exception($"Cine room to update not found.");
             if (!cineRoomOnDB.Name.Equals(cineRoom.Name) && _unitOfWork.CineRooms.RetrieveByName(cineRoom.Name) != null)
                 throw new Exception($"Already exists cine room with name {cineRoom.Name}.");
-            
+
             cineRoom.CopyTo(cineRoomOnDB);
-            
+
             _unitOfWork.CineRooms.Update(cineRoomOnDB);
             _unitOfWork.Commit();
 
