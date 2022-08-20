@@ -38,8 +38,8 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule
 
             if (cineRoomToDelete == null)
                 throw new Exception($"Cine room not found.");
-            if (_unitOfWork.Sessions.RetrieveByCineRoom(cineRoom).ToList().Count > 0)
-                throw new Exception($"Cannot possible remove cine room {cineRoom.Name}. There are sessions linked with this cine room.");
+            if (_unitOfWork.Sessions.RetrieveByCineRoom(cineRoomToDelete).ToList().Count > 0)
+                throw new Exception($"Cannot possible remove cine room {cineRoomToDelete.Name}. There are sessions linked with this cine room.");
 
             _unitOfWork.CineRooms.Delete(cineRoomToDelete);
             _unitOfWork.Commit();
