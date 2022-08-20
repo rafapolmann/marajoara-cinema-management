@@ -17,9 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0F90A68B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{35842D4C-814E-42CB-981D-B686134E0155}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.1-Data", "4.1-Data", "{8F96C188-4477-4CD1-94BB-2D7F4489E076}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5.1-Data", "5.1-Data", "{8F96C188-4477-4CD1-94BB-2D7F4489E076}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.2-Framework", "4.2-Framework", "{B705428C-02B2-4C96-8C36-069C745140E8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5.2-Framework", "5.2-Framework", "{B705428C-02B2-4C96-8C36-069C745140E8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marajoara.Cinema.Management.Infra.Data.EF", "Marajoara.Cinema.Management.Infra.Data.EF\Marajoara.Cinema.Management.Infra.Data.EF.csproj", "{41213B28-9403-4410-9F47-32FDB808C6EF}"
 EndProject
@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marajoara.Cinema.Management
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marajoara.Cinema.Management.Application", "Marajoara.Cinema.Management.Application\Marajoara.Cinema.Management.Application.csproj", "{5EEF07ED-EE18-402A-87B9-E9E369A1DCF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marajoara.Cinema.Management.Api", "Marajoara.Cinema.Management.Api\Marajoara.Cinema.Management.Api.csproj", "{4D8D244B-9186-4C22-B773-9B3A44133BAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marajoara.Cinema.Management.Api", "Marajoara.Cinema.Management.Api\Marajoara.Cinema.Management.Api.csproj", "{4D8D244B-9186-4C22-B773-9B3A44133BAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
