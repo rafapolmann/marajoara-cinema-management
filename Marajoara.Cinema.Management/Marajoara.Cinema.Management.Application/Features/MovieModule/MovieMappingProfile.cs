@@ -11,6 +11,7 @@ namespace Marajoara.Cinema.Management.Application.Features.MovieModule
         {
             CreateMap<Movie, MovieModel>();
             CreateMap<DeleteMovieCommand, Movie>();
+            CreateMap<AddMovieCommand, Movie>();
         }
     }
 }

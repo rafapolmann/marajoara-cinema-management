@@ -37,7 +37,7 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return HandleResult(await _mediator.Send(new AllMoviesQuery()));
+            return Ok(await _mediator.Send(new AllMoviesQuery()));
         }
 
         [HttpDelete("ByTitle/{title}")]
@@ -50,6 +50,12 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             return HandleResult(await _mediator.Send(new DeleteMovieCommand(id)));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] AddMovieCommand addMovieCommand)
+        {
+            return HandleResult(await _mediator.Send(addMovieCommand));
         }
     }
 }
