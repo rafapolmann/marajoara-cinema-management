@@ -9,21 +9,21 @@ using System.Threading.Tasks;
 
 namespace Marajoara.Cinema.Management.Application.Features.MovieModule.Handlers
 {
-    public class AddMovieHandler : IRequestHandler<AddMovieCommand, Result<Exception, int>>
+    public class UpdateMovieHandler : IRequestHandler<UpdateMovieCommand, Result<Exception, bool>>
     {
         private readonly IMapper _mapper;
         private readonly IMovieService _movieService;
-        public AddMovieHandler(IMapper mapper, IMovieService movieService)
+        public UpdateMovieHandler(IMapper mapper, IMovieService movieService)
         {
             _mapper = mapper;
             _movieService = movieService;
         }
 
-        public Task<Result<Exception, int>> Handle(AddMovieCommand request, CancellationToken cancellationToken)
+        public Task<Result<Exception, bool>> Handle(UpdateMovieCommand request, CancellationToken cancellationToken)
         {
-            Result<Exception, int> result = Result.Run(() =>
+            Result<Exception, bool> result = Result.Run(() =>
             {
-                return _movieService.AddMovie(_mapper.Map<Movie>(request));
+                return _movieService.UpdateMovie(_mapper.Map<Movie>(request));
             });
 
             return Task.FromResult(result);

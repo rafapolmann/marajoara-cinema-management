@@ -14,7 +14,6 @@ namespace Marajoara.Cinema.Management.Application.Features.MovieModule.Handlers
     {
         private readonly IMapper _mapper;
         private readonly IMovieService _movieService;
-
         public GetMovieHandler(IMapper mapper, IMovieService movieService)
         {
             _mapper = mapper;

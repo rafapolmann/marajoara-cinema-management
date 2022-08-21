@@ -264,6 +264,115 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         }
         #endregion AddMovie
 
+        #region UpdateMovie
+        [TestMethod]
+        public void MovieService_UpdateMovie_Should_Update_Movie_Register()
+        {
+            Movie otherMovieOnDB = GetMovieToTest(1, "MovieOtherMovieTitle", "OtherDescriptoin");
+            Movie movieOnBDToUpdate = GetMovieToTest(2, "OldMovieTitle", "OldDescriptoin");
+            movieOnBDToUpdate.Poster = new byte[1024];
+
+            Movie movieToUpdate = GetMovieToTest(2, "NewMovieTitle", "NewDescriptoin");
+
+            _unitOfWorkMock.Setup(uow => uow.Movies.Retrieve(movieOnBDToUpdate.MovieID)).Returns(movieOnBDToUpdate);
+            _unitOfWorkMock.Setup(uow => uow.Movies.RetrieveByTitle(otherMovieOnDB.Title)).Returns(otherMovieOnDB);
+
+            _movieService.UpdateMovie(movieToUpdate).Should().BeTrue();
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Update(movieOnBDToUpdate), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Movies.Update(It.Is<Movie>(m => m.Title.Equals(movieToUpdate.Title) &&
+                                                                              m.Description.Equals(movieToUpdate.Description) &&
+                                                                              m.Duration.Equals(movieToUpdate.Duration) &&
+                                                                              m.Poster != null &&
+                                                                              m.Is3D.Equals(movieToUpdate.Is3D) &&
+                                                                              m.IsOrignalAudio.Equals(movieToUpdate.IsOrignalAudio))), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
+        }
+
+        [TestMethod]
+        public void MovieService_UpdateMovie_Should_Not_Update_Poster_Movie_Register()
+        {
+            Movie movieOnBDToUpdate = GetMovieToTest(2, "OldMovieTitle", "OldDescriptoin");
+            movieOnBDToUpdate.Poster = new byte[1024];
+
+            Movie movieToUpdate = GetMovieToTest(2, "NewMovieTitle", "NewDescriptoin");
+            movieToUpdate.Poster = null;
+
+            _unitOfWorkMock.Setup(uow => uow.Movies.Retrieve(movieOnBDToUpdate.MovieID)).Returns(movieOnBDToUpdate);
+            _unitOfWorkMock.Setup(uow => uow.Movies.RetrieveByTitle(movieOnBDToUpdate.Title));
+
+            _movieService.UpdateMovie(movieToUpdate).Should().BeTrue();
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Update(movieOnBDToUpdate), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Movies.Update(It.Is<Movie>(m => m.Poster != null)), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
+        }
+
+        [TestMethod]
+        public void MovieService_UpdateMovie_Should_Throw_Exception_When_Movie_ID_Not_Exists()
+        {
+            Movie movieOnDB = GetMovieToTest(1, "MovieTitle", "MovieDescription");
+            Movie movieUpdated = GetMovieToTest(2, "NewMovieTitle", "NewMovieDescription");
+
+            _unitOfWorkMock.Setup(uow => uow.Movies.Retrieve(movieOnDB.MovieID)).Returns(movieOnDB);
+
+            Action action = () => _movieService.UpdateMovie(movieUpdated);
+            action.Should().Throw<Exception>().WithMessage("Movie to update not found.");
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Update(It.IsAny<Movie>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void MovieService_UpdateMovie_Should_Throw_Exception_When_Movie_Title_Exists_In_Other_Register()
+        {
+            Movie otherMovieOnDB = GetMovieToTest(1, "MovieTitle", "MovieDescription");
+            Movie movieOnBDToUpdate = GetMovieToTest(2, "OldMovieTitle", "OldMovieDescription");
+            Movie movieToUpdate = GetMovieToTest(2, "MovieTitle", "NewMovieDescription");
+
+            _unitOfWorkMock.Setup(uow => uow.Movies.Retrieve(movieOnBDToUpdate.MovieID)).Returns(movieOnBDToUpdate);
+            _unitOfWorkMock.Setup(uow => uow.Movies.RetrieveByTitle(otherMovieOnDB.Title)).Returns(otherMovieOnDB);
+
+            Action action = () => _movieService.UpdateMovie(movieToUpdate);
+            action.Should().Throw<Exception>().WithMessage($"Already exists movie with title {movieToUpdate.Title}.");
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Update(It.IsAny<Movie>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void MovieService_UpdateMovie_Should_Throw_Exception_When_Movie_Title_Is_Empty()
+        {
+            Movie movieUpdated = GetMovieToTest(2, string.Empty);
+            Action action = () => _movieService.UpdateMovie(movieUpdated);
+            action.Should().Throw<Exception>().WithMessage("Movie title cannot be null or empty.");
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Update(It.IsAny<Movie>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void MovieService_UpdateMovie_Should_Throw_Exception_When_Movie_Title_Is_Null()
+        {
+            Movie movieUpdated = GetMovieToTest(2, null);
+            Action action = () => _movieService.UpdateMovie(movieUpdated);
+            action.Should().Throw<Exception>().WithMessage("Movie title cannot be null or empty.");
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Update(It.IsAny<Movie>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void MovieService_UpdateMovie_Should_Throw_ArgumentException_When_Movie_Parameter_Is_Null()
+        {
+            Action action = () => _movieService.UpdateMovie(null);
+            action.Should().Throw<ArgumentException>().WithMessage("Movie parameter cannot be null. (Parameter 'movie')");
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Update(It.IsAny<Movie>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+        #endregion UpdateMovie
+
         private Movie GetMovieToTest(int movieID = 1,
                                      string title = "Title",
                                      string description = "Description",

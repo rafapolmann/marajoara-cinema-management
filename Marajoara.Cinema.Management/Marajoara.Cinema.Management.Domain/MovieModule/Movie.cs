@@ -19,5 +19,24 @@ namespace Marajoara.Cinema.Management.Domain.MovieModule
 
             return true;
         }
+
+        public void CopyTo(Movie movieToCopy)
+        {
+            ValidateCopyToArguments(movieToCopy);
+
+            movieToCopy.Title = Title;
+            movieToCopy.Description = Description;
+            movieToCopy.Duration = Duration;
+            movieToCopy.Is3D = Is3D;
+            movieToCopy.IsOrignalAudio = IsOrignalAudio;
+        }
+
+        private void ValidateCopyToArguments(Movie movieToCopy)
+        {
+            if (movieToCopy == null)
+                throw new ArgumentException("Movie parameter cannot be null.", nameof(movieToCopy));
+            if (movieToCopy.Equals(this))
+                throw new ArgumentException("Movie to copy cannot be the same instance of the origin.", nameof(movieToCopy));
+        }
     }
 }

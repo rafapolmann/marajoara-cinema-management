@@ -41,9 +41,9 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] AddCineRoomCommand AddCineRoomCommand)
+        public async Task<IActionResult> Post([FromBody] AddCineRoomCommand addCineRoomCommand)
         {
-            return HandleResult(await _mediator.Send(AddCineRoomCommand));
+            return HandleResult(await _mediator.Send(addCineRoomCommand));
         }
 
         [HttpPut]

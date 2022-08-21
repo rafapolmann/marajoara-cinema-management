@@ -64,9 +64,20 @@ namespace Marajoara.Cinema.Management.Application.Features.MovieModule
 
         public bool UpdateMovie(Movie movie)
         {
-            //2.Filmes não podem ter nomes repetidos - validação deve ocorrer em tempo
-            //real sem que haja necessidade de submeter o formulário;
-            throw new System.NotImplementedException();
+            ValidateCineRoom(movie);
+
+            Movie movieOnDB = _unitOfWork.Movies.Retrieve(movie.MovieID);
+            if (movieOnDB == null)
+                throw new Exception($"Movie to update not found.");
+            if (!movieOnDB.Title.Equals(movie.Title) && _unitOfWork.Movies.RetrieveByTitle(movie.Title) != null)
+                throw new Exception($"Already exists movie with title {movie.Title}.");
+
+            movie.CopyTo(movieOnDB);
+
+            _unitOfWork.Movies.Update(movieOnDB);
+            _unitOfWork.Commit();
+
+            return true;
         }
 
         private void ValidateCineRoom(Movie movie)

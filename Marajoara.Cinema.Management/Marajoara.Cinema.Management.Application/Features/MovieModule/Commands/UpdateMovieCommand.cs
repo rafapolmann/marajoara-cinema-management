@@ -4,8 +4,9 @@ using System;
 
 namespace Marajoara.Cinema.Management.Application.Features.MovieModule.Commands
 {
-    public class AddMovieCommand : IRequest<Result<Exception, int>>
+    public class UpdateMovieCommand : IRequest<Result<Exception, bool>>
     {
+        public int MovieID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public TimeSpan Duration { get; set; }
