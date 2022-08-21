@@ -3,7 +3,7 @@ using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace Marajoara.Cinema.Management.Tests.Unit.Domain.CineRoomModule
+namespace Marajoara.Cinema.Management.Tests.Unit.Domain
 {
     [TestClass]
     public class CineRoomTests
