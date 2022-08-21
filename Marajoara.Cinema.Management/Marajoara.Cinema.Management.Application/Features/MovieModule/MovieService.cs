@@ -16,8 +16,15 @@ namespace Marajoara.Cinema.Management.Application.Features.MovieModule
 
         public int AddMovie(Movie movie)
         {
-            //2.Filmes não podem ter nomes repetidos
-            throw new System.NotImplementedException();
+            ValidateCineRoom(movie);
+
+            if (_unitOfWork.Movies.RetrieveByTitle(movie.Title) != null)
+                throw new Exception($"Already exists movie with title \"{movie.Title}\".");
+
+            _unitOfWork.Movies.Add(movie);
+            _unitOfWork.Commit();
+
+            return movie.MovieID;
         }
 
         public bool RemoveMovie(Movie movie)
@@ -60,6 +67,14 @@ namespace Marajoara.Cinema.Management.Application.Features.MovieModule
             //2.Filmes não podem ter nomes repetidos - validação deve ocorrer em tempo
             //real sem que haja necessidade de submeter o formulário;
             throw new System.NotImplementedException();
+        }
+
+        private void ValidateCineRoom(Movie movie)
+        {
+            if (movie == null)
+                throw new ArgumentException("Movie parameter cannot be null.", nameof(movie));
+
+            movie.Validate();
         }
     }
 }

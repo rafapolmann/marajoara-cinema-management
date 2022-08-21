@@ -199,6 +199,71 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         }
         #endregion RemoveMovie
 
+        #region AddMovie
+        [TestMethod]
+        public void MovieService_AddMovie_Should_Add_New_Movie()
+        {
+            Movie movieOnDB = GetMovieToTest(1, "MovieTitleOnDb");
+            string movieTitle = movieOnDB.Title;
+            int dbCurrentID = movieOnDB.MovieID;
+
+            _unitOfWorkMock.Setup(uow => uow.Movies.RetrieveByTitle(movieOnDB.Title)).Returns(movieOnDB);
+
+            Movie movieToAdd = GetMovieToTest(dbCurrentID + 1, "NewMovie");
+            _movieService.AddMovie(movieToAdd).Should().Be(dbCurrentID + 1);
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Add(movieToAdd), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
+        }
+
+        [TestMethod]
+        public void MovieService_AddMovie_Should_Throw_ArgumentException_When_Movie_Parameter_Is_Null()
+        {
+            Action action = () => _movieService.AddMovie(null);
+            action.Should().Throw<ArgumentException>().WithMessage("Movie parameter cannot be null. (Parameter 'movie')");
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Add(It.IsAny<Movie>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void MovieService_AddMovie_Should_Throw_Exception_When_Movie_Name_Is_Empty()
+        {
+            Movie movieToAdd = GetMovieToTest(0, string.Empty);
+            Action action = () => _movieService.AddMovie(movieToAdd);
+            action.Should().Throw<Exception>().WithMessage("Movie title cannot be null or empty.");
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Add(It.IsAny<Movie>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void MovieService_AddMovie_Should_Throw_Exception_When_Movie_Name_Is_Null()
+        {
+            Movie movieToAdd = GetMovieToTest(0, null);
+            Action action = () => _movieService.AddMovie(movieToAdd);
+            action.Should().Throw<Exception>().WithMessage("Movie title cannot be null or empty.");
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Add(It.IsAny<Movie>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void MovieService_AddMovie_Should_Throw_Exception_When_Movie_Title_To_Add_Already_Exists()
+        {
+            Movie movieOnDB = GetMovieToTest(0, "MovieTitle");
+            string movieTitle = movieOnDB.Title;
+
+            _unitOfWorkMock.Setup(uow => uow.Movies.RetrieveByTitle(movieOnDB.Title)).Returns(movieOnDB);
+
+            Action action = () => _movieService.AddMovie(GetMovieToTest(0, movieTitle));
+            action.Should().Throw<Exception>().WithMessage($"Already exists movie with title \"{movieTitle}\".");
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Add(It.IsAny<Movie>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+        #endregion AddMovie
+
         private Movie GetMovieToTest(int movieID = 1,
                                      string title = "Title",
                                      string description = "Description",
