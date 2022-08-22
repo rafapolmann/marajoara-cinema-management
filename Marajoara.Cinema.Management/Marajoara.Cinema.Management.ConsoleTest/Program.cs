@@ -1,7 +1,10 @@
 ﻿using Marajoara.Cinema.Management.Domain.CineRoomModule;
+using Marajoara.Cinema.Management.Domain.MovieModule;
+using Marajoara.Cinema.Management.Domain.SessionModule;
 using Marajoara.Cinema.Management.Domain.UnitOfWork;
 using Marajoara.Cinema.Management.Infra.Framework.IoC;
 using System;
+using System.Linq;
 
 namespace Marajoara.Cinema.Management.ConsoleTest
 {
@@ -11,36 +14,37 @@ namespace Marajoara.Cinema.Management.ConsoleTest
         {
             var uow = IoC.GetInstance().Get<IMarajoaraUnitOfWork>();
 
-            var all = uow.CineRooms.RetrieveByName("RoomName2");
+            var allRooms = uow.CineRooms.RetrieveAll().ToList();
+            var allMovies = uow.Movies.RetrieveAll();
 
 
-            all.SeatsRow = 10;
-
-            uow.CineRooms.Delete(all);
-            uow.Commit();
-
-            var cineRoom = new CineRoom
+            Random rnd = new Random();
+            foreach (var movie in allMovies)
             {
-                Name = "RoomName",
-                SeatsColumn = 10,
-                SeatsRow = 5
-            };
+                Session s = GetSessionToTest(allRooms[rnd.Next(0, allRooms.Count - 1)],
+                                            movie, 
+                                            DateTime.Now.AddDays(rnd.Next(1, 10)), 
+                                            Convert.ToDecimal(rnd.Next(15, 50)));
+                uow.Sessions.Add(s);
+            }
 
-            uow.CineRooms.Add(cineRoom);
             uow.Commit();
-
-            var cineRoom2 = new CineRoom
-            {
-                Name = "RoomName2",
-                SeatsColumn = 10,
-                SeatsRow = 5
-            };
-
-            uow.CineRooms.Add(cineRoom2);
-            uow.Commit();
-
 
             Console.WriteLine("Hello World!");
+        }
+
+        protected static Session GetSessionToTest(CineRoom cineRoom,
+                                           Movie movie,
+                                           DateTime sessionDate,
+                                           decimal price = 30)
+        {
+            return new Session
+            {
+                SessionDate = sessionDate,
+                Price = price,
+                CineRoom = cineRoom,
+                Movie = movie
+            };
         }
     }
 }

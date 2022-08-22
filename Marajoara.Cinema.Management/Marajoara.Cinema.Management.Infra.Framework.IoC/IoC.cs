@@ -10,6 +10,10 @@ using Marajoara.Cinema.Management.Application.Features.MovieModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.MovieModule.Handlers;
 using Marajoara.Cinema.Management.Application.Features.MovieModule.Models;
 using Marajoara.Cinema.Management.Application.Features.MovieModule.Queries;
+using Marajoara.Cinema.Management.Application.Features.SessionModule;
+using Marajoara.Cinema.Management.Application.Features.SessionModule.Handlers;
+using Marajoara.Cinema.Management.Application.Features.SessionModule.Models;
+using Marajoara.Cinema.Management.Application.Features.SessionModule.Queries;
 using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Domain.Common.ResultModule;
 using Marajoara.Cinema.Management.Domain.MovieModule;
@@ -50,6 +54,7 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
             _kernel.Bind<IUserAccountService>().To<UserAccountService>();
             _kernel.Bind<ICineRoomService>().To<CineRoomService>();
             _kernel.Bind<IMovieService>().To<MovieService>();
+            _kernel.Bind<ISessionService>().To<SessionService>();
         }
 
         private void RepositoriesSetup()
@@ -80,6 +85,10 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
             _kernel.Bind<IRequestHandler<DeleteMovieCommand, Result<Exception, bool>>>().To<DeleteMovieHandler>();
             _kernel.Bind<IRequestHandler<UpdateMovieCommand, Result<Exception, bool>>>().To<UpdateMovieHandler>();
             #endregion Movie
+
+            #region Session
+            _kernel.Bind<IRequestHandler<AllSessionsQuery, Result<Exception, List<SessionModel>>>>().To<AllSessionsHandler>();
+            #endregion Session
         }
 
         private void AutoMapper()
