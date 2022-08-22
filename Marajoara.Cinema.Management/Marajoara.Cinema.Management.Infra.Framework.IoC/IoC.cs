@@ -20,7 +20,6 @@ using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Reflection;
 
 namespace Marajoara.Cinema.Management.Infra.Framework.IoC
 {
