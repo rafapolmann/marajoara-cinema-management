@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Marajoara.Cinema.Management.Domain.CineRoomModule;
+using System;
 using System.Collections.Generic;
 
 namespace Marajoara.Cinema.Management.Domain.SessionModule
@@ -37,10 +38,17 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
         Session Retrieve(int sessionID);
 
         /// <summary>
-        /// Returns all sessions that are presenting a given movie
+        /// Returns all sessions that are linked a given cine room
+        /// </summary>
+        /// <param name="cineRoom">Cine room to search linked sessions</param>
+        /// <returns>A list of Sessions</returns>
+        IEnumerable<Session> RetrieveByCineRoom(CineRoom cineRoom);
+
+        /// <summary>
+        /// Returns all sessions that are presenting a given movie title
         /// </summary>
         /// <param name="movieTitle">The movie title</param>
-        /// <returns>A list of Session</returns>
+        /// <returns>A list of Sessions</returns>
         IEnumerable<Session> RetrieveByMovieTitle(string movieTitle);
 
         /// <summary>

@@ -9,21 +9,21 @@ using System.Threading.Tasks;
 
 namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handlers
 {
-    public class AddCineRoomHandler : IRequestHandler<AddCineRoomCommand, Result<Exception, int>>
+    public class UpdateCineRoomHandler : IRequestHandler<UpdateCineRoomCommand, Result<Exception, bool>>
     {
         private readonly IMapper _mapper;
         private readonly ICineRoomService _cineRoomService;
-        public AddCineRoomHandler(IMapper mapper, ICineRoomService cineRoomService)
+        public UpdateCineRoomHandler(IMapper mapper, ICineRoomService cineRoomService)
         {
             _mapper = mapper;
             _cineRoomService = cineRoomService;
         }
 
-        public Task<Result<Exception, int>> Handle(AddCineRoomCommand request, CancellationToken cancellationToken)
+        public Task<Result<Exception, bool>> Handle(UpdateCineRoomCommand request, CancellationToken cancellationToken)
         {
-            Result<Exception, int> result = Result.Run(() =>
+            Result<Exception, bool> result = Result.Run(() =>
             {
-                return _cineRoomService.AddCineRoom(_mapper.Map<CineRoom>(request));
+                return _cineRoomService.UpdateCineRoom(_mapper.Map<CineRoom>(request));
             });
 
             return Task.FromResult(result);

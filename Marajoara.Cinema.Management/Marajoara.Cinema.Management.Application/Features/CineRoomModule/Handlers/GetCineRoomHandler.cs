@@ -5,27 +5,29 @@ using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Domain.Common.ResultModule;
 using MediatR;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handlers
 {
-    public class AllCineRoomsHandler : IRequestHandler<AllCineRoomsQuery, Result<Exception, List<CineRoomModel>>>
+    public class GetCineRoomHandler : IRequestHandler<GetCineRoomQuery, Result<Exception, CineRoomModel>>
     {
         private readonly IMapper _mapper;
         private readonly ICineRoomService _cineRoomService;
-        public AllCineRoomsHandler(IMapper mapper, ICineRoomService cineRoomService)
+        public GetCineRoomHandler(IMapper mapper, ICineRoomService cineRoomService)
         {
             _mapper = mapper;
             _cineRoomService = cineRoomService;
         }
 
-        public Task<Result<Exception, List<CineRoomModel>>> Handle(AllCineRoomsQuery request, CancellationToken cancellationToken)
+        public Task<Result<Exception, CineRoomModel>> Handle(GetCineRoomQuery request, CancellationToken cancellationToken)
         {
-            Result<Exception, List<CineRoomModel>> result = Result.Run(() =>
+            Result<Exception, CineRoomModel> result = Result.Run(() =>
             {
-                return _mapper.Map<List<CineRoomModel>>(_cineRoomService.GetAllCineRooms());
+                if (request.CineRoomID > 0)
+                    return _mapper.Map<CineRoomModel>(_cineRoomService.GetCineRoom(request.CineRoomID));
+                else
+                    return _mapper.Map<CineRoomModel>(_cineRoomService.GetCineRoom(request.Name));
             });
 
             return Task.FromResult(result);

@@ -1,4 +1,5 @@
-﻿using Marajoara.Cinema.Management.Application;
+﻿using AutoMapper;
+using Marajoara.Cinema.Management.Application;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handlers;
@@ -36,6 +37,7 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
             RepositoriesSetup();
             ApplicationSetup();
             MediatR();
+            AutoMapper();
         }
 
         private void ApplicationSetup()
@@ -50,14 +52,24 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
             _kernel.Bind<IMovieRepository>().To<MovieRepository>();
             _kernel.Bind<ISessionRepository>().To<SessionRepository>();
             _kernel.Bind<ITicketRepository>().To<TicketRepository>();
-            _kernel.Bind<IUserAccountRepository>().To<UserAccountRepository>();            
+            _kernel.Bind<IUserAccountRepository>().To<UserAccountRepository>();
         }
+
         private void MediatR()
         {
             _kernel.BindMediatR();
+            _kernel.Bind<IRequestHandler<GetCineRoomQuery, Result<Exception, CineRoomModel>>>().To<GetCineRoomHandler>();
             _kernel.Bind<IRequestHandler<AllCineRoomsQuery, Result<Exception, List<CineRoomModel>>>>().To<AllCineRoomsHandler>();
             _kernel.Bind<IRequestHandler<AddCineRoomCommand, Result<Exception, int>>>().To<AddCineRoomHandler>();
             _kernel.Bind<IRequestHandler<DeleteCineRoomCommand, Result<Exception, bool>>>().To<DeleteCineRoomHandler>();
+            _kernel.Bind<IRequestHandler<UpdateCineRoomCommand, Result<Exception, bool>>>().To<UpdateCineRoomHandler>();
+        }
+
+        private void AutoMapper()
+        {
+            // Add all profiles in current assembly          
+            MapperConfiguration mapperConfiguration = new MapperConfiguration(cfg => { cfg.AddMaps(typeof(AppModule).Assembly); });
+            _kernel.Bind<IMapper>().ToConstructor(c => new Mapper(mapperConfiguration)).InSingletonScope();
         }
 
         private void DatabaseSetup()

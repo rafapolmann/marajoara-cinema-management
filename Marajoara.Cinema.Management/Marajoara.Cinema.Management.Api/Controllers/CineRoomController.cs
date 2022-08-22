@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Marajoara.Cinema.Management.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class CineRoomController : ApiControllerBase
     {
         private readonly IMediator _mediator;
@@ -20,6 +20,18 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         {
             _mediator = IoC.GetInstance().Get<IMediator>();
             _logger = logger;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            return HandleResult(await _mediator.Send(new GetCineRoomQuery(id)));
+        }
+
+        [HttpGet("ByName/{name}")]
+        public async Task<IActionResult> Get(string name)
+        {
+            return HandleResult(await _mediator.Send(new GetCineRoomQuery(name)));
         }
 
         [HttpGet]
@@ -34,7 +46,13 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             return HandleResult(await _mediator.Send(AddCineRoomCommand));
         }
 
-        [HttpDelete("byName/{name}")]
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] UpdateCineRoomCommand updateCineRoomCommand)
+        {
+            return HandleResult(await _mediator.Send(updateCineRoomCommand));
+        }
+
+        [HttpDelete("ByName/{name}")]
         public async Task<IActionResult> Delete(string name)
         {
             return HandleResult(await _mediator.Send(new DeleteCineRoomCommand(name)));

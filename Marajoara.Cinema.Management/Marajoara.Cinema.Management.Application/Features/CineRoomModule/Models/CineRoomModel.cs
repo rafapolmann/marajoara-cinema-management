@@ -4,6 +4,6 @@
     {
         public int CineRoomID { get; set; }
         public string Name { get; set; }
-        public int SeatNumbers { get; set; }
+        public int TotalSeats { get; set; }
     }
 }

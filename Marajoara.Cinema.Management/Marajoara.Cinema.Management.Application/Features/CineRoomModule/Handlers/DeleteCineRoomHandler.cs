@@ -1,4 +1,5 @@
-﻿using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Commands;
+﻿using AutoMapper;
+using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Commands;
 using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Domain.Common.ResultModule;
 using MediatR;
@@ -10,9 +11,11 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handle
 {
     public class DeleteCineRoomHandler : IRequestHandler<DeleteCineRoomCommand, Result<Exception, bool>>
     {
+        private readonly IMapper _mapper;
         private readonly ICineRoomService _cineRoomService;
-        public DeleteCineRoomHandler(ICineRoomService cineRoomService)
+        public DeleteCineRoomHandler(IMapper mapper, ICineRoomService cineRoomService)
         {
+            _mapper = mapper;
             _cineRoomService = cineRoomService;
         }
 
@@ -20,11 +23,7 @@ namespace Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handle
         {
             Result<Exception, bool> result = Result.Run(() =>
             {
-                return _cineRoomService.RemoveCineRoom(new CineRoom
-                {
-                    CineRoomID = request.CineRoomID,
-                    Name = request.Name
-                });
+                return _cineRoomService.RemoveCineRoom(_mapper.Map<CineRoom>(request));
             });
 
             return Task.FromResult(result);
