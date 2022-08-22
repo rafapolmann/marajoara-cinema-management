@@ -5,6 +5,11 @@ using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handlers;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Models;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Queries;
+using Marajoara.Cinema.Management.Application.Features.MovieModule;
+using Marajoara.Cinema.Management.Application.Features.MovieModule.Commands;
+using Marajoara.Cinema.Management.Application.Features.MovieModule.Handlers;
+using Marajoara.Cinema.Management.Application.Features.MovieModule.Models;
+using Marajoara.Cinema.Management.Application.Features.MovieModule.Queries;
 using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Domain.Common.ResultModule;
 using Marajoara.Cinema.Management.Domain.MovieModule;
@@ -44,6 +49,7 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
         {
             _kernel.Bind<IUserAccountService>().To<UserAccountService>();
             _kernel.Bind<ICineRoomService>().To<CineRoomService>();
+            _kernel.Bind<IMovieService>().To<MovieService>();
         }
 
         private void RepositoriesSetup()
@@ -58,11 +64,22 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
         private void MediatR()
         {
             _kernel.BindMediatR();
+
+            #region CineRoom
             _kernel.Bind<IRequestHandler<GetCineRoomQuery, Result<Exception, CineRoomModel>>>().To<GetCineRoomHandler>();
             _kernel.Bind<IRequestHandler<AllCineRoomsQuery, Result<Exception, List<CineRoomModel>>>>().To<AllCineRoomsHandler>();
             _kernel.Bind<IRequestHandler<AddCineRoomCommand, Result<Exception, int>>>().To<AddCineRoomHandler>();
             _kernel.Bind<IRequestHandler<DeleteCineRoomCommand, Result<Exception, bool>>>().To<DeleteCineRoomHandler>();
             _kernel.Bind<IRequestHandler<UpdateCineRoomCommand, Result<Exception, bool>>>().To<UpdateCineRoomHandler>();
+            #endregion CineRoom
+
+            #region Movie
+            _kernel.Bind<IRequestHandler<GetMovieQuery, Result<Exception, MovieModel>>>().To<GetMovieHandler>();
+            _kernel.Bind<IRequestHandler<AllMoviesQuery, Result<Exception, List<MovieModel>>>>().To<AllMoviesHandler>();
+            _kernel.Bind<IRequestHandler<AddMovieCommand, Result<Exception, int>>>().To<AddMovieHandler>();
+            _kernel.Bind<IRequestHandler<DeleteMovieCommand, Result<Exception, bool>>>().To<DeleteMovieHandler>();
+            _kernel.Bind<IRequestHandler<UpdateMovieCommand, Result<Exception, bool>>>().To<UpdateMovieHandler>();
+            #endregion Movie
         }
 
         private void AutoMapper()

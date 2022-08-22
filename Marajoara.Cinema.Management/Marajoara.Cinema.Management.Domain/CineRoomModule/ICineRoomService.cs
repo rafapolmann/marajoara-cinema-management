@@ -5,7 +5,7 @@ namespace Marajoara.Cinema.Management.Domain.CineRoomModule
     public interface ICineRoomService
     {
         /// <summary>
-        /// Add new cine room register in the system.
+        /// Add new cine room in the system.
         /// In case of the cine room parameter is null, will throw exception.
         /// Will not possible to register a new cine room with already existing name.
         /// </summary>
