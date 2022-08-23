@@ -43,7 +43,7 @@ namespace Marajoara.Cinema.Management.Domain.MovieModule
         Movie GetMovie(string title);
 
         /// <summary>
-        /// Method to get all moviess registered on the system.
+        /// Method to get all movies registered on the system.
         /// </summary>
         /// <returns>Collection of movies.</returns>
         IEnumerable<Movie> GetAllMovies();
