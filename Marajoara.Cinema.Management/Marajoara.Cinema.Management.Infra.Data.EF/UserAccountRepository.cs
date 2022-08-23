@@ -15,19 +15,21 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
             DBContext = dbContext;
         }
 
-        public void Add(UserAccount userAccountToAdd)
+        public int Add(UserAccount userAccountToAdd)
         {
-            DBContext.UserAccounts.Add(userAccountToAdd);
+            return DBContext.UserAccounts.Add(userAccountToAdd).UserAccountID;
         }
 
-        public void Delete(UserAccount userAccountToDelete)
+        public bool Delete(UserAccount userAccountToDelete)
         {
             DBContext.Entry(userAccountToDelete).State = System.Data.Entity.EntityState.Deleted;
+            return true;
         }
 
-        public void Update(UserAccount userAccountToUpdate)
+        public bool Update(UserAccount userAccountToUpdate)
         {
             DBContext.Entry(userAccountToUpdate).State = System.Data.Entity.EntityState.Modified;
+            return true;
         }
 
         public UserAccount Retrieve(int userAccountID)

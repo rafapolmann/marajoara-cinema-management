@@ -8,19 +8,19 @@ namespace Marajoara.Cinema.Management.Domain.UserAccountModule
         /// Add new register of UserAccount on database.
         /// </summary>
         /// <param name="userAccountToAdd">UserAccount that should be added.</param>
-        void Add(UserAccount userAccountToAdd);
+        int Add(UserAccount userAccountToAdd);
 
         /// <summary>
         /// Update UserAccount properties on database.
         /// </summary>
         /// <param name="userAccountToUpdate">An instance of UserAccount with all properties that will update on database. It should be linked with DBContext.</param>
-        void Update(UserAccount userAccountToUpdate);
+        bool Update(UserAccount userAccountToUpdate);
 
         /// <summary>
         /// Remove a given UserAccount on database and of the DBContext
         /// </summary>
         /// <param name="userAccountToDelete">An instance of UserAccount that will remove on database. It should be linked with DBContext.</param>
-        void Delete(UserAccount userAccountToDelete);
+        bool Delete(UserAccount userAccountToDelete);
 
         /// <summary>
         /// Retrieves a UserAccount with a given database ID
