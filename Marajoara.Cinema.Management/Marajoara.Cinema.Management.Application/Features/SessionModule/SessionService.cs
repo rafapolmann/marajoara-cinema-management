@@ -12,6 +12,11 @@ namespace Marajoara.Cinema.Management.Application.Features.SessionModule
             _unitOfWork = unitOfWork;
         }
 
+        public Session GetSession(int id)
+        {
+            return _unitOfWork.Sessions.Retrieve(id);
+        }
+
         public IEnumerable<Session> GetAllSessions()
         {
             return _unitOfWork.Sessions.RetrieveAll();

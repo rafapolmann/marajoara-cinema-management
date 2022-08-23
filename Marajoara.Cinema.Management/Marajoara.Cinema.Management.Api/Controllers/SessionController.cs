@@ -21,6 +21,12 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             _logger = logger;
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            return HandleResult(await _mediator.Send(new GetSessionQuery(id)));
+        }
+
         [HttpGet]
         public async Task<IActionResult> Get()
         {

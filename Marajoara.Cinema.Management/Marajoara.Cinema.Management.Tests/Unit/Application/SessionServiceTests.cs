@@ -26,6 +26,32 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
 
         #region Gets_Session
         [TestMethod]
+        public void SessionService_GetSession_Should_Return_Session_When_Session_ID_Exists()
+        {
+            int sessionIDToRetrive = 1;
+            Session sessionOnDB = GetCompleteSessionToTest();
+
+            _unitOfWorkMock.Setup(uow => uow.Sessions.Retrieve(sessionOnDB.SessionID)).Returns(sessionOnDB);
+
+            _sessionService.GetSession(sessionIDToRetrive).Should().NotBeNull();
+            _unitOfWorkMock.Verify(uow => uow.Sessions.Retrieve(sessionIDToRetrive), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void SessionService_GetSession_Should_Return_Null_When_Session_ID_Not_Exists()
+        {
+            int sessionIDToRetrive = 3;
+            Session sessionOnDB = GetCompleteSessionToTest(1);
+
+            _unitOfWorkMock.Setup(uow => uow.Sessions.Retrieve(sessionOnDB.SessionID)).Returns(sessionOnDB);
+
+            _sessionService.GetSession(sessionIDToRetrive).Should().BeNull();
+            _unitOfWorkMock.Verify(uow => uow.Sessions.Retrieve(sessionIDToRetrive), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
         public void SessionService_GetAllSessions_Should_Return_All_Sessions()
         {
             _unitOfWorkMock.Setup(uow => uow.Sessions.RetrieveAll()).Returns(new List<Session> { GetCompleteSessionToTest() });
@@ -88,7 +114,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         {
             return new Session
             {
-                SessionID = 1,
+                SessionID = sessionID,
                 SessionDate = sessionDate,
                 Price = price,
                 CineRoom = cineRoom,

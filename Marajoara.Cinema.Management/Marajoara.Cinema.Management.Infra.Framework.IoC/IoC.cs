@@ -88,6 +88,7 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
 
             #region Session
             _kernel.Bind<IRequestHandler<AllSessionsQuery, Result<Exception, List<SessionModel>>>>().To<AllSessionsHandler>();
+            _kernel.Bind<IRequestHandler<GetSessionQuery, Result<Exception, SessionModel>>>().To<GetSessionHandler>();
             #endregion Session
         }
 
