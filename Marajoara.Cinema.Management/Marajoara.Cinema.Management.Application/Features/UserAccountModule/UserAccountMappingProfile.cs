@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Models;
 using Marajoara.Cinema.Management.Domain.UserAccountModule;
 using System;
@@ -14,6 +15,10 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
         public UserAccountMappingProfile()
         {
             CreateMap<UserAccount, UserAccountModel>();
+            CreateMap<AddCustomerUserAccountCommand, UserAccount>();
+            CreateMap<AddAttendantUserAccountCommand, UserAccount>();
+            CreateMap<AddManagerUserAccountCommand, UserAccount>();
+            CreateMap<DeleteUserAccountCommand, UserAccount>();
         }
     }
 }

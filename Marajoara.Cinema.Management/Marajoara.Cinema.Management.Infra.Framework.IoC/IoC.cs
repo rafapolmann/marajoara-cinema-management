@@ -11,6 +11,7 @@ using Marajoara.Cinema.Management.Application.Features.MovieModule.Handlers;
 using Marajoara.Cinema.Management.Application.Features.MovieModule.Models;
 using Marajoara.Cinema.Management.Application.Features.MovieModule.Queries;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule;
+using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Handlers;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Models;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Queries;
@@ -69,8 +70,13 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
         {
             _kernel.BindMediatR();
             #region UserAccount
+
             _kernel.Bind<IRequestHandler<GetUserAccountQuery, Result<Exception, UserAccountModel>>>().To<GetUserAccountHandler>();
             _kernel.Bind<IRequestHandler<AllUserAccountsQuery, Result<Exception, List<UserAccountModel>>>>().To<AllUserAccountsHandler>();
+            _kernel.Bind<IRequestHandler<AddCustomerUserAccountCommand, Result<Exception, int>>>().To<AddCustomerUserAccountHandler>();
+            _kernel.Bind<IRequestHandler<AddAttendantUserAccountCommand, Result<Exception, int>>>().To<AddAttendantUserAccountHandler>();
+            _kernel.Bind<IRequestHandler<AddManagerUserAccountCommand, Result<Exception, int>>>().To<AddManagerUserAccountHandler>();
+            _kernel.Bind<IRequestHandler<DeleteUserAccountCommand, Result<Exception, bool>>>().To<DeleteUserAccountHandler>();
 
             #endregion UserAccount
 

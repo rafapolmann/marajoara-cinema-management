@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Queries;
+using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Commands;
 
 namespace Marajoara.Cinema.Management.Api.Controllers
 {
@@ -31,6 +32,32 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         {
             return HandleResult(await _mediator.Send(new GetUserAccountQuery(id)));
         }
+
+        [HttpPost("Customer")]
+        public async Task<IActionResult> NewCustomer([FromBody] AddCustomerUserAccountCommand customer)
+        {
+            return HandleResult(await _mediator.Send(customer));
+        }
+
+        [HttpPost("Attendant")]
+        public async Task<IActionResult> NewAttendand([FromBody] AddAttendantUserAccountCommand customer)
+        {
+            return HandleResult(await _mediator.Send(customer));
+        }
+
+        [HttpPost("Manager")]
+        public async Task<IActionResult> NewManger([FromBody] AddManagerUserAccountCommand customer)
+        {
+            return HandleResult(await _mediator.Send(customer));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            return HandleResult(await _mediator.Send(new DeleteUserAccountCommand(id)));
+        }
+
+
 
     }
 }

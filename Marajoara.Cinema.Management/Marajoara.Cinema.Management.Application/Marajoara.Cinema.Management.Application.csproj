@@ -13,8 +13,4 @@
     <ProjectReference Include="..\Marajoara.Cinema.Management.Domain\Marajoara.Cinema.Management.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\UserAccountModule\Commands\" />
-  </ItemGroup>
-
 </Project>

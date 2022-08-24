@@ -8,7 +8,7 @@ namespace Marajoara.Cinema.Management.Domain.UserAccountModule
         /// Add new register of UserAccount on database.
         /// </summary>
         /// <param name="userAccountToAdd">UserAccount that should be added.</param>
-        int Add(UserAccount userAccountToAdd);
+        void Add(UserAccount userAccountToAdd);
 
         /// <summary>
         /// Update UserAccount properties on database.
@@ -48,5 +48,12 @@ namespace Marajoara.Cinema.Management.Domain.UserAccountModule
         /// </summary>
         /// <returns>Returns collection of the UserAccounts from database.</returns>
         IEnumerable<UserAccount> RetrieveAll();
+
+        /// <summary>        
+        /// Retrieves the user accounts that have a given access level
+        /// </summary>        
+        /// <param name="lvl"></param>
+        /// <returns>A IEnumerable of UserAccount</returns>
+        IEnumerable<UserAccount> RetrieveByAccessLevel(AccessLevel lvl);
     }
 }

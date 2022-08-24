@@ -4,7 +4,9 @@ namespace Marajoara.Cinema.Management.Domain.UserAccountModule
 {
     public interface IUserAccountService
     {
-        void CreateUserAccount(string name, string email, string password, AccessLevel accessLevel);
+        int AddCustomerUserAccount(UserAccount customerToAdd);
+        int AddAttendantUserAccount(UserAccount attendandtToAdd);
+        int AddManagerUserAccount(UserAccount managerToAdd);        
         UserAccount RetrieveUserAccountByID(int userAccountID);
         IEnumerable<UserAccount> RetrieveAll();
         bool RemoveUserAccount(UserAccount userAccount);
