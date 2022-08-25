@@ -4,6 +4,7 @@ using Marajoara.Cinema.Management.Domain.SessionModule;
 using Marajoara.Cinema.Management.Domain.UnitOfWork;
 using Marajoara.Cinema.Management.Infra.Framework.IoC;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Marajoara.Cinema.Management.ConsoleTest
@@ -12,23 +13,31 @@ namespace Marajoara.Cinema.Management.ConsoleTest
     {
         static void Main(string[] args)
         {
-            var uow = IoC.GetInstance().Get<IMarajoaraUnitOfWork>();
+            //var uow = IoC.GetInstance().Get<IMarajoaraUnitOfWork>();
 
-            var allRooms = uow.CineRooms.RetrieveAll().ToList();
-            var allMovies = uow.Movies.RetrieveAll();
+            //var allRooms = uow.CineRooms.RetrieveAll().ToList();
+            //var allMovies = uow.Movies.RetrieveAll();
+            //var allSessions = uow.Sessions.RetrieveAll().ToList();
 
+            //DateTime dt = DateTime.Parse("26/08/2022 18:58:48");
+            //DateTime dtFinal = dt.AddHours(1);
+            //var session = GetSessionToTest(uow.CineRooms.Retrieve(1), uow.Movies.Retrieve(6), dt);
 
-            Random rnd = new Random();
-            foreach (var movie in allMovies)
-            {
-                Session s = GetSessionToTest(allRooms[rnd.Next(0, allRooms.Count - 1)],
-                                            movie, 
-                                            DateTime.Now.AddDays(rnd.Next(1, 10)), 
-                                            Convert.ToDecimal(rnd.Next(15, 50)));
-                uow.Sessions.Add(s);
-            }
+            //List<Session> sessionInDateToCineRoom = uow.Sessions.RetrieveByDateAndCineRoom(session.SessionDate, session.CineRoomID)
+            //                                                    .Where(s => s.SessionDate <= session.SessionDate && s.EndSession >= session.SessionDate ||
+            //                                                                s.SessionDate <= session.EndSession && s.EndSession >= session.EndSession).ToList();
 
-            uow.Commit();
+            //Random rnd = new Random();
+            //foreach (var movie in allMovies)
+            //{
+            //    Session s = GetSessionToTest(allRooms[rnd.Next(0, allRooms.Count - 1)],
+            //                                movie,
+            //                                DateTime.Now.AddDays(rnd.Next(1, 10)),
+            //                                Convert.ToDecimal(rnd.Next(15, 50)));
+            //    uow.Sessions.Add(s);
+            //}
+
+            //uow.Commit();
 
             Console.WriteLine("Hello World!");
         }

@@ -76,5 +76,15 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
                                      .Include(s => s.CineRoom)
                                      .Where(s => s.CineRoomID.Equals(cineRoom.CineRoomID));
         }
+
+        public IEnumerable<Session> RetrieveByDateAndCineRoom(DateTime sessionDate, int cineRoomID)
+        {
+            return DBContext.Sessions.Include(s => s.Movie)
+                                     .Include(s => s.CineRoom)
+                                     .Where(s => s.CineRoomID.Equals(cineRoomID) &&
+                                                 s.SessionDate.Day.Equals(sessionDate.Day) &&
+                                                 s.SessionDate.Month.Equals(sessionDate.Month) &&
+                                                 s.SessionDate.Year.Equals(sessionDate.Year));
+        }
     }
 }

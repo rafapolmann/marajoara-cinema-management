@@ -65,5 +65,13 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
         /// <param name="lastSessionDate">The end date</param>
         /// <returns>A list of Session</returns>
         IEnumerable<Session> RetrieveByDate(DateTime minSessionDate, DateTime lastSessionDate);
+
+        /// <summary>
+        /// Returns the sessions for a specific date and in a specific cine room
+        /// </summary>
+        /// <param name="sessionDate">Date of the sessions</param>
+        /// <param name="cineRoomID">Cine room ID to search</param>
+        /// <returns>A list of Session in the date and at cine room </returns>
+        IEnumerable<Session> RetrieveByDateAndCineRoom(DateTime sessionDate, int cineRoomID);
     }
 }

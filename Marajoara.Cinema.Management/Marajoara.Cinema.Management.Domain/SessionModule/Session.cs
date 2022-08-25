@@ -38,5 +38,15 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
                     MovieID = _movie.MovieID;
             }
         }
+        public DateTime EndSession
+        {
+            get
+            {
+                if (_movie != null)
+                    return SessionDate.Add(_movie.Duration);
+                else
+                    return SessionDate;
+            }
+        }
     }
 }

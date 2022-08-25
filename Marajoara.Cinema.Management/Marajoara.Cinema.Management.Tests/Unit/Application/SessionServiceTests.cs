@@ -1,4 +1,6 @@
 ﻿using FluentAssertions;
+using Marajoara.Cinema.Management.Application.Features.CineRoomModule;
+using Marajoara.Cinema.Management.Application.Features.MovieModule;
 using Marajoara.Cinema.Management.Application.Features.SessionModule;
 using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Domain.MovieModule;
@@ -15,14 +17,136 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
     public class SessionServiceTests
     {
         private ISessionService _sessionService;
+        private ICineRoomService _cineRoomService;
+        private IMovieService _movieService;
         private Mock<IMarajoaraUnitOfWork> _unitOfWorkMock;
 
         [TestInitialize]
         public void Initialize()
         {
             _unitOfWorkMock = new Mock<IMarajoaraUnitOfWork>();
-            _sessionService = new SessionService(_unitOfWorkMock.Object);
+            _movieService = new MovieService(_unitOfWorkMock.Object);
+            _cineRoomService = new CineRoomService(_unitOfWorkMock.Object);
+            _sessionService = new SessionService(_unitOfWorkMock.Object, _cineRoomService, _movieService);
         }
+
+        #region AddSession
+        [TestMethod]
+        public void SessionService_AddSession_Should_Throw_ArgumentException_When_Session_Parameter_Is_Null()
+        {
+            Action action = () => _sessionService.AddSession(null);
+            action.Should().Throw<ArgumentException>().WithMessage("Session parameter cannot be null. (Parameter 'session')");
+
+            _unitOfWorkMock.Verify(uow => uow.Sessions.Add(It.IsAny<Session>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void SessionService_AddSession_Should_Throw_Exception_When_CineRoomID_Not_Exists()
+        {
+            int invalidCineRoomID = 100;
+            Session sessionToAdd = GetSessionToTest(0, GetCineRoomToTest(invalidCineRoomID), GetMovieToTest(), DateTime.Now, 50);
+            _unitOfWorkMock.Setup(uow => uow.CineRooms.Retrieve(It.IsAny<int>()));
+
+            Action action = () => _sessionService.AddSession(sessionToAdd);
+            action.Should().Throw<Exception>().WithMessage($"Cine Room not found. CineRoomID: {invalidCineRoomID}");
+
+            _unitOfWorkMock.Verify(uow => uow.CineRooms.Retrieve(invalidCineRoomID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Sessions.Add(It.IsAny<Session>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void SessionService_AddSession_Should_Throw_Exception_When_MovieID_Not_Exists()
+        {
+            int invalidMovieID = 100;
+            CineRoom cineRoomToTest = GetCineRoomToTest();
+            Session sessionToAdd = GetSessionToTest(0, cineRoomToTest, GetMovieToTest(invalidMovieID), DateTime.Now, 50);
+
+            _unitOfWorkMock.Setup(uow => uow.CineRooms.Retrieve(cineRoomToTest.CineRoomID)).Returns(cineRoomToTest);
+            _unitOfWorkMock.Setup(uow => uow.Movies.Retrieve(invalidMovieID));
+
+            Action action = () => _sessionService.AddSession(sessionToAdd);
+            action.Should().Throw<Exception>().WithMessage($"Movie not found. MovieID: {invalidMovieID}");
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Retrieve(invalidMovieID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.CineRooms.Retrieve(cineRoomToTest.CineRoomID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Sessions.Add(It.IsAny<Session>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void SessionService_AddSession_Should_Throw_Exception_When_Already_Exists_Other_Session_In_The_Same_CinRoom_At_The_Same_StarteDate_Time_Range()
+        {
+            CineRoom cineRoomToTest = GetCineRoomToTest();
+
+            Movie movieToSession = GetMovieToTest(2, "MovieToAdd", "Movie001");
+            DateTime sessionToAddDate = DateTime.Parse("2022/08/25 20:00:00");
+            Session sessionToAdd = GetSessionToTest(0, cineRoomToTest, movieToSession, sessionToAddDate);
+
+            Movie movieInExistingSession = GetMovieToTest(1, "MovieTitle", "OldMovie");
+            DateTime exisitngSessionDate = DateTime.Parse("2022/08/25 19:30:00");
+            Session existingSession = GetSessionToTest(0, cineRoomToTest, movieInExistingSession, exisitngSessionDate);
+
+            _unitOfWorkMock.Setup(uow => uow.CineRooms.Retrieve(cineRoomToTest.CineRoomID)).Returns(cineRoomToTest);
+            _unitOfWorkMock.Setup(uow => uow.Movies.Retrieve(movieToSession.MovieID)).Returns(movieToSession);
+            _unitOfWorkMock.Setup(uow => uow.Sessions.RetrieveByDateAndCineRoom(It.Is<DateTime>(d => d.Day.Equals(exisitngSessionDate.Day) &&
+                                                                                                     d.Month.Equals(exisitngSessionDate.Month) &&
+                                                                                                     d.Year.Equals(exisitngSessionDate.Year)),
+                                                                                                     cineRoomToTest.CineRoomID)).Returns(new List<Session> { existingSession });
+
+            Action action = () => _sessionService.AddSession(sessionToAdd);
+            action.Should()
+                  .Throw<Exception>()
+                  .WithMessage($"Already exists other session in the {cineRoomToTest.Name} at " +
+                               $"{sessionToAdd.SessionDate.ToString("HH:mm:ss")} - {sessionToAdd.EndSession.ToString("HH:mm:ss")}");
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Retrieve(movieToSession.MovieID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.CineRooms.Retrieve(cineRoomToTest.CineRoomID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Sessions.RetrieveByDateAndCineRoom(It.Is<DateTime>(d => d.Day.Equals(sessionToAdd.SessionDate.Day) &&
+                                                                                                      d.Month.Equals(sessionToAdd.SessionDate.Month) &&
+                                                                                                      d.Year.Equals(sessionToAdd.SessionDate.Year)),
+                                                                                                      sessionToAdd.CineRoomID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Sessions.Add(It.IsAny<Session>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void SessionService_AddSession_Should_Throw_Exception_When_Already_Exists_Other_Session_In_The_Same_CinRoom_At_The_Same_EndSessionDate_Time_Range()
+        {
+            CineRoom cineRoomToTest = GetCineRoomToTest();
+
+            Movie movieToSession = GetMovieToTest(2, "MovieToAdd", "Movie001");
+            DateTime sessionToAddDate = DateTime.Parse("2022/08/25 19:00:00");
+            Session sessionToAdd = GetSessionToTest(0, cineRoomToTest, movieToSession, sessionToAddDate);
+
+            Movie movieInExistingSession = GetMovieToTest(1, "MovieTitle", "OldMovie");
+            DateTime exisitngSessionDate = DateTime.Parse("2022/08/25 19:30:00");
+            Session existingSession = GetSessionToTest(0, cineRoomToTest, movieInExistingSession, exisitngSessionDate);
+
+            _unitOfWorkMock.Setup(uow => uow.CineRooms.Retrieve(cineRoomToTest.CineRoomID)).Returns(cineRoomToTest);
+            _unitOfWorkMock.Setup(uow => uow.Movies.Retrieve(movieToSession.MovieID)).Returns(movieToSession);
+            _unitOfWorkMock.Setup(uow => uow.Sessions.RetrieveByDateAndCineRoom(It.Is<DateTime>(d => d.Day.Equals(exisitngSessionDate.Day) &&
+                                                                                                     d.Month.Equals(exisitngSessionDate.Month) &&
+                                                                                                     d.Year.Equals(exisitngSessionDate.Year)),
+                                                                                                     cineRoomToTest.CineRoomID)).Returns(new List<Session> { existingSession });
+
+            Action action = () => _sessionService.AddSession(sessionToAdd);
+            action.Should()
+                  .Throw<Exception>()
+                  .WithMessage($"Already exists other session in the {cineRoomToTest.Name} at " +
+                               $"{sessionToAdd.SessionDate.ToString("HH:mm:ss")} - {sessionToAdd.EndSession.ToString("HH:mm:ss")}");
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Retrieve(movieToSession.MovieID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.CineRooms.Retrieve(cineRoomToTest.CineRoomID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Sessions.RetrieveByDateAndCineRoom(It.Is<DateTime>(d => d.Day.Equals(sessionToAdd.SessionDate.Day) &&
+                                                                                                      d.Month.Equals(sessionToAdd.SessionDate.Month) &&
+                                                                                                      d.Year.Equals(sessionToAdd.SessionDate.Year)),
+                                                                                                      sessionToAdd.CineRoomID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Sessions.Add(It.IsAny<Session>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+        #endregion AddSession
 
         #region Gets_Session
         [TestMethod]
