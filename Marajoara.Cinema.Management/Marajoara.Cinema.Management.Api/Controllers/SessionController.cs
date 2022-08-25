@@ -1,4 +1,5 @@
 ﻿using Marajoara.Cinema.Management.Api.Base;
+using Marajoara.Cinema.Management.Application.Features.SessionModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.SessionModule.Queries;
 using Marajoara.Cinema.Management.Infra.Framework.IoC;
 using MediatR;
@@ -19,6 +20,12 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         {
             _mediator = IoC.GetInstance().Get<IMediator>();
             _logger = logger;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] AddSessionCommand addSessionCommand)
+        {
+            return HandleResult(await _mediator.Send(addSessionCommand));
         }
 
         [HttpGet("{id}")]

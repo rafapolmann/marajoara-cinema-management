@@ -11,6 +11,7 @@ using Marajoara.Cinema.Management.Application.Features.MovieModule.Handlers;
 using Marajoara.Cinema.Management.Application.Features.MovieModule.Models;
 using Marajoara.Cinema.Management.Application.Features.MovieModule.Queries;
 using Marajoara.Cinema.Management.Application.Features.SessionModule;
+using Marajoara.Cinema.Management.Application.Features.SessionModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.SessionModule.Handlers;
 using Marajoara.Cinema.Management.Application.Features.SessionModule.Models;
 using Marajoara.Cinema.Management.Application.Features.SessionModule.Queries;
@@ -89,6 +90,7 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
             #region Session
             _kernel.Bind<IRequestHandler<AllSessionsQuery, Result<Exception, List<SessionModel>>>>().To<AllSessionsHandler>();
             _kernel.Bind<IRequestHandler<GetSessionQuery, Result<Exception, SessionModel>>>().To<GetSessionHandler>();
+            _kernel.Bind<IRequestHandler<AddSessionCommand, Result<Exception, int>>>().To<AddSessionHandler>();
             #endregion Session
         }
 

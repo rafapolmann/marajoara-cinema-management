@@ -32,6 +32,31 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
 
         #region AddSession
         [TestMethod]
+        public void SessionService_AddSession_Should_Add_New_Session()
+        {
+            CineRoom cineRoomToTest = GetCineRoomToTest();
+
+            Movie movieToSession = GetMovieToTest(1, "MovieToAdd", "Movie001");
+            DateTime sessionToAddDate = DateTime.Parse("2022/08/25 22:00:00");
+            Session sessionToAdd = GetSessionToTest(0, cineRoomToTest, movieToSession, sessionToAddDate);
+
+            _unitOfWorkMock.Setup(uow => uow.CineRooms.Retrieve(cineRoomToTest.CineRoomID)).Returns(cineRoomToTest);
+            _unitOfWorkMock.Setup(uow => uow.Movies.Retrieve(movieToSession.MovieID)).Returns(movieToSession);
+            _unitOfWorkMock.Setup(uow => uow.Sessions.RetrieveByDateAndCineRoom(It.IsAny<DateTime>(), It.IsAny<int>())).Returns(new List<Session>());
+
+            _sessionService.AddSession(sessionToAdd);
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Retrieve(movieToSession.MovieID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.CineRooms.Retrieve(cineRoomToTest.CineRoomID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Sessions.RetrieveByDateAndCineRoom(It.Is<DateTime>(d => d.Day.Equals(sessionToAdd.SessionDate.Day) &&
+                                                                                                      d.Month.Equals(sessionToAdd.SessionDate.Month) &&
+                                                                                                      d.Year.Equals(sessionToAdd.SessionDate.Year)),
+                                                                                                      sessionToAdd.CineRoomID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Sessions.Add(sessionToAdd), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
+        }
+
+        [TestMethod]
         public void SessionService_AddSession_Should_Throw_ArgumentException_When_Session_Parameter_Is_Null()
         {
             Action action = () => _sessionService.AddSession(null);
@@ -122,7 +147,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
 
             Movie movieInExistingSession = GetMovieToTest(1, "MovieTitle", "OldMovie");
             DateTime exisitngSessionDate = DateTime.Parse("2022/08/25 19:30:00");
-            Session existingSession = GetSessionToTest(0, cineRoomToTest, movieInExistingSession, exisitngSessionDate);
+            Session existingSession = GetSessionToTest(1, cineRoomToTest, movieInExistingSession, exisitngSessionDate);
 
             _unitOfWorkMock.Setup(uow => uow.CineRooms.Retrieve(cineRoomToTest.CineRoomID)).Returns(cineRoomToTest);
             _unitOfWorkMock.Setup(uow => uow.Movies.Retrieve(movieToSession.MovieID)).Returns(movieToSession);
