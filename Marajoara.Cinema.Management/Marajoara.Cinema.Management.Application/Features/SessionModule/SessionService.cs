@@ -24,6 +24,11 @@ namespace Marajoara.Cinema.Management.Application.Features.SessionModule
         {
             session = GetValidatedSession(session);
 
+            if (GetSessionsInTheSameSessionRangeTime(session).Any())
+                throw new Exception($"Already exists other session in the {session.CineRoom.Name} " +
+                                    $"at {session.SessionDate.ToString("HH:mm:ss")}" +
+                                    $" - {session.EndSession.ToString("HH:mm:ss")}");
+
             _unitOfWork.Sessions.Add(session);
             _unitOfWork.Commit();
 
@@ -37,6 +42,12 @@ namespace Marajoara.Cinema.Management.Application.Features.SessionModule
                 throw new Exception($"Session to update not found.");
 
             session = GetValidatedSession(session);
+
+            if (GetSessionsInTheSameSessionRangeTime(session).Any(s => !s.SessionID.Equals(session.SessionID)))
+                throw new Exception($"Already exists other session in the {session.CineRoom.Name} " +
+                                    $"at {session.SessionDate.ToString("HH:mm:ss")}" +
+                                    $" - {session.EndSession.ToString("HH:mm:ss")}");
+
             session.CopyTo(sessionOnDB);
 
             _unitOfWork.Sessions.Update(sessionOnDB);
@@ -54,7 +65,7 @@ namespace Marajoara.Cinema.Management.Application.Features.SessionModule
 
             if (sessionToDelete == null)
                 throw new Exception($"Session not found.");
-  
+
             _unitOfWork.Sessions.Delete(sessionToDelete);
             _unitOfWork.Commit();
 
@@ -112,31 +123,14 @@ namespace Marajoara.Cinema.Management.Application.Features.SessionModule
 
             session.Movie = sessionMovie;
 
-            if (GetSessionsInTheSameSessionRangeTime(session).Any())
-                throw new Exception($"Already exists other session in the {session.CineRoom.Name} " +
-                                    $"at {session.SessionDate.ToString("HH:mm:ss")}" +
-                                    $" - {session.EndSession.ToString("HH:mm:ss")}");
-
             return session;
         }
 
         private IEnumerable<Session> GetSessionsInTheSameSessionRangeTime(Session session)
         {
             return _unitOfWork.Sessions.RetrieveByDateAndCineRoom(session.SessionDate, session.CineRoomID)
-                                       .Where(s => !s.SessionID.Equals(session.SessionID) &&
-                                                   (s.SessionDate <= session.SessionDate && s.EndSession >= session.SessionDate ||
-                                                    s.SessionDate <= session.EndSession && s.EndSession >= session.EndSession));
+                                       .Where(s => s.SessionDate <= session.SessionDate && s.EndSession >= session.SessionDate ||
+                                                   s.SessionDate <= session.EndSession && s.EndSession >= session.EndSession);
         }
     }
 }
-//!s.SessionID.Equals(session.SessionID) &&
-
-/*
- 
- {
-  "sessionID": 2,
-  "sessionDate": "2022-08-30T18:57:48.88",
-  "price": 45,
-  "cineRoomID": 12,
-  "movieID": 2
-}*/
