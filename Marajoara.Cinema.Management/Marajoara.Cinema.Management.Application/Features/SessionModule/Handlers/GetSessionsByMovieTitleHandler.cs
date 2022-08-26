@@ -11,21 +11,21 @@ using System.Threading.Tasks;
 
 namespace Marajoara.Cinema.Management.Application.Features.SessionModule.Handlers
 {
-    public class GetSessionsByCineRoomHandler : IRequestHandler<GetSessionsByCineRoomQuery, Result<Exception, List<SessionModel>>>
+    public class GetSessionsByMovieTitleHandler : IRequestHandler<GetSessionsByMovieTitleQuery, Result<Exception, List<SessionModel>>>
     {
         private readonly IMapper _mapper;
         private readonly ISessionService _sessionService;
-        public GetSessionsByCineRoomHandler(IMapper mapper, ISessionService sessionService)
+        public GetSessionsByMovieTitleHandler(IMapper mapper, ISessionService sessionService)
         {
             _mapper = mapper;
             _sessionService = sessionService;
         }
 
-        public Task<Result<Exception, List<SessionModel>>> Handle(GetSessionsByCineRoomQuery request, CancellationToken cancellationToken)
+        public Task<Result<Exception, List<SessionModel>>> Handle(GetSessionsByMovieTitleQuery request, CancellationToken cancellationToken)
         {
             Result<Exception, List<SessionModel>> result = Result.Run(() =>
             {
-                return _mapper.Map<List<SessionModel>>(_sessionService.GetSessionsByCineRoom(request.CineRoomID));
+                return _mapper.Map<List<SessionModel>>(_sessionService.GetSessionsByMovieTitle(request.MovieTitle));
             });
 
             return Task.FromResult(result);

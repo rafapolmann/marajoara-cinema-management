@@ -33,21 +33,21 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
         /// </summary>
         /// <param name="cineRoomID">Cine room ID to search linked sessions</param>
         /// <returns>A list of Sessions</returns>
-        IEnumerable<Session> GetSessionByCineRoom(int cineRoomID);
-        
-        ///// <summary>
-        ///// Returns all sessions that are presenting a given movie title
-        ///// </summary>
-        ///// <param name="movieTitle">The movie title</param>
-        ///// <returns>A list of Sessions</returns>
-        //IEnumerable<Session> GetSessionByMovieTitle(string movieTitle);
-        
-        ///// <summary>
-        ///// Returns the sessions for a specific date
-        ///// </summary>
-        ///// <param name="sessionDate">Date of the sessions</param>
-        ///// <returns>A list of Session on a specifc day.</returns>
-        //IEnumerable<Session> GetSessionByDate(DateTime sessionDate);
+        IEnumerable<Session> GetSessionsByCineRoom(int cineRoomID);
+
+        /// <summary>
+        /// Returns all sessions that are presenting a given movie title
+        /// </summary>
+        /// <param name="movieTitle">The movie title</param>
+        /// <returns>A list of Sessions</returns>
+        IEnumerable<Session> GetSessionsByMovieTitle(string movieTitle);
+
+        /// <summary>
+        /// Returns the sessions for a specific date
+        /// </summary>
+        /// <param name="sessionDate">Date of the sessions</param>
+        /// <returns>A list of Session on a specifc day.</returns>
+        IEnumerable<Session> GetSessionsByDate(DateTime sessionDate);
 
         ///// <summary>
         ///// Returns the sessions in between the informed dates

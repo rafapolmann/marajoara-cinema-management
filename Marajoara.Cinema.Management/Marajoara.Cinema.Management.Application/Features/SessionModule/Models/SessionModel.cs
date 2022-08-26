@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Models;
+using Marajoara.Cinema.Management.Application.Features.MovieModule.Models;
+using System;
 
 namespace Marajoara.Cinema.Management.Application.Features.SessionModule.Models
 {
@@ -7,7 +9,7 @@ namespace Marajoara.Cinema.Management.Application.Features.SessionModule.Models
         public int SessionID { get; set; }
         public DateTime SessionDate { get; set; }
         public decimal Price { get; set; }
-        public int CineRoomID { get; set; }
-        public int MovieID { get; set; }
+        public CineRoomModel CineRoom { get; set; }
+        public MovieModel Movie { get; set; }
     }
 }

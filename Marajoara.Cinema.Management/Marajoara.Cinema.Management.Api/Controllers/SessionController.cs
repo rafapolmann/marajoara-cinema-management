@@ -5,6 +5,7 @@ using Marajoara.Cinema.Management.Infra.Framework.IoC;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace Marajoara.Cinema.Management.Api.Controllers
@@ -34,10 +35,22 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             return HandleResult(await _mediator.Send(new GetSessionQuery(id)));
         }
 
+        [HttpGet("ByDate/{dateTime}")]
+        public async Task<IActionResult> GetByCineRoom(DateTime dateTime)
+        {
+            return HandleResult(await _mediator.Send(new GetSessionsByDateQuery(dateTime)));
+        }
+
         [HttpGet("ByCineRoom/{cineRoomID}")]
         public async Task<IActionResult> GetByCineRoom(int cineRoomID)
         {
             return HandleResult(await _mediator.Send(new GetSessionsByCineRoomQuery(cineRoomID)));
+        }
+
+        [HttpGet("ByMovieTitle/{movieTitle}")]
+        public async Task<IActionResult> GetByMovieTitle(string movieTitle)
+        {
+            return HandleResult(await _mediator.Send(new GetSessionsByMovieTitleQuery(movieTitle)));
         }
 
         [HttpGet]
