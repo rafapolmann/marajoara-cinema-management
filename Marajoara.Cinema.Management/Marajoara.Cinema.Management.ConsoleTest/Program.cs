@@ -13,6 +13,7 @@ namespace Marajoara.Cinema.Management.ConsoleTest
     {
         static void Main(string[] args)
         {
+            var a = default(DateTime).ToString();
             //var uow = IoC.GetInstance().Get<IMarajoaraUnitOfWork>();
 
             //var allRooms = uow.CineRooms.RetrieveAll().ToList();

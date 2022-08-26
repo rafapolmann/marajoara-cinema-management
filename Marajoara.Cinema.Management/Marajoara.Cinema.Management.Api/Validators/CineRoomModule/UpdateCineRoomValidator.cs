@@ -9,7 +9,7 @@ namespace Marajoara.Cinema.Management.Api.Validators.CineRoomModule
         {
             RuleFor(cr => cr.CineRoomID)
                 .GreaterThan(0)
-                .WithMessage("Invalid Cine ID.");
+                .WithMessage("Invalid cine room ID.");
             RuleFor(cr => cr.Name)
                 .NotEmpty()
                 .WithMessage("Cine room name cannot be null or empty.");
