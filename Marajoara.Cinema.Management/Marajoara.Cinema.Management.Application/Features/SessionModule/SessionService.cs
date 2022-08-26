@@ -22,6 +22,9 @@ namespace Marajoara.Cinema.Management.Application.Features.SessionModule
 
         public int AddSession(Session session)
         {
+            if (session == null)
+                throw new ArgumentException("Session parameter cannot be null.", nameof(session));
+
             session = GetValidatedSession(session);
 
             if (GetSessionsInTheSameSessionRangeTime(session).Any())
@@ -37,6 +40,9 @@ namespace Marajoara.Cinema.Management.Application.Features.SessionModule
 
         public bool UpdateSession(Session session)
         {
+            if (session == null)
+                throw new ArgumentException("Session parameter cannot be null.", nameof(session));
+
             Session sessionOnDB = _unitOfWork.Sessions.Retrieve(session.SessionID);
             if (sessionOnDB == null)
                 throw new Exception($"Session to update not found.");
@@ -108,9 +114,6 @@ namespace Marajoara.Cinema.Management.Application.Features.SessionModule
 
         private Session GetValidatedSession(Session session)
         {
-            if (session == null)
-                throw new ArgumentException("Session parameter cannot be null.", nameof(session));
-
             CineRoom sessionCineRoom = _cineRoomService.GetCineRoom(session.CineRoomID);
             if (sessionCineRoom == null)
                 throw new Exception($"Cine Room not found. CineRoomID: {session.CineRoomID}");
