@@ -16,6 +16,14 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
         int AddSession(Session session);
 
         /// <summary>
+        /// Remove a given session of the system.
+        /// In case of the session parameter is null or session will not find in system, will throw exception.
+        /// </summary>
+        /// <param name="session">Session to remove.</param>
+        /// <returns>Return true if session was removed with success.</returns>
+        bool RemoveSession(Session session);
+
+        /// <summary>
         /// Method to get a given Session registered on the system based on database ID.
         /// </summary>
         /// <param name="id">ID used with parameter in the search.</param>

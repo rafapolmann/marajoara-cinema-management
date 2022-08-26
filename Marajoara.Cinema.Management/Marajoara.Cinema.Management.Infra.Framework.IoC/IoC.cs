@@ -91,6 +91,7 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
             _kernel.Bind<IRequestHandler<AllSessionsQuery, Result<Exception, List<SessionModel>>>>().To<AllSessionsHandler>();
             _kernel.Bind<IRequestHandler<GetSessionQuery, Result<Exception, SessionModel>>>().To<GetSessionHandler>();
             _kernel.Bind<IRequestHandler<AddSessionCommand, Result<Exception, int>>>().To<AddSessionHandler>();
+            _kernel.Bind<IRequestHandler<DeleteSessionCommand, Result<Exception, bool>>>().To<DeleteSessionHandler>();
             _kernel.Bind<IRequestHandler<GetSessionsByCineRoomQuery, Result<Exception, List<SessionModel>>>>().To<GetSessionsByCineRoomHandler>();
             _kernel.Bind<IRequestHandler<GetSessionsByMovieTitleQuery, Result<Exception, List<SessionModel>>>>().To<GetSessionsByMovieTitleHandler>();
             _kernel.Bind<IRequestHandler<GetSessionsByDateQuery, Result<Exception, List<SessionModel>>>>().To<GetSessionsByDateHandler>();

@@ -11,6 +11,7 @@ namespace Marajoara.Cinema.Management.Application.Features.SessionModule
         {
             CreateMap<Session, SessionModel>();
             CreateMap<AddSessionCommand, Session>();
+            CreateMap<DeleteSessionCommand, Session>(); 
         }
     }
 }

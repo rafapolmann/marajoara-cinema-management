@@ -174,6 +174,49 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         }
         #endregion AddSession
 
+        #region RemoveSession
+        [TestMethod]
+        public void SessionService_RemoveSession_Should_Remove_A_Given_Session_When_SessionID_Exists()
+        {
+            int sessionIdToDelete = 1;
+
+            Session sessionOnDB = GetCompleteSessionToTest(sessionIdToDelete);
+            _unitOfWorkMock.Setup(uow => uow.Sessions.Retrieve(sessionOnDB.SessionID)).Returns(sessionOnDB);
+
+            _sessionService.RemoveSession(new Session { SessionID = sessionIdToDelete });
+
+            _unitOfWorkMock.Verify(uow => uow.Sessions.Retrieve(sessionIdToDelete), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Sessions.Delete(sessionOnDB), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
+        }
+
+        [TestMethod]
+        public void SessionService_RemoveSession_Should_Throw_Exception_When_Session_ID_Not_Exists()
+        {
+            int sessionIdToDelete = 15;
+
+            Session sessionOnDB = GetCompleteSessionToTest(1);
+            _unitOfWorkMock.Setup(uow => uow.Sessions.Retrieve(sessionOnDB.SessionID)).Returns(sessionOnDB);
+
+            Action action = () => _sessionService.RemoveSession(new Session { SessionID = sessionIdToDelete });
+            action.Should().Throw<Exception>().WithMessage("Session not found.");
+
+            _unitOfWorkMock.Verify(uow => uow.Sessions.Retrieve(sessionIdToDelete), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Sessions.Delete(It.IsAny<Session>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void SessionService_RemoveSession_Should_Throw_ArgumentException_When_Session_Parameter_Is_Null()
+        {
+            Action action = () => _sessionService.RemoveSession(null);
+            action.Should().Throw<ArgumentException>().WithMessage("Session parameter cannot be null. (Parameter 'session')");
+
+            _unitOfWorkMock.Verify(uow => uow.Sessions.Delete(It.IsAny<Session>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+        #endregion RemoveSession
+
         #region Gets_Session
         [TestMethod]
         public void SessionService_GetSessionsByDateRange_Should_Return_Sessions_In_A_Given_Date_Range()

@@ -30,6 +30,22 @@ namespace Marajoara.Cinema.Management.Application.Features.SessionModule
             return session.SessionID;
         }
 
+        public bool RemoveSession(Session session)
+        {
+            if (session == null)
+                throw new ArgumentException("Session parameter cannot be null.", nameof(session));
+
+            Session sessionToDelete = _unitOfWork.Sessions.Retrieve(session.SessionID);
+
+            if (sessionToDelete == null)
+                throw new Exception($"Session not found.");
+  
+            _unitOfWork.Sessions.Delete(sessionToDelete);
+            _unitOfWork.Commit();
+
+            return true;
+        }
+
         public Session GetSession(int id)
         {
             return _unitOfWork.Sessions.Retrieve(id);
