@@ -35,6 +35,12 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             return HandleResult(await _mediator.Send(new DeleteSessionCommand(id)));
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] UpdateSessionCommand updateSessionCommand)
+        {
+            return HandleResult(await _mediator.Send(updateSessionCommand));
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {

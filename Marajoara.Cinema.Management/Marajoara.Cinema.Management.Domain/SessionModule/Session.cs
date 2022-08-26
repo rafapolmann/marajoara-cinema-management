@@ -48,5 +48,13 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
                     return SessionDate;
             }
         }
+
+        public void CopyTo(Session sessionToCopy)
+        {
+            sessionToCopy.SessionDate = SessionDate;
+            sessionToCopy.Price = Price;
+            sessionToCopy.CineRoom = CineRoom;
+            sessionToCopy.Movie = Movie;
+        }
     }
 }

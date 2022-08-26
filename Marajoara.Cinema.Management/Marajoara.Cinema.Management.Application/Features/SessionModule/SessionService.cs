@@ -30,6 +30,21 @@ namespace Marajoara.Cinema.Management.Application.Features.SessionModule
             return session.SessionID;
         }
 
+        public bool UpdateSession(Session session)
+        {
+            Session sessionOnDB = _unitOfWork.Sessions.Retrieve(session.SessionID);
+            if (sessionOnDB == null)
+                throw new Exception($"Session to update not found.");
+
+            session = GetValidatedSession(session);
+            session.CopyTo(sessionOnDB);
+
+            _unitOfWork.Sessions.Update(sessionOnDB);
+            _unitOfWork.Commit();
+
+            return true;
+        }
+
         public bool RemoveSession(Session session)
         {
             if (session == null)
@@ -108,8 +123,20 @@ namespace Marajoara.Cinema.Management.Application.Features.SessionModule
         private IEnumerable<Session> GetSessionsInTheSameSessionRangeTime(Session session)
         {
             return _unitOfWork.Sessions.RetrieveByDateAndCineRoom(session.SessionDate, session.CineRoomID)
-                                       .Where(s => s.SessionDate <= session.SessionDate && s.EndSession >= session.SessionDate ||
-                                                   s.SessionDate <= session.EndSession && s.EndSession >= session.EndSession);
+                                       .Where(s => !s.SessionID.Equals(session.SessionID) &&
+                                                   (s.SessionDate <= session.SessionDate && s.EndSession >= session.SessionDate ||
+                                                    s.SessionDate <= session.EndSession && s.EndSession >= session.EndSession));
         }
     }
 }
+//!s.SessionID.Equals(session.SessionID) &&
+
+/*
+ 
+ {
+  "sessionID": 2,
+  "sessionDate": "2022-08-30T18:57:48.88",
+  "price": 45,
+  "cineRoomID": 12,
+  "movieID": 2
+}*/

@@ -15,6 +15,8 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
         /// <returns>Return the ID of new session registered in the system.</returns>
         int AddSession(Session session);
 
+        bool UpdateSession(Session session);
+
         /// <summary>
         /// Remove a given session of the system.
         /// In case of the session parameter is null or session will not find in system, will throw exception.
