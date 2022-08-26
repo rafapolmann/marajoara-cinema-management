@@ -36,9 +36,15 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         }
 
         [HttpGet("ByDate/{dateTime}")]
-        public async Task<IActionResult> GetByCineRoom(DateTime dateTime)
+        public async Task<IActionResult> GetByDate(DateTime dateTime)
         {
             return HandleResult(await _mediator.Send(new GetSessionsByDateQuery(dateTime)));
+        }
+
+        [HttpGet("ByDate/{initialDate}/{finalDate}")]
+        public async Task<IActionResult> GetByDate(DateTime initialDate, DateTime finalDate)
+        {
+            return HandleResult(await _mediator.Send(new GetSessionsByDateRangeQuery(initialDate, finalDate)));
         }
 
         [HttpGet("ByCineRoom/{cineRoomID}")]

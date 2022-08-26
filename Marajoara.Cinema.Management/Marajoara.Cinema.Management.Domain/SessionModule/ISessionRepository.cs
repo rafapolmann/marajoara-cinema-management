@@ -61,10 +61,10 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
         /// <summary>
         /// Returns the sessions in between the informed dates
         /// </summary>
-        /// <param name="minSessionDate">The start date</param>
-        /// <param name="lastSessionDate">The end date</param>
+        /// <param name="initialDate">The start date</param>
+        /// <param name="finalDate">The end date</param>
         /// <returns>A list of Session</returns>
-        IEnumerable<Session> RetrieveByDate(DateTime minSessionDate, DateTime lastSessionDate);
+        IEnumerable<Session> RetrieveByDate(DateTime initialDate, DateTime finalDate);
 
         /// <summary>
         /// Returns the sessions for a specific date and in a specific cine room

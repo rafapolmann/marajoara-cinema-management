@@ -176,6 +176,53 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
 
         #region Gets_Session
         [TestMethod]
+        public void SessionService_GetSessionsByDateRange_Should_Return_Sessions_In_A_Given_Date_Range()
+        {
+            DateTime initialDateToRetrieve = DateTime.Parse("2022/08/25 00:00:00");
+            DateTime finalDateToRetrieve = DateTime.Parse("2022/08/27 00:00:00");
+
+            CineRoom cineRoomToTest = GetCineRoomToTest();
+
+            Movie sessionMovieToRetrive = GetMovieToTest(1);
+            DateTime sessionDate01 = DateTime.Parse("2022/08/26 18:00:00");
+            Session session01 = GetSessionToTest(1, cineRoomToTest, sessionMovieToRetrive, sessionDate01, 45);
+
+            _unitOfWorkMock.Setup(uow => uow.Sessions.RetrieveByDate(It.Is<DateTime>(d => d <= sessionDate01),
+                                                                     It.Is<DateTime>(d => d >= sessionDate01))).Returns(new List<Session> { session01 });
+
+            List<Session> cineRoomSessions = _sessionService.GetSessionsByDateRange(initialDateToRetrieve, finalDateToRetrieve).ToList();
+
+            cineRoomSessions.Should().NotBeNull();
+            cineRoomSessions.Should().HaveCount(1);
+            cineRoomSessions[0].SessionID.Should().Be(session01.SessionID);
+            _unitOfWorkMock.Verify(uow => uow.Sessions.RetrieveByDate(initialDateToRetrieve, finalDateToRetrieve), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void SessionService_GetSessionsByDateRange_Should_Return_Sessions_List_Empty_When_There_Are_No_Sessions_In_A_Given_Date_Range()
+        {
+            DateTime initialDateToRetrieve = DateTime.Parse("2022/08/01 00:00:00");
+            DateTime finalDateToRetrieve = DateTime.Parse("2022/08/25 00:00:00");
+
+            CineRoom cineRoomToTest = GetCineRoomToTest();
+
+            Movie sessionMovieToRetrive = GetMovieToTest(1);
+            DateTime sessionDate01 = DateTime.Parse("2022/08/26 18:00:00");
+            Session session01 = GetSessionToTest(1, cineRoomToTest, sessionMovieToRetrive, sessionDate01, 45);
+
+            _unitOfWorkMock.Setup(uow => uow.Sessions.RetrieveByDate(It.Is<DateTime>(d => d <= sessionDate01),
+                                                                     It.Is<DateTime>(d => d >= sessionDate01))).Returns(new List<Session> { session01 });
+
+            List<Session> cineRoomSessions = _sessionService.GetSessionsByDateRange(initialDateToRetrieve, finalDateToRetrieve).ToList();
+
+            cineRoomSessions.Should().NotBeNull();
+            cineRoomSessions.Should().BeEmpty();
+            _unitOfWorkMock.Verify(uow => uow.Sessions.RetrieveByDate(initialDateToRetrieve, finalDateToRetrieve), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
         public void SessionService_GetSessionsByMovieTitle_Should_Return_Sessions_With_Movie_Title()
         {
             string movieTitleToRetrieve = "MovieToRetrieve";
@@ -232,7 +279,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         }
 
         [TestMethod]
-        public void SessionService_GetSessionsByMovieTitle_Should_Return_Sessions_In_A_Given_Date()
+        public void SessionService_GetSessionsByDate_Should_Return_Sessions_In_A_Given_Date()
         {
             DateTime dateToRetrieve = DateTime.Parse("2022/08/26 00:00:00");
 
@@ -264,7 +311,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         }
 
         [TestMethod]
-        public void SessionService_GetSessionsByMovieTitle_Should_Return_Session_List_Empty_When_Not_Exists_Sessions_In_A_Given_Date()
+        public void SessionService_GetSessionsByDate_Should_Return_Session_List_Empty_When_Not_Exists_Sessions_In_A_Given_Date()
         {
             DateTime dateToRetrieve = DateTime.Parse("2022/08/29 00:00:00");
 

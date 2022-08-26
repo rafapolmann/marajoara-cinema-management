@@ -49,13 +49,12 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
         /// <returns>A list of Session on a specifc day.</returns>
         IEnumerable<Session> GetSessionsByDate(DateTime sessionDate);
 
-        ///// <summary>
-        ///// Returns the sessions in between the informed dates
-        ///// </summary>
-        ///// <param name="initialDate">The start date</param>
-        ///// <param name="endDate">The end date</param>
-        ///// <returns>A list of Session in the date range</returns>
-        //IEnumerable<Session> GetSessionByDateRange(DateTime initialDate, DateTime endDate);
-
+        /// <summary>
+        /// Returns the sessions between dates informed.
+        /// </summary>
+        /// <param name="initialDate">The start date</param>
+        /// <param name="finalDate">The end date</param>
+        /// <returns>A list of Session in the date range</returns>
+        IEnumerable<Session> GetSessionsByDateRange(DateTime initialDate, DateTime finalDate);
     }
 }

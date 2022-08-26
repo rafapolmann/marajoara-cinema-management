@@ -44,12 +44,12 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
                                                  s.SessionDate.Year.Equals(sessionDate.Year));
         }
 
-        public IEnumerable<Session> RetrieveByDate(DateTime minSessionDate, DateTime lastSessionDate)
+        public IEnumerable<Session> RetrieveByDate(DateTime initialDate, DateTime finalDate)
         {
             return DBContext.Sessions.Include(s => s.Movie)
                                      .Include(s => s.CineRoom)
-                                     .Where(s => s.SessionDate >= minSessionDate &&
-                                                 s.SessionDate <= lastSessionDate);
+                                     .Where(s => s.SessionDate >= initialDate &&
+                                                 s.SessionDate <= finalDate);
         }
 
         public IEnumerable<Session> RetrieveByMovieTitle(string movieTitle)

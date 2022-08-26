@@ -48,7 +48,7 @@ namespace Marajoara.Cinema.Management.Application.Features.SessionModule
 
             return _unitOfWork.Sessions.RetrieveByCineRoom(cineRoomToSearch);
         }
-                                    
+
         public IEnumerable<Session> GetSessionsByMovieTitle(string movieTitle)
         {
             return _unitOfWork.Sessions.RetrieveByMovieTitle(movieTitle);
@@ -57,6 +57,11 @@ namespace Marajoara.Cinema.Management.Application.Features.SessionModule
         public IEnumerable<Session> GetSessionsByDate(DateTime dateTime)
         {
             return _unitOfWork.Sessions.RetrieveByDate(dateTime);
+        }
+
+        public IEnumerable<Session> GetSessionsByDateRange(DateTime initialDate, DateTime finalDate)
+        {
+            return _unitOfWork.Sessions.RetrieveByDate(initialDate, finalDate);
         }
 
         private Session GetValidatedSession(Session session)
