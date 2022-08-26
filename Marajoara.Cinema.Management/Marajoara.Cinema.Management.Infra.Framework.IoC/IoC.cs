@@ -1,35 +1,5 @@
-﻿using AutoMapper;
-using Marajoara.Cinema.Management.Application;
-using Marajoara.Cinema.Management.Application.Features.CineRoomModule;
-using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Commands;
-using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handlers;
-using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Models;
-using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Queries;
-using Marajoara.Cinema.Management.Application.Features.MovieModule;
-using Marajoara.Cinema.Management.Application.Features.MovieModule.Commands;
-using Marajoara.Cinema.Management.Application.Features.MovieModule.Handlers;
-using Marajoara.Cinema.Management.Application.Features.MovieModule.Models;
-using Marajoara.Cinema.Management.Application.Features.MovieModule.Queries;
-using Marajoara.Cinema.Management.Application.Features.SessionModule;
-using Marajoara.Cinema.Management.Application.Features.SessionModule.Commands;
-using Marajoara.Cinema.Management.Application.Features.SessionModule.Handlers;
-using Marajoara.Cinema.Management.Application.Features.SessionModule.Models;
-using Marajoara.Cinema.Management.Application.Features.SessionModule.Queries;
-using Marajoara.Cinema.Management.Domain.CineRoomModule;
-using Marajoara.Cinema.Management.Domain.Common.ResultModule;
-using Marajoara.Cinema.Management.Domain.MovieModule;
-using Marajoara.Cinema.Management.Domain.SessionModule;
-using Marajoara.Cinema.Management.Domain.TicketModule;
-using Marajoara.Cinema.Management.Domain.UnitOfWork;
-using Marajoara.Cinema.Management.Domain.UserAccountModule;
-using Marajoara.Cinema.Management.Infra.Data.EF;
-using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
-using MediatR;
-using MediatR.Ninject;
+﻿using Marajoara.Cinema.Management.Infra.Framework.IoC.Extensions;
 using Ninject;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 
 namespace Marajoara.Cinema.Management.Infra.Framework.IoC
 {
@@ -43,83 +13,10 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
 
         private IoC()
         {
-            DatabaseSetup();
-            RepositoriesSetup();
-            ApplicationSetup();
-            MediatR();
-            AutoMapper();
-        }
-
-        private void ApplicationSetup()
-        {
-            _kernel.Bind<IUserAccountService>().To<UserAccountService>();
-            _kernel.Bind<ICineRoomService>().To<CineRoomService>();
-            _kernel.Bind<IMovieService>().To<MovieService>();
-            _kernel.Bind<ISessionService>().To<SessionService>();
-        }
-
-        private void RepositoriesSetup()
-        {
-            _kernel.Bind<ICineRoomRepository>().To<CineRoomRepository>();
-            _kernel.Bind<IMovieRepository>().To<MovieRepository>();
-            _kernel.Bind<ISessionRepository>().To<SessionRepository>();
-            _kernel.Bind<ITicketRepository>().To<TicketRepository>();
-            _kernel.Bind<IUserAccountRepository>().To<UserAccountRepository>();
-        }
-
-        private void MediatR()
-        {
-            _kernel.BindMediatR();
-
-            #region CineRoom
-            _kernel.Bind<IRequestHandler<GetCineRoomQuery, Result<Exception, CineRoomModel>>>().To<GetCineRoomHandler>();
-            _kernel.Bind<IRequestHandler<AllCineRoomsQuery, Result<Exception, List<CineRoomModel>>>>().To<AllCineRoomsHandler>();
-            _kernel.Bind<IRequestHandler<AddCineRoomCommand, Result<Exception, int>>>().To<AddCineRoomHandler>();
-            _kernel.Bind<IRequestHandler<DeleteCineRoomCommand, Result<Exception, bool>>>().To<DeleteCineRoomHandler>();
-            _kernel.Bind<IRequestHandler<UpdateCineRoomCommand, Result<Exception, bool>>>().To<UpdateCineRoomHandler>();
-            #endregion CineRoom
-
-            #region Movie
-            _kernel.Bind<IRequestHandler<GetMovieQuery, Result<Exception, MovieModel>>>().To<GetMovieHandler>();
-            _kernel.Bind<IRequestHandler<AllMoviesQuery, Result<Exception, List<MovieModel>>>>().To<AllMoviesHandler>();
-            _kernel.Bind<IRequestHandler<AddMovieCommand, Result<Exception, int>>>().To<AddMovieHandler>();
-            _kernel.Bind<IRequestHandler<DeleteMovieCommand, Result<Exception, bool>>>().To<DeleteMovieHandler>();
-            _kernel.Bind<IRequestHandler<UpdateMovieCommand, Result<Exception, bool>>>().To<UpdateMovieHandler>();
-            #endregion Movie
-
-            #region Session
-            _kernel.Bind<IRequestHandler<AllSessionsQuery, Result<Exception, List<SessionModel>>>>().To<AllSessionsHandler>();
-            _kernel.Bind<IRequestHandler<GetSessionQuery, Result<Exception, SessionModel>>>().To<GetSessionHandler>();
-            _kernel.Bind<IRequestHandler<AddSessionCommand, Result<Exception, int>>>().To<AddSessionHandler>();
-            _kernel.Bind<IRequestHandler<UpdateSessionCommand, Result<Exception, bool>>>().To<UpdateSessionHandler>();
-            _kernel.Bind<IRequestHandler<DeleteSessionCommand, Result<Exception, bool>>>().To<DeleteSessionHandler>();
-            _kernel.Bind<IRequestHandler<GetSessionsByCineRoomQuery, Result<Exception, List<SessionModel>>>>().To<GetSessionsByCineRoomHandler>();
-            _kernel.Bind<IRequestHandler<GetSessionsByMovieTitleQuery, Result<Exception, List<SessionModel>>>>().To<GetSessionsByMovieTitleHandler>();
-            _kernel.Bind<IRequestHandler<GetSessionsByDateQuery, Result<Exception, List<SessionModel>>>>().To<GetSessionsByDateHandler>();
-            _kernel.Bind<IRequestHandler<GetSessionsByDateRangeQuery, Result<Exception, List<SessionModel>>>>().To<GetSessionsByDateRangeHandler>();
-            #endregion Session
-        }
-
-        private void AutoMapper()
-        {
-            // Add all profiles in current assembly          
-            MapperConfiguration mapperConfiguration = new MapperConfiguration(cfg => { cfg.AddMaps(typeof(AppModule).Assembly); });
-            _kernel.Bind<IMapper>().ToConstructor(c => new Mapper(mapperConfiguration)).InSingletonScope();
-        }
-
-        private void DatabaseSetup()
-        {
-            SqlConnectionStringBuilder _connectionStringBuilder = new SqlConnectionStringBuilder
-            {
-                InitialCatalog = "CineMarajoara",
-                DataSource = "(localdb)\\mssqllocaldb"
-            };
-
-            _kernel.Bind<MarajoaraContext>().ToSelf()
-                                            .InSingletonScope()
-                                            .WithConstructorArgument("dbConnection", new SqlConnection(_connectionStringBuilder.ConnectionString));
-
-            _kernel.Bind<IMarajoaraUnitOfWork>().To<MarajoaraUnitOfWork>();
+            _kernel.BindRepositorySetup();
+            _kernel.BindApplicationSetup();
+            _kernel.BindMediatRSetup();
+            _kernel.BindAutoMapperSetup();
         }
 
         public static IoC GetInstance()
