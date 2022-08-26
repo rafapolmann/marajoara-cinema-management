@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Marajoara.Cinema.Management.Domain.SessionModule
 {
@@ -26,5 +27,35 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
         /// </summary>
         /// <returns>Collection of Sessions including CineRoom and Movie reference.</returns>
         IEnumerable<Session> GetAllSessions();
+
+        /// <summary>
+        /// Returns all sessions that are linked a given cine room
+        /// </summary>
+        /// <param name="cineRoomID">Cine room ID to search linked sessions</param>
+        /// <returns>A list of Sessions</returns>
+        IEnumerable<Session> GetSessionByCineRoom(int cineRoomID);
+        
+        ///// <summary>
+        ///// Returns all sessions that are presenting a given movie title
+        ///// </summary>
+        ///// <param name="movieTitle">The movie title</param>
+        ///// <returns>A list of Sessions</returns>
+        //IEnumerable<Session> GetSessionByMovieTitle(string movieTitle);
+        
+        ///// <summary>
+        ///// Returns the sessions for a specific date
+        ///// </summary>
+        ///// <param name="sessionDate">Date of the sessions</param>
+        ///// <returns>A list of Session on a specifc day.</returns>
+        //IEnumerable<Session> GetSessionByDate(DateTime sessionDate);
+
+        ///// <summary>
+        ///// Returns the sessions in between the informed dates
+        ///// </summary>
+        ///// <param name="initialDate">The start date</param>
+        ///// <param name="endDate">The end date</param>
+        ///// <returns>A list of Session in the date range</returns>
+        //IEnumerable<Session> GetSessionByDateRange(DateTime initialDate, DateTime endDate);
+
     }
 }

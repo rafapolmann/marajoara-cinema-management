@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Marajoara.Cinema.Management.Tests.Unit.Application
 {
@@ -174,6 +175,63 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         #endregion AddSession
 
         #region Gets_Session
+        [TestMethod]
+        public void SessionService_GetSessionByCineRoom_Should_Return_Sessions_With_A_Given_CineRoomID()
+        {
+            int cineRoomIDToRetrive = 3;
+            CineRoom cineRoomToTest = GetCineRoomToTest(cineRoomIDToRetrive);
+
+            Movie sessionMovie01 = GetMovieToTest();
+            DateTime sessionDate01 = DateTime.Parse("2022/08/25 18:00:00");
+            Session session01 = GetSessionToTest(1, cineRoomToTest, sessionMovie01, sessionDate01, 45);
+
+            Movie sessionMovie02 = GetMovieToTest();
+            DateTime sessionDate02 = DateTime.Parse("2022/08/25 18:00:00");
+            Session session02 = GetSessionToTest(2, cineRoomToTest, sessionMovie02, sessionDate02, 45);
+
+            _unitOfWorkMock.Setup(uow => uow.CineRooms.Retrieve(cineRoomIDToRetrive)).Returns(cineRoomToTest);
+            _unitOfWorkMock.Setup(uow => uow.Sessions.RetrieveByCineRoom(It.Is<CineRoom>(c => c.CineRoomID.Equals(cineRoomIDToRetrive))))
+                           .Returns(new List<Session> { session01, session02 });
+
+            List<Session> cineRoomSessions = _sessionService.GetSessionByCineRoom(cineRoomIDToRetrive).ToList();
+
+            cineRoomSessions.Should().NotBeNull();
+            cineRoomSessions.Should().HaveCount(2);
+            cineRoomSessions[0].CineRoomID.Should().Be(cineRoomIDToRetrive);
+            cineRoomSessions[1].CineRoomID.Should().Be(cineRoomIDToRetrive);
+            _unitOfWorkMock.Verify(uow => uow.CineRooms.Retrieve(cineRoomIDToRetrive), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Sessions.RetrieveByCineRoom(cineRoomToTest), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void SessionService_GetSessionByCineRoom_Should_Throw_Exception_When_CineRoomID_Not_Exists()
+        {
+            CineRoom cineRoomOnDB = GetCineRoomToTest();
+
+            int cineRoomIDToRetrive = 3;
+            CineRoom cineRoomToTest = GetCineRoomToTest(cineRoomIDToRetrive);
+
+            Movie sessionMovie01 = GetMovieToTest();
+            DateTime sessionDate01 = DateTime.Parse("2022/08/25 18:00:00");
+            Session session01 = GetSessionToTest(1, cineRoomToTest, sessionMovie01, sessionDate01, 45);
+
+            Movie sessionMovie02 = GetMovieToTest();
+            DateTime sessionDate02 = DateTime.Parse("2022/08/25 18:00:00");
+            Session session02 = GetSessionToTest(2, cineRoomToTest, sessionMovie02, sessionDate02, 45);
+
+            _unitOfWorkMock.Setup(uow => uow.CineRooms.Retrieve(cineRoomOnDB.CineRoomID)).Returns(cineRoomOnDB);
+            _unitOfWorkMock.Setup(uow => uow.Sessions.RetrieveByCineRoom(It.Is<CineRoom>(c => c.CineRoomID.Equals(cineRoomIDToRetrive))))
+                           .Returns(new List<Session> { session01, session02 });
+
+            Action action = () => _sessionService.GetSessionByCineRoom(cineRoomIDToRetrive);
+            action.Should().Throw<Exception>().WithMessage($"Cine room not found. CineRoomID: {cineRoomIDToRetrive}");
+
+            _unitOfWorkMock.Verify(uow => uow.CineRooms.Retrieve(cineRoomIDToRetrive), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Sessions.RetrieveByCineRoom(cineRoomToTest), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
         [TestMethod]
         public void SessionService_GetSession_Should_Return_Session_When_Session_ID_Exists()
         {

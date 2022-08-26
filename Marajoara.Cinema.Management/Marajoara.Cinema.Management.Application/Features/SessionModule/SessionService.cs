@@ -40,6 +40,15 @@ namespace Marajoara.Cinema.Management.Application.Features.SessionModule
             return _unitOfWork.Sessions.RetrieveAll();
         }
 
+        public IEnumerable<Session> GetSessionByCineRoom(int cineRoomID)
+        {
+            CineRoom cineRoomToSearch = _unitOfWork.CineRooms.Retrieve(cineRoomID);
+            if (cineRoomToSearch == null)
+                throw new Exception($"Cine room not found. CineRoomID: {cineRoomID}");
+
+            return _unitOfWork.Sessions.RetrieveByCineRoom(cineRoomToSearch);
+        }
+
         private Session GetValidatedSession(Session session)
         {
             if (session == null)

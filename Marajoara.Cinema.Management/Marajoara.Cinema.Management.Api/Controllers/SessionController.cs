@@ -34,6 +34,12 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             return HandleResult(await _mediator.Send(new GetSessionQuery(id)));
         }
 
+        [HttpGet("ByCineRoom/{cineRoomID}")]
+        public async Task<IActionResult> GetByCineRoom(int cineRoomID)
+        {
+            return HandleResult(await _mediator.Send(new GetSessionsByCineRoomQuery(cineRoomID)));
+        }
+
         [HttpGet]
         public async Task<IActionResult> Get()
         {
