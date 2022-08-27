@@ -11,10 +11,15 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
         /// Will not possible to register a new session without a valid CineRoom and a valid Movie.
         /// Will not possible add a session in the CineRoom taht already existing a session in the same time.
         /// </summary>
-        /// <param name="movie">Session to add.</param>
+        /// <param name="session">Session to add.</param>
         /// <returns>Return the ID of new session registered in the system.</returns>
         int AddSession(Session session);
 
+        /// <summary>
+        /// Update all properties of a given session in the system.
+        /// In case of the session parameter is null or session will not find in system, will throw exception.
+        /// </summary>
+        /// <param name="session">Session with properties to update.</param>
         bool UpdateSession(Session session);
 
         /// <summary>
