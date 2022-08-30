@@ -1,5 +1,9 @@
 ﻿using AutoMapper;
 using Marajoara.Cinema.Management.Application;
+using Marajoara.Cinema.Management.Application.Authorization;
+using Marajoara.Cinema.Management.Application.Authorization.Commands;
+using Marajoara.Cinema.Management.Application.Authorization.Handlers;
+using Marajoara.Cinema.Management.Application.Authorization.Models;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handlers;
@@ -15,6 +19,7 @@ using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Command
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Handlers;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Models;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Queries;
+using Marajoara.Cinema.Management.Domain.Authorization;
 using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Domain.Common.ResultModule;
 using Marajoara.Cinema.Management.Domain.MovieModule;
@@ -55,6 +60,10 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
             _kernel.Bind<IUserAccountService>().To<UserAccountService>();
             _kernel.Bind<ICineRoomService>().To<CineRoomService>();
             _kernel.Bind<IMovieService>().To<MovieService>();
+            _kernel.Bind<ITokenService>().To<TokenService>();
+            _kernel.Bind<IAuthorizationService>().To<AuthorizationService>();
+
+            
         }
 
         private void RepositoriesSetup()
@@ -69,6 +78,13 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC
         private void MediatR()
         {
             _kernel.BindMediatR();
+
+            #region Authentication
+            
+            _kernel.Bind<IRequestHandler<AuthenticateCommand, Result<Exception, AuthenticatedUserAccountModel>>>().To<AuthenticateHandler>();
+
+            #endregion Authentication
+
             #region UserAccount
 
             _kernel.Bind<IRequestHandler<GetUserAccountQuery, Result<Exception, UserAccountModel>>>().To<GetUserAccountHandler>();
