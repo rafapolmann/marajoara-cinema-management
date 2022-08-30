@@ -6,10 +6,12 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Queries;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Commands;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Marajoara.Cinema.Management.Api.Controllers
 {
     [ApiController]
+    [Authorize(Roles = "Manager")]
     [Route("api/[controller]")]
     public class UserAccountController : ApiControllerBase
     {
@@ -20,7 +22,6 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             _mediator = IoC.GetInstance().Get<IMediator>();
             _logger = logger;
         }
-
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -32,7 +33,6 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         {
             return HandleResult(await _mediator.Send(new GetUserAccountQuery(id)));
         }
-
         [HttpPost("Customer")]
         public async Task<IActionResult> NewCustomer([FromBody] AddCustomerUserAccountCommand customer)
         {
