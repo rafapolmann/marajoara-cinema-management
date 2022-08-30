@@ -20,14 +20,16 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
             DBContext.UserAccounts.Add(userAccountToAdd);
         }
 
-        public void Delete(UserAccount userAccountToDelete)
-        {
+        public bool Delete(UserAccount userAccountToDelete)
+        {   
             DBContext.Entry(userAccountToDelete).State = System.Data.Entity.EntityState.Deleted;
+            return true;
         }
 
-        public void Update(UserAccount userAccountToUpdate)
+        public bool Update(UserAccount userAccountToUpdate)
         {
             DBContext.Entry(userAccountToUpdate).State = System.Data.Entity.EntityState.Modified;
+            return true;
         }
 
         public UserAccount Retrieve(int userAccountID)
@@ -54,6 +56,11 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
         public IEnumerable<UserAccount> RetrieveAll()
         {
             return DBContext.UserAccounts;
+        }
+
+        public IEnumerable<UserAccount> RetrieveByAccessLevel(AccessLevel lvl)
+        {
+            return DBContext.UserAccounts.Where(u => u.Level == lvl);
         }
     }
 }

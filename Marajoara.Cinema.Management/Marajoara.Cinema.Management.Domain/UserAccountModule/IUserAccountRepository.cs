@@ -14,13 +14,13 @@ namespace Marajoara.Cinema.Management.Domain.UserAccountModule
         /// Update UserAccount properties on database.
         /// </summary>
         /// <param name="userAccountToUpdate">An instance of UserAccount with all properties that will update on database. It should be linked with DBContext.</param>
-        void Update(UserAccount userAccountToUpdate);
+        bool Update(UserAccount userAccountToUpdate);
 
         /// <summary>
         /// Remove a given UserAccount on database and of the DBContext
         /// </summary>
         /// <param name="userAccountToDelete">An instance of UserAccount that will remove on database. It should be linked with DBContext.</param>
-        void Delete(UserAccount userAccountToDelete);
+        bool Delete(UserAccount userAccountToDelete);
 
         /// <summary>
         /// Retrieves a UserAccount with a given database ID
@@ -48,5 +48,12 @@ namespace Marajoara.Cinema.Management.Domain.UserAccountModule
         /// </summary>
         /// <returns>Returns collection of the UserAccounts from database.</returns>
         IEnumerable<UserAccount> RetrieveAll();
+
+        /// <summary>        
+        /// Retrieves the user accounts that have a given access level
+        /// </summary>        
+        /// <param name="lvl"></param>
+        /// <returns>A IEnumerable of UserAccount</returns>
+        IEnumerable<UserAccount> RetrieveByAccessLevel(AccessLevel lvl);
     }
 }
