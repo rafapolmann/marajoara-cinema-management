@@ -1,4 +1,7 @@
-﻿using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Commands;
+﻿using Marajoara.Cinema.Management.Application.Authorization.Commands;
+using Marajoara.Cinema.Management.Application.Authorization.Handlers;
+using Marajoara.Cinema.Management.Application.Authorization.Models;
+using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Handlers;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Models;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Queries;
@@ -10,6 +13,10 @@ using Marajoara.Cinema.Management.Application.Features.SessionModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.SessionModule.Handlers;
 using Marajoara.Cinema.Management.Application.Features.SessionModule.Models;
 using Marajoara.Cinema.Management.Application.Features.SessionModule.Queries;
+using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Commands;
+using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Handlers;
+using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Models;
+using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Queries;
 using Marajoara.Cinema.Management.Domain.Common.ResultModule;
 using MediatR;
 using MediatR.Ninject;
@@ -28,6 +35,8 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC.Extensions
             kernel.BindCineRoomSetup();
             kernel.BindMovieSetup();
             kernel.BindSessionSetup();
+            kernel.BindUserAccountSetup();
+            kernel.BindAuthorizationSetup();
         }
 
         private static void BindSessionSetup(this IKernel kernel)
@@ -59,6 +68,21 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC.Extensions
             kernel.Bind<IRequestHandler<AddMovieCommand, Result<Exception, int>>>().To<AddMovieHandler>();
             kernel.Bind<IRequestHandler<DeleteMovieCommand, Result<Exception, bool>>>().To<DeleteMovieHandler>();
             kernel.Bind<IRequestHandler<UpdateMovieCommand, Result<Exception, bool>>>().To<UpdateMovieHandler>();
+        }
+
+        private static void BindUserAccountSetup(this IKernel kernel)
+        {
+            kernel.Bind<IRequestHandler<GetUserAccountQuery, Result<Exception, UserAccountModel>>>().To<GetUserAccountHandler>();
+            kernel.Bind<IRequestHandler<AllUserAccountsQuery, Result<Exception, List<UserAccountModel>>>>().To<AllUserAccountsHandler>();
+            kernel.Bind<IRequestHandler<AddCustomerUserAccountCommand, Result<Exception, int>>>().To<AddCustomerUserAccountHandler>();
+            kernel.Bind<IRequestHandler<AddAttendantUserAccountCommand, Result<Exception, int>>>().To<AddAttendantUserAccountHandler>();
+            kernel.Bind<IRequestHandler<AddManagerUserAccountCommand, Result<Exception, int>>>().To<AddManagerUserAccountHandler>();
+            kernel.Bind<IRequestHandler<DeleteUserAccountCommand, Result<Exception, bool>>>().To<DeleteUserAccountHandler>();
+        }
+
+        private static void BindAuthorizationSetup(this IKernel kernel)
+        {
+            kernel.Bind<IRequestHandler<AuthenticateCommand, Result<Exception, AuthenticatedUserAccountModel>>>().To<AuthenticateHandler>();
         }
     }
 }
