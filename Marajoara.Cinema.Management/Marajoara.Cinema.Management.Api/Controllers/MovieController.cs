@@ -37,7 +37,7 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _mediator.Send(new AllMoviesQuery()));
+            return HandleResult(await _mediator.Send(new AllMoviesQuery()));
         }
 
         [HttpDelete("ByTitle/{title}")]

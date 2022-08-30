@@ -18,6 +18,8 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF.Configuration
 
             Property(cr => cr.MovieID).HasColumnName("MovieID");
             HasRequired(cr => cr.Movie).WithMany().HasForeignKey(o => o.MovieID);
+
+            Ignore(cr => cr.EndSession);
         }
     }
 }

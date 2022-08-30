@@ -70,7 +70,7 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
             int sessionCineRoomID02 = sessionCineRoom02.CineRoomID;
 
             Movie sessionMovie01 = GetMovieToTest("Movie01");
-            Movie sessionMovie02 = GetMovieToTest("Movie02");           
+            Movie sessionMovie02 = GetMovieToTest("Movie02");
 
             _marajoaraUnitOfWork.Movies.Add(sessionMovie01);
             _marajoaraUnitOfWork.Movies.Add(sessionMovie02);
@@ -198,7 +198,7 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
 
             DateTime sessionDate01 = DateTime.Parse("21:00:00 20/08/2022");
             Session session01 = GetSessionToTest(sessionCineRoom01, sessionMovie01, sessionDate01);
-            DateTime sessionDate02 = DateTime.Parse("14:00:00 20/08/2022");
+            DateTime sessionDate02 = DateTime.Parse("14:00:00 19/08/2022");
             Session session02 = GetSessionToTest(sessionCineRoom02, sessionMovie02, sessionDate02);
 
             _marajoaraUnitOfWork.Sessions.Add(session01);
@@ -212,7 +212,8 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
             List<Session> sessionsToAssert = _marajoaraUnitOfWork.Sessions.RetrieveByDate(dateToRetrive).ToList();
 
             sessionsToAssert.Should().NotBeNull();
-            sessionsToAssert.Should().HaveCount(2);
+            sessionsToAssert.Should().HaveCount(1);
+            sessionsToAssert[0].SessionID.Should().Be(session01.SessionID);
 
             _marajoaraUnitOfWork.Dispose();
         }
@@ -353,7 +354,7 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
         }
 
         [TestMethod]
-        public void UnitOfWork_Should_Return_List_Of_Sessions_Of_A_Given_CineRoom_Retrived_By_CineRoomID()
+        public void UnitOfWork_Should_Return_List_Of_Sessions_Of_A_Given_CineRoom_Retrived_By_CineRoom()
         {
             string movieTitle = "MovieTitle";
             Movie sessionsMovie = GetMovieToTest(movieTitle);
@@ -391,15 +392,68 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
             _marajoaraUnitOfWork.Dispose();
             _marajoaraUnitOfWork = GetNewEmptyUnitOfWorkInstance(false);
 
-            List<Session> movieSessions = _marajoaraUnitOfWork.Sessions.RetrieveByMovieTitle(movieTitle).ToList();
+            List<Session> cineRoomSessions = _marajoaraUnitOfWork.Sessions.RetrieveByCineRoom(sessionCineRoom).ToList();
 
-            movieSessions.Should().NotBeNull();
-            movieSessions.Should().HaveCount(2);
-            movieSessions[0].CineRoomID.Should().Be(sessionCineRoomID);
-            movieSessions[0].CineRoom.Should().NotBeNull();
-            movieSessions[1].CineRoomID.Should().Be(sessionCineRoomID);
-            movieSessions[1].CineRoom.Should().NotBeNull();
-            movieSessions.Should().NotContain(s => s.SessionID.Equals(sessionWithOtherMovieID));
+            cineRoomSessions.Should().NotBeNull();
+            cineRoomSessions.Should().HaveCount(2);
+            cineRoomSessions[0].CineRoomID.Should().Be(sessionCineRoomID);
+            cineRoomSessions[0].CineRoom.Should().NotBeNull();
+            cineRoomSessions[1].CineRoomID.Should().Be(sessionCineRoomID);
+            cineRoomSessions[1].CineRoom.Should().NotBeNull();
+            cineRoomSessions.Should().NotContain(s => s.SessionID.Equals(sessionWithOtherMovieID));
+
+            _marajoaraUnitOfWork.Dispose();
+        }
+
+        [TestMethod]
+        public void UnitOfWork_Should_Return_List_Of_Sessions_Of_A_Given_CineRoomID_And_In_Specific_Date()
+        {
+            string movieTitle = "MovieTitle";
+            Movie sessionsMovie = GetMovieToTest(movieTitle);
+
+            string otherMovieTitle = "OtherMovieTitle";
+            Movie otherSessionsMovie = GetMovieToTest(otherMovieTitle);
+
+            _marajoaraUnitOfWork.Movies.Add(sessionsMovie);
+            _marajoaraUnitOfWork.Movies.Add(otherSessionsMovie);
+            _marajoaraUnitOfWork.Commit();
+
+            CineRoom sessionCineRoom = GetCineRoomToTest("Sala01");
+            CineRoom otherSessionCineRoom = GetCineRoomToTest("OtherCineRoom");
+            _marajoaraUnitOfWork.CineRooms.Add(sessionCineRoom);
+            _marajoaraUnitOfWork.CineRooms.Add(otherSessionCineRoom);
+            _marajoaraUnitOfWork.Commit();
+            int sessionCineRoomID = sessionCineRoom.CineRoomID;
+            int otherSessionCineRoomID = otherSessionCineRoom.CineRoomID;
+
+            DateTime sessionDate01 = DateTime.Parse("14:00:00 14/08/2022");
+            Session session01 = GetSessionToTest(sessionCineRoom, sessionsMovie, sessionDate01);
+
+            DateTime sessionDate02 = DateTime.Parse("20:00:00 15/08/2022");
+            Session session02 = GetSessionToTest(sessionCineRoom, sessionsMovie, sessionDate02);
+
+            DateTime sessionWithOtherMovieDate = DateTime.Parse("21:00:00 15/08/2022");
+            Session sessionWithOtherCineRoom = GetSessionToTest(otherSessionCineRoom, otherSessionsMovie, sessionWithOtherMovieDate);
+
+            _marajoaraUnitOfWork.Sessions.Add(session01);
+            _marajoaraUnitOfWork.Sessions.Add(session02);
+            _marajoaraUnitOfWork.Sessions.Add(sessionWithOtherCineRoom);
+            _marajoaraUnitOfWork.Commit();
+            int sessionWithOtherCineRoomID = sessionWithOtherCineRoom.SessionID;
+
+            _marajoaraUnitOfWork.Dispose();
+            _marajoaraUnitOfWork = GetNewEmptyUnitOfWorkInstance(false);
+
+            DateTime dateToRetirve = DateTime.Parse("2022/08/14 00:00:00");
+            List<Session> sessions = _marajoaraUnitOfWork.Sessions.RetrieveByDateAndCineRoom(dateToRetirve, sessionCineRoomID).ToList();
+
+            sessions.Should().NotBeNull();
+            sessions.Should().HaveCount(1);
+            sessions[0].CineRoomID.Should().Be(sessionCineRoomID);
+            sessions[0].CineRoom.Should().NotBeNull();
+
+            sessions.Should().NotContain(s => s.SessionID.Equals(session02.SessionID));
+            sessions.Should().NotContain(s => s.SessionID.Equals(sessionWithOtherCineRoomID));
 
             _marajoaraUnitOfWork.Dispose();
         }
