@@ -35,10 +35,20 @@ namespace Marajoara.Cinema.Management.Application.Features.TicketModule
             return ticket.TicketID;
         }
 
-
         public bool RemoveTicket(Ticket ticketToRemove)
         {
-            throw new NotImplementedException();
+            if (ticketToRemove == null)
+                throw new ArgumentException("Ticket parameter cannot be null.", nameof(ticketToRemove));
+
+            var dbTicket = _unitOfWork.Tickets.Retrieve(ticketToRemove.TicketID);
+
+            if (dbTicket == null)
+                throw new Exception($"Ticket not found: {ticketToRemove.TicketID}");
+
+            _unitOfWork.Tickets.Delete(dbTicket);
+            _unitOfWork.Commit();
+
+            return true;
         }
 
         public IEnumerable<Ticket> RetrieveAll()
@@ -54,17 +64,24 @@ namespace Marajoara.Cinema.Management.Application.Features.TicketModule
         public IEnumerable<Ticket> RetrieveByUserAccount(int userAccoutnId)
         {
             return _unitOfWork.Tickets.RetrieveAll().Where(x => x.UserAccountID == userAccoutnId);
-
         }
 
         public Ticket RetrieveTicketByCode(Guid ticketGuid)
         {
-            throw new NotImplementedException();
+            var ticket = _unitOfWork.Tickets.RetrieveByCode(ticketGuid);
+            if (ticket == null)
+                throw new Exception($"Ticket not found: {ticketGuid}");
+
+            return ticket;
         }
 
         public Ticket RetrieveTicketById(int ticketId)
         {
-            throw new NotImplementedException();
+            var ticket =  _unitOfWork.Tickets.Retrieve(ticketId);
+            if (ticket == null)
+                throw new Exception($"Ticket not found: {ticketId}");
+            
+            return ticket;
         }
 
         private Ticket GetValidatedTicket(Ticket ticket)
@@ -84,11 +101,7 @@ namespace Marajoara.Cinema.Management.Application.Features.TicketModule
             ticket.PurchaseDate = DateTime.UtcNow;
             return ticket;
         }
-        /// <summary>
-        /// Check if the seat for this session is taken or invalid; Throws exception if not valid;
-        /// </summary>
-        /// <param name="ticket"></param>
-        /// <returns></returns>
+       
         private void ValidateTicketSeat(Ticket ticket)
         {
             if (ticket.SeatNumber <= 0 || ticket.SeatNumber > ticket.Session.CineRoom.TotalSeats)

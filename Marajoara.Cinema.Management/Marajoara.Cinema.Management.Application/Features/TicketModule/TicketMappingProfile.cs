@@ -2,11 +2,6 @@
 using Marajoara.Cinema.Management.Application.Features.TicketModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.TicketModule.Models;
 using Marajoara.Cinema.Management.Domain.TicketModule;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Marajoara.Cinema.Management.Application.Features.TicketModule
 {
@@ -16,7 +11,10 @@ namespace Marajoara.Cinema.Management.Application.Features.TicketModule
         {
             CreateMap<Ticket, TicketModel>();
             CreateMap<Ticket, TicketSeatModel>();
-            CreateMap<Ticket, AddTicketCommand>().ReverseMap().ForPath(cmd => cmd.SessionID, a => a.MapFrom(t => t.SessionID));
+            //CreateMap<Ticket, AddTicketCommand>().ReverseMap().ForPath(cmd => cmd.SessionID, a => a.MapFrom(t => t.SessionID));
+            CreateMap< AddTicketCommand, Ticket>();
+            CreateMap<DeleteTicketCommand, Ticket>();
+
         }
     }
 }

@@ -95,11 +95,11 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC.Extensions
 
         private static void BindTicketSetup(this IKernel kernel)
         {
-
-            
             kernel.Bind<IRequestHandler<AllTicketsQuery, Result<Exception, List<TicketModel>>>>().To<AllTicketsHandler>();
             kernel.Bind<IRequestHandler<AddTicketCommand, Result<Exception, int>>>().To<AddTicketHandler>();
-
+            kernel.Bind<IRequestHandler<DeleteTicketCommand, Result<Exception, bool>>>().To<DeleteTicketHandler>();
+            kernel.Bind<IRequestHandler<GetTicketByCodeQuery, Result<Exception, TicketModel>>>().To<GetTicketByCodeHandler>();
+            kernel.Bind<IRequestHandler<GetTicketByIDQuery, Result<Exception, TicketModel>>>().To<GetTicketByIDHandler>();
         }
     }
 }
