@@ -68,6 +68,8 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC.Extensions
             kernel.Bind<IRequestHandler<AddMovieCommand, Result<Exception, int>>>().To<AddMovieHandler>();
             kernel.Bind<IRequestHandler<DeleteMovieCommand, Result<Exception, bool>>>().To<DeleteMovieHandler>();
             kernel.Bind<IRequestHandler<UpdateMovieCommand, Result<Exception, bool>>>().To<UpdateMovieHandler>();
+            kernel.Bind<IRequestHandler<UpdateMoviePosterCommand, Result<Exception, bool>>>().To<UpdateMoviePosterHandler>();
+            kernel.Bind<IRequestHandler<GetMoviePosterQuery, Result<Exception, byte[]>>>().To<GetMoviePosterHandler>();
         }
 
         private static void BindUserAccountSetup(this IKernel kernel)

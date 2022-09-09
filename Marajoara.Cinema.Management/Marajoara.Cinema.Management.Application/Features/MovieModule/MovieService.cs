@@ -1,7 +1,9 @@
-﻿using Marajoara.Cinema.Management.Domain.MovieModule;
+﻿using Marajoara.Cinema.Management.Domain.Common;
+using Marajoara.Cinema.Management.Domain.MovieModule;
 using Marajoara.Cinema.Management.Domain.UnitOfWork;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Marajoara.Cinema.Management.Application.Features.MovieModule
@@ -9,9 +11,11 @@ namespace Marajoara.Cinema.Management.Application.Features.MovieModule
     public class MovieService : IMovieService
     {
         private readonly IMarajoaraUnitOfWork _unitOfWork;
-        public MovieService(IMarajoaraUnitOfWork unitOfWork)
+        private readonly IFileImageService _fileImageService;
+        public MovieService(IMarajoaraUnitOfWork unitOfWork, IFileImageService fileImageService)
         {
             _unitOfWork = unitOfWork;
+            _fileImageService = fileImageService;
         }
 
         public int AddMovie(Movie movie)
@@ -86,6 +90,29 @@ namespace Marajoara.Cinema.Management.Application.Features.MovieModule
                 throw new ArgumentException("Movie parameter cannot be null.", nameof(movie));
 
             movie.Validate();
+        }
+
+        public bool UpdateMoviePoster(int movieID, Stream stream)
+        {
+            Movie movieOnDB = _unitOfWork.Movies.Retrieve(movieID);
+            if (movieOnDB == null)
+                throw new Exception($"Movie to update not found.");
+
+            movieOnDB.Poster = _fileImageService.GetImageBytes(stream);
+
+            _unitOfWork.Movies.Update(movieOnDB);
+            _unitOfWork.Commit();
+
+            return true;
+        }
+
+        public byte[] GetMoviePoster(int movieID)
+        {
+            Movie movieOnDB = _unitOfWork.Movies.Retrieve(movieID);
+            if (movieOnDB == null)
+                throw new Exception($"Movie to update not found.");
+
+            return movieOnDB.Poster;
         }
     }
 }

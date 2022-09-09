@@ -3,8 +3,10 @@ using Marajoara.Cinema.Management.Application.Features.MovieModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.MovieModule.Queries;
 using Marajoara.Cinema.Management.Infra.Framework.IoC;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace Marajoara.Cinema.Management.Api.Controllers
@@ -62,6 +64,24 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         public async Task<IActionResult> Put([FromBody] UpdateMovieCommand updateMovieCommand)
         {
             return HandleResult(await _mediator.Send(updateMovieCommand));
+        }
+
+        [HttpPut("Poster")]
+        public async Task<IActionResult> UploadPoster(int movieID, IFormFile file)
+        {
+            return HandleResult(await _mediator.Send(new UpdateMoviePosterCommand(movieID, file.OpenReadStream())));
+        }
+
+        [HttpGet("Poster")]
+        public async Task<IActionResult> GetPoster(int movieID)
+        {
+            return HandleResult(await _mediator.Send(new GetMoviePosterQuery(movieID)));
+        }
+
+        [HttpDelete("Poster")]
+        public async Task<IActionResult> DeletePoster(int movieID)
+        {
+            return HandleResult(await _mediator.Send(new DeleteMoviePosterCommand(movieID)));
         }
     }
 }

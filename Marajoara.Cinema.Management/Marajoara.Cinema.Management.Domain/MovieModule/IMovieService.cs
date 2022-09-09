@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 namespace Marajoara.Cinema.Management.Domain.MovieModule
 {
@@ -47,5 +48,8 @@ namespace Marajoara.Cinema.Management.Domain.MovieModule
         /// </summary>
         /// <returns>Collection of movies.</returns>
         IEnumerable<Movie> GetAllMovies();
+
+        bool UpdateMoviePoster(int movieID, Stream stream);
+        byte[] GetMoviePoster(int movieID);
     }
 }
