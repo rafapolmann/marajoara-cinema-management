@@ -14,6 +14,8 @@ namespace Marajoara.Cinema.Management.Application.Features.TicketModule.Models
         public decimal Price { get; set; }
         public int SeatNumber { get; set; }
 
+        public bool Used { get; set; }
+
         public int UserAccountID { get; set; }
         public string UserAccountName { get; set; }
         
