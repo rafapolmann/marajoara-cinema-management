@@ -1,7 +1,9 @@
-﻿using Marajoara.Cinema.Management.Domain.UnitOfWork;
+﻿using Marajoara.Cinema.Management.Domain.Common;
+using Marajoara.Cinema.Management.Domain.UnitOfWork;
 using Marajoara.Cinema.Management.Domain.UserAccountModule;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -10,10 +12,12 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
     public class UserAccountService : IUserAccountService
     {
         private readonly IMarajoaraUnitOfWork _unitOfWork;
-
-        public UserAccountService(IMarajoaraUnitOfWork unitOfWork)
+        private readonly IFileImageService _fileImageService;
+        
+        public UserAccountService(IMarajoaraUnitOfWork unitOfWork, IFileImageService  fileImageService)
         {
             _unitOfWork = unitOfWork;
+            _fileImageService = fileImageService;
         }
 
         public int AddAttendantUserAccount(UserAccount attendandtToAdd)
@@ -73,6 +77,41 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
             return _unitOfWork.UserAccounts.Retrieve(userAccountID);
         }
 
+        public bool UpdateUserAccountPhoto(int userAccountID, Stream stream)
+        {
+            UserAccount userAccountOnDB = _unitOfWork.UserAccounts.Retrieve(userAccountID);
+            if (userAccountOnDB == null)
+                throw new Exception($"UserAccount to update not found.");
 
+            userAccountOnDB.Photo = _fileImageService.GetImageBytes(stream);
+
+            _unitOfWork.UserAccounts.Update(userAccountOnDB);
+            _unitOfWork.Commit();
+
+            return true;
+        }
+
+        public byte[] GetUserAccountPhoto(int userAccountID)
+        {
+            UserAccount userAccountOnDB = _unitOfWork.UserAccounts.Retrieve(userAccountID);
+            if (userAccountOnDB == null)
+                throw new Exception($"UserAccount to update not found.");
+
+            return userAccountOnDB.Photo;
+        }
+
+        public bool DeleteUserAccountPhoto(int userAccountID)
+        {
+            UserAccount userAccountOnDB = _unitOfWork.UserAccounts.Retrieve(userAccountID);
+            if (userAccountOnDB == null)
+                throw new Exception($"UserAccount to update not found.");
+
+            userAccountOnDB.Photo = null;
+
+            _unitOfWork.UserAccounts.Update(userAccountOnDB);
+            _unitOfWork.Commit();
+
+            return true;
+        }
     }
 }

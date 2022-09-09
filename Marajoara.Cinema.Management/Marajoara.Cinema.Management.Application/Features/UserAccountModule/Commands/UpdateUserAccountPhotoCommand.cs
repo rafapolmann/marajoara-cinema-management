@@ -5,12 +5,12 @@ using System.IO;
 
 namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule.Commands
 {
-    public class UpdateUserAccountPosterCommand : IRequest<Result<Exception, bool>>
+    public class UpdateUserAccountPhotoCommand : IRequest<Result<Exception, bool>>
     {
         public int UserAccountID { get; set; }
         public Stream PosterStream { get; set; }
 
-        public UpdateUserAccountPosterCommand(int userAccountID, Stream stream)
+        public UpdateUserAccountPhotoCommand(int userAccountID, Stream stream)
         {
             UserAccountID = userAccountID;
             PosterStream = stream;

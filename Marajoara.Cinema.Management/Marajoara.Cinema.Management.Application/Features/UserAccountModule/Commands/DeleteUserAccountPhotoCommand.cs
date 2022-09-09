@@ -4,11 +4,11 @@ using System;
 
 namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule.Commands
 {
-    public class DeleteUserAccountPosterCommand : IRequest<Result<Exception, bool>>
+    public class DeleteUserAccountPhotoCommand : IRequest<Result<Exception, bool>>
     {
         public int UserAccountID { get; set; }
 
-        public DeleteUserAccountPosterCommand(int userAccountID)
+        public DeleteUserAccountPhotoCommand(int userAccountID)
         {
             UserAccountID = userAccountID;
         }
