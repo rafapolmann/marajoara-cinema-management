@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Queries;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Commands;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace Marajoara.Cinema.Management.Api.Controllers
 {
@@ -58,6 +59,23 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         }
 
 
+        [HttpPut("Poster")]
+        public async Task<IActionResult> UploadPoster(int userAccountID, IFormFile file)
+        {
+            return HandleResult(await _mediator.Send(new UpdateUserAccountPosterCommand(userAccountID, file.OpenReadStream())));
+        }
+
+        [HttpGet("Poster")]
+        public async Task<IActionResult> GetPoster(int movieID)
+        {
+            return HandleResult(await _mediator.Send(new GetUserAccountPosterQuery(movieID)));
+        }
+
+        [HttpDelete("Poster")]
+        public async Task<IActionResult> DeletePoster(int movieID)
+        {
+            return HandleResult(await _mediator.Send(new DeleteUserAccountPosterCommand(movieID)));
+        }
 
     }
 }
