@@ -56,14 +56,14 @@ namespace Marajoara.Cinema.Management.Application.Features.TicketModule
             return _unitOfWork.Tickets.RetrieveAll();
         }
 
-        public IEnumerable<Ticket> RetrieveBySession(int sessionId)
+        public IEnumerable<Ticket> RetrieveBySession(int sessionID)
         {
-            return _unitOfWork.Tickets.RetrieveAll().Where(x => x.SessionID == sessionId);
+            return _unitOfWork.Tickets.RetrieveAll().Where(x => x.SessionID == sessionID);
         }
 
-        public IEnumerable<Ticket> RetrieveByUserAccount(int userAccoutnId)
+        public IEnumerable<Ticket> RetrieveByUserAccount(int userAccountID)
         {
-            return _unitOfWork.Tickets.RetrieveAll().Where(x => x.UserAccountID == userAccoutnId);
+            return _unitOfWork.Tickets.RetrieveAll().Where(x => x.UserAccountID == userAccountID);
         }
 
         public Ticket RetrieveTicketByCode(Guid ticketGuid)

@@ -82,7 +82,6 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         {
             int invalidSessionID = 100;
             Ticket ticketToTest = GetTicketToTest(0, DateTime.Now, Guid.NewGuid(), 10, 1, false, GetCompleteSessionToTest(invalidSessionID), GetUserAccountToTest());
-            //Session sessionToAdd = GetSessionToTest(0, GetCineRoomToTest(invalidCineRoomID), GetMovieToTest(), DateTime.Now, 50);
             _unitOfWorkMock.Setup(uow => uow.Sessions.Retrieve(It.IsAny<int>()));
 
             Action action = () => _ticketService.AddTicket(ticketToTest);
@@ -99,7 +98,6 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
             int invalidUserAccountID = 100;
             Session ticketSession = GetCompleteSessionToTest();
             Ticket ticketToTest = GetTicketToTest(0, DateTime.Now, Guid.NewGuid(), 10, 1, false, ticketSession, GetUserAccountToTest(invalidUserAccountID));
-            //Session sessionToAdd = GetSessionToTest(0, GetCineRoomToTest(invalidCineRoomID), GetMovieToTest(), DateTime.Now, 50);
             _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(It.IsAny<int>()));
             _unitOfWorkMock.Setup(uow => uow.Sessions.Retrieve(ticketSession.SessionID)).Returns(ticketSession);
 
@@ -214,14 +212,6 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         public void TicketService_RemoveTicket_Should_Throw_Exception_When_Ticket_ID_Not_Exists()
         {
             int ticketIDToDelete = 15;
-
-            //CineRoom sessionCineRoom = GetCineRoomToTest();
-            //Movie sessionMovie = GetMovieToTest();
-            //Session ticketSession = GetCompleteSessionToTest();
-            //UserAccount ticketUserAccount = GetUserAccountToTest();
-            //DateTime purchaseDate = DateTime.Now;
-
-            //Ticket existingTicket = GetTicketToTest(1, purchaseDate, Guid.NewGuid(), 30, 1, false, ticketSession, ticketUserAccount);
 
             _unitOfWorkMock.Setup(uow => uow.Tickets.Retrieve(ticketIDToDelete));
             
@@ -437,6 +427,5 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
             };
         }
 
-        //public Ticket GetCompleteTicketToTest(int ticketID =1, decimal price = 30, int SeatNumber)
     }
 }
