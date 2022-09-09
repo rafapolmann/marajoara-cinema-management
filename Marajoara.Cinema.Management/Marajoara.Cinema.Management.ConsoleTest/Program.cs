@@ -13,7 +13,9 @@ namespace Marajoara.Cinema.Management.ConsoleTest
     {
         static void Main(string[] args)
         {
-            var a = default(DateTime).ToString();
+
+            GuidTest();
+            // var a = default(DateTime).ToString();
             //var uow = IoC.GetInstance().Get<IMarajoaraUnitOfWork>();
 
             //var allRooms = uow.CineRooms.RetrieveAll().ToList();
@@ -40,7 +42,13 @@ namespace Marajoara.Cinema.Management.ConsoleTest
 
             //uow.Commit();
 
-            Console.WriteLine("Hello World!");
+            
+        }
+
+        private static void GuidTest()
+        {
+            Console.WriteLine(new Guid());
+            Console.ReadKey();
         }
 
         protected static Session GetSessionToTest(CineRoom cineRoom,
