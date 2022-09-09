@@ -47,6 +47,17 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             return HandleResult(await _mediator.Send(new GetSessionQuery(id)));
         }
 
+        [HttpGet("{id}/tickets")]
+        public async Task<IActionResult> GetTickets(int id)
+        {
+            return HandleResult(await _mediator.Send(new GetSessionTicketsQuery(id)));
+        }
+        [HttpGet("{id}/occupiedseats")]
+        public async Task<IActionResult> GetOccupiedSeats(int id)
+        {
+            return HandleResult(await _mediator.Send(new GetSessionOccupiedSeatsQuery(id)));
+        }
+
         [HttpGet("ByDate/{dateTime}")]
         public async Task<IActionResult> GetByDate(DateTime dateTime)
         {

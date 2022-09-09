@@ -23,7 +23,8 @@ namespace Marajoara.Cinema.Management.Application.Authorization
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Name.ToString()),
+                    new Claim("UserAccountID", user.UserAccountID.ToString()),
+                    new Claim(ClaimTypes.Name, user.Name.ToString()),                    
                     new Claim(ClaimTypes.Role, user.Level.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
