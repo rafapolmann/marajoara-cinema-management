@@ -34,7 +34,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         {
             _unitOfWorkMock = new Mock<IMarajoaraUnitOfWork>();
             _fileImageServiceMock = new Mock<IFileImageService>();
-            _userAccountService = new UserAccountService(_unitOfWorkMock.Object);
+            _userAccountService = new UserAccountService(_unitOfWorkMock.Object, _fileImageServiceMock.Object);
             _movieService = new MovieService(_unitOfWorkMock.Object, _fileImageServiceMock.Object);
             _cineRoomService = new CineRoomService(_unitOfWorkMock.Object);
             _sessionService = new SessionService(_unitOfWorkMock.Object, _cineRoomService, _movieService);
