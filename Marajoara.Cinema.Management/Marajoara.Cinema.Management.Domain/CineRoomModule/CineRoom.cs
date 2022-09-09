@@ -27,6 +27,7 @@ namespace Marajoara.Cinema.Management.Domain.CineRoomModule
             return true;
         }
 
+
         public void CopyTo(CineRoom cineRoomToCopy)
         {
             ValidateCopyToArguments(cineRoomToCopy);

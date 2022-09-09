@@ -51,5 +51,6 @@ namespace Marajoara.Cinema.Management.Domain.MovieModule
 
         bool UpdateMoviePoster(int movieID, Stream stream);
         byte[] GetMoviePoster(int movieID);
+        bool DeleteMoviePoster(int movieID);
     }
 }

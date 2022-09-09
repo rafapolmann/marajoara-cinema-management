@@ -34,6 +34,13 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         {
             return HandleResult(await _mediator.Send(new GetUserAccountQuery(id)));
         }
+
+        [HttpGet("{id}/tickets")]
+        public async Task<IActionResult> GetTickets(int id)
+        {
+            return HandleResult(await _mediator.Send(new GetUserAccountTicketsQuery(id)));
+        }
+
         [HttpPost("Customer")]
         public async Task<IActionResult> NewCustomer([FromBody] AddCustomerUserAccountCommand customer)
         {

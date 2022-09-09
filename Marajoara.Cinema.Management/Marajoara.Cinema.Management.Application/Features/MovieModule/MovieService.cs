@@ -114,5 +114,19 @@ namespace Marajoara.Cinema.Management.Application.Features.MovieModule
 
             return movieOnDB.Poster;
         }
+
+        public bool DeleteMoviePoster(int movieID)
+        {
+            Movie movieOnDB = _unitOfWork.Movies.Retrieve(movieID);
+            if (movieOnDB == null)
+                throw new Exception($"Movie to update not found.");
+
+            movieOnDB.Poster = null;
+
+            _unitOfWork.Movies.Update(movieOnDB);
+            _unitOfWork.Commit();
+
+            return true;
+        }
     }
 }

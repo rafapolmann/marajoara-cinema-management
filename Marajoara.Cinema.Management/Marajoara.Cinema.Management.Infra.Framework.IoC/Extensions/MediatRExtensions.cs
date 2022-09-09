@@ -13,6 +13,10 @@ using Marajoara.Cinema.Management.Application.Features.SessionModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.SessionModule.Handlers;
 using Marajoara.Cinema.Management.Application.Features.SessionModule.Models;
 using Marajoara.Cinema.Management.Application.Features.SessionModule.Queries;
+using Marajoara.Cinema.Management.Application.Features.TicketModule.Commands;
+using Marajoara.Cinema.Management.Application.Features.TicketModule.Handlers;
+using Marajoara.Cinema.Management.Application.Features.TicketModule.Models;
+using Marajoara.Cinema.Management.Application.Features.TicketModule.Queries;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Handlers;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Models;
@@ -37,6 +41,7 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC.Extensions
             kernel.BindSessionSetup();
             kernel.BindUserAccountSetup();
             kernel.BindAuthorizationSetup();
+            kernel.BindTicketSetup();
         }
 
         private static void BindSessionSetup(this IKernel kernel)
@@ -50,6 +55,8 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC.Extensions
             kernel.Bind<IRequestHandler<GetSessionsByMovieTitleQuery, Result<Exception, List<SessionModel>>>>().To<GetSessionsByMovieTitleHandler>();
             kernel.Bind<IRequestHandler<GetSessionsByDateQuery, Result<Exception, List<SessionModel>>>>().To<GetSessionsByDateHandler>();
             kernel.Bind<IRequestHandler<GetSessionsByDateRangeQuery, Result<Exception, List<SessionModel>>>>().To<GetSessionsByDateRangeHandler>();
+            kernel.Bind<IRequestHandler<GetSessionTicketsQuery, Result<Exception, List<TicketModel>>>>().To<GetSessionTicketsHandler>();
+            kernel.Bind<IRequestHandler<GetSessionOccupiedSeatsQuery, Result<Exception, List<TicketSeatModel>>>>().To<GetSessionOccupiedSeatsHandler>();
         }
 
         private static void BindCineRoomSetup(this IKernel kernel)
@@ -70,6 +77,7 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC.Extensions
             kernel.Bind<IRequestHandler<UpdateMovieCommand, Result<Exception, bool>>>().To<UpdateMovieHandler>();
             kernel.Bind<IRequestHandler<UpdateMoviePosterCommand, Result<Exception, bool>>>().To<UpdateMoviePosterHandler>();
             kernel.Bind<IRequestHandler<GetMoviePosterQuery, Result<Exception, byte[]>>>().To<GetMoviePosterHandler>();
+            kernel.Bind<IRequestHandler<DeleteMoviePosterCommand, Result<Exception, bool>>>().To<DeleteMoviePosterHandler>();
         }
 
         private static void BindUserAccountSetup(this IKernel kernel)
@@ -80,11 +88,21 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC.Extensions
             kernel.Bind<IRequestHandler<AddAttendantUserAccountCommand, Result<Exception, int>>>().To<AddAttendantUserAccountHandler>();
             kernel.Bind<IRequestHandler<AddManagerUserAccountCommand, Result<Exception, int>>>().To<AddManagerUserAccountHandler>();
             kernel.Bind<IRequestHandler<DeleteUserAccountCommand, Result<Exception, bool>>>().To<DeleteUserAccountHandler>();
+            kernel.Bind<IRequestHandler<GetUserAccountTicketsQuery, Result<Exception, List<TicketModel>>>>().To<GetUserAccountTicketsHandler>();
         }
 
         private static void BindAuthorizationSetup(this IKernel kernel)
         {
             kernel.Bind<IRequestHandler<AuthenticateCommand, Result<Exception, AuthenticatedUserAccountModel>>>().To<AuthenticateHandler>();
+        }
+
+        private static void BindTicketSetup(this IKernel kernel)
+        {
+            kernel.Bind<IRequestHandler<AllTicketsQuery, Result<Exception, List<TicketModel>>>>().To<AllTicketsHandler>();
+            kernel.Bind<IRequestHandler<AddTicketCommand, Result<Exception, int>>>().To<AddTicketHandler>();
+            kernel.Bind<IRequestHandler<DeleteTicketCommand, Result<Exception, bool>>>().To<DeleteTicketHandler>();
+            kernel.Bind<IRequestHandler<GetTicketByCodeQuery, Result<Exception, TicketModel>>>().To<GetTicketByCodeHandler>();
+            kernel.Bind<IRequestHandler<GetTicketByIDQuery, Result<Exception, TicketModel>>>().To<GetTicketByIDHandler>();
         }
     }
 }

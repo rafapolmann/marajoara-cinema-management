@@ -1,5 +1,7 @@
 ﻿using FluentAssertions;
+using Marajoara.Cinema.Management.Application.Features;
 using Marajoara.Cinema.Management.Application.Features.MovieModule;
+using Marajoara.Cinema.Management.Domain.Common;
 using Marajoara.Cinema.Management.Domain.MovieModule;
 using Marajoara.Cinema.Management.Domain.SessionModule;
 using Marajoara.Cinema.Management.Domain.UnitOfWork;
@@ -14,13 +16,15 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
     public class MovieServiceTests
     {
         private IMovieService _movieService;
+        private IFileImageService _fileImageService;
         private Mock<IMarajoaraUnitOfWork> _unitOfWorkMock;
 
         [TestInitialize]
         public void Initialize()
         {
             _unitOfWorkMock = new Mock<IMarajoaraUnitOfWork>();
-            _movieService = new MovieService(_unitOfWorkMock.Object);
+            _fileImageService = new FileImageService();
+            _movieService = new MovieService(_unitOfWorkMock.Object, _fileImageService);
         }
 
         #region Gets_Movie
