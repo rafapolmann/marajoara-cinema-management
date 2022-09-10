@@ -54,7 +54,7 @@ namespace Marajoara.Cinema.Management.Domain.MovieModule
         /// Valid formats for Stream are PNG, JPG and BMP. Max image size is 500kb.
         /// If MovieID will not find on database, will throw an Exception.
         /// </summary>
-        /// <param name="movieID">ID used as parameter in thecommand.</param>
+        /// <param name="movieID">ID used as parameter in the command.</param>
         /// <param name="stream">Data stream containing a image for movie poster</param>
         /// <returns>Returns true if process will succeed.</returns>
         bool UpdateMoviePoster(int movieID, Stream stream);
