@@ -1,5 +1,4 @@
 ﻿using Marajoara.Cinema.Management.Domain.Common;
-using Marajoara.Cinema.Management.Domain.MovieModule;
 using System;
 using System.Collections.Generic;
 using System.IO;
