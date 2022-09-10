@@ -3,6 +3,7 @@ using Marajoara.Cinema.Management.Application.Features.SessionModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.SessionModule.Queries;
 using Marajoara.Cinema.Management.Infra.Framework.IoC;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -23,24 +24,28 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             _logger = logger;
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddSessionCommand addSessionCommand)
         {
             return HandleResult(await _mediator.Send(addSessionCommand));
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             return HandleResult(await _mediator.Send(new DeleteSessionCommand(id)));
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] UpdateSessionCommand updateSessionCommand)
         {
             return HandleResult(await _mediator.Send(updateSessionCommand));
         }
 
+        [Authorize(Roles = "Manager,Attendant")]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -52,6 +57,7 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         {
             return HandleResult(await _mediator.Send(new GetSessionTicketsQuery(id)));
         }
+
         [HttpGet("{id}/occupiedseats")]
         public async Task<IActionResult> GetOccupiedSeats(int id)
         {
@@ -70,6 +76,7 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             return HandleResult(await _mediator.Send(new GetSessionsByDateRangeQuery(initialDate, finalDate)));
         }
 
+        [Authorize(Roles = "Manager,Attendant")]
         [HttpGet("ByCineRoom/{cineRoomID}")]
         public async Task<IActionResult> GetByCineRoom(int cineRoomID)
         {

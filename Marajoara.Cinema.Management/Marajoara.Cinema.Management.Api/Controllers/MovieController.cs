@@ -3,15 +3,16 @@ using Marajoara.Cinema.Management.Application.Features.MovieModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.MovieModule.Queries;
 using Marajoara.Cinema.Management.Infra.Framework.IoC;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Threading.Tasks;
 
 namespace Marajoara.Cinema.Management.Api.Controllers
 {
     [ApiController]
+    [Authorize(Roles = "Manager")]
     [Route("api/[controller]")]
     public class MovieController : ApiControllerBase
     {

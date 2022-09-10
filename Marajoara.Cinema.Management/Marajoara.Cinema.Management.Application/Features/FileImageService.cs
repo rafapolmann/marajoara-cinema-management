@@ -1,4 +1,5 @@
 ﻿using Marajoara.Cinema.Management.Domain.Common;
+using Marajoara.Cinema.Management.Domain.MovieModule;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +14,9 @@ namespace Marajoara.Cinema.Management.Application.Features
 
         public byte[] GetImageBytes(Stream stream)
         {
+            if (stream == null)
+                throw new ArgumentException("Stream parameter cannot be null.", nameof(stream));
+
             byte[] byteArray = new byte[16 * 1024];
             using (MemoryStream mStream = new MemoryStream())
             {
@@ -27,13 +31,12 @@ namespace Marajoara.Cinema.Management.Application.Features
 
                 return imageBytes;
             }
-
         }
 
         private void ValidateImage(byte[] fileBytes)
         {
             if (!IsImage(fileBytes))
-                throw new FormatException("Invalid Stream Format. File is not an Image.");
+                throw new FormatException("Invalid Stream Format. File is not an Image (png, bmp or jpg).");
             if (fileBytes.Length > MAX_IMAGE_SIZE)
                 throw new Exception($"Image file size cannot be greater than 500kb. File size: {(fileBytes.Length / 1024)}kb");
         }
@@ -44,8 +47,6 @@ namespace Marajoara.Cinema.Management.Application.Features
             {
                 Encoding.ASCII.GetBytes("BM"),      // BMP
                 new byte[] { 137, 80, 78, 71 },     // PNG
-                new byte[] { 73, 73, 42 },          // TIFF
-                new byte[] { 77, 77, 42 },          // TIFF
                 new byte[] { 255, 216, 255, 224 },  // JPEG
                 new byte[] { 255, 216, 255, 225 }   // JPEG CANON
             };
