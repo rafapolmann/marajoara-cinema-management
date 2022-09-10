@@ -94,7 +94,7 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
         {
             UserAccount userAccountOnDB = _unitOfWork.UserAccounts.Retrieve(userAccountID);
             if (userAccountOnDB == null)
-                throw new Exception($"UserAccount to update not found.");
+                throw new Exception($"UserAccount not found.");
 
             return userAccountOnDB.Photo;
         }

@@ -110,7 +110,7 @@ namespace Marajoara.Cinema.Management.Application.Features.MovieModule
         {
             Movie movieOnDB = _unitOfWork.Movies.Retrieve(movieID);
             if (movieOnDB == null)
-                throw new Exception($"Movie to update not found.");
+                throw new Exception($"Movie not found.");
 
             return movieOnDB.Poster;
         }

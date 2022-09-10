@@ -434,7 +434,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
             _unitOfWorkMock.Setup(uow => uow.Movies.Retrieve(movieOnDB.MovieID)).Returns(movieOnDB);
 
             Action action = () => _movieService.GetMoviePoster(movieID);
-            action.Should().Throw<Exception>().WithMessage("Movie to update not found.");
+            action.Should().Throw<Exception>().WithMessage("Movie not found.");
 
             _unitOfWorkMock.Verify(uow => uow.Movies.Retrieve(movieID), Times.Once);
             _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
@@ -461,7 +461,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         }
 
         [TestMethod]
-        public void MovieService_GetMoviePoster_Should_Return_Null__When_Movie_Does_Not_Have_Poster()
+        public void MovieService_GetMoviePoster_Should_Return_Null_When_Movie_Does_Not_Have_Poster()
         {
             int movieID = 1;
 
