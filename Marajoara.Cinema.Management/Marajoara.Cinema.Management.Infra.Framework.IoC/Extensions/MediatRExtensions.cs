@@ -75,6 +75,9 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC.Extensions
             kernel.Bind<IRequestHandler<AddMovieCommand, Result<Exception, int>>>().To<AddMovieHandler>();
             kernel.Bind<IRequestHandler<DeleteMovieCommand, Result<Exception, bool>>>().To<DeleteMovieHandler>();
             kernel.Bind<IRequestHandler<UpdateMovieCommand, Result<Exception, bool>>>().To<UpdateMovieHandler>();
+            kernel.Bind<IRequestHandler<UpdateMoviePosterCommand, Result<Exception, bool>>>().To<UpdateMoviePosterHandler>();
+            kernel.Bind<IRequestHandler<GetMoviePosterQuery, Result<Exception, byte[]>>>().To<GetMoviePosterHandler>();
+            kernel.Bind<IRequestHandler<DeleteMoviePosterCommand, Result<Exception, bool>>>().To<DeleteMoviePosterHandler>();
         }
 
         private static void BindUserAccountSetup(this IKernel kernel)
@@ -86,6 +89,10 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC.Extensions
             kernel.Bind<IRequestHandler<AddManagerUserAccountCommand, Result<Exception, int>>>().To<AddManagerUserAccountHandler>();
             kernel.Bind<IRequestHandler<DeleteUserAccountCommand, Result<Exception, bool>>>().To<DeleteUserAccountHandler>();
             kernel.Bind<IRequestHandler<GetUserAccountTicketsQuery, Result<Exception, List<TicketModel>>>>().To<GetUserAccountTicketsHandler>();
+            kernel.Bind<IRequestHandler<UpdateUserAccountPhotoCommand, Result<Exception, bool>>>().To<UpdateUserAccountPhotoHandler>();
+            kernel.Bind<IRequestHandler<DeleteUserAccountPhotoCommand, Result<Exception, bool>>>().To<DeleteUserAccountPhotoHandler>();
+            kernel.Bind<IRequestHandler<GetUserAccountPhotoQuery, Result<Exception, byte[]>>>().To<GetUserAccountPhotoHandler>();
+
         }
 
         private static void BindAuthorizationSetup(this IKernel kernel)

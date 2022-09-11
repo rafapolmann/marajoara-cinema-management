@@ -5,6 +5,7 @@ using Marajoara.Cinema.Management.Application.Features.SessionModule;
 using Marajoara.Cinema.Management.Application.Features.TicketModule;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule;
 using Marajoara.Cinema.Management.Domain.CineRoomModule;
+using Marajoara.Cinema.Management.Domain.Common;
 using Marajoara.Cinema.Management.Domain.MovieModule;
 using Marajoara.Cinema.Management.Domain.SessionModule;
 using Marajoara.Cinema.Management.Domain.TicketModule;
@@ -25,14 +26,16 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         private IUserAccountService _userAccountService;
         private ICineRoomService _cineRoomService;
         private IMovieService _movieService;
+        private Mock<IFileImageService> _fileImageServiceMock;
         private Mock<IMarajoaraUnitOfWork> _unitOfWorkMock;
 
         [TestInitialize]
         public void Initialize()
         {
             _unitOfWorkMock = new Mock<IMarajoaraUnitOfWork>();
-            _userAccountService = new UserAccountService(_unitOfWorkMock.Object);
-            _movieService = new MovieService(_unitOfWorkMock.Object);
+            _fileImageServiceMock = new Mock<IFileImageService>();
+            _userAccountService = new UserAccountService(_unitOfWorkMock.Object, _fileImageServiceMock.Object);
+            _movieService = new MovieService(_unitOfWorkMock.Object, _fileImageServiceMock.Object);
             _cineRoomService = new CineRoomService(_unitOfWorkMock.Object);
             _sessionService = new SessionService(_unitOfWorkMock.Object, _cineRoomService, _movieService);
             _ticketService = new TicketService(_unitOfWorkMock.Object, _sessionService, _userAccountService);
@@ -214,9 +217,9 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
             int ticketIDToDelete = 15;
 
             _unitOfWorkMock.Setup(uow => uow.Tickets.Retrieve(ticketIDToDelete));
-            
 
-            Action action = () => _ticketService.RemoveTicket(new Ticket { TicketID = ticketIDToDelete }); 
+
+            Action action = () => _ticketService.RemoveTicket(new Ticket { TicketID = ticketIDToDelete });
             action.Should().Throw<Exception>().WithMessage($"Ticket not found: {ticketIDToDelete}");
 
             _unitOfWorkMock.Verify(uow => uow.Tickets.Retrieve(ticketIDToDelete), Times.Once);
@@ -254,7 +257,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         public void TicketService_RetrieveBySession_Should_Return_Tickets_Of_Given_Session()
         {
             var ticketSession = GetCompleteSessionToTest();
-            Ticket ticketToTest = GetTicketToTest(1, DateTime.Now, Guid.NewGuid(), 10, 1, false,ticketSession, GetUserAccountToTest());
+            Ticket ticketToTest = GetTicketToTest(1, DateTime.Now, Guid.NewGuid(), 10, 1, false, ticketSession, GetUserAccountToTest());
             _unitOfWorkMock.Setup(uow => uow.Tickets.RetrieveAll()).Returns(new List<Ticket> { ticketToTest });
 
             var tickets = _ticketService.RetrieveBySession(ticketSession.SessionID);
@@ -268,7 +271,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         public void TicketService_RetrieveByUserAccount_Should_Return_Tickets_Of_Given_UserAccount()
         {
             var ticketUserAccount = GetUserAccountToTest();
-            Ticket ticketToTest = GetTicketToTest(1, DateTime.Now, Guid.NewGuid(), 10, 1, false, GetCompleteSessionToTest(),ticketUserAccount );
+            Ticket ticketToTest = GetTicketToTest(1, DateTime.Now, Guid.NewGuid(), 10, 1, false, GetCompleteSessionToTest(), ticketUserAccount);
             _unitOfWorkMock.Setup(uow => uow.Tickets.RetrieveAll()).Returns(new List<Ticket> { ticketToTest });
 
             var tickets = _ticketService.RetrieveByUserAccount(ticketUserAccount.UserAccountID);
@@ -283,13 +286,13 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         {
             Guid code = Guid.NewGuid();
             Ticket ticketToTest = GetTicketToTest(1, DateTime.Now, code, 10, 1, false, GetCompleteSessionToTest(), GetUserAccountToTest());
-            _unitOfWorkMock.Setup(uow => uow.Tickets.RetrieveByCode(code)).Returns( ticketToTest );
+            _unitOfWorkMock.Setup(uow => uow.Tickets.RetrieveByCode(code)).Returns(ticketToTest);
 
             var ticket = _ticketService.RetrieveTicketByCode(code);
-            
+
             ticket.Should().NotBeNull();
             ticket.Should().Be(ticketToTest);
-            
+
             _unitOfWorkMock.Verify(uow => uow.Tickets.RetrieveByCode(code), Times.Once);
             _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
         }
@@ -299,12 +302,12 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         public void TicketService_RetrieveTicketByCode_Should_Throw_Exception_When_Not_Exists()
         {
             Guid code = Guid.NewGuid();
-            
+
             _unitOfWorkMock.Setup(uow => uow.Tickets.RetrieveByCode(code));
 
-            Action action =()  =>  _ticketService.RetrieveTicketByCode(code);
+            Action action = () => _ticketService.RetrieveTicketByCode(code);
             action.Should().Throw<Exception>().WithMessage($"Ticket not found: {code}");
-            
+
 
             _unitOfWorkMock.Verify(uow => uow.Tickets.RetrieveByCode(code), Times.Once);
             _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);

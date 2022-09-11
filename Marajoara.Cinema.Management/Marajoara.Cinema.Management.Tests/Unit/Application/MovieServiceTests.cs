@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Marajoara.Cinema.Management.Application.Features.MovieModule;
+using Marajoara.Cinema.Management.Domain.Common;
 using Marajoara.Cinema.Management.Domain.MovieModule;
 using Marajoara.Cinema.Management.Domain.SessionModule;
 using Marajoara.Cinema.Management.Domain.UnitOfWork;
@@ -7,6 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Marajoara.Cinema.Management.Tests.Unit.Application
 {
@@ -14,13 +16,15 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
     public class MovieServiceTests
     {
         private IMovieService _movieService;
+        private Mock<IFileImageService> _fileImageServiceMock;
         private Mock<IMarajoaraUnitOfWork> _unitOfWorkMock;
 
         [TestInitialize]
         public void Initialize()
         {
             _unitOfWorkMock = new Mock<IMarajoaraUnitOfWork>();
-            _movieService = new MovieService(_unitOfWorkMock.Object);
+            _fileImageServiceMock = new Mock<IFileImageService>();
+            _movieService = new MovieService(_unitOfWorkMock.Object, _fileImageServiceMock.Object);
         }
 
         #region Gets_Movie
@@ -372,6 +376,143 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
             _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
         }
         #endregion UpdateMovie
+
+        #region MoviePoster
+        [TestMethod]
+        public void MovieService_UpdateMoviePoster_Should_Throw_Exception_When_Movie_ID_Not_Exists()
+        {
+            int movieID = 2;
+            Stream posterStream = null;//Paser Stream is tested in IFileImageService
+
+            Movie movieOnDB = GetMovieToTest(1, "MovieTitle", "MovieDescription");
+
+            _fileImageServiceMock.Setup(ps => ps.GetImageBytes(It.IsAny<Stream>())).Returns(new byte[0]);
+            _unitOfWorkMock.Setup(uow => uow.Movies.Retrieve(movieOnDB.MovieID)).Returns(movieOnDB);
+
+            Action action = () => _movieService.UpdateMoviePoster(movieID, posterStream);
+
+            action.Should().Throw<Exception>().WithMessage("Movie to update not found.");
+
+            _fileImageServiceMock.Verify(ps => ps.GetImageBytes(It.IsAny<Stream>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Movies.Retrieve(movieID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Movies.Update(It.IsAny<Movie>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void MovieService_UpdateMoviePoster_Should_Update_Movie_Poster_Property()
+        {
+            byte[] imageBytes = { 01, 02, 03 };
+            int movieID = 1;
+            Stream posterStream = null;//Paser Stream is tested in IFileImageService
+
+            Movie movieOnDB = GetMovieToTest(1, "MovieTitle", "MovieDescription");
+
+            _fileImageServiceMock.Setup(ps => ps.GetImageBytes(It.IsAny<Stream>())).Returns(imageBytes);
+            _unitOfWorkMock.Setup(uow => uow.Movies.Retrieve(movieOnDB.MovieID)).Returns(movieOnDB);
+
+            _movieService.UpdateMoviePoster(movieID, posterStream).Should().BeTrue();
+
+            _fileImageServiceMock.Verify(ps => ps.GetImageBytes(posterStream), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Movies.Retrieve(movieID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Movies.Update(movieOnDB), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Movies.Update(It.Is<Movie>(m => m.Title.Equals(movieOnDB.Title) &&
+                                                                              m.Description.Equals(movieOnDB.Description) &&
+                                                                              m.Duration.Equals(movieOnDB.Duration) &&
+                                                                              m.Poster == imageBytes &&
+                                                                              m.Is3D.Equals(movieOnDB.Is3D) &&
+                                                                              m.IsOrignalAudio.Equals(movieOnDB.IsOrignalAudio))), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
+        }
+
+        [TestMethod]
+        public void MovieService_GetMoviePoster_Should_Throw_Exception_When_Movie_ID_Not_Exists()
+        {
+            int movieID = 2;
+
+            Movie movieOnDB = GetMovieToTest(1, "MovieTitle", "MovieDescription");
+            _unitOfWorkMock.Setup(uow => uow.Movies.Retrieve(movieOnDB.MovieID)).Returns(movieOnDB);
+
+            Action action = () => _movieService.GetMoviePoster(movieID);
+            action.Should().Throw<Exception>().WithMessage("Movie not found.");
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Retrieve(movieID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void MovieService_GetMoviePoster_Should_Return_Image_Bytes_From_DB_When_Movie_Has_Poster()
+        {
+            byte[] imageBytes = { 01, 02, 03 };
+
+            int movieID = 1;
+
+            Movie movieOnDB = GetMovieToTest(1, "MovieTitle", "MovieDescription");
+            movieOnDB.Poster = imageBytes;
+
+            _unitOfWorkMock.Setup(uow => uow.Movies.Retrieve(movieOnDB.MovieID)).Returns(movieOnDB);
+
+            byte[] bytesToReturn = _movieService.GetMoviePoster(movieID);
+
+            bytesToReturn.Should().BeEquivalentTo(imageBytes);
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Retrieve(movieID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void MovieService_GetMoviePoster_Should_Return_Null_When_Movie_Does_Not_Have_Poster()
+        {
+            int movieID = 1;
+
+            Movie movieOnDB = GetMovieToTest(1, "MovieTitle", "MovieDescription");
+            movieOnDB.Poster = null;
+
+            _unitOfWorkMock.Setup(uow => uow.Movies.Retrieve(movieOnDB.MovieID)).Returns(movieOnDB);
+
+            _movieService.GetMoviePoster(movieID).Should().BeNull();
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Retrieve(movieID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void MovieService_DeleteMoviePoster_Should_Throw_Exception_When_Movie_ID_Not_Exists()
+        {
+            int movieID = 2;
+
+            Movie movieOnDB = GetMovieToTest(1, "MovieTitle", "MovieDescription");
+            _unitOfWorkMock.Setup(uow => uow.Movies.Retrieve(movieOnDB.MovieID)).Returns(movieOnDB);
+
+            Action action = () => _movieService.DeleteMoviePoster(movieID);
+            action.Should().Throw<Exception>().WithMessage("Movie to update not found.");
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Retrieve(movieID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void MovieService_DeleteMoviePoster_Should_Update_Movie_Poster_Property_To_Null()
+        {
+            int movieID = 1;
+
+            Movie movieOnDB = GetMovieToTest(1, "MovieTitle", "MovieDescription");
+            movieOnDB.Poster = new byte[] { 01, 02, 03 };
+
+            _unitOfWorkMock.Setup(uow => uow.Movies.Retrieve(movieOnDB.MovieID)).Returns(movieOnDB);
+            _movieService.DeleteMoviePoster(movieID).Should().BeTrue();
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.Retrieve(movieID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Movies.Update(movieOnDB), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Movies.Update(It.Is<Movie>(m => m.Title.Equals(movieOnDB.Title) &&
+                                                                              m.Description.Equals(movieOnDB.Description) &&
+                                                                              m.Duration.Equals(movieOnDB.Duration) &&
+                                                                              m.Poster == null &&
+                                                                              m.Is3D.Equals(movieOnDB.Is3D) &&
+                                                                              m.IsOrignalAudio.Equals(movieOnDB.IsOrignalAudio))), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
+        }
+        #endregion MoviePoster
 
         private Movie GetMovieToTest(int movieID = 1,
                                      string title = "Title",

@@ -3,6 +3,7 @@ using Marajoara.Cinema.Management.Application.Features.CineRoomModule;
 using Marajoara.Cinema.Management.Application.Features.MovieModule;
 using Marajoara.Cinema.Management.Application.Features.SessionModule;
 using Marajoara.Cinema.Management.Domain.CineRoomModule;
+using Marajoara.Cinema.Management.Domain.Common;
 using Marajoara.Cinema.Management.Domain.MovieModule;
 using Marajoara.Cinema.Management.Domain.SessionModule;
 using Marajoara.Cinema.Management.Domain.UnitOfWork;
@@ -20,13 +21,15 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         private ISessionService _sessionService;
         private ICineRoomService _cineRoomService;
         private IMovieService _movieService;
+        private Mock<IFileImageService> _fileImageServiceMock;
         private Mock<IMarajoaraUnitOfWork> _unitOfWorkMock;
 
         [TestInitialize]
         public void Initialize()
         {
             _unitOfWorkMock = new Mock<IMarajoaraUnitOfWork>();
-            _movieService = new MovieService(_unitOfWorkMock.Object);
+            _fileImageServiceMock = new Mock<IFileImageService>();
+            _movieService = new MovieService(_unitOfWorkMock.Object, _fileImageServiceMock.Object);
             _cineRoomService = new CineRoomService(_unitOfWorkMock.Object);
             _sessionService = new SessionService(_unitOfWorkMock.Object, _cineRoomService, _movieService);
         }
