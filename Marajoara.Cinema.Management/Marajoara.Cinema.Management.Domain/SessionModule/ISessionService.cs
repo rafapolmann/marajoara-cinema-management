@@ -7,9 +7,9 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
     {
         /// <summary>
         /// Add new session in the system.
-        /// In case of the session parameter is null, will throw exception.
-        /// Will not possible to register a new session without a valid CineRoom and a valid Movie.
-        /// Will not possible add a session in the CineRoom taht already existing a session in the same time.
+        /// In case of null session parameter, throws exception.        
+        /// Will not be possible to register a new session without a valid CineRoom and a valid Movie. (Throws exception)
+        /// Will not be possible add a session in the CineRoom taht already existing a session in the same time. (Throws exception)
         /// </summary>
         /// <param name="session">Session to add.</param>
         /// <returns>Return the ID of new session registered in the system.</returns>
@@ -17,14 +17,14 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
 
         /// <summary>
         /// Update all properties of a given session in the system.
-        /// In case of the session parameter is null or session will not find in system, will throw exception.
+        /// In case of the null session parameter or session not found, throws exception.
         /// </summary>
         /// <param name="session">Session with properties to update.</param>
         bool UpdateSession(Session session);
 
         /// <summary>
         /// Remove a given session of the system.
-        /// In case of the session parameter is null or session will not find in system, will throw exception.
+        /// In case of null session parameter or session not found, throws exception.
         /// </summary>
         /// <param name="session">Session to remove.</param>
         /// <returns>Return true if session was removed with success.</returns>
@@ -44,21 +44,21 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
         IEnumerable<Session> GetAllSessions();
 
         /// <summary>
-        /// Returns all sessions that are linked a given cine room
+        /// Returns all sessions that are linked to a given cine room        
         /// </summary>
         /// <param name="cineRoomID">Cine room ID to search linked sessions</param>
-        /// <returns>A list of Sessions</returns>
+        /// <returns>A IEnumerable of Sessions</returns>
         IEnumerable<Session> GetSessionsByCineRoom(int cineRoomID);
 
         /// <summary>
-        /// Returns all sessions that are presenting a given movie title
+        /// Returns all sessions that are presenting a given movie title.
         /// </summary>
         /// <param name="movieTitle">The movie title</param>
         /// <returns>A list of Sessions</returns>
         IEnumerable<Session> GetSessionsByMovieTitle(string movieTitle);
 
         /// <summary>
-        /// Returns the sessions for a specific date
+        /// Returns the sessions for a specific date. (Full day. Ignores the time)
         /// </summary>
         /// <param name="sessionDate">Date of the sessions</param>
         /// <returns>A list of Session on a specifc day.</returns>

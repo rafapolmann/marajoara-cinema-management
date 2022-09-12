@@ -27,7 +27,7 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule.Han
         {
             Result<Exception, List<UserAccountModel>> result = Result.Run(() =>
             {
-                return _mapper.Map<List<UserAccountModel>>(_userAccountService.RetrieveAll());
+                return _mapper.Map<List<UserAccountModel>>(_userAccountService.GetAll());
             });
 
             return Task.FromResult(result);
