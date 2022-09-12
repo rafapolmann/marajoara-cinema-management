@@ -50,7 +50,7 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
 
         public bool RemoveUserAccount(UserAccount userAccount)
         {
-            userAccount = RetrieveUserAccountByID(userAccount.UserAccountID);
+            userAccount = GetUserAccountByID(userAccount.UserAccountID);
             if (userAccount == null)
                 throw new Exception("User account not found!");
 
@@ -66,12 +66,12 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
             return true;
         }
 
-        public IEnumerable<UserAccount> RetrieveAll()
+        public IEnumerable<UserAccount> GetAll()
         {
             return _unitOfWork.UserAccounts.RetrieveAll();
         }
 
-        public UserAccount RetrieveUserAccountByID(int userAccountID)
+        public UserAccount GetUserAccountByID(int userAccountID)
         {
             return _unitOfWork.UserAccounts.Retrieve(userAccountID);
         }
