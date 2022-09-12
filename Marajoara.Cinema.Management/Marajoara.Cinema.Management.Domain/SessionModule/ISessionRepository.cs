@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Marajoara.Cinema.Management.Domain.CineRoomModule;
+using System;
 using System.Collections.Generic;
 
 namespace Marajoara.Cinema.Management.Domain.SessionModule
@@ -37,10 +38,17 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
         Session Retrieve(int sessionID);
 
         /// <summary>
-        /// Returns all sessions that are presenting a given movie
+        /// Returns all sessions that are linked a given cine room
+        /// </summary>
+        /// <param name="cineRoom">Cine room to search linked sessions</param>
+        /// <returns>A list of Sessions</returns>
+        IEnumerable<Session> RetrieveByCineRoom(CineRoom cineRoom);
+
+        /// <summary>
+        /// Returns all sessions that are presenting a given movie title
         /// </summary>
         /// <param name="movieTitle">The movie title</param>
-        /// <returns>A list of Session</returns>
+        /// <returns>A list of Sessions</returns>
         IEnumerable<Session> RetrieveByMovieTitle(string movieTitle);
 
         /// <summary>
@@ -53,9 +61,17 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
         /// <summary>
         /// Returns the sessions in between the informed dates
         /// </summary>
-        /// <param name="minSessionDate">The start date</param>
-        /// <param name="lastSessionDate">The end date</param>
+        /// <param name="initialDate">The start date</param>
+        /// <param name="finalDate">The end date</param>
         /// <returns>A list of Session</returns>
-        IEnumerable<Session> RetrieveByDate(DateTime minSessionDate, DateTime lastSessionDate);
+        IEnumerable<Session> RetrieveByDate(DateTime initialDate, DateTime finalDate);
+
+        /// <summary>
+        /// Returns the sessions for a specific date and in a specific cine room
+        /// </summary>
+        /// <param name="sessionDate">Date of the sessions</param>
+        /// <param name="cineRoomID">Cine room ID to search</param>
+        /// <returns>A list of Session in the date and at cine room </returns>
+        IEnumerable<Session> RetrieveByDateAndCineRoom(DateTime sessionDate, int cineRoomID);
     }
 }

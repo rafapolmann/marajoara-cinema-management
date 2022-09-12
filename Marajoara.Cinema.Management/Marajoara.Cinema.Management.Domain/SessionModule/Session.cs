@@ -38,5 +38,33 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
                     MovieID = _movie.MovieID;
             }
         }
+        public DateTime EndSession
+        {
+            get
+            {
+                if (_movie != null)
+                    return SessionDate.Add(_movie.Duration);
+                else
+                    return SessionDate;
+            }
+        }
+
+        public void CopyTo(Session sessionToCopy)
+        {
+            ValidateCopyToArguments(sessionToCopy);
+
+            sessionToCopy.SessionDate = SessionDate;
+            sessionToCopy.Price = Price;
+            sessionToCopy.CineRoom = CineRoom;
+            sessionToCopy.Movie = Movie;
+        }
+
+        private void ValidateCopyToArguments(Session sessionToCopy)
+        {
+            if (sessionToCopy == null)
+                throw new ArgumentException("Session parameter cannot be null.", nameof(sessionToCopy));
+            if (sessionToCopy.Equals(this))
+                throw new ArgumentException("Session to copy cannot be the same instance of the origin.", nameof(sessionToCopy));
+        }
     }
 }

@@ -1,7 +1,11 @@
 ﻿using Marajoara.Cinema.Management.Domain.CineRoomModule;
+using Marajoara.Cinema.Management.Domain.MovieModule;
+using Marajoara.Cinema.Management.Domain.SessionModule;
 using Marajoara.Cinema.Management.Domain.UnitOfWork;
 using Marajoara.Cinema.Management.Infra.Framework.IoC;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Marajoara.Cinema.Management.ConsoleTest
 {
@@ -9,38 +13,56 @@ namespace Marajoara.Cinema.Management.ConsoleTest
     {
         static void Main(string[] args)
         {
-            var uow = IoC.GetInstance().Get<IMarajoaraUnitOfWork>();
 
-            var all = uow.CineRooms.RetrieveByName("RoomName2");
+            GuidTest();
+            // var a = default(DateTime).ToString();
+            //var uow = IoC.GetInstance().Get<IMarajoaraUnitOfWork>();
 
+            //var allRooms = uow.CineRooms.RetrieveAll().ToList();
+            //var allMovies = uow.Movies.RetrieveAll();
+            //var allSessions = uow.Sessions.RetrieveAll().ToList();
 
-            all.SeatsRow = 10;
+            //DateTime dt = DateTime.Parse("26/08/2022 18:58:48");
+            //DateTime dtFinal = dt.AddHours(1);
+            //var session = GetSessionToTest(uow.CineRooms.Retrieve(1), uow.Movies.Retrieve(6), dt);
 
-            uow.CineRooms.Delete(all);
-            uow.Commit();
+            //List<Session> sessionInDateToCineRoom = uow.Sessions.RetrieveByDateAndCineRoom(session.SessionDate, session.CineRoomID)
+            //                                                    .Where(s => s.SessionDate <= session.SessionDate && s.EndSession >= session.SessionDate ||
+            //                                                                s.SessionDate <= session.EndSession && s.EndSession >= session.EndSession).ToList();
 
-            var cineRoom = new CineRoom
+            //Random rnd = new Random();
+            //foreach (var movie in allMovies)
+            //{
+            //    Session s = GetSessionToTest(allRooms[rnd.Next(0, allRooms.Count - 1)],
+            //                                movie,
+            //                                DateTime.Now.AddDays(rnd.Next(1, 10)),
+            //                                Convert.ToDecimal(rnd.Next(15, 50)));
+            //    uow.Sessions.Add(s);
+            //}
+
+            //uow.Commit();
+
+            
+        }
+
+        private static void GuidTest()
+        {
+            Console.WriteLine(new Guid());
+            Console.ReadKey();
+        }
+
+        protected static Session GetSessionToTest(CineRoom cineRoom,
+                                           Movie movie,
+                                           DateTime sessionDate,
+                                           decimal price = 30)
+        {
+            return new Session
             {
-                Name = "RoomName",
-                SeatsColumn = 10,
-                SeatsRow = 5
+                SessionDate = sessionDate,
+                Price = price,
+                CineRoom = cineRoom,
+                Movie = movie
             };
-
-            uow.CineRooms.Add(cineRoom);
-            uow.Commit();
-
-            var cineRoom2 = new CineRoom
-            {
-                Name = "RoomName2",
-                SeatsColumn = 10,
-                SeatsRow = 5
-            };
-
-            uow.CineRooms.Add(cineRoom2);
-            uow.Commit();
-
-
-            Console.WriteLine("Hello World!");
         }
     }
 }

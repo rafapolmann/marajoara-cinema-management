@@ -1,4 +1,5 @@
-﻿using Marajoara.Cinema.Management.Domain.SessionModule;
+﻿using Marajoara.Cinema.Management.Domain.CineRoomModule;
+using Marajoara.Cinema.Management.Domain.SessionModule;
 using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
 using System;
 using System.Collections.Generic;
@@ -43,12 +44,12 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
                                                  s.SessionDate.Year.Equals(sessionDate.Year));
         }
 
-        public IEnumerable<Session> RetrieveByDate(DateTime minSessionDate, DateTime lastSessionDate)
+        public IEnumerable<Session> RetrieveByDate(DateTime initialDate, DateTime finalDate)
         {
             return DBContext.Sessions.Include(s => s.Movie)
                                      .Include(s => s.CineRoom)
-                                     .Where(s => s.SessionDate >= minSessionDate &&
-                                                 s.SessionDate <= lastSessionDate);
+                                     .Where(s => s.SessionDate >= initialDate &&
+                                                 s.SessionDate <= finalDate);
         }
 
         public IEnumerable<Session> RetrieveByMovieTitle(string movieTitle)
@@ -67,6 +68,23 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
         public void Update(Session sessionToUpdate)
         {
             DBContext.Entry(sessionToUpdate).State = EntityState.Modified;
+        }
+
+        public IEnumerable<Session> RetrieveByCineRoom(CineRoom cineRoom)
+        {
+            return DBContext.Sessions.Include(s => s.Movie)
+                                     .Include(s => s.CineRoom)
+                                     .Where(s => s.CineRoomID.Equals(cineRoom.CineRoomID));
+        }
+
+        public IEnumerable<Session> RetrieveByDateAndCineRoom(DateTime sessionDate, int cineRoomID)
+        {
+            return DBContext.Sessions.Include(s => s.Movie)
+                                     .Include(s => s.CineRoom)
+                                     .Where(s => s.CineRoomID.Equals(cineRoomID) &&
+                                                 s.SessionDate.Day.Equals(sessionDate.Day) &&
+                                                 s.SessionDate.Month.Equals(sessionDate.Month) &&
+                                                 s.SessionDate.Year.Equals(sessionDate.Year));
         }
     }
 }

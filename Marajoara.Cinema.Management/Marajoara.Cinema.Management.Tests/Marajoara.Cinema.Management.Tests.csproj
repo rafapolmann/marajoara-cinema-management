@@ -7,8 +7,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\BMP_FILE.bmp" />
+    <None Remove="Resources\INVALID_FILE.txt" />
+    <None Remove="Resources\JPG_FILE.JPG" />
+    <None Remove="Resources\MUCH_BIG_FILE.bmp" />
+    <None Remove="Resources\PNG_FILE.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\BMP_FILE.bmp" />
+    <EmbeddedResource Include="Resources\INVALID_FILE.txt" />
+    <EmbeddedResource Include="Resources\JPG_FILE.jpg" />
+    <EmbeddedResource Include="Resources\MUCH_BIG_FILE.bmp" />
+    <EmbeddedResource Include="Resources\PNG_FILE.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.7.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageReference Include="Moq" Version="4.18.2" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.3" />
     <PackageReference Include="MSTest.TestFramework" Version="2.2.3" />
     <PackageReference Include="coverlet.collector" Version="3.0.2" />
@@ -16,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Marajoara.Cinema.Management.Application\Marajoara.Cinema.Management.Application.csproj" />
     <ProjectReference Include="..\Marajoara.Cinema.Management.Domain\Marajoara.Cinema.Management.Domain.csproj" />
     <ProjectReference Include="..\Marajoara.Cinema.Management.Infra.Data.EF\Marajoara.Cinema.Management.Infra.Data.EF.csproj" />
   </ItemGroup>

@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Validators\NewFolder\**" />
+    <Content Remove="Validators\NewFolder\**" />
+    <EmbeddedResource Remove="Validators\NewFolder\**" />
+    <None Remove="Validators\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.1" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.17" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Marajoara.Cinema.Management.Application\Marajoara.Cinema.Management.Application.csproj" />
+    <ProjectReference Include="..\Marajoara.Cinema.Management.Infra.Data.EF\Marajoara.Cinema.Management.Infra.Data.EF.csproj" />
+    <ProjectReference Include="..\Marajoara.Cinema.Management.Infra.Framework.IoC\Marajoara.Cinema.Management.Infra.Framework.IoC.csproj" />
+  </ItemGroup>
+
+</Project>
