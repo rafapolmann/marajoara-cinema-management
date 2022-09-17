@@ -1,5 +1,6 @@
 ﻿using Marajoara.Cinema.Management.Domain.MovieModule;
 using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,7 +22,7 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
 
         public void Delete(Movie movieToDelete)
         {
-            DBContext.Entry(movieToDelete).State = System.Data.Entity.EntityState.Deleted;
+            DBContext.Entry(movieToDelete).State = EntityState.Deleted;
         }
 
         public IEnumerable<Movie> RetrieveAll()
@@ -32,20 +33,20 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
         public Movie Retrieve(int movieID)
         {
             return DBContext.Movies
-                            .Where(mv => mv.MovieID.Equals(movieID))
+                            .Where(mv => mv.MovieID == movieID)
                             .FirstOrDefault();
         }
 
         public Movie RetrieveByTitle(string movieTitle)
         {
             return DBContext.Movies
-                            .Where(mv => mv.Title.Equals(movieTitle))
+                            .Where(mv => mv.Title == movieTitle)
                             .FirstOrDefault();
         }
 
         public void Update(Movie movieToUpdate)
         {
-            DBContext.Entry(movieToUpdate).State = System.Data.Entity.EntityState.Modified;
+            DBContext.Entry(movieToUpdate).State = EntityState.Modified;
         }
     }
 }

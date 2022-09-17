@@ -1,5 +1,6 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Marajoara.Cinema.Management.Api.Extensions;
 using Marajoara.Cinema.Management.Api.Validators;
 using Marajoara.Cinema.Management.Domain.Authorization;
 using Marajoara.Cinema.Management.Infra.Framework.IoC;
@@ -33,9 +34,11 @@ namespace Marajoara.Cinema.Management.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCorsPolicy();
+
             //Used so IHttpContextAccessor can be accessed in the abstractvalidator class
             services.AddHttpContextAccessor();
-
+            
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -108,7 +111,7 @@ namespace Marajoara.Cinema.Management.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors();
+            app.UseCorsPolicy();
             app.UseAuthentication();
             app.UseAuthorization();
 

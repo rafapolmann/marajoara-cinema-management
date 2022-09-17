@@ -1,5 +1,6 @@
 ﻿using Marajoara.Cinema.Management.Domain.UserAccountModule;
 using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,35 +22,35 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
         }
 
         public bool Delete(UserAccount userAccountToDelete)
-        {   
-            DBContext.Entry(userAccountToDelete).State = System.Data.Entity.EntityState.Deleted;
+        {
+            DBContext.Entry(userAccountToDelete).State = EntityState.Deleted;
             return true;
         }
 
         public bool Update(UserAccount userAccountToUpdate)
         {
-            DBContext.Entry(userAccountToUpdate).State = System.Data.Entity.EntityState.Modified;
+            DBContext.Entry(userAccountToUpdate).State = EntityState.Modified;
             return true;
         }
 
         public UserAccount Retrieve(int userAccountID)
         {
             return DBContext.UserAccounts
-                            .Where(ua => ua.UserAccountID.Equals(userAccountID))
+                            .Where(ua => ua.UserAccountID == userAccountID)
                             .FirstOrDefault();
         }
 
         public UserAccount RetrieveByName(string name)
         {
             return DBContext.UserAccounts
-                            .Where(ua => ua.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase))
+                            .Where(ua => ua.Name == name)
                             .FirstOrDefault();
         }
 
         public UserAccount RetrieveByMail(string userAccountMail)
         {
             return DBContext.UserAccounts
-                            .Where(ua => ua.Mail.Equals(userAccountMail, StringComparison.InvariantCultureIgnoreCase))
+                            .Where(ua => ua.Mail == userAccountMail)
                             .FirstOrDefault();
         }
 
@@ -58,9 +59,9 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
             return DBContext.UserAccounts;
         }
 
-        public IEnumerable<UserAccount> RetrieveByAccessLevel(AccessLevel lvl)
+        public IEnumerable<UserAccount> RetrieveByAccessLevel(AccessLevel accessLevel)
         {
-            return DBContext.UserAccounts.Where(u => u.Level == lvl);
+            return DBContext.UserAccounts.Where(u => u.Level == accessLevel);
         }
     }
 }

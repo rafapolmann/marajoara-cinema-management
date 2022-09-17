@@ -1,5 +1,6 @@
 ﻿using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,25 +23,25 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
 
         public void Update(CineRoom cineRoomToUpdate)
         {
-            DBContext.Entry(cineRoomToUpdate).State = System.Data.Entity.EntityState.Modified;
+            DBContext.Entry(cineRoomToUpdate).State = EntityState.Modified;
         }
 
         public void Delete(CineRoom cineRoomToDelete)
         {
-            DBContext.Entry(cineRoomToDelete).State = System.Data.Entity.EntityState.Deleted;
+            DBContext.Entry(cineRoomToDelete).State = EntityState.Deleted;
         }
 
         public CineRoom Retrieve(int cineRoomID)
         {
             return DBContext.CineRooms
-                            .Where(cr => cr.CineRoomID.Equals(cineRoomID))
+                            .Where(cr => cr.CineRoomID == cineRoomID)
                             .FirstOrDefault();
         }
 
         public CineRoom RetrieveByName(string cineRoomName)
         {
             return DBContext.CineRooms
-                            .Where(cr => cr.Name.Equals(cineRoomName, StringComparison.InvariantCultureIgnoreCase))
+                            .Where(cr => cr.Name == cineRoomName)
                             .FirstOrDefault();
         }
 

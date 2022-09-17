@@ -147,6 +147,33 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
         }
 
         [TestMethod]
+        public void UnitOfWork_Should_Return_Persisted_UserAccount_On_Database_By_Name_Case_Insensitive()
+        {
+            string userAccountName = "FullName"; 
+            string userAccountNameToRetrive = "fullname";
+            UserAccount userAccountToAdd = GetUserAccountToTest();
+            
+
+            _marajoaraUnitOfWork.UserAccounts.Add(userAccountToAdd);
+            _marajoaraUnitOfWork.Commit();
+            int userAccountID = userAccountToAdd.UserAccountID;
+
+            _marajoaraUnitOfWork.Dispose();
+            _marajoaraUnitOfWork = GetNewEmptyUnitOfWorkInstance(false);
+
+            UserAccount userAccountToAssert = _marajoaraUnitOfWork.UserAccounts.RetrieveByName(userAccountNameToRetrive);
+
+            userAccountToAssert.Should().NotBeNull();
+            userAccountToAssert.UserAccountID.Should().Be(userAccountID);
+            userAccountToAssert.Name.Should().Be("FullName");
+            userAccountToAssert.Mail.Should().Be("email");
+            userAccountToAssert.Password.Should().Be("P@ssW0rd");
+            userAccountToAssert.Level.Should().Be(AccessLevel.Manager);
+
+            _marajoaraUnitOfWork.Dispose();
+        }
+
+        [TestMethod]
         public void UnitOfWork_Should_Return_Persisted_UserAccount_On_Database_By_Mail()
         {
             UserAccount userAccountToAdd = GetUserAccountToTest();

@@ -151,6 +151,32 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
         }
 
         [TestMethod]
+        public void UnitOfWork_Should_Return_Persisted_Movie_On_Database_By_Name_Case_Insensitive()
+        {
+            Movie movieToAdd = GetMovieToTest("Movie Title");
+            string movieTitleToRetrive = "movie title";
+
+            _marajoaraUnitOfWork.Movies.Add(movieToAdd);
+            _marajoaraUnitOfWork.Commit();
+            int movieID = movieToAdd.MovieID;
+
+            _marajoaraUnitOfWork.Dispose();
+            _marajoaraUnitOfWork = GetNewEmptyUnitOfWorkInstance(false);
+
+            Movie movieToAssert = _marajoaraUnitOfWork.Movies.RetrieveByTitle(movieTitleToRetrive);
+
+            movieToAssert.Should().NotBeNull();
+            movieToAssert.MovieID.Should().Be(movieID);
+            movieToAssert.Title.Should().Be("Movie Title");
+            movieToAssert.Description.Should().Be("Description");
+            movieToAssert.Duration.TotalHours.Should().Be(1.5);
+            movieToAssert.Is3D.Should().BeFalse();
+            movieToAssert.IsOrignalAudio.Should().BeFalse();
+
+            _marajoaraUnitOfWork.Dispose();
+        }
+
+        [TestMethod]
         public void UnitOfWork_Should_Return_All_Movies_From_Database()
         {
             Movie movieToAdd01 = GetMovieToTest("movie01");

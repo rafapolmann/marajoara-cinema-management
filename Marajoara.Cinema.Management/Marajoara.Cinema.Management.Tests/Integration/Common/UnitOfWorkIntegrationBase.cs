@@ -6,10 +6,9 @@ using Marajoara.Cinema.Management.Domain.UnitOfWork;
 using Marajoara.Cinema.Management.Domain.UserAccountModule;
 using Marajoara.Cinema.Management.Infra.Data.EF;
 using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Data.Entity;
-using System.Data.SqlClient;
 
 
 namespace Marajoara.Cinema.Management.Tests.Integration.Common
@@ -22,27 +21,13 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Common
 
         public static IMarajoaraUnitOfWork GetNewEmptyUnitOfWorkInstance(bool recreateContext = true)
         {
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.InitialCatalog = "MarajoaraTestIntegration";
-            builder.DataSource = "(localdb)\\mssqllocaldb";
-            _connectionString = builder.ConnectionString;
-
-            MarajoaraContext context = new MarajoaraContext(new SqlConnection(_connectionString));
+            MarajoaraContext context = new MarajoaraContext(GetDbContextOptionsForCurrentRequest());
             if (recreateContext)
             {
-                try
-                {
-                    //context.Database.ForceDelete();
-                }
-                catch (SqlException) { /*Could not delete, because database was not createad*/ }
+                context.Database.EnsureDeleted();
+            }           
 
-                Database.SetInitializer(new DropCreateDatabaseAlways<MarajoaraContext>());
-
-            }
-            else
-                Database.SetInitializer<MarajoaraContext>(null);
-
-            context.Database.Initialize(recreateContext);
+            context.Database.EnsureCreated();
 
             ICineRoomRepository cineRoomRepository = new CineRoomRepository(context);
             IMovieRepository movieRepository = new MovieRepository(context);
@@ -55,6 +40,17 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Common
                                                                       ticketRepository, userAccountRepository);
 
             return unitOfWork;
+        }
+
+        private static DbContextOptions GetDbContextOptionsForCurrentRequest()
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<MarajoaraContext>();
+
+            optionsBuilder.UseSqlServer("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=MarajoaraTestIntegration;Integrated Security=SSPI;");
+
+            var options = optionsBuilder.Options;
+
+            return options;
         }
 
         #region HelperMethods

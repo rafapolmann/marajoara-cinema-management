@@ -6,6 +6,8 @@ using Marajoara.Cinema.Management.Infra.Framework.IoC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 
 namespace Marajoara.Cinema.Management.ConsoleTest
 {
@@ -13,6 +15,29 @@ namespace Marajoara.Cinema.Management.ConsoleTest
     {
         static void Main(string[] args)
         {
+            TimeSpan duration;
+            TimeSpan.TryParse("01:00:00", out duration);
+
+            var uow = IoC.GetInstance().Get<IMarajoaraUnitOfWork>();
+
+            var tt = uow.Movies.Retrieve(200);
+
+            var allRooms = uow.CineRooms.RetrieveAll().ToList();
+            var allMovies = uow.Movies.RetrieveAll().ToList();
+            var allSessions = uow.Sessions.RetrieveAll().ToList();
+
+            uow.Movies.Add(new Movie
+            {
+                Title = "testeSave",
+                Description = "asdfsadf",
+                Duration = duration
+            });
+
+            uow.Commit();
+
+            HttpClient client = new HttpClient();
+
+            var result= client.GetStringAsync(@"https://localhost:44328/api/Movie").Result;
 
             GuidTest();
             // var a = default(DateTime).ToString();
