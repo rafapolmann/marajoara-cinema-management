@@ -1,9 +1,9 @@
 ﻿using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Domain.SessionModule;
 using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 
 namespace Marajoara.Cinema.Management.Infra.Data.EF
@@ -31,7 +31,7 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
         {
             return DBContext.Sessions.Include(s => s.Movie)
                                      .Include(s => s.CineRoom)
-                                     .Where(s => s.SessionID.Equals(sessionID))
+                                     .Where(s => s.SessionID == sessionID)
                                      .FirstOrDefault();
         }
 
@@ -39,9 +39,9 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
         {
             return DBContext.Sessions.Include(s => s.Movie)
                                      .Include(s => s.CineRoom)
-                                     .Where(s => s.SessionDate.Day.Equals(sessionDate.Day) &&
-                                                 s.SessionDate.Month.Equals(sessionDate.Month) &&
-                                                 s.SessionDate.Year.Equals(sessionDate.Year));
+                                     .Where(s => s.SessionDate.Day == sessionDate.Day &&
+                                                 s.SessionDate.Month == sessionDate.Month &&
+                                                 s.SessionDate.Year == sessionDate.Year);
         }
 
         public IEnumerable<Session> RetrieveByDate(DateTime initialDate, DateTime finalDate)
@@ -56,7 +56,7 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
         {
             return DBContext.Sessions.Include(s => s.Movie)
                                      .Include(s => s.CineRoom)
-                                     .Where(s => s.Movie.Title.Equals(movieTitle, StringComparison.InvariantCultureIgnoreCase));
+                                     .Where(s => s.Movie.Title == movieTitle);
         }
 
         public IEnumerable<Session> RetrieveAll()
@@ -74,17 +74,17 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
         {
             return DBContext.Sessions.Include(s => s.Movie)
                                      .Include(s => s.CineRoom)
-                                     .Where(s => s.CineRoomID.Equals(cineRoom.CineRoomID));
+                                     .Where(s => s.CineRoomID == cineRoom.CineRoomID);
         }
 
         public IEnumerable<Session> RetrieveByDateAndCineRoom(DateTime sessionDate, int cineRoomID)
         {
             return DBContext.Sessions.Include(s => s.Movie)
                                      .Include(s => s.CineRoom)
-                                     .Where(s => s.CineRoomID.Equals(cineRoomID) &&
-                                                 s.SessionDate.Day.Equals(sessionDate.Day) &&
-                                                 s.SessionDate.Month.Equals(sessionDate.Month) &&
-                                                 s.SessionDate.Year.Equals(sessionDate.Year));
+                                     .Where(s => s.CineRoomID == cineRoomID &&
+                                                 s.SessionDate.Day == sessionDate.Day &&
+                                                 s.SessionDate.Month == sessionDate.Month &&
+                                                 s.SessionDate.Year == sessionDate.Year);
         }
     }
 }

@@ -1,20 +1,22 @@
 ﻿using Marajoara.Cinema.Management.Domain.UserAccountModule;
-using System.Data.Entity.ModelConfiguration;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Marajoara.Cinema.Management.Infra.Data.EF.Configuration
 {
-    public class UserAccountConfiguration : EntityTypeConfiguration<UserAccount>
+    public class UserAccountConfiguration : IEntityTypeConfiguration<UserAccount>
     {
-        public UserAccountConfiguration()
+        public void Configure(EntityTypeBuilder<UserAccount> builder)
         {
-                ToTable("UserAccounts");
-                HasKey(cr => cr.UserAccountID).Property(cr => cr.UserAccountID).HasColumnName("UserAccountID");
-                HasIndex(cr => cr.Mail).IsUnique();
-                Property(cr => cr.Mail).IsRequired().HasColumnName("Mail").HasMaxLength(512) ;
-                Property(cr => cr.Name).IsRequired().HasColumnName("Name").HasMaxLength(1024);
-                Property(cr => cr.Level).HasColumnName("AccessLevel");
-                Property(cr => cr.Password).HasColumnName("Password");
-                Property(cr => cr.Photo).HasColumnName("Photo");
+            builder.ToTable("UserAccounts");
+            builder.HasKey(ua => ua.UserAccountID);
+            builder.Property(ua => ua.UserAccountID).HasColumnName("UserAccountID");
+            builder.HasIndex(ua => ua.Mail).IsUnique();
+            builder.Property(ua => ua.Mail).IsRequired().HasColumnName("Mail").HasMaxLength(512);
+            builder.Property(ua => ua.Name).IsRequired().HasColumnName("Name").HasMaxLength(1024);
+            builder.Property(ua => ua.Level).HasColumnName("AccessLevel");
+            builder.Property(ua => ua.Password).HasColumnName("Password");
+            builder.Property(ua => ua.Photo).HasColumnName("Photo");
         }
     }
 }

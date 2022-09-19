@@ -1,7 +1,6 @@
 ﻿using Marajoara.Cinema.Management.Api.Base;
 using Marajoara.Cinema.Management.Application.Features.SessionModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.SessionModule.Queries;
-using Marajoara.Cinema.Management.Infra.Framework.IoC;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +17,9 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         private readonly IMediator _mediator;
         private readonly ILogger<SessionController> _logger;
 
-        public SessionController(ILogger<SessionController> logger)
+        public SessionController(ILogger<SessionController> logger, IMediator mediator)
         {
-            _mediator = IoC.GetInstance().Get<IMediator>();
+            _mediator = mediator;
             _logger = logger;
         }
 

@@ -1,8 +1,10 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Marajoara.Cinema.Management.Api.Extensions;
 using Marajoara.Cinema.Management.Api.Validators;
+using Marajoara.Cinema.Management.Application;
 using Marajoara.Cinema.Management.Domain.Authorization;
-using Marajoara.Cinema.Management.Infra.Framework.IoC;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,26 +15,27 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Marajoara.Cinema.Management.Api
 {
     public class Startup
     {
         private ITokenService _tokenService;
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            //Todo: check if there is a better way of get the instance of this service
-            _tokenService = IoC.GetInstance().Get<ITokenService>();
-
-        }
-
-        public IConfiguration Configuration { get; }
+        }        
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCorsPolicy();
+
+            services.AddRepositorySetup(Configuration);
+            services.AddApplicationSetup();            
+
             //Used so IHttpContextAccessor can be accessed in the abstractvalidator class
             services.AddHttpContextAccessor();
 
@@ -56,8 +59,10 @@ namespace Marajoara.Cinema.Management.Api
             services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
             services.AddControllers(opt => { opt.Filters.Add(typeof(ValidatorActionFilter)); });
 
+            services.AddAutoMapper(typeof(AppModule).Assembly);
+            services.AddMediatR(typeof(AppModule).Assembly);
             services.AddValidatorsFromAssembly(typeof(Startup).Assembly);
-            services.AddFluentValidationAutoValidation();
+            services.AddFluentValidationAutoValidation();            
 
             services.AddSwaggerGen(c =>
             {
@@ -72,7 +77,6 @@ namespace Marajoara.Cinema.Management.Api
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = "Bearer"
                 });
-
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 {
                 {
@@ -91,13 +95,14 @@ namespace Marajoara.Cinema.Management.Api
                     new List<string>()
                     }
                 });
-
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ITokenService tokenService)
         {
+            _tokenService = tokenService;
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -108,7 +113,7 @@ namespace Marajoara.Cinema.Management.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors();
+            app.UseCorsPolicy();
             app.UseAuthentication();
             app.UseAuthorization();
 

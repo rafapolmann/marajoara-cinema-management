@@ -145,6 +145,31 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
         }
 
         [TestMethod]
+        public void UnitOfWork_Should_Return_Persisted_CineRoom_On_Database_By_Name_Case_Insensitive()
+        {
+            CineRoom cineRoomToAdd = GetCineRoomToTest("CineRoomName");
+            string cineRoomName = "cineroomname";
+
+            _marajoaraUnitOfWork.CineRooms.Add(cineRoomToAdd);
+            _marajoaraUnitOfWork.Commit();
+            int cineRoomID = cineRoomToAdd.CineRoomID;
+
+            _marajoaraUnitOfWork.Dispose();
+            _marajoaraUnitOfWork = GetNewEmptyUnitOfWorkInstance(false);
+
+            CineRoom cineRoomToAssert = _marajoaraUnitOfWork.CineRooms.RetrieveByName(cineRoomName);
+
+            cineRoomToAssert.Should().NotBeNull();
+            cineRoomToAssert.CineRoomID.Should().Be(cineRoomID);
+            cineRoomToAssert.Name.Should().Be("CineRoomName");
+            cineRoomToAssert.SeatsColumn.Should().Be(5);
+            cineRoomToAssert.SeatsRow.Should().Be(10);
+            cineRoomToAssert.TotalSeats.Should().Be(50);
+
+            _marajoaraUnitOfWork.Dispose();
+        }
+
+        [TestMethod]
         public void UnitOfWork_Should_Return_All_CineRooms_From_Database()
         {
             CineRoom cineRoomToAdd01 = GetCineRoomToTest("cineRoom01", 50, 10);

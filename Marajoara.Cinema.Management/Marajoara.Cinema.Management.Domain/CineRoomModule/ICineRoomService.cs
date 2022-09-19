@@ -6,8 +6,8 @@ namespace Marajoara.Cinema.Management.Domain.CineRoomModule
     {
         /// <summary>
         /// Add new cine room in the system.
-        /// In case of the cine room parameter is null, will throw exception.
-        /// Will not possible to register a new cine room with already existing name.
+        /// In case of null cine room parameter, throws exception.
+        /// Will be not possible to register a new cine room with already existing name, throws exception.
         /// </summary>
         /// <param name="cineRoom">Cine room to add.</param>
         /// <returns>Return the ID of new cine room registered in the system.</returns>
@@ -15,14 +15,14 @@ namespace Marajoara.Cinema.Management.Domain.CineRoomModule
 
         /// <summary>
         /// Update all properties of a given cine room in the system.
-        /// In case of the cine room parameter is null or cine room will not find in system, will throw exception.
+        /// In case of null or not found cine room, throws exception.
         /// </summary>
         /// <param name="cineRoom">Cine room with properties to update.</param>
         bool UpdateCineRoom(CineRoom cineRoom);
-
+        
         /// <summary>
-        /// Remove a given cine room of the system.
-        /// In case of the cine room parameter is null or cine room will not find in system, will throw exception.
+        /// Remove a given cine room from the system.
+        /// In case of null or not found cine room, throws exception.
         /// </summary>
         /// <param name="cineRoom">Cine room to remove.</param>
         /// <returns>Return true if cine room was removed with success. </returns>
@@ -35,7 +35,7 @@ namespace Marajoara.Cinema.Management.Domain.CineRoomModule
         IEnumerable<CineRoom> GetAllCineRooms();
 
         /// <summary>
-        /// Method to get a given CineRoom registered on the system based on database ID.
+        /// Method to get a given CineRoom registered on the system based on its database ID.
         /// </summary>
         /// <param name="id">ID used with parameter in the search.</param>
         /// <returns>Return found CineRoom or null if doesn't exists this ID.</returns>

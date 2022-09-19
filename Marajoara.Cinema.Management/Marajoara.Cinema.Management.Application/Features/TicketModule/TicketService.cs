@@ -91,7 +91,7 @@ namespace Marajoara.Cinema.Management.Application.Features.TicketModule
                 throw new Exception($"Session not found. SessionID: {ticket.SessionID}");
 
             ticket.Session = ticketSession;
-            UserAccount ticketUserAccount = _userAccountService.RetrieveUserAccountByID(ticket.UserAccountID);
+            UserAccount ticketUserAccount = _userAccountService.GetUserAccountByID(ticket.UserAccountID);
 
             if (ticketUserAccount == null)
                 throw new Exception($"User Account not found. UserAccountID: {ticket.UserAccountID}");

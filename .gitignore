@@ -329,3 +329,7 @@ ASALocalRun/
 .mfractor/
 *.playlist
 *.exe
+
+# Miscellaneous
+**/Marajoara.Cinema.Management.FrontEnd/.angular/cache/
+**/Marajoara.Cinema.Management.FrontEnd/.sass-cache/
