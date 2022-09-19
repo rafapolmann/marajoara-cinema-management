@@ -10,8 +10,8 @@ namespace Marajoara.Cinema.Management.Api.Controllers
     public class AuthorizationController : ApiControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ILogger<CineRoomController> _logger;
-        public AuthorizationController(ILogger<CineRoomController> logger, IMediator mediator) 
+        private readonly ILogger<AuthorizationController> _logger;
+        public AuthorizationController(ILogger<AuthorizationController> logger, IMediator mediator) 
         {
             _mediator = mediator;
             _logger = logger;
