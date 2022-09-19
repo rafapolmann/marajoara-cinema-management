@@ -33,7 +33,7 @@ namespace Marajoara.Cinema.Management.Api
         {
             services.AddCorsPolicy();
 
-            services.AddRepositorySetup();
+            services.AddRepositorySetup(Configuration);
             services.AddApplicationSetup();            
 
             //Used so IHttpContextAccessor can be accessed in the abstractvalidator class

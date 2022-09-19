@@ -7,6 +7,7 @@ using Marajoara.Cinema.Management.Domain.UserAccountModule;
 using Marajoara.Cinema.Management.Infra.Data.EF;
 using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -14,11 +15,11 @@ namespace Marajoara.Cinema.Management.Api.Extensions
 {
     public static class RepositorySetupExtensions
     {
-        public static void AddRepositorySetup(this IServiceCollection services)
+        public static void AddRepositorySetup(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<MarajoaraContext>(options =>
             {
-                options.UseSqlServer("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=CineMarajoara;Integrated Security=SSPI;");
+                options.UseSqlServer(configuration.GetConnectionString("MarajoaraDb"));
                 options.UseLoggerFactory(LoggerFactory.Create(builder => { builder.AddDebug(); }));
             });
 
