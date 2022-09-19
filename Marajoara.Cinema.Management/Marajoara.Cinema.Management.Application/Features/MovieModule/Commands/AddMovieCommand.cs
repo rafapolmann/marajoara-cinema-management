@@ -6,21 +6,9 @@ namespace Marajoara.Cinema.Management.Application.Features.MovieModule.Commands
 {
     public class AddMovieCommand : IRequest<Result<Exception, int>>
     {
-        private TimeSpan _duration;
-
         public string Title { get; set; }
         public string Description { get; set; }
-        public string MovieDuration { get; set; }
-        public TimeSpan Duration
-        {
-            get
-            {
-                if (TimeSpan.TryParse(MovieDuration, out _duration))
-                    return _duration;
-                else
-                    return TimeSpan.Zero;
-            }
-        }
+        public int Minutes { get; set; }
         public bool Is3D { get; set; }
         public bool IsOriginalAudio { get; set; }
     }

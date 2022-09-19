@@ -72,7 +72,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Domain
             sessionToCopy.Movie.Should().Be(session.Movie);
             sessionToCopy.CineRoomID.Should().Be(session.CineRoomID);
             sessionToCopy.CineRoom.Should().NotBeNull();
-            sessionToCopy.CineRoom.Should().Be(session.CineRoom);           
+            sessionToCopy.CineRoom.Should().Be(session.CineRoom);
         }
 
         [TestMethod]
@@ -126,6 +126,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Domain
         private Movie GetMovieToTest(int movieID = 1,
                                      string title = "Title",
                                      string description = "Description",
+                                     int minutes = 90,
                                      bool is3D = false,
                                      bool IsOriginalAudio = false)
         {
@@ -135,7 +136,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Domain
                 MovieID = movieID,
                 Title = title,
                 Description = description,
-                Duration = new TimeSpan(1, 30, 0),
+                Minutes = minutes,
                 Is3D = is3D,
                 IsOriginalAudio = IsOriginalAudio
             };
