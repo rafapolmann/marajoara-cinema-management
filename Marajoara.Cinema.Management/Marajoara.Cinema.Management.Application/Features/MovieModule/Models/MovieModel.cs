@@ -9,6 +9,6 @@ namespace Marajoara.Cinema.Management.Application.Features.MovieModule.Models
         public string Description { get; set; }
         public TimeSpan Duration { get; set; }
         public bool Is3D { get; set; }
-        public bool IsOrignalAudio { get; set; }
+        public bool IsOriginalAudio { get; set; }
     }
 }

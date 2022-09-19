@@ -289,7 +289,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
                                                                               m.Duration.Equals(movieToUpdate.Duration) &&
                                                                               m.Poster != null &&
                                                                               m.Is3D.Equals(movieToUpdate.Is3D) &&
-                                                                              m.IsOrignalAudio.Equals(movieToUpdate.IsOrignalAudio))), Times.Once);
+                                                                              m.IsOriginalAudio.Equals(movieToUpdate.IsOriginalAudio))), Times.Once);
             _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
         }
 
@@ -421,7 +421,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
                                                                               m.Duration.Equals(movieOnDB.Duration) &&
                                                                               m.Poster == imageBytes &&
                                                                               m.Is3D.Equals(movieOnDB.Is3D) &&
-                                                                              m.IsOrignalAudio.Equals(movieOnDB.IsOrignalAudio))), Times.Once);
+                                                                              m.IsOriginalAudio.Equals(movieOnDB.IsOriginalAudio))), Times.Once);
             _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
         }
 
@@ -509,7 +509,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
                                                                               m.Duration.Equals(movieOnDB.Duration) &&
                                                                               m.Poster == null &&
                                                                               m.Is3D.Equals(movieOnDB.Is3D) &&
-                                                                              m.IsOrignalAudio.Equals(movieOnDB.IsOrignalAudio))), Times.Once);
+                                                                              m.IsOriginalAudio.Equals(movieOnDB.IsOriginalAudio))), Times.Once);
             _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
         }
         #endregion MoviePoster
@@ -518,7 +518,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
                                      string title = "Title",
                                      string description = "Description",
                                      bool is3D = false,
-                                     bool isOrignalAudio = false)
+                                     bool IsOriginalAudio = false)
         {
 
             return new Movie
@@ -528,7 +528,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
                 Description = description,
                 Duration = new TimeSpan(1, 30, 0),
                 Is3D = is3D,
-                IsOrignalAudio = isOrignalAudio
+                IsOriginalAudio = IsOriginalAudio
             };
         }
     }
