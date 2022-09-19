@@ -30,8 +30,6 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC.Extensions
             kernel.Bind<MarajoaraContext>().ToSelf()
                                            .InSingletonScope()
                                            .WithConstructorArgument("options", GetDbContextOptionsForCurrentRequest());
-            //.InScope(c => c.Request);
-
 
             kernel.Bind<IMarajoaraUnitOfWork>().To<MarajoaraUnitOfWork>();
         }
