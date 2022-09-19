@@ -16,7 +16,7 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Common
     [TestClass]
     public class UnitOfWorkIntegrationBase
     {
-        private static string _connectionString;
+        private const string INTEGRATION_TESTS_CONNECTION_BD = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=MarajoaraTestIntegration;Integrated Security=SSPI;";
         protected static IMarajoaraUnitOfWork _marajoaraUnitOfWork;
 
         public static IMarajoaraUnitOfWork GetNewEmptyUnitOfWorkInstance(bool recreateContext = true)
@@ -46,7 +46,7 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Common
         {
             var optionsBuilder = new DbContextOptionsBuilder<MarajoaraContext>();
 
-            optionsBuilder.UseSqlServer("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=MarajoaraTestIntegration;Integrated Security=SSPI;");
+            optionsBuilder.UseSqlServer(INTEGRATION_TESTS_CONNECTION_BD);
 
             var options = optionsBuilder.Options;
 
