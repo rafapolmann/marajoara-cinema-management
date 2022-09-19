@@ -43,7 +43,7 @@ namespace Marajoara.Cinema.Management.Domain.SessionModule
             get
             {
                 if (_movie != null)
-                    return SessionDate.Add(_movie.Duration);
+                    return SessionDate.AddMinutes(_movie.Minutes);
                 else
                     return SessionDate;
             }

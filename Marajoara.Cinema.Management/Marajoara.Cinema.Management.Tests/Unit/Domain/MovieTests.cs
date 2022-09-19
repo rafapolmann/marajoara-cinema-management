@@ -25,7 +25,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Domain
 
             movieToCopy.Title.Should().Be(movie.Title);
             movieToCopy.Description.Should().Be(movie.Description);
-            movieToCopy.Duration.Should().Be(movie.Duration);
+            movieToCopy.Minutes.Should().Be(movie.Minutes);
             movieToCopy.Is3D.Should().Be(movie.Is3D);
             movieToCopy.IsOriginalAudio.Should().Be(movie.IsOriginalAudio);
             movieToCopy.MovieID.Should().NotBe(movie.MovieID);
@@ -102,11 +102,30 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Domain
             Action action = () => movie.Validate();
             action.Should().Throw<Exception>().WithMessage("Movie title cannot be null or empty.");
         }
+
+        [TestMethod]
+        public void Movie_Validate_Should_Throw_Exception_When_Movie_Minutes_Is_Zero()
+        {
+            Movie movie = GetMovieToTest(1, "Movie", "Description", 0);
+
+            Action action = () => movie.Validate();
+            action.Should().Throw<Exception>().WithMessage("Movie minutes cannot be less or equals zero.");
+        }
+
+        [TestMethod]
+        public void Movie_Validate_Should_Throw_Exception_When_Movie_Minutes_Less_Than_Zero()
+        {
+            Movie movie = GetMovieToTest(1, "Movie", "Description", -1);
+
+            Action action = () => movie.Validate();
+            action.Should().Throw<Exception>().WithMessage("Movie minutes cannot be less or equals zero.");
+        }
         #endregion Validate
 
         protected Movie GetMovieToTest(int movieID = 1,
                                        string title = "Title",
                                        string description = "Description",
+                                       int minutes = 60,
                                        bool is3D = false,
                                        bool IsOriginalAudio = false)
         {
@@ -116,7 +135,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Domain
                 MovieID = movieID,
                 Title = title,
                 Description = description,
-                Duration = new TimeSpan(1, 30, 0),
+                Minutes = minutes,
                 Is3D = is3D,
                 IsOriginalAudio = IsOriginalAudio
             };

@@ -286,7 +286,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
             _unitOfWorkMock.Verify(uow => uow.Movies.Update(movieOnBDToUpdate), Times.Once);
             _unitOfWorkMock.Verify(uow => uow.Movies.Update(It.Is<Movie>(m => m.Title.Equals(movieToUpdate.Title) &&
                                                                               m.Description.Equals(movieToUpdate.Description) &&
-                                                                              m.Duration.Equals(movieToUpdate.Duration) &&
+                                                                              m.Minutes.Equals(movieToUpdate.Minutes) &&
                                                                               m.Poster != null &&
                                                                               m.Is3D.Equals(movieToUpdate.Is3D) &&
                                                                               m.IsOriginalAudio.Equals(movieToUpdate.IsOriginalAudio))), Times.Once);
@@ -418,7 +418,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
             _unitOfWorkMock.Verify(uow => uow.Movies.Update(movieOnDB), Times.Once);
             _unitOfWorkMock.Verify(uow => uow.Movies.Update(It.Is<Movie>(m => m.Title.Equals(movieOnDB.Title) &&
                                                                               m.Description.Equals(movieOnDB.Description) &&
-                                                                              m.Duration.Equals(movieOnDB.Duration) &&
+                                                                              m.Minutes.Equals(movieOnDB.Minutes) &&
                                                                               m.Poster == imageBytes &&
                                                                               m.Is3D.Equals(movieOnDB.Is3D) &&
                                                                               m.IsOriginalAudio.Equals(movieOnDB.IsOriginalAudio))), Times.Once);
@@ -506,7 +506,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
             _unitOfWorkMock.Verify(uow => uow.Movies.Update(movieOnDB), Times.Once);
             _unitOfWorkMock.Verify(uow => uow.Movies.Update(It.Is<Movie>(m => m.Title.Equals(movieOnDB.Title) &&
                                                                               m.Description.Equals(movieOnDB.Description) &&
-                                                                              m.Duration.Equals(movieOnDB.Duration) &&
+                                                                              m.Minutes.Equals(movieOnDB.Minutes) &&
                                                                               m.Poster == null &&
                                                                               m.Is3D.Equals(movieOnDB.Is3D) &&
                                                                               m.IsOriginalAudio.Equals(movieOnDB.IsOriginalAudio))), Times.Once);
@@ -517,6 +517,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         private Movie GetMovieToTest(int movieID = 1,
                                      string title = "Title",
                                      string description = "Description",
+                                     int minutes = 90,
                                      bool is3D = false,
                                      bool IsOriginalAudio = false)
         {
@@ -526,7 +527,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
                 MovieID = movieID,
                 Title = title,
                 Description = description,
-                Duration = new TimeSpan(1, 30, 0),
+                Minutes = minutes,
                 Is3D = is3D,
                 IsOriginalAudio = IsOriginalAudio
             };

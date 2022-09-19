@@ -15,9 +15,6 @@ namespace Marajoara.Cinema.Management.ConsoleTest
     {
         static void Main(string[] args)
         {
-            TimeSpan duration;
-            TimeSpan.TryParse("01:00:00", out duration);
-
             var uow = IoC.GetInstance().Get<IMarajoaraUnitOfWork>();
 
             var tt = uow.Movies.Retrieve(200);
@@ -30,7 +27,7 @@ namespace Marajoara.Cinema.Management.ConsoleTest
             {
                 Title = "testeSave",
                 Description = "asdfsadf",
-                Duration = duration
+                Minutes = 30
             });
 
             uow.Commit();

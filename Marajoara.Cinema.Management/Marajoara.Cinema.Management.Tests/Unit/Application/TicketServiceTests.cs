@@ -367,6 +367,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         private Movie GetMovieToTest(int movieID = 1,
                                      string title = "Title",
                                      string description = "Description",
+                                     int minutes = 90,
                                      bool is3D = false,
                                      bool IsOriginalAudio = false)
         {
@@ -376,7 +377,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
                 MovieID = movieID,
                 Title = title,
                 Description = description,
-                Duration = new TimeSpan(1, 30, 0),
+                Minutes = minutes,
                 Is3D = is3D,
                 IsOriginalAudio = IsOriginalAudio
             };
