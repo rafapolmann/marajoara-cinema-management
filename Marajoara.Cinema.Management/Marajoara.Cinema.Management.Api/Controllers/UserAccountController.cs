@@ -1,13 +1,12 @@
 ﻿using Marajoara.Cinema.Management.Api.Base;
-using Marajoara.Cinema.Management.Infra.Framework.IoC;
+using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Commands;
+using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Queries;
-using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Commands;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 
 namespace Marajoara.Cinema.Management.Api.Controllers
 {
@@ -18,9 +17,9 @@ namespace Marajoara.Cinema.Management.Api.Controllers
     {
         private readonly IMediator _mediator;
         private readonly ILogger<CineRoomController> _logger;
-        public UserAccountController(ILogger<CineRoomController> logger)
+        public UserAccountController(ILogger<CineRoomController> logger, IMediator mediator)
         {
-            _mediator = IoC.GetInstance().Get<IMediator>();
+            _mediator = mediator;
             _logger = logger;
         }
         [HttpGet]

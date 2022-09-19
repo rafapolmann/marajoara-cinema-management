@@ -1,21 +1,22 @@
 ﻿using Marajoara.Cinema.Management.Domain.MovieModule;
-using System.Data.Entity.ModelConfiguration;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Marajoara.Cinema.Management.Infra.Data.EF.Configuration
 {
-    public class MovieConfiguration : EntityTypeConfiguration<Movie>
+    public class MovieConfiguration : IEntityTypeConfiguration<Movie>
     {
-        public MovieConfiguration()
+        public void Configure(EntityTypeBuilder<Movie> builder)
         {
-            ToTable("Movies");
-            HasKey(cr => cr.MovieID).Property(cr => cr.MovieID).HasColumnName("MovieID");
-            HasIndex(cr => cr.Title).IsUnique();
-            Property(cr => cr.Title).IsRequired().HasColumnName("Title").HasMaxLength(1024);
-            Property(cr => cr.Poster).HasColumnName("Poster");
-            Property(cr => cr.Duration).IsRequired().HasColumnName("Duration");
-            Property(cr => cr.Is3D).IsRequired().HasColumnName("Is3D");
-            Property(cr => cr.IsOrignalAudio).IsRequired().HasColumnName("IsOrignalAudio");
-            
+            builder.ToTable("Movies");
+            builder.HasKey(m => m.MovieID);
+            builder.Property(m => m.MovieID).HasColumnName("MovieID");
+            builder.HasIndex(m => m.Title).IsUnique();
+            builder.Property(m => m.Title).IsRequired().HasColumnName("Title").HasMaxLength(1024);
+            builder.Property(m => m.Poster).HasColumnName("Poster");
+            builder.Property(m => m.Duration).IsRequired().HasColumnName("Duration");
+            builder.Property(m => m.Is3D).IsRequired().HasColumnName("Is3D");
+            builder.Property(m => m.IsOrignalAudio).IsRequired().HasColumnName("IsOrignalAudio");
         }
     }
 }

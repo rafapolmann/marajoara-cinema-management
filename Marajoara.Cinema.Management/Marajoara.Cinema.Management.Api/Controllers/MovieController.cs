@@ -1,9 +1,7 @@
 ﻿using Marajoara.Cinema.Management.Api.Base;
 using Marajoara.Cinema.Management.Application.Features.MovieModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.MovieModule.Queries;
-using Marajoara.Cinema.Management.Infra.Framework.IoC;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,16 +10,16 @@ using System.Threading.Tasks;
 namespace Marajoara.Cinema.Management.Api.Controllers
 {
     [ApiController]
-    [Authorize(Roles = "Manager")]
+    //[Authorize(Roles = "Manager")]
     [Route("api/[controller]")]
     public class MovieController : ApiControllerBase
     {
         private readonly IMediator _mediator;
         private readonly ILogger<MovieController> _logger;
 
-        public MovieController(ILogger<MovieController> logger)
+        public MovieController(ILogger<MovieController> logger, IMediator mediator)
         {
-            _mediator = IoC.GetInstance().Get<IMediator>();
+            _mediator = mediator;
             _logger = logger;
         }
 
@@ -67,19 +65,19 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             return HandleResult(await _mediator.Send(updateMovieCommand));
         }
 
-        [HttpPut("Poster")]
+        [HttpPut("{movieID}/Poster")]
         public async Task<IActionResult> UploadPoster(int movieID, IFormFile file)
         {
             return HandleResult(await _mediator.Send(new UpdateMoviePosterCommand(movieID, file.OpenReadStream())));
         }
 
-        [HttpGet("Poster")]
+        [HttpGet("{movieID}/Poster")]
         public async Task<IActionResult> GetPoster(int movieID)
         {
             return HandleResult(await _mediator.Send(new GetMoviePosterQuery(movieID)));
         }
 
-        [HttpDelete("Poster")]
+        [HttpDelete("{movieID}/Poster")]
         public async Task<IActionResult> DeletePoster(int movieID)
         {
             return HandleResult(await _mediator.Send(new DeleteMoviePosterCommand(movieID)));

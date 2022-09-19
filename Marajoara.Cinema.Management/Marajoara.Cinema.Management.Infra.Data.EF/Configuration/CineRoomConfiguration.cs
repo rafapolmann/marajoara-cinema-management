@@ -1,20 +1,22 @@
 ﻿using Marajoara.Cinema.Management.Domain.CineRoomModule;
-using System.Data.Entity.ModelConfiguration;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Marajoara.Cinema.Management.Infra.Data.EF.Configuration
 {
-    public class CineRoomConfiguration : EntityTypeConfiguration<CineRoom>
+    public class CineRoomConfiguration : IEntityTypeConfiguration<CineRoom>
     {
-        public CineRoomConfiguration()
+        public void Configure(EntityTypeBuilder<CineRoom> builder)
         {
-            ToTable("CineRooms");
-            HasKey(cr => cr.CineRoomID).Property(cr => cr.CineRoomID).HasColumnName("CineRoomID");
-            HasIndex(cr => cr.Name).IsUnique();
-            Property(cr => cr.Name).IsRequired().HasColumnName("Name").HasMaxLength(1024);
-            Property(cr => cr.SeatsColumn).HasColumnName("SeatsColumn");
-            Property(cr => cr.SeatsRow).HasColumnName("SeatsRow");
+            builder.ToTable("CineRooms");
+            builder.HasKey(cr => cr.CineRoomID);
+            builder.Property(cr => cr.CineRoomID).HasColumnName("CineRoomID");
+            builder.HasIndex(cr => cr.Name).IsUnique();
+            builder.Property(cr => cr.Name).IsRequired().HasColumnName("Name").HasMaxLength(1024);
+            builder.Property(cr => cr.SeatsColumn).HasColumnName("SeatsColumn");
+            builder.Property(cr => cr.SeatsRow).HasColumnName("SeatsRow");
 
-            Ignore(cr => cr.TotalSeats);
+            builder.Ignore(cr => cr.TotalSeats);
         }
     }
 }

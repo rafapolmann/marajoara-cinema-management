@@ -1,25 +1,32 @@
 ﻿using Marajoara.Cinema.Management.Domain.TicketModule;
-using System.Data.Entity.ModelConfiguration;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Marajoara.Cinema.Management.Infra.Data.EF.Configuration
 {
-    public class TicketConfiguration : EntityTypeConfiguration<Ticket>
+    public class TicketConfiguration : IEntityTypeConfiguration<Ticket>
     {
-        public TicketConfiguration()
+        public void Configure(EntityTypeBuilder<Ticket> builder)
         {
-            ToTable("Tickets");
-            HasKey(cr => cr.TicketID).Property(cr => cr.TicketID).HasColumnName("TicketID");
-            HasIndex(cr => cr.Code).IsUnique();
-            Property(cr => cr.Code).IsRequired().HasColumnName("TicketCode");
-            Property(cr => cr.SeatNumber).IsRequired().HasColumnName("SeatNumber");
-            Property(cr => cr.Used).HasColumnName("Used");
+            builder.ToTable("Tickets");
+            builder.HasKey(t => t.TicketID);
+            builder.Property(t => t.TicketID).HasColumnName("TicketID");
+            builder.HasIndex(t => t.Code).IsUnique();
+            builder.Property(t => t.Code).IsRequired().HasColumnName("TicketCode");
+            builder.Property(t => t.SeatNumber).IsRequired().HasColumnName("SeatNumber");
+            builder.Property(t => t.Used).HasColumnName("Used");
 
-            //FKs
-            Property(cr => cr.UserAccountID).HasColumnName("UserAccountID");
-            HasRequired(cr => cr.UserAccount).WithMany().HasForeignKey(o => o.UserAccountID);
+            //FK_UserAccount
+            builder.Property(t => t.UserAccountID).HasColumnName("UserAccountID");
+            builder.HasOne(t => t.UserAccount).WithMany()
+                   .HasForeignKey(t => t.UserAccountID).IsRequired()
+                   .OnDelete(DeleteBehavior.Cascade);
 
-            Property(cr => cr.SessionID).HasColumnName("SessionID");
-            HasRequired(cr => cr.Session).WithMany().HasForeignKey(o => o.SessionID);
+            //FK_Session
+            builder.Property(t => t.SessionID).HasColumnName("SessionID");
+            builder.HasOne(t => t.Session).WithMany()
+                   .HasForeignKey(t => t.SessionID).IsRequired()
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Marajoara.Cinema.Management.Domain.TicketModule
         IEnumerable<Ticket> RetrieveAll();
 
         /// <summary>
-        /// Retrieve all tickets of a given UserAccount . If UserAccount not found, throws exception;
+        /// Retrieve all tickets of a given User Account . If User Account not found, throws exception;
         /// </summary>
         /// <param name="userAccoutnId">UserAccountID</param>
         /// <returns>A IEnumerable of Ticket</returns>

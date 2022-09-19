@@ -1,33 +1,28 @@
-﻿using System.Data.Entity;
-using System.Data.Common;
-using Marajoara.Cinema.Management.Domain.UserAccountModule;
-using Marajoara.Cinema.Management.Domain.TicketModule;
-using Marajoara.Cinema.Management.Domain.CineRoomModule;
-using Marajoara.Cinema.Management.Domain.SessionModule;
+﻿using Marajoara.Cinema.Management.Domain.CineRoomModule;
 using Marajoara.Cinema.Management.Domain.MovieModule;
+using Marajoara.Cinema.Management.Domain.SessionModule;
+using Marajoara.Cinema.Management.Domain.TicketModule;
+using Marajoara.Cinema.Management.Domain.UserAccountModule;
 using Marajoara.Cinema.Management.Infra.Data.EF.Configuration;
-using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 namespace Marajoara.Cinema.Management.Infra.Data.EF.Commom
 {
     public class MarajoaraContext : DbContext
     {
-        public MarajoaraContext(DbConnection dbConnection)
-            : base(dbConnection, true)
+        public MarajoaraContext(DbContextOptions options)
+            : base(options)
         {
-            Database.SetInitializer<MarajoaraContext>(new CreateDatabaseIfNotExists<MarajoaraContext>());
+            Database.EnsureCreated();
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Configurations.Add(new UserAccountConfiguration());
-            modelBuilder.Configurations.Add(new TicketConfiguration());
-            modelBuilder.Configurations.Add(new CineRoomConfiguration());
-            modelBuilder.Configurations.Add(new SessionConfiguration());
-            modelBuilder.Configurations.Add(new MovieConfiguration());
-
-            Database.Log = (query) => Debug.Write(query);
+            modelBuilder.ApplyConfiguration(new UserAccountConfiguration());
+            modelBuilder.ApplyConfiguration(new TicketConfiguration());
+            modelBuilder.ApplyConfiguration(new CineRoomConfiguration());
+            modelBuilder.ApplyConfiguration(new SessionConfiguration());
         }
 
         public DbSet<UserAccount> UserAccounts { get; set; }

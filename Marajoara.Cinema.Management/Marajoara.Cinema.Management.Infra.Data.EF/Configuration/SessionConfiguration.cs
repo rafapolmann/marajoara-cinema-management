@@ -1,25 +1,32 @@
 ﻿using Marajoara.Cinema.Management.Domain.SessionModule;
-using System.Data.Entity.ModelConfiguration;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Marajoara.Cinema.Management.Infra.Data.EF.Configuration
 {
-    public class SessionConfiguration : EntityTypeConfiguration<Session>
+    public class SessionConfiguration : IEntityTypeConfiguration<Session>
     {
-        public SessionConfiguration()
+        public void Configure(EntityTypeBuilder<Session> builder)
         {
-            ToTable("Sessions");
-            HasKey(cr => cr.SessionID).Property(cr => cr.SessionID).HasColumnName("SessionID");            
-            Property(cr => cr.SessionDate).IsRequired().HasColumnName("SessionDate");
-            Property(cr => cr.Price).IsRequired().HasColumnName("Price");
+            builder.ToTable("Sessions");
+            builder.HasKey(s => s.SessionID);
+            builder.Property(s => s.SessionID).HasColumnName("SessionID");
+            builder.Property(s => s.SessionDate).IsRequired().HasColumnName("SessionDate");
+            builder.Property(s => s.Price).IsRequired().HasColumnName("Price");
 
-            //FKs
-            Property(cr => cr.CineRoomID).HasColumnName("CineRoomID");
-            HasRequired(cr => cr.CineRoom).WithMany().HasForeignKey(o => o.CineRoomID);
+            //FK_CineRoom
+            builder.Property(s => s.CineRoomID).HasColumnName("CineRoomID");
+            builder.HasOne(s => s.CineRoom).WithMany()
+                   .HasForeignKey(s => s.CineRoomID).IsRequired()
+                   .OnDelete(DeleteBehavior.Cascade);
 
-            Property(cr => cr.MovieID).HasColumnName("MovieID");
-            HasRequired(cr => cr.Movie).WithMany().HasForeignKey(o => o.MovieID);
+            //FK_Movie
+            builder.Property(cr => cr.MovieID).HasColumnName("MovieID");
+            builder.HasOne(s => s.Movie).WithMany()
+                   .HasForeignKey(s => s.MovieID).IsRequired()
+                   .OnDelete(DeleteBehavior.Cascade);
 
-            Ignore(cr => cr.EndSession);
+            builder.Ignore(cr => cr.EndSession);
         }
     }
 }
