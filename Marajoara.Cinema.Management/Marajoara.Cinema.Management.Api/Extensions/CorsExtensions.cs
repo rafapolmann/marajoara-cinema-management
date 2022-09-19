@@ -13,7 +13,8 @@ namespace Marajoara.Cinema.Management.Api.Extensions
             {
                 options.AddPolicy(MARAJOARA_CORS_POLICY, builder =>
                 {
-                    builder.AllowAnyOrigin()
+                    builder.AllowAnyHeader()
+                           .AllowAnyOrigin()
                            .AllowAnyMethod()
                            .AllowAnyMethod();
                 });

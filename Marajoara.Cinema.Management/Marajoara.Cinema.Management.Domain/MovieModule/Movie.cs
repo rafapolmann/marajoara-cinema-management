@@ -10,7 +10,7 @@ namespace Marajoara.Cinema.Management.Domain.MovieModule
         public string Description { get; set; }
         public TimeSpan Duration { get; set; }
         public bool Is3D { get; set; }
-        public bool IsOrignalAudio { get; set; }
+        public bool IsOriginalAudio { get; set; }
 
         public bool Validate()
         {
@@ -28,7 +28,7 @@ namespace Marajoara.Cinema.Management.Domain.MovieModule
             movieToCopy.Description = Description;
             movieToCopy.Duration = Duration;
             movieToCopy.Is3D = Is3D;
-            movieToCopy.IsOrignalAudio = IsOrignalAudio;
+            movieToCopy.IsOriginalAudio = IsOriginalAudio;
         }
 
         private void ValidateCopyToArguments(Movie movieToCopy)

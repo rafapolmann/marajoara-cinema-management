@@ -35,7 +35,7 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
             movieAdded.Description.Should().Be("Description");
             movieAdded.Duration.TotalHours.Should().Be(1.5);
             movieAdded.Is3D.Should().BeFalse();
-            movieAdded.IsOrignalAudio.Should().BeFalse();
+            movieAdded.IsOriginalAudio.Should().BeFalse();
 
             _marajoaraUnitOfWork.Dispose();
         }
@@ -80,7 +80,7 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
             movieToUpdate.Description = "DescriptionUpdated";
             movieToUpdate.Duration = new System.TimeSpan(2, 0, 0);
             movieToUpdate.Is3D = true;
-            movieToUpdate.IsOrignalAudio = true;
+            movieToUpdate.IsOriginalAudio = true;
             _marajoaraUnitOfWork.Movies.Update(movieToUpdate);
             _marajoaraUnitOfWork.Commit();
 
@@ -94,7 +94,7 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
             movieToAssert.Description.Should().Be("DescriptionUpdated");
             movieToAssert.Duration.TotalHours.Should().Be(2.0);
             movieToAssert.Is3D.Should().BeTrue();
-            movieToAssert.IsOrignalAudio.Should().BeTrue();
+            movieToAssert.IsOriginalAudio.Should().BeTrue();
 
             _marajoaraUnitOfWork.Dispose();
         }
@@ -119,7 +119,7 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
             movieToAssert.Description.Should().Be("Description");
             movieToAssert.Duration.TotalHours.Should().Be(1.5);
             movieToAssert.Is3D.Should().BeFalse();
-            movieToAssert.IsOrignalAudio.Should().BeFalse();
+            movieToAssert.IsOriginalAudio.Should().BeFalse();
 
             _marajoaraUnitOfWork.Dispose();
         }
@@ -145,7 +145,7 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
             movieToAssert.Description.Should().Be("Description");
             movieToAssert.Duration.TotalHours.Should().Be(1.5);
             movieToAssert.Is3D.Should().BeFalse();
-            movieToAssert.IsOrignalAudio.Should().BeFalse();
+            movieToAssert.IsOriginalAudio.Should().BeFalse();
 
             _marajoaraUnitOfWork.Dispose();
         }
@@ -171,7 +171,7 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
             movieToAssert.Description.Should().Be("Description");
             movieToAssert.Duration.TotalHours.Should().Be(1.5);
             movieToAssert.Is3D.Should().BeFalse();
-            movieToAssert.IsOrignalAudio.Should().BeFalse();
+            movieToAssert.IsOriginalAudio.Should().BeFalse();
 
             _marajoaraUnitOfWork.Dispose();
         }

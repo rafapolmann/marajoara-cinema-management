@@ -16,7 +16,7 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF.Configuration
             builder.Property(m => m.Poster).HasColumnName("Poster");
             builder.Property(m => m.Duration).IsRequired().HasColumnName("Duration");
             builder.Property(m => m.Is3D).IsRequired().HasColumnName("Is3D");
-            builder.Property(m => m.IsOrignalAudio).IsRequired().HasColumnName("IsOrignalAudio");
+            builder.Property(m => m.IsOriginalAudio).IsRequired().HasColumnName("IsOriginalAudio");
         }
     }
 }
