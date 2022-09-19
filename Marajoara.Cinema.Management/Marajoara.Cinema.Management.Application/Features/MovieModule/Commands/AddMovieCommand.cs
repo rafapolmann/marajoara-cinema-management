@@ -22,6 +22,6 @@ namespace Marajoara.Cinema.Management.Application.Features.MovieModule.Commands
             }
         }
         public bool Is3D { get; set; }
-        public bool IsOrignalAudio { get; set; }
+        public bool IsOriginalAudio { get; set; }
     }
 }

@@ -127,7 +127,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Domain
                                      string title = "Title",
                                      string description = "Description",
                                      bool is3D = false,
-                                     bool isOrignalAudio = false)
+                                     bool IsOriginalAudio = false)
         {
 
             return new Movie
@@ -137,7 +137,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Domain
                 Description = description,
                 Duration = new TimeSpan(1, 30, 0),
                 Is3D = is3D,
-                IsOrignalAudio = isOrignalAudio
+                IsOriginalAudio = IsOriginalAudio
             };
         }
 
