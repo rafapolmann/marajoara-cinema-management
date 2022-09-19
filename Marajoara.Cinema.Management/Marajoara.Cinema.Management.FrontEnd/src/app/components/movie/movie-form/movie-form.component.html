@@ -1,0 +1,86 @@
+<form (ngSubmit)="submit(formDir)" [formGroup]="movieForm" #formDir="ngForm">
+  <div class="form-group">
+    <label for="title">Título:</label>
+    <input
+      type="text"
+      placeholder="Título do filme"
+      formControlName="title"
+      required
+    />
+  </div>
+  <div *ngIf="title.invalid && formDir.submitted" class="validation-error">
+    <p *ngIf="title.errors?.['required']">O título é obrigatório</p>
+  </div>
+  <div class="form-group">
+    <label for="description">Descrição:</label>
+    <textarea
+      placeholder="Descrição do filme"
+      formControlName="description"
+      required
+    ></textarea>
+  </div>
+  <div
+    *ngIf="description.invalid && formDir.submitted"
+    class="validation-error"
+  >
+    <p *ngIf="description.errors?.['required']">A descrição é obrigatória</p>
+  </div>
+  <div class="form-group">
+    <label>Audio:</label>
+    <div class="checkbox">
+      <label for="description" for="originalAudio">
+        <input
+          type="checkbox"
+          id="originalAudio"
+          formControlName="isOriginalAudio"
+        />
+        Audio original</label
+      >
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Projeção:</label>
+    <div class="checkbox">
+      <label for="description" for="is3D">
+        <input type="checkbox" id="is3D" formControlName="is3D" />
+        3D</label
+      >
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="minutes">Duração:</label>
+    <input
+      type="number"
+      min="10"
+      placeholder="Duração do filme"
+      formControlName="minutes"
+      required
+    />
+  </div>
+  <div *ngIf="minutes.invalid && formDir.submitted" class="validation-error">
+    <p *ngIf="minutes.errors?.['required']">A duração é obrigatória</p>
+    <p *ngIf="minutes.errors?.['min']">
+      A duração deve ter ao menos 10 minutos
+    </p>
+    <p *ngIf="minutes.errors?.['max']">
+      A duração deve ser menor que 600 minutos
+    </p>
+  </div>
+  <div class="poster-container">
+    <div class="form-group">
+      <label for="poster">Poster:</label>
+      <input type="file" (change)="onFileSelected($event)" />
+    </div>
+    <div *ngIf="posterImgSrc">
+      <img [src]="posterImgSrc" />
+    </div>
+  </div>
+  <div>
+    <button class="save-button">
+      <img src="../../../../assets/common/save.svg" />
+      Salvar
+    </button>
+    <!-- <input type="submit" value="Salvar" /> -->
+  </div>
+</form>
