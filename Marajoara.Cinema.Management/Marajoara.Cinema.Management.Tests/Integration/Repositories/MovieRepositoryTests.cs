@@ -33,7 +33,7 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
             movieAdded.MovieID.Should().Be(movieID);
             movieAdded.Title.Should().Be("Title");
             movieAdded.Description.Should().Be("Description");
-            movieAdded.Duration.TotalHours.Should().Be(1.5);
+            movieAdded.Minutes.Should().Be(90);
             movieAdded.Is3D.Should().BeFalse();
             movieAdded.IsOriginalAudio.Should().BeFalse();
 
@@ -78,7 +78,7 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
             Movie movieToUpdate = _marajoaraUnitOfWork.Movies.Retrieve(movieID);
             movieToUpdate.Title = "TitleUpdated";
             movieToUpdate.Description = "DescriptionUpdated";
-            movieToUpdate.Duration = new System.TimeSpan(2, 0, 0);
+            movieToUpdate.Minutes = 120;
             movieToUpdate.Is3D = true;
             movieToUpdate.IsOriginalAudio = true;
             _marajoaraUnitOfWork.Movies.Update(movieToUpdate);
@@ -92,7 +92,7 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
             movieToAssert.MovieID.Should().Be(movieID);
             movieToAssert.Title.Should().Be("TitleUpdated");
             movieToAssert.Description.Should().Be("DescriptionUpdated");
-            movieToAssert.Duration.TotalHours.Should().Be(2.0);
+            movieToAssert.Minutes.Should().Be(120);
             movieToAssert.Is3D.Should().BeTrue();
             movieToAssert.IsOriginalAudio.Should().BeTrue();
 
@@ -117,7 +117,7 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
             movieToAssert.MovieID.Should().Be(movieID);
             movieToAssert.Title.Should().Be("Title");
             movieToAssert.Description.Should().Be("Description");
-            movieToAssert.Duration.TotalHours.Should().Be(1.5);
+            movieToAssert.Minutes.Should().Be(90);
             movieToAssert.Is3D.Should().BeFalse();
             movieToAssert.IsOriginalAudio.Should().BeFalse();
 
@@ -143,7 +143,7 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
             movieToAssert.MovieID.Should().Be(movieID);
             movieToAssert.Title.Should().Be("Title");
             movieToAssert.Description.Should().Be("Description");
-            movieToAssert.Duration.TotalHours.Should().Be(1.5);
+            movieToAssert.Minutes.Should().Be(90);
             movieToAssert.Is3D.Should().BeFalse();
             movieToAssert.IsOriginalAudio.Should().BeFalse();
 
@@ -169,7 +169,7 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
             movieToAssert.MovieID.Should().Be(movieID);
             movieToAssert.Title.Should().Be("Movie Title");
             movieToAssert.Description.Should().Be("Description");
-            movieToAssert.Duration.TotalHours.Should().Be(1.5);
+            movieToAssert.Minutes.Should().Be(90);
             movieToAssert.Is3D.Should().BeFalse();
             movieToAssert.IsOriginalAudio.Should().BeFalse();
 

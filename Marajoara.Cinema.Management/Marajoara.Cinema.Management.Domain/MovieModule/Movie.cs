@@ -8,7 +8,7 @@ namespace Marajoara.Cinema.Management.Domain.MovieModule
         public byte[] Poster { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public TimeSpan Duration { get; set; }
+        public int Minutes { get; set; }
         public bool Is3D { get; set; }
         public bool IsOriginalAudio { get; set; }
 
@@ -16,6 +16,9 @@ namespace Marajoara.Cinema.Management.Domain.MovieModule
         {
             if (string.IsNullOrWhiteSpace(this.Title))
                 throw new Exception($"Movie title cannot be null or empty.");
+
+            if (this.Minutes <= 0)
+                throw new Exception($"Movie minutes cannot be less or equals zero.");
 
             return true;
         }
@@ -26,7 +29,7 @@ namespace Marajoara.Cinema.Management.Domain.MovieModule
 
             movieToCopy.Title = Title;
             movieToCopy.Description = Description;
-            movieToCopy.Duration = Duration;
+            movieToCopy.Minutes = Minutes;
             movieToCopy.Is3D = Is3D;
             movieToCopy.IsOriginalAudio = IsOriginalAudio;
         }

@@ -24,7 +24,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Domain
         }
         [TestMethod]
         public void Ticket_Set_Session_To_Null_Should_Set_SessionID_Porperty_To_Zero()
-        {            
+        {
             Ticket ticketToTest = GetCompleteTicketToTest();
 
             ticketToTest.Session = null;
@@ -38,9 +38,9 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Domain
         {
 
             UserAccount userAccount = GetUserAccountToTest();
-            Ticket ticketToTest = new Ticket() ;
+            Ticket ticketToTest = new Ticket();
 
-            ticketToTest.UserAccount= userAccount;
+            ticketToTest.UserAccount = userAccount;
 
             ticketToTest.UserAccountID.Should().Be(userAccount.UserAccountID);
         }
@@ -74,6 +74,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Domain
         private Movie GetMovieToTest(int movieID = 1,
                                      string title = "Title",
                                      string description = "Description",
+                                     int minutes = 90,
                                      bool is3D = false,
                                      bool IsOriginalAudio = false)
         {
@@ -83,7 +84,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Domain
                 MovieID = movieID,
                 Title = title,
                 Description = description,
-                Duration = new TimeSpan(1, 30, 0),
+                Minutes = minutes,
                 Is3D = is3D,
                 IsOriginalAudio = IsOriginalAudio
             };
@@ -137,7 +138,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Domain
             };
         }
 
-        private Ticket GetCompleteTicketToTest(int ticketID=1,int seatNumber = 1)
+        private Ticket GetCompleteTicketToTest(int ticketID = 1, int seatNumber = 1)
         {
             return GetTicketToTest(ticketID, DateTime.UtcNow, Guid.NewGuid(), 10, 1, false, GetCompleteSessionToTest(), GetUserAccountToTest());
         }
