@@ -53,7 +53,7 @@ namespace Marajoara.Cinema.Management.Application.Features.MovieModule
 
         public IEnumerable<Movie> GetAllMovies()
         {
-            return _unitOfWork.Movies.RetrieveAll();
+            return  _unitOfWork.Movies.RetrieveAll();
         }
 
         public Movie GetMovie(int id)

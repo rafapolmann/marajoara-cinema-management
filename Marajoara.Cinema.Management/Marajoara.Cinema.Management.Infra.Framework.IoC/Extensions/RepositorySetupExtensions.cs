@@ -6,8 +6,9 @@ using Marajoara.Cinema.Management.Domain.UnitOfWork;
 using Marajoara.Cinema.Management.Domain.UserAccountModule;
 using Marajoara.Cinema.Management.Infra.Data.EF;
 using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Ninject;
-using System.Data.SqlClient;
 
 namespace Marajoara.Cinema.Management.Infra.Framework.IoC.Extensions
 {
@@ -26,17 +27,22 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC.Extensions
 
         private static void DatabaseSetup(this IKernel kernel)
         {
-            SqlConnectionStringBuilder _connectionStringBuilder = new SqlConnectionStringBuilder
-            {
-                InitialCatalog = "CineMarajoara",
-                DataSource = "(localdb)\\mssqllocaldb"
-            };
-
             kernel.Bind<MarajoaraContext>().ToSelf()
-                                            .InSingletonScope()
-                                            .WithConstructorArgument("dbConnection", new SqlConnection(_connectionStringBuilder.ConnectionString));
+                                           .InSingletonScope()
+                                           .WithConstructorArgument("options", GetDbContextOptionsForCurrentRequest());
 
             kernel.Bind<IMarajoaraUnitOfWork>().To<MarajoaraUnitOfWork>();
+        }
+
+        private static DbContextOptions GetDbContextOptionsForCurrentRequest()
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<MarajoaraContext>();
+
+            optionsBuilder.UseSqlServer("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=CineMarajoara;Integrated Security=SSPI;");
+            optionsBuilder.UseLoggerFactory(LoggerFactory.Create(builder => { builder.AddDebug(); }));
+            var options = optionsBuilder.Options;
+
+            return options;
         }
     }
 }

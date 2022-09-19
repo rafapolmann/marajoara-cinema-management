@@ -2,9 +2,9 @@
 using Marajoara.Cinema.Management.Domain.TicketModule;
 using Marajoara.Cinema.Management.Domain.UserAccountModule;
 using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 
 namespace Marajoara.Cinema.Management.Infra.Data.EF
@@ -39,7 +39,7 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
                                     .Include(t => t.Session)
                                     .Include(t => t.Session.CineRoom)
                                     .Include(t => t.Session.Movie)
-                                    .Where(t => t.TicketID.Equals(ticketID))
+                                    .Where(t => t.TicketID == ticketID)
                                     .FirstOrDefault();
         }
 
@@ -49,7 +49,7 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
                                     .Include(t => t.Session)
                                     .Include(t => t.Session.CineRoom)
                                     .Include(t => t.Session.Movie)
-                                    .Where(t => t.Code.Equals(guidCode))
+                                    .Where(t => t.Code == guidCode)
                                     .FirstOrDefault();
         }
 
@@ -70,7 +70,7 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
                                     .Include(t => t.Session)
                                     .Include(t => t.Session.CineRoom)
                                     .Include(t => t.Session.Movie)
-                                    .Where(t => t.SessionID.Equals(session.SessionID));
+                                    .Where(t => t.SessionID == session.SessionID);
         }
 
         public IEnumerable<Ticket> RetrieveByUserAccount(UserAccount customer)
@@ -82,7 +82,7 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
                                     .Include(t => t.Session)
                                     .Include(t => t.Session.CineRoom)
                                     .Include(t => t.Session.Movie)
-                                    .Where(t => t.UserAccountID.Equals(customer.UserAccountID));
+                                    .Where(t => t.UserAccountID == customer.UserAccountID);
         }
 
     }
