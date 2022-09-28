@@ -1,12 +1,12 @@
 <div>
   <span>Lista de Filmes</span>
-  <button mat-raised-button>
+  <button mat-raised-button (click)="onAddClick()">
     <mat-icon>add_circle</mat-icon>
   </button>
-  <button mat-raised-button>
+  <button mat-raised-button [disabled]="selectedMovieID===-1" (click)="onEditClick()">
     <mat-icon>edit</mat-icon>
   </button>
-  <button mat-raised-button>
+  <button mat-raised-button [disabled]="selectedMovieID ===-1" (click)="onDeleteClick()">
     <mat-icon>delete</mat-icon>
   </button>
   <mat-form-field appearance="fill">
@@ -16,7 +16,7 @@
       matInput
       placeholder="Ex. Gladiador..."
     />
-  </mat-form-field>
+  </mat-form-field>  
 </div>
 <div>
   <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
@@ -67,5 +67,5 @@
     [pageSizeOptions]="[5, 10, 15]"
     showFirstLastButtons
   >
-  </mat-paginator>
+  </mat-paginator>  
 </div>

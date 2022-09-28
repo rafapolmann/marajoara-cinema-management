@@ -11,6 +11,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
 
 const MODULES = [
   MatNativeDateModule,
@@ -26,11 +29,13 @@ const MODULES = [
   MatPaginatorModule,
   MatCheckboxModule,
   MatDialogModule,
+  MatButtonModule,
+  MatDividerModule,
+  MatSlideToggleModule,
+  MatCardModule,
 ];
 /**teste */
 @NgModule({
-  imports: [MODULES],
   exports: [MODULES],
 })
-
 export class MaterialModule {}

@@ -13,6 +13,7 @@ import { MovieAddComponent } from './features/movie/movie-add/movie-add.componen
 import { MovieListComponent } from './features/movie/movie-list/movie-list.component';
 import { MovieCardComponent } from './components/movie/movie-card/movie-card.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ConfirmDialogComponent } from './components/common/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MovieAddComponent,
     MovieListComponent,
     MovieCardComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
