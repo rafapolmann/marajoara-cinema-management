@@ -5,7 +5,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
-import { ThisReceiver } from '@angular/compiler';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/components/common/confirm-dialog/confirm-dialog.component';
 @Component({
@@ -13,7 +12,7 @@ import { ConfirmDialogComponent } from 'src/app/components/common/confirm-dialog
   templateUrl: './movie-list.component.html',
   styleUrls: ['./movie-list.component.scss'],
 })
-export class MovieListComponent implements OnInit,AfterViewInit {
+export class MovieListComponent implements OnInit {
   displayedColumns: string[] = [
     'movieID',
     'title',
@@ -25,22 +24,16 @@ export class MovieListComponent implements OnInit,AfterViewInit {
   dataToDisplay: Movie[] = [];
   dataSource = new MatTableDataSource(this.dataToDisplay);
   selectedMovieID: number = -1;
-  selectedMovie!:Movie;
-  
-  
+  selectedMovie!: Movie;
+
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild('dialogContent') dialogContent!: ConfirmDialogComponent;
-  
 
   constructor(
     private movieService: MovieService,
     private router: Router,
     private dialog: MatDialog
   ) {}
-  ngAfterViewInit(): void {
-    
-    
-  }
 
   ngOnInit(): void {
     this.loadMovies();
@@ -60,7 +53,6 @@ export class MovieListComponent implements OnInit,AfterViewInit {
   highlight(row: any) {
     this.selectedMovieID = row.movieID;
     this.selectedMovie = row;
-    
   }
   onAddClick() {
     this.router.navigateByUrl('newmovie');
@@ -71,23 +63,27 @@ export class MovieListComponent implements OnInit,AfterViewInit {
     this.router.navigateByUrl(`movie/${this.selectedMovieID}/edit`);
   }
 
- async onDeleteClick() {
+  async onDeleteClick() {
     if (this.selectedMovieID === -1) return;
-    const dlg =  this.dialog.open(ConfirmDialogComponent, {
-//      width: '350px',       
-    });
-
-    if(!await firstValueFrom(dlg.afterClosed())) return;
     
-    var success = await firstValueFrom(this.movieService.delete(this.selectedMovieID));
-    if (success) {      
-      const index = this.dataSource.data.indexOf(this.selectedMovie,0);      
-      if (index > -1) {
-        this.dataSource.data.splice(index, 1);
-        this.dataSource._updateChangeSubscription();
-      }
+    if (!(await firstValueFrom(this.openDeleteMovieDialog().afterClosed()))) return;
+
+    if (await firstValueFrom(this.movieService.delete(this.selectedMovieID))) {
+      const index = this.dataSource.data.indexOf(this.selectedMovie, 0);
+      if (index === -1) return;
+
+      this.dataSource.data.splice(index, 1);
+      this.dataSource._updateChangeSubscription();
     }
-
-
+  }
+  openDeleteMovieDialog(){
+    return this.dialog.open(ConfirmDialogComponent, {
+      //width: '350px',
+      data: {
+        title: 'Exclusão de filme',
+        message: `Deseja mesmo excluir o filme ${this.selectedMovie.title}?`,
+        confirmText: 'Excluir',
+      },
+    });
   }
 }

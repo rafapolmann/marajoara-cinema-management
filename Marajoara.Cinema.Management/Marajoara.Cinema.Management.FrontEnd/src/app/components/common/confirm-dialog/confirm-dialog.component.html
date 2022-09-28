@@ -1,14 +1,14 @@
-<h1 mat-dialog-title>{{DialogTitle==''? 'Exclusão': DialogTitle}}</h1>
+<h1 mat-dialog-title>{{params.title}}</h1>
 <div mat-dialog-content>
-  {{ DialogMessage==''?'Deseja mesmo exlcuir este registro?':DialogMessage }}
+  {{ params.message }}
 </div>
 <div mat-dialog-actions>
   <button mat-button mat-dialog-close (click)="onConfirm()">
-    Ok
+    {{ params.confirmText}}
     <mat-icon>done</mat-icon>
   </button>
-  <button mat-button mat-dialog-close cdkFocusInitial (click)="onCancel()">
-    Cancelar
+  <button *ngIf="!params.hideCancel" mat-button mat-dialog-close cdkFocusInitial (click)="onCancel()">
+    {{params.cancelText}}    
     <mat-icon>close</mat-icon>    
 </button>
 </div>

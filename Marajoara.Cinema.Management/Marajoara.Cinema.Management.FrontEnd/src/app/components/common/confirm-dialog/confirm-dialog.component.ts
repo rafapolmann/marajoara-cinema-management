@@ -1,24 +1,37 @@
-import { Component, OnInit,Input } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Input, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-confirm-dialog',
   templateUrl: './confirm-dialog.component.html',
-  styleUrls: ['./confirm-dialog.component.scss']
+  styleUrls: ['./confirm-dialog.component.scss'],
 })
 export class ConfirmDialogComponent implements OnInit {
-  @Input() DialogTitle:string =''
-  @Input() DialogMessage:string =''  
-  
-  constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>) { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public params: {
+      title: string;
+      message: string;
+      cancelText: string;
+      confirmText: string;
+      hideCancel: boolean;
+    },
+    public dialogRef: MatDialogRef<ConfirmDialogComponent>
+  ) {}
 
   ngOnInit(): void {
+    console.log(this.params);
+    if (!this.params) this.dialogRef.close(false);
+    if (!this.params.title) this.params.title = 'Título';
+    if (!this.params.message) this.params.message = 'Mensagem';
+    if (!this.params.cancelText) this.params.cancelText = 'Cancelar';
+    if (!this.params.confirmText) this.params.confirmText = 'Ok';
+    console.log(this.params);
   }
-  onConfirm(){
+  onConfirm() {
     this.dialogRef.close(true);
   }
-  onCancel(){
+  onCancel() {
     this.dialogRef.close(false);
   }
-
 }
