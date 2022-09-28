@@ -1,2 +1,9 @@
-<h2>Edição de Filme</h2>
-<app-movie-form *ngIf="movieData" (onSubmit)="createHandler($event)" [movieData]="movieData"></app-movie-form>
+<div class="container">
+  <h2>Edição de Filme</h2>
+  <app-movie-form
+    *ngIf="movieData"
+    (onSubmit)="createHandler($event)"
+    (onCancel)="onCancel()"
+    [movieData]="movieData"
+  ></app-movie-form>
+</div>

@@ -7,6 +7,7 @@ import { MovieListComponent } from './features/movie/movie-list/movie-list.compo
 
 const routes: Routes = [
   { path: '', component: MovieListComponent},    
+  { path: 'movies', component: MovieListComponent},    
   { path: 'movie/:id/edit', component: MovieEditComponent },
   { path: 'newmovie', component: MovieAddComponent },
 ];

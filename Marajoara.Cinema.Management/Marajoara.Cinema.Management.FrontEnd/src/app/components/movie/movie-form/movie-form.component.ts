@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormControlDirective, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
-import { Router,ActivatedRoute } from '@angular/router';
 import { Movie } from 'src/app/models/Movie';
 
 @Component({
@@ -10,10 +9,11 @@ import { Movie } from 'src/app/models/Movie';
 })
 export class MovieFormComponent implements OnInit {
   @Output() onSubmit= new EventEmitter<Movie>();
+  @Output() onCancel= new EventEmitter();
   @Input() movieData!: Movie;
   posterImgSrc!: string;
   movieForm!: FormGroup;
-  constructor(private router:Router, private route: ActivatedRoute) { }
+  constructor() { }
 
   ngOnInit(): void {
     this.movieForm = new FormGroup({
@@ -43,24 +43,33 @@ export class MovieFormComponent implements OnInit {
   get minutes(){
     return this.movieForm.get('minutes')!;
   }
-
   onFileSelected(event:any){
     const file:File = event.target.files[0];
 
     this.movieForm.patchValue({posterFile: file});
 
+
+    
     const reader = new FileReader();
     reader.onload = e => this.posterImgSrc = String(reader.result);
 
     reader.readAsDataURL(file);
 
   }
+
+  onCleanFile(){
+    this.movieForm.patchValue({posterFile: null});
+    this.posterImgSrc='';    
+  }
+
   onAudioSelect(value:any)
   {    
     this.movieForm.patchValue({isOriginalAudio: value});
   }
 
-
+  cancel(){    
+    this.onCancel.emit();
+  }
   submit(formDirective:FormGroupDirective):void{
     if(this.movieForm.invalid){
       return;

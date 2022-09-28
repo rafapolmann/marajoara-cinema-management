@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>{{params.title}}</h1>
+<div mat-dialog-content>
+  {{ params.message }}
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close (click)="onConfirm()">
+    {{ params.confirmText}}
+    <mat-icon>done</mat-icon>
+  </button>
+  <button *ngIf="!params.hideCancel" mat-button mat-dialog-close cdkFocusInitial (click)="onCancel()">
+    {{params.cancelText}}    
+    <mat-icon>close</mat-icon>    
+</button>
+</div>
