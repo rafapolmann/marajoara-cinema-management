@@ -1,35 +1,48 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
-import { Movie } from 'src/app/models/Movie';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { Movie } from 'src/app/Models/Movie';
 import { MovieService } from 'src/app/services/MovieService';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-movie-list',
   templateUrl: './movie-list.component.html',
-  styleUrls: ['./movie-list.component.scss']
+  styleUrls: ['./movie-list.component.scss'],
 })
 export class MovieListComponent implements OnInit {
+  displayedColumns: string[] = [
+    'movieID',
+    'title',
+    'description',
+    'isOriginalAudio',
+    'is3D',
+    'minutes',
+  ];
+  dataToDisplay: Movie[] = [];
+  dataSource = new MatTableDataSource(this.dataToDisplay);
+  selectedMovieID: number = -1;
 
-  movies!: Movie[];
-  constructor(private movieService: MovieService, private router: Router) {}
+  @ViewChild('paginator') paginator!: MatPaginator;
+
+  constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
-    this.getAllMovies();
+    this.loadMovies();
   }
 
-  async getAllMovies() {
-    this.movies = await firstValueFrom(this.movieService.getAll());
+  async loadMovies() {
+    this.dataToDisplay = await firstValueFrom(this.movieService.getAll());
+    this.dataSource = new MatTableDataSource(this.dataToDisplay);
+    this.dataSource.paginator = this.paginator;
   }
 
-  async onDeleteClick(movie: Movie) {
-    var success = await firstValueFrom(this.movieService.delete(movie.movieID));
-    if (success) {
-      const index = this.movies.indexOf(movie, 0);
-      if (index > -1) {
-        this.movies.splice(index, 1);
-      }
-    }
+  applyFilter(event: any): void {
+    this.selectedMovieID = -1;
+    this.dataSource.filter = event.target.value.trim().toLocaleLowerCase();
   }
 
+  highlight(row: any) {
+    this.selectedMovieID = row.movieID;
+  }
 }

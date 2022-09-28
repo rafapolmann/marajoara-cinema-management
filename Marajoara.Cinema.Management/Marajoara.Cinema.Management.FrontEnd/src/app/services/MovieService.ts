@@ -14,6 +14,7 @@ export class MovieService {
   getAll(): Observable<Movie[]> {
     return this.marajoaraApiService.get<Movie[]>(this.controllerUri);
   }
+
   getById(movieId: number): Observable<Movie> {
     return this.marajoaraApiService.get<Movie>(
       `${this.controllerUri}/${movieId}`
@@ -48,3 +49,4 @@ export class MovieService {
     return this.marajoaraApiService.delete(`${this.controllerUri}/${movieId}`)
   }
 }
+

@@ -1,0 +1,31 @@
+.highlight {
+  background: gainsboro;
+}
+
+.mat-row:hover {
+  cursor: pointer;
+  background: whitesmoke;
+}
+
+.mat-raised-button {
+  left: 1em;
+  margin-left: 0.5em;
+  display: inline;
+  height: 50px;
+  width: 100px;
+}
+
+span {
+  font-size:x-large;
+  margin-left: 0.5em;
+  font-weight: bold;
+}
+
+.mat-form-field {
+  left: 1.5em;
+  bottom: -0.5em;
+  margin-top: 0.5em;
+  min-width: 100px;
+  max-width: 500px;
+  width: 100%;
+}
