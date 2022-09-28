@@ -38,6 +38,9 @@ export class MovieEditComponent implements OnInit {
     if (movie.posterFile) {
       await firstValueFrom(this.movieService.updatePoster(movie));
     }
-    this.router.navigate(['/']);
+    this.router.navigateByUrl('/movies');
+  }
+  onCancel(){
+    this.router.navigateByUrl('/movies');    
   }
 }
