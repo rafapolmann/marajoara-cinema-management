@@ -18,6 +18,7 @@ import { CineroomListComponent } from './features/cineroom/cineroom-list/cineroo
 import { CineroomAddComponent } from './features/cineroom/cineroom-add/cineroom-add.component';
 import { CineroomSeatPickerComponent } from './components/cineroom/cineroom-seat-picker/cineroom-seat-picker.component';
 import { CineroomFormComponent } from './components/cineroom/cineroom-form/cineroom-form.component';
+import { CineroomEditComponent } from './features/cineroom/cineroom-edit/cineroom-edit.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { CineroomFormComponent } from './components/cineroom/cineroom-form/ciner
     CineroomListComponent,
     CineroomAddComponent,
     CineroomSeatPickerComponent,
-    CineroomFormComponent,    
+    CineroomFormComponent,
+    CineroomEditComponent,    
   ],
   imports: [
     BrowserModule,

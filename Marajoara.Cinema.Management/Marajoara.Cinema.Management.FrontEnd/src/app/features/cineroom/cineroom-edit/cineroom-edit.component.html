@@ -1,0 +1,10 @@
+<div class="container">
+    <h2>Edição de Sala</h2>
+    <app-cineroom-form
+      *ngIf="cineRoomData"
+      (onSubmit)="onSubmit($event)"
+      (onCancel)="onCancel()"
+      [cineRoomData]="cineRoomData"
+    ></app-cineroom-form>
+  </div>
+  

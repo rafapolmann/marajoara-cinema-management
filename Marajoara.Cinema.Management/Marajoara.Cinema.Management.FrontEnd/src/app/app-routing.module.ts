@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CineroomAddComponent } from './features/cineroom/cineroom-add/cineroom-add.component';
+import { CineroomEditComponent } from './features/cineroom/cineroom-edit/cineroom-edit.component';
 import { CineroomListComponent } from './features/cineroom/cineroom-list/cineroom-list.component';
 import { MovieAddComponent } from './features/movie/movie-add/movie-add.component';
 import { MovieEditComponent } from './features/movie/movie-edit/movie-edit.component';
@@ -15,6 +16,8 @@ const routes: Routes = [
 
   { path: 'cineroom', component: CineroomListComponent},    
   { path: 'newcineroom', component: CineroomAddComponent },
+  { path: 'cineroom/:id/edit', component: CineroomEditComponent },
+
   
 ];
 
