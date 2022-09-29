@@ -15,6 +15,9 @@ import { MovieCardComponent } from './components/movie/movie-card/movie-card.com
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmDialogComponent } from './components/common/confirm-dialog/confirm-dialog.component';
 import { CineroomListComponent } from './features/cineroom/cineroom-list/cineroom-list.component';
+import { CineroomAddComponent } from './features/cineroom/cineroom-add/cineroom-add.component';
+import { CineroomSeatPickerComponent } from './components/cineroom/cineroom-seat-picker/cineroom-seat-picker.component';
+import { CineroomFormComponent } from './components/cineroom/cineroom-form/cineroom-form.component';
 
 
 @NgModule({
@@ -26,7 +29,10 @@ import { CineroomListComponent } from './features/cineroom/cineroom-list/cineroo
     MovieListComponent,
     MovieCardComponent,
     ConfirmDialogComponent,
-    CineroomListComponent,    
+    CineroomListComponent,
+    CineroomAddComponent,
+    CineroomSeatPickerComponent,
+    CineroomFormComponent,    
   ],
   imports: [
     BrowserModule,

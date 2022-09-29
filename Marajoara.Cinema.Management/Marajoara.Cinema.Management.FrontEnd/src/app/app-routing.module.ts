@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CineroomAddComponent } from './features/cineroom/cineroom-add/cineroom-add.component';
 import { CineroomListComponent } from './features/cineroom/cineroom-list/cineroom-list.component';
 import { MovieAddComponent } from './features/movie/movie-add/movie-add.component';
 import { MovieEditComponent } from './features/movie/movie-edit/movie-edit.component';
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'newmovie', component: MovieAddComponent },
 
   { path: 'cineroom', component: CineroomListComponent},    
+  { path: 'newcineroom', component: CineroomAddComponent },
   
 ];
 

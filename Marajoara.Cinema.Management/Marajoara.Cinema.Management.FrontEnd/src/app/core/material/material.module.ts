@@ -14,6 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 const MODULES = [
   MatNativeDateModule,
@@ -33,6 +34,7 @@ const MODULES = [
   MatDividerModule,
   MatSlideToggleModule,
   MatCardModule,
+  MatButtonToggleModule,
 ];
 /**teste */
 @NgModule({
