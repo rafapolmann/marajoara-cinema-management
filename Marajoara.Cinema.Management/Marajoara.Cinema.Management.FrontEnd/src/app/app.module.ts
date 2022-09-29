@@ -14,6 +14,7 @@ import { MovieListComponent } from './features/movie/movie-list/movie-list.compo
 import { MovieCardComponent } from './components/movie/movie-card/movie-card.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmDialogComponent } from './components/common/confirm-dialog/confirm-dialog.component';
+import { SessionListComponent } from './features/session/session-list/session-list.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ConfirmDialogComponent } from './components/common/confirm-dialog/confi
     MovieListComponent,
     MovieCardComponent,
     ConfirmDialogComponent,
+    SessionListComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,77 @@
+<div>
+  <span>Lista de Sessões</span>
+  <button mat-raised-button (click)="onAddClick()">
+    <mat-icon>add_circle</mat-icon>
+  </button>
+  <button
+    mat-raised-button
+    [disabled]="selectedSessionID === -1"
+    (click)="onEditClick()"
+  >
+    <mat-icon>edit</mat-icon>
+  </button>
+  <button
+    mat-raised-button
+    [disabled]="selectedSessionID === -1"
+    (click)="onDeleteClick()"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
+  <mat-form-field appearance="fill">
+    <mat-label>Filtro</mat-label>
+    <input (keyup)="applyFilter($event)" matInput placeholder="Ex. ..." />
+  </mat-form-field>
+</div>
+<div>
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- <ng-container matColumnDef="sessionID">
+      <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.sessionID }}</mat-cell>
+    </ng-container> -->
+
+    <ng-container matColumnDef="movieTitle">
+      <mat-header-cell *matHeaderCellDef>Título do filme</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.movie.title }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="cineRoomName">
+      <mat-header-cell *matHeaderCellDef>Sala</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.cineRoom.name }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="sessionDate">
+      <mat-header-cell *matHeaderCellDef>Data da sessão</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{
+        formatDate(element.sessionDate)
+      }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="endSessionDate">
+      <mat-header-cell *matHeaderCellDef>Final da sessão</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{
+        formatDate(element.endSession)
+      }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <mat-header-cell *matHeaderCellDef>Valor (R$)</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{
+        formatPrice(element.price)
+      }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      [ngClass]="{ highlight: selectedSessionID == row.sessionID }"
+      (click)="highlight(row)"
+    ></mat-row>
+  </mat-table>
+  <mat-paginator
+    #paginator
+    [pageSize]="15"
+    [pageSizeOptions]="[5, 10, 15]"
+    showFirstLastButtons
+  >
+  </mat-paginator>
+</div>
