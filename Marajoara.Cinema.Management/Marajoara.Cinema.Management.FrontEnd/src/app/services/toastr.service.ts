@@ -15,7 +15,7 @@ export class TotastrService {
   /**
    * Opens a MatSnackBar with the given message and actionText.
    * @param message Text message to show
-   * @param actionText Text of the action to show, set to null or '' to hide the action button
+   * @param actionText Text of the action to show, set to null or '' to hide the action button. Default: 'Fechar'
    * @returns return MatSackBarRef, can be used to know when the user dismisses it
    */
   showErrorMessage(message:string, actionText:string='Fechar'):MatSnackBarRef<TextOnlySnackBar> {
