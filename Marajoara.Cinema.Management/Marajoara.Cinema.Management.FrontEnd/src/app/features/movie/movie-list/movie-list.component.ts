@@ -7,6 +7,7 @@ import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/components/common/confirm-dialog/confirm-dialog.component';
+import { TotastrService } from 'src/app/services/toastr.service';
 @Component({
   selector: 'app-movie-list',
   templateUrl: './movie-list.component.html',
@@ -32,7 +33,8 @@ export class MovieListComponent implements OnInit {
   constructor(
     private movieService: MovieService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private toastr: TotastrService,
   ) {}
 
   ngOnInit(): void {
@@ -65,9 +67,21 @@ export class MovieListComponent implements OnInit {
 
   async onDeleteClick() {
     if (this.selectedMovieID === -1) return;
-    
-    if (!(await firstValueFrom(this.openDeleteMovieDialog().afterClosed()))) return;
 
+    if (!(await firstValueFrom(this.openDeleteMovieDialog().afterClosed())))
+      return;
+
+    try {
+      await this.deleteSelected();
+    } catch (exception: any) {
+      this.toastr.showErrorMessage(
+        `error status ${exception.status} - ${
+          Object.values(exception.error)[0]
+        }`
+      );
+    }
+  }
+  async deleteSelected() {
     if (await firstValueFrom(this.movieService.delete(this.selectedMovieID))) {
       const index = this.dataSource.data.indexOf(this.selectedMovie, 0);
       if (index === -1) return;
@@ -76,7 +90,7 @@ export class MovieListComponent implements OnInit {
       this.dataSource._updateChangeSubscription();
     }
   }
-  openDeleteMovieDialog(){
+  openDeleteMovieDialog() {
     return this.dialog.open(ConfirmDialogComponent, {
       //width: '350px',
       data: {
