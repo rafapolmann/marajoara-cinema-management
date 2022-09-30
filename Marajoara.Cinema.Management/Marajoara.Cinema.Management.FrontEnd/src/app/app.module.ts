@@ -21,6 +21,8 @@ import { CineroomFormComponent } from './components/cineroom/cineroom-form/ciner
 import { CineroomEditComponent } from './features/cineroom/cineroom-edit/cineroom-edit.component';
 import { SessionListComponent } from './features/session/session-list/session-list.component';
 import {DateTimeCustomFormat} from './core/pipes/date-time-custom-format';
+import { SessionAddComponent } from './features/session/session-add/session-add.component';
+import { SessionFormComponent } from './components/session/session-form/session-form.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import {DateTimeCustomFormat} from './core/pipes/date-time-custom-format';
     CineroomEditComponent,
     SessionListComponent,
     DateTimeCustomFormat,
+    SessionAddComponent,
+    SessionFormComponent,
   ],
   imports: [
     BrowserModule,

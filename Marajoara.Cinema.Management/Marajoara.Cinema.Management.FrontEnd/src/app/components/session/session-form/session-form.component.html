@@ -1,0 +1,30 @@
+<div class="form-container">
+  <form
+    (ngSubmit)="submit(formDir)"
+    [formGroup]="sessionForm"
+    #formDir="ngForm"
+  >
+    <div class="form-group">
+      <mat-form-field appearance="fill">
+        <mat-label>Nome:</mat-label>
+        <input
+          matInput
+          placeholder="Nome da sala"
+          formControlName="name"
+          required
+        />
+        <!-- <mat-error *ngIf="name.invalid && name.errors?.['required']"
+          >O nome é obrigatório</mat-error
+        > -->
+      </mat-form-field>
+    </div>
+
+    <mat-divider></mat-divider>
+    <div class="button-flex-container">
+      <button mat-raised-button color="primary">Salvar</button>
+      <button mat-raised-button (click)="cancel()" type="button" color="basic">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>

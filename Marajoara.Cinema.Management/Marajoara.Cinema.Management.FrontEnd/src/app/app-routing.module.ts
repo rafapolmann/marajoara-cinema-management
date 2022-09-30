@@ -6,6 +6,7 @@ import { CineroomListComponent } from './features/cineroom/cineroom-list/cineroo
 import { MovieAddComponent } from './features/movie/movie-add/movie-add.component';
 import { MovieEditComponent } from './features/movie/movie-edit/movie-edit.component';
 import { MovieListComponent } from './features/movie/movie-list/movie-list.component';
+import { SessionAddComponent } from './features/session/session-add/session-add.component';
 import { SessionListComponent } from './features/session/session-list/session-list.component';
 
 const routes: Routes = [
@@ -13,10 +14,11 @@ const routes: Routes = [
   { path: 'movies', component: MovieListComponent },
   { path: 'movie/:id/edit', component: MovieEditComponent },
   { path: 'newmovie', component: MovieAddComponent },
-  { path: 'cinerooms', component: CineroomListComponent},    
+  { path: 'cinerooms', component: CineroomListComponent},
   { path: 'newcineroom', component: CineroomAddComponent },
-  { path: 'cineroom/:id/edit', component: CineroomEditComponent },  
+  { path: 'cineroom/:id/edit', component: CineroomEditComponent },
   { path: 'sessions', component: SessionListComponent },
+  { path: 'newsession', component: SessionAddComponent },
 ];
 
 @NgModule({

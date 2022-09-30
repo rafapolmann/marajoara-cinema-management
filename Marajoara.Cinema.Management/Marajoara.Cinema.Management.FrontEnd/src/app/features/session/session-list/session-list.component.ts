@@ -44,8 +44,17 @@ export class SessionListComponent implements OnInit {
   async loadSessions() {
     this.dataToDisplay = await firstValueFrom(this.sessionService.getAll());
     this.dataSource = new MatTableDataSource(this.dataToDisplay);
+    this.configureFilter();
 
     this.dataSource.paginator = this.paginator;
+  }
+  configureFilter(): void {
+    this.dataSource.filterPredicate = (data: Session, filter: string) =>
+      this.dateTimeCustom.transform(data.sessionDate).indexOf(filter) != -1 ||
+      this.dateTimeCustom.transform(data.endSession).indexOf(filter) != -1 ||
+      data.price.toString().indexOf(filter) != -1 ||
+      data.movie.title.toLowerCase().indexOf(filter.toLowerCase()) != -1 ||
+      data.cineRoom.name.toLowerCase().indexOf(filter.toLowerCase()) != -1;
   }
 
   formatPrice(price: Number): string {
@@ -58,12 +67,12 @@ export class SessionListComponent implements OnInit {
   }
 
   applyFilter(event: any): void {
-    // this.selectedMovieID = -1;
-    // this.dataSource.filter = event.target.value.trim().toLocaleLowerCase();
+    this.selectedSessionID = -1;
+    this.dataSource.filter = event.target.value.trim().toLocaleLowerCase();
   }
 
   onAddClick() {
-    //this.router.navigateByUrl('newmovie');
+    this.router.navigateByUrl('newsession');
   }
 
   onEditClick() {
