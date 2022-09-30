@@ -6,6 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SessionService } from 'src/app/services/SessionService';
 import { firstValueFrom } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
+import { ConfirmDialogComponent } from 'src/app/components/common/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-session-list',
@@ -81,14 +82,30 @@ export class SessionListComponent implements OnInit {
   }
 
   async onDeleteClick() {
-    // if (this.selectedMovieID === -1) return;
-    // if (!(await firstValueFrom(this.openDeleteMovieDialog().afterClosed())))
-    //   return;
-    // if (await firstValueFrom(this.movieService.delete(this.selectedMovieID))) {
-    //   const index = this.dataSource.data.indexOf(this.selectedMovie, 0);
-    //   if (index === -1) return;
-    //   this.dataSource.data.splice(index, 1);
-    //   this.dataSource._updateChangeSubscription();
-    // }
+    if (this.selectedSessionID === -1) return;
+
+    if (!(await firstValueFrom(this.openDeleteDialog().afterClosed()))) return;
+
+    if (
+      await firstValueFrom(this.sessionService.delete(this.selectedSessionID))
+    ) {
+      const index = this.dataSource.data.indexOf(this.selectedSession, 0);
+      if (index === -1) return;
+
+      this.dataSource.data.splice(index, 1);
+      this.dataSource._updateChangeSubscription();
+    }
+  }
+
+  openDeleteDialog() {
+    return this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Exclusão de sessão',
+        message: `Deseja mesmo excluir a sessão? Filme: ${
+          this.selectedSession.movie.title
+        } - Data: ${this.formatDate(this.selectedSession.sessionDate)}`,
+        confirmText: 'Excluir',
+      },
+    });
   }
 }

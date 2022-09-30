@@ -30,7 +30,7 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             return HandleResult(await _mediator.Send(addSessionCommand));
         }
 
-        [Authorize(Roles = "Manager")]
+        //[Authorize(Roles = "Manager")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

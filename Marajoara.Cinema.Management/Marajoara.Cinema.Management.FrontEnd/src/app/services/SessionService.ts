@@ -10,6 +10,10 @@ export class SessionService {
   private controllerUri: string = 'session';
   constructor(private marajoaraApiService: MarajoaraApiService) {}
 
+  delete(sessionID: number):Observable<boolean> {
+    return this.marajoaraApiService.delete(`${this.controllerUri}/${sessionID}`)
+  }
+
   getAll(): Observable<Session[]> {
     return this.marajoaraApiService.get<Session[]>(this.controllerUri);
   }
