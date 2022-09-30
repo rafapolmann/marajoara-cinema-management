@@ -5,20 +5,18 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/components/common/confirm-dialog/confirm-dialog.component';
+
+import { TotastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-cineroom-list',
   templateUrl: './cineroom-list.component.html',
-  styleUrls: ['./cineroom-list.component.scss']
+  styleUrls: ['./cineroom-list.component.scss'],
 })
 export class CineroomListComponent implements OnInit {
-  displayedColumns: string[] = [
-    'cineRoomID',
-    'name',    
-    'totalSeats',
-  ];
+  displayedColumns: string[] = ['cineRoomID', 'name', 'totalSeats'];
   dataToDisplay: CineRoom[] = [];
   dataSource = new MatTableDataSource(this.dataToDisplay);
   selectedCineRoomID: number = -1;
@@ -28,9 +26,10 @@ export class CineroomListComponent implements OnInit {
   @ViewChild('dialogContent') dialogContent!: ConfirmDialogComponent;
 
   constructor(
-    private cineRoomService:CineRoomService,
+    private cineRoomService: CineRoomService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private toastr: TotastrService
   ) {}
 
   ngOnInit(): void {
@@ -63,10 +62,24 @@ export class CineroomListComponent implements OnInit {
 
   async onDeleteClick() {
     if (this.selectedCineRoomID === -1) return;
-    
+
     if (!(await firstValueFrom(this.openDeleteDialog().afterClosed()))) return;
 
-    if (await firstValueFrom(this.cineRoomService.delete(this.selectedCineRoomID))) {
+    try {
+      await this.deleteSelected();
+    } catch (exception: any) {
+      this.toastr.showErrorMessage(
+        `error status ${exception.status} - ${
+          Object.values(exception.error)[0]
+        }`
+      );
+    }
+  }
+
+  async deleteSelected() {
+    if (
+      await firstValueFrom(this.cineRoomService.delete(this.selectedCineRoomID))
+    ) {
       const index = this.dataSource.data.indexOf(this.selectedCineRoom, 0);
       if (index === -1) return;
 
@@ -74,9 +87,9 @@ export class CineroomListComponent implements OnInit {
       this.dataSource._updateChangeSubscription();
     }
   }
-  openDeleteDialog(){
+
+  openDeleteDialog() {
     return this.dialog.open(ConfirmDialogComponent, {
-      //width: '350px',
       data: {
         title: 'Exclusão de sala',
         message: `Deseja mesmo excluir a sala ${this.selectedCineRoom.name}?`,

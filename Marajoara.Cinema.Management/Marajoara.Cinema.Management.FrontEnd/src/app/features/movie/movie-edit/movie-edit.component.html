@@ -2,7 +2,7 @@
   <h2>Edição de Filme</h2>
   <app-movie-form
     *ngIf="movieData"
-    (onSubmit)="createHandler($event)"
+    (onSubmit)="onSubmit($event)"
     (onCancel)="onCancel()"
     [movieData]="movieData"
   ></app-movie-form>

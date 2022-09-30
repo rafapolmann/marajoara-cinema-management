@@ -15,6 +15,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 const MODULES = [
   MatNativeDateModule,
@@ -35,6 +36,7 @@ const MODULES = [
   MatSlideToggleModule,
   MatCardModule,
   MatButtonToggleModule,
+  MatSnackBarModule,
 ];
 /**teste */
 @NgModule({
