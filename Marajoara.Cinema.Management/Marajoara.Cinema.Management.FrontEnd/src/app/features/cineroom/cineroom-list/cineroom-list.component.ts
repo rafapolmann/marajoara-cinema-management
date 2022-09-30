@@ -7,7 +7,8 @@ import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/components/common/confirm-dialog/confirm-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { TotastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-cineroom-list',
@@ -28,7 +29,7 @@ export class CineroomListComponent implements OnInit {
     private cineRoomService: CineRoomService,
     private router: Router,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private toastr: TotastrService
   ) {}
 
   ngOnInit(): void {
@@ -67,12 +68,18 @@ export class CineroomListComponent implements OnInit {
     try {
       await this.deleteSelected();
     } catch (exception: any) {
-      this.showErrorMessage(exception);
+      this.toastr.showErrorMessage(
+        `error status ${exception.status} - ${
+          Object.values(exception.error)[0]
+        }`
+      );
     }
   }
 
   async deleteSelected() {
-    if (await firstValueFrom(this.cineRoomService.delete(this.selectedCineRoomID))) {
+    if (
+      await firstValueFrom(this.cineRoomService.delete(this.selectedCineRoomID))
+    ) {
       const index = this.dataSource.data.indexOf(this.selectedCineRoom, 0);
       if (index === -1) return;
 
@@ -81,18 +88,8 @@ export class CineroomListComponent implements OnInit {
     }
   }
 
-  showErrorMessage(exception: any) {
-    this.snackBar.open(
-      `error status ${exception.status} - ${Object.values(exception.error)[0]}`,
-      'Fechar',
-      {
-        verticalPosition: 'top',
-        horizontalPosition: 'right',
-      }
-    );
-  }
   openDeleteDialog() {
-    return this.dialog.open(ConfirmDialogComponent, {      
+    return this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: 'Exclusão de sala',
         message: `Deseja mesmo excluir a sala ${this.selectedCineRoom.name}?`,

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { CineRoom } from 'src/app/models/CineRoom';
 import { CineRoomService } from 'src/app/services/CineRoomService';
+import { TotastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-cineroom-add',
@@ -14,7 +14,7 @@ export class CineroomAddComponent implements OnInit {
   constructor(
     private cineRoomService: CineRoomService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private toastr: TotastrService
   ) {}
 
   ngOnInit(): void {}
@@ -37,20 +37,10 @@ export class CineroomAddComponent implements OnInit {
         this.cineRoomService.add(cineRoom)
       );
     } catch (exception: any) {
-      this.showErrorMessage(exception);
+      this.toastr.showErrorMessage(`error status ${exception.status} - ${Object.values(exception.error)[0]}`);
     } finally {
       this.navigateToList();
     }
   }
 
-  showErrorMessage(exception: any) {
-    this.snackBar.open(
-      `error status ${exception.status} - ${Object.values(exception.error)[0]}`,
-      'Fechar',
-      {
-        verticalPosition: 'top',
-        horizontalPosition: 'right',
-      }
-    );
-  }
 }
