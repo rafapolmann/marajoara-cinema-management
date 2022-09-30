@@ -20,6 +20,7 @@ import { CineroomSeatPickerComponent } from './components/cineroom/cineroom-seat
 import { CineroomFormComponent } from './components/cineroom/cineroom-form/cineroom-form.component';
 import { CineroomEditComponent } from './features/cineroom/cineroom-edit/cineroom-edit.component';
 import { SessionListComponent } from './features/session/session-list/session-list.component';
+import {DateTimeCustomFormat} from './core/pipes/date-time-custom-format';
 
 @NgModule({
   declarations: [
@@ -34,8 +35,9 @@ import { SessionListComponent } from './features/session/session-list/session-li
     CineroomAddComponent,
     CineroomSeatPickerComponent,
     CineroomFormComponent,
-    CineroomEditComponent,    
+    CineroomEditComponent,
     SessionListComponent,
+    DateTimeCustomFormat,
   ],
   imports: [
     BrowserModule,

@@ -24,10 +24,6 @@
 </div>
 <div>
   <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    <!-- <ng-container matColumnDef="sessionID">
-      <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{ element.sessionID }}</mat-cell>
-    </ng-container> -->
 
     <ng-container matColumnDef="movieTitle">
       <mat-header-cell *matHeaderCellDef>Título do filme</mat-header-cell>
@@ -42,14 +38,14 @@
     <ng-container matColumnDef="sessionDate">
       <mat-header-cell *matHeaderCellDef>Data da sessão</mat-header-cell>
       <mat-cell *matCellDef="let element">{{
-        formatDate(element.sessionDate)
+        element.sessionDate | dateTimeCustomFormat
       }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="endSessionDate">
       <mat-header-cell *matHeaderCellDef>Final da sessão</mat-header-cell>
       <mat-cell *matCellDef="let element">{{
-        formatDate(element.endSession)
+        element.endSession | dateTimeCustomFormat
       }}</mat-cell>
     </ng-container>
 

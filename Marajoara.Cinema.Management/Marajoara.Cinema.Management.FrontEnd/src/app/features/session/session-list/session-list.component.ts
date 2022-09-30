@@ -7,6 +7,7 @@ import { SessionService } from 'src/app/services/SessionService';
 import { firstValueFrom } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { ConfirmDialogComponent } from 'src/app/components/common/confirm-dialog/confirm-dialog.component';
+import { DateTimeCustomFormat } from 'src/app/core/pipes/date-time-custom-format';
 
 @Component({
   selector: 'app-session-list',
@@ -15,7 +16,6 @@ import { ConfirmDialogComponent } from 'src/app/components/common/confirm-dialog
 })
 export class SessionListComponent implements OnInit {
   displayedColumns: string[] = [
-    //'sessionID',
     'movieTitle',
     'cineRoomName',
     'sessionDate',
@@ -27,6 +27,7 @@ export class SessionListComponent implements OnInit {
 
   selectedSessionID: number = -1;
   selectedSession!: Session;
+  dateTimeCustom: DateTimeCustomFormat = new DateTimeCustomFormat();
 
   @ViewChild('paginator') paginator!: MatPaginator;
 
@@ -45,17 +46,6 @@ export class SessionListComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.dataToDisplay);
 
     this.dataSource.paginator = this.paginator;
-  }
-
-  formatDate(date: Date): string {
-    const parsedDate = new Date(date);
-    return parsedDate.toLocaleString([], {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
   }
 
   formatPrice(price: Number): string {
@@ -103,7 +93,9 @@ export class SessionListComponent implements OnInit {
         title: 'Exclusão de sessão',
         message: `Deseja mesmo excluir a sessão? Filme: ${
           this.selectedSession.movie.title
-        } - Data: ${this.formatDate(this.selectedSession.sessionDate)}`,
+        } - Data: ${this.dateTimeCustom.transform(
+          this.selectedSession.sessionDate
+        )}`,
         confirmText: 'Excluir',
       },
     });
