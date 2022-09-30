@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'movie/:id/edit', component: MovieEditComponent },
   { path: 'newmovie', component: MovieAddComponent },
 
-  { path: 'cineroom', component: CineroomListComponent},    
+  { path: 'cinerooms', component: CineroomListComponent},    
   { path: 'newcineroom', component: CineroomAddComponent },
   { path: 'cineroom/:id/edit', component: CineroomEditComponent },
 

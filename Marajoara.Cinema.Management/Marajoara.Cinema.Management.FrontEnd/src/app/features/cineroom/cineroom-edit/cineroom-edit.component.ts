@@ -48,6 +48,6 @@ export class CineroomEditComponent implements OnInit {
   }
 
   navigateToList(): void {
-    this.router.navigateByUrl('/cineroom');
+    this.router.navigateByUrl('/cinerooms');
   }
 }

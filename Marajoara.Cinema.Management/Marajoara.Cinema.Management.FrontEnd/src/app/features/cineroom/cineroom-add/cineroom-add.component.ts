@@ -15,7 +15,7 @@ export class CineroomAddComponent implements OnInit {
   ngOnInit(): void {}
   
   navigateToList(){
-    this.router.navigate(['/cineroom']);
+    this.router.navigate(['/cinerooms']);
   }
   
   onSubmit(cineRoom: CineRoom) {
