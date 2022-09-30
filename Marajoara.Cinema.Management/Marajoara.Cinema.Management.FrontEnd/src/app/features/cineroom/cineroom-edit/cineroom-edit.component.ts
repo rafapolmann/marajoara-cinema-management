@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CineRoom } from 'src/app/Models/CineRoom';
 import { firstValueFrom } from 'rxjs';
 import { CineRoomService } from 'src/app/services/CineRoomService';
+import { TotastrService } from 'src/app/services/toastr.service';
+
 
 @Component({
   selector: 'app-cineroom-edit',
@@ -15,7 +17,8 @@ export class CineroomEditComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private cineRoomService: CineRoomService
+    private cineRoomService: CineRoomService,
+    private toastr: TotastrService,
   ) {}
 
   ngOnInit(): void {
@@ -33,12 +36,7 @@ export class CineroomEditComponent implements OnInit {
     try {
       await firstValueFrom(this.cineRoomService.update(cineroom));
     } catch (exception: any) {
-      console.log(exception);
-      alert(
-        `error status ${exception.status}; Message: ${
-          Object.values(exception.error)[0]
-        }`
-      );
+      this.toastr.showErrorMessage( `error status ${exception.status} - ${Object.values(exception.error)[0]}`);
     } finally {
       this.navigateToList();
     }
@@ -50,4 +48,5 @@ export class CineroomEditComponent implements OnInit {
   navigateToList(): void {
     this.router.navigateByUrl('/cinerooms');
   }
+  
 }

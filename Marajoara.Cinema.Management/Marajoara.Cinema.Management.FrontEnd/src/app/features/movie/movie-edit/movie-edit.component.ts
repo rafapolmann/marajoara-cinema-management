@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Movie } from 'src/app/Models/Movie';
 import { firstValueFrom } from 'rxjs';
 import { MovieService } from 'src/app/services/MovieService';
+import { TotastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-movie-edit',
@@ -15,7 +16,8 @@ export class MovieEditComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private movieService: MovieService
+    private movieService: MovieService,
+    private toastr:TotastrService,
   ) {}
 
   ngOnInit(): void {
@@ -33,14 +35,23 @@ export class MovieEditComponent implements OnInit {
     this.movieData = this.movieAux;    
   }
 
-  async createHandler(movie: Movie) {
-    await firstValueFrom(this.movieService.update(movie));
-    if (movie.posterFile) {
-      await firstValueFrom(this.movieService.updatePoster(movie));
+  async onSubmit(movie: Movie) {
+    try {
+      await firstValueFrom(this.movieService.update(movie));
+      if (movie.posterFile) {
+        await firstValueFrom(this.movieService.updatePoster(movie));
+      }
+    } catch (exception: any) {
+      this.toastr.showErrorMessage(`error status ${exception.status}; Message: ${Object.values(exception.error)[0]}`);
+    } finally {
+      this.navigateToList();
     }
-    this.router.navigateByUrl('/movies');
   }
   onCancel(){
+    this.navigateToList();
+  }
+
+  navigateToList(){
     this.router.navigateByUrl('/movies');    
   }
 }
