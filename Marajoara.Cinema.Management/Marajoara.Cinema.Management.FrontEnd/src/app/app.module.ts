@@ -14,6 +14,11 @@ import { MovieListComponent } from './features/movie/movie-list/movie-list.compo
 import { MovieCardComponent } from './components/movie/movie-card/movie-card.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmDialogComponent } from './components/common/confirm-dialog/confirm-dialog.component';
+import { CineroomListComponent } from './features/cineroom/cineroom-list/cineroom-list.component';
+import { CineroomAddComponent } from './features/cineroom/cineroom-add/cineroom-add.component';
+import { CineroomSeatPickerComponent } from './components/cineroom/cineroom-seat-picker/cineroom-seat-picker.component';
+import { CineroomFormComponent } from './components/cineroom/cineroom-form/cineroom-form.component';
+import { CineroomEditComponent } from './features/cineroom/cineroom-edit/cineroom-edit.component';
 import { SessionListComponent } from './features/session/session-list/session-list.component';
 
 @NgModule({
@@ -25,6 +30,11 @@ import { SessionListComponent } from './features/session/session-list/session-li
     MovieListComponent,
     MovieCardComponent,
     ConfirmDialogComponent,
+    CineroomListComponent,
+    CineroomAddComponent,
+    CineroomSeatPickerComponent,
+    CineroomFormComponent,
+    CineroomEditComponent,    
     SessionListComponent,
   ],
   imports: [

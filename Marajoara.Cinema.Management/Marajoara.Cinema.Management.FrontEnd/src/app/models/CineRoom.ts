@@ -1,5 +1,8 @@
-export interface CineRoom {
-  cineRoomID: number;
-  name: string;
-  totalSeats: number;
+export interface CineRoom{
+    cineRoomID:number,
+    name: string,    
+    seatsRow?: number,
+    seatsColumn?: number,
+    totalSeats?: number,
+
 }
