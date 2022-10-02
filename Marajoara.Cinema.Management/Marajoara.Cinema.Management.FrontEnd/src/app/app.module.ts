@@ -20,9 +20,10 @@ import { CineroomSeatPickerComponent } from './components/cineroom/cineroom-seat
 import { CineroomFormComponent } from './components/cineroom/cineroom-form/cineroom-form.component';
 import { CineroomEditComponent } from './features/cineroom/cineroom-edit/cineroom-edit.component';
 import { SessionListComponent } from './features/session/session-list/session-list.component';
-import {DateTimeCustomFormat} from './core/pipes/date-time-custom-format';
+import { DateTimeCustomFormat } from './core/pipes/date-time-custom-format';
 import { SessionAddComponent } from './features/session/session-add/session-add.component';
 import { SessionFormComponent } from './components/session/session-form/session-form.component';
+import { SessionEditComponent } from './features/session/session-edit/session-edit.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { SessionFormComponent } from './components/session/session-form/session-
     DateTimeCustomFormat,
     SessionAddComponent,
     SessionFormComponent,
+    SessionEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,4 +57,4 @@ import { SessionFormComponent } from './components/session/session-form/session-
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

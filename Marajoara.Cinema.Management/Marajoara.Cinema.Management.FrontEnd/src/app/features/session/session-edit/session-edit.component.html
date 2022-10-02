@@ -1,0 +1,5 @@
+<div class="container">
+  <h2>Edição de Sessão</h2>
+  <app-session-form *ngIf="sessionData" (onSubmit)="onSubmit($event)" (onCancel)="onCancel()"
+    [sessionData]="sessionData"></app-session-form>
+</div>

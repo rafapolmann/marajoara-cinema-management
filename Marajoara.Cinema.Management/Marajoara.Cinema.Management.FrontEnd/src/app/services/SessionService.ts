@@ -8,14 +8,25 @@ import { MarajoaraApiService } from './MarajoaraApiService';
 })
 export class SessionService {
   private controllerUri: string = 'session';
-  constructor(private marajoaraApiService: MarajoaraApiService) {}
+  constructor(private marajoaraApiService: MarajoaraApiService) { }
 
   add(session: Session): Observable<number> {
     return this.marajoaraApiService.post(this.controllerUri, session);
   }
 
-  delete(sessionID: number):Observable<boolean> {
+  update(session: Session): Observable<boolean> {
+    return this.marajoaraApiService.put(this.controllerUri, session);
+  }
+
+  delete(sessionID: number): Observable<boolean> {
     return this.marajoaraApiService.delete(`${this.controllerUri}/${sessionID}`)
+  }
+
+  getById(sessionId: number): Observable<Session> {
+    console.log(`${this.controllerUri}/${sessionId}`);
+    return this.marajoaraApiService.get<Session>(
+      `${this.controllerUri}/${sessionId}`
+    );
   }
 
   getAll(): Observable<Session[]> {

@@ -12,20 +12,14 @@ form{
 }
 
 .form-group label {
-    text-align: left;    
+    text-align: left;
     font-weight: bold;
     font-size: .9em;
-    margin-bottom: .4em;    
+    margin-bottom: .4em;
 }
 
-.form-group input,
-.form-group textarea {
-    padding: .6em;
-    color: #777;
-    font-size: .8em;
-}
 .save-button,
-input[type="submit"]{    
+input[type="submit"]{
     background-color: #efefef;
     border: 2px solid transparent;
     font-weight: bold;
@@ -52,7 +46,7 @@ input[type="submit"]:hover{
 }
 
 .save-button img{
-    width: 24px; 
+    width: 24px;
     margin-right: 10px;
     vertical-align: middle;
     display: inline-block;

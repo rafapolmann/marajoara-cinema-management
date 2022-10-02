@@ -14,8 +14,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
 
 const MODULES = [
   MatNativeDateModule,
@@ -37,9 +39,11 @@ const MODULES = [
   MatCardModule,
   MatButtonToggleModule,
   MatSnackBarModule,
+  MatAutocompleteModule,
+  MatSelectModule,
 ];
-/**teste */
+
 @NgModule({
   exports: [MODULES],
 })
-export class MaterialModule {}
+export class MaterialModule { }

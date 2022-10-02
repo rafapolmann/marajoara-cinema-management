@@ -9,6 +9,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ConfirmDialogComponent } from 'src/app/components/common/confirm-dialog/confirm-dialog.component';
 import { DateTimeCustomFormat } from 'src/app/core/pipes/date-time-custom-format';
 
+import { TotastrService } from 'src/app/services/toastr.service';
+
 @Component({
   selector: 'app-session-list',
   templateUrl: './session-list.component.html',
@@ -34,8 +36,9 @@ export class SessionListComponent implements OnInit {
   constructor(
     private sessionService: SessionService,
     private router: Router,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    private toastr: TotastrService
+  ) { }
 
   ngOnInit(): void {
     this.loadSessions();
@@ -76,8 +79,8 @@ export class SessionListComponent implements OnInit {
   }
 
   onEditClick() {
-    // if (this.selectedMovieID === -1) return;
-    // this.router.navigateByUrl(`movie/${this.selectedMovieID}/edit`);
+    if (this.selectedSessionID === -1) return;
+    this.router.navigateByUrl(`session/${this.selectedSessionID}/edit`);
   }
 
   async onDeleteClick() {
@@ -85,6 +88,17 @@ export class SessionListComponent implements OnInit {
 
     if (!(await firstValueFrom(this.openDeleteDialog().afterClosed()))) return;
 
+    try {
+      await this.deleteSelected();
+    } catch (exception: any) {
+      this.toastr.showErrorMessage(
+        `error status ${exception.status} - ${Object.values(exception.error)[0]
+        }`
+      );
+    }
+  }
+
+  async deleteSelected() {
     if (
       await firstValueFrom(this.sessionService.delete(this.selectedSessionID))
     ) {
@@ -100,11 +114,10 @@ export class SessionListComponent implements OnInit {
     return this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: 'Exclusão de sessão',
-        message: `Deseja mesmo excluir a sessão? Filme: ${
-          this.selectedSession.movie.title
-        } - Data: ${this.dateTimeCustom.transform(
-          this.selectedSession.sessionDate
-        )}`,
+        message: `Deseja mesmo excluir a sessão? Filme: ${this.selectedSession.movie.title
+          } - Data: ${this.dateTimeCustom.transform(
+            this.selectedSession.sessionDate
+          )}`,
         confirmText: 'Excluir',
       },
     });

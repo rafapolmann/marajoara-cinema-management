@@ -7,6 +7,7 @@ import { MovieAddComponent } from './features/movie/movie-add/movie-add.componen
 import { MovieEditComponent } from './features/movie/movie-edit/movie-edit.component';
 import { MovieListComponent } from './features/movie/movie-list/movie-list.component';
 import { SessionAddComponent } from './features/session/session-add/session-add.component';
+import { SessionEditComponent } from './features/session/session-edit/session-edit.component';
 import { SessionListComponent } from './features/session/session-list/session-list.component';
 
 const routes: Routes = [
@@ -14,15 +15,16 @@ const routes: Routes = [
   { path: 'movies', component: MovieListComponent },
   { path: 'movie/:id/edit', component: MovieEditComponent },
   { path: 'newmovie', component: MovieAddComponent },
-  { path: 'cinerooms', component: CineroomListComponent},
+  { path: 'cinerooms', component: CineroomListComponent },
   { path: 'newcineroom', component: CineroomAddComponent },
   { path: 'cineroom/:id/edit', component: CineroomEditComponent },
   { path: 'sessions', component: SessionListComponent },
   { path: 'newsession', component: SessionAddComponent },
+  { path: 'session/:id/edit', component: SessionEditComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

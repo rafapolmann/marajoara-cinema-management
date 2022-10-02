@@ -1,24 +1,32 @@
 <div class="form-container">
-  <form
-    (ngSubmit)="submit(formDir)"
-    [formGroup]="sessionForm"
-    #formDir="ngForm"
-  >
+  <form (ngSubmit)="submit(formDir)" [formGroup]="sessionForm" #formDir="ngForm">
     <div class="form-group">
-      <mat-form-field appearance="fill">
-        <mat-label>Nome:</mat-label>
-        <input
-          matInput
-          placeholder="Nome da sala"
-          formControlName="name"
-          required
-        />
-        <!-- <mat-error *ngIf="name.invalid && name.errors?.['required']"
-          >O nome é obrigatório</mat-error
-        > -->
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Filme</mat-label>
+        <input matInput (click)="loadMoviesInputFilter()" aria-label="Filme" [matAutocomplete]="autoMovie"
+          [formControl]="movieCtrl" placeholder="Título do filme" formControlName="movieCtrl" required />
+        <mat-autocomplete #autoMovie="matAutocomplete">
+          <mat-option *ngFor="let movie of filteredMovies | async" [value]="movie.title">
+            <span>{{ movie.title }}</span> |
+            <small>Audio original: {{ movie.isOriginalAudio ? 'Sim' : 'Não' }}</small> |
+            <small>Projeção: {{ movie.is3D ? '3D' : 'Normal' }}</small>
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
     </div>
-
+    <div class="form-group">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Sala</mat-label>
+        <input matInput (click)="loadCineRoomsInputFilter()" aria-label="Sala" [matAutocomplete]="autoCine"
+          [formControl]="cineRoomCtrl" placeholder="Sala de cinema" formControlName="cineRoomCtrl" required />
+        <mat-autocomplete #autoCine="matAutocomplete">
+          <mat-option *ngFor="let cineRoom of filteredCineRooms | async" [value]="cineRoom.name">
+            <span>{{ cineRoom.name }}</span> |
+            <small>Nº de assentos: {{ cineRoom.totalSeats }}</small>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
     <mat-divider></mat-divider>
     <div class="button-flex-container">
       <button mat-raised-button color="primary">Salvar</button>
