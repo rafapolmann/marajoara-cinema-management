@@ -16,6 +16,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 const MODULES = [
   MatNativeDateModule,
@@ -37,6 +39,9 @@ const MODULES = [
   MatCardModule,
   MatButtonToggleModule,
   MatSnackBarModule,
+  MatProgressSpinnerModule,
+  MatProgressBarModule,
+  
 ];
 /**teste */
 @NgModule({
