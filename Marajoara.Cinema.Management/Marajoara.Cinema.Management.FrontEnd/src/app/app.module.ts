@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { MaterialModule } from './core/material/material.module';
 
@@ -19,6 +19,7 @@ import { CineroomAddComponent } from './features/cineroom/cineroom-add/cineroom-
 import { CineroomSeatPickerComponent } from './components/cineroom/cineroom-seat-picker/cineroom-seat-picker.component';
 import { CineroomFormComponent } from './components/cineroom/cineroom-form/cineroom-form.component';
 import { CineroomEditComponent } from './features/cineroom/cineroom-edit/cineroom-edit.component';
+import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 
 
 @NgModule({
@@ -45,7 +46,11 @@ import { CineroomEditComponent } from './features/cineroom/cineroom-edit/cineroo
     BrowserAnimationsModule,
     MaterialModule,
   ],
-  providers: [],
+  providers: [{
+    provide:HTTP_INTERCEPTORS,
+    useClass: LoadingInterceptor,
+    multi:true,
+  }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
