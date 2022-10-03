@@ -9,7 +9,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ConfirmDialogComponent } from 'src/app/components/common/confirm-dialog/confirm-dialog.component';
 import { DateTimeCustomFormat } from 'src/app/core/pipes/date-time-custom-format';
 
-import { TotastrService } from 'src/app/services/toastr.service';
+import { ToastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-session-list',
@@ -37,7 +37,7 @@ export class SessionListComponent implements OnInit {
     private sessionService: SessionService,
     private router: Router,
     private dialog: MatDialog,
-    private toastr: TotastrService
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {

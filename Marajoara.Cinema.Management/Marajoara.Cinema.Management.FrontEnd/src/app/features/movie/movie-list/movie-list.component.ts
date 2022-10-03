@@ -7,7 +7,7 @@ import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/components/common/confirm-dialog/confirm-dialog.component';
-import { TotastrService } from 'src/app/services/toastr.service';
+import { ToastrService } from 'src/app/services/toastr.service';
 @Component({
   selector: 'app-movie-list',
   templateUrl: './movie-list.component.html',
@@ -34,7 +34,7 @@ export class MovieListComponent implements OnInit {
     private movieService: MovieService,
     private router: Router,
     private dialog: MatDialog,
-    private toastr: TotastrService,
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {

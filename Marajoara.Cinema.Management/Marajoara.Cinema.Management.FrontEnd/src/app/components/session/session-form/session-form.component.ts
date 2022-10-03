@@ -7,6 +7,9 @@ import { Movie } from 'src/app/models/Movie';
 import { MovieService } from 'src/app/services/MovieService';
 import { CineRoom } from 'src/app/models/CineRoom';
 import { CineRoomService } from 'src/app/services/CineRoomService';
+import { DateTimeCustomFormat } from 'src/app/core/pipes/date-time-custom-format';
+
+
 
 @Component({
   selector: 'app-session-form',
@@ -20,6 +23,8 @@ export class SessionFormComponent implements OnInit {
 
   sessionForm!: FormGroup;
 
+  dateTimeCustom: DateTimeCustomFormat = new DateTimeCustomFormat();
+
   filteredMovies!: Observable<Movie[]>;
   movies: Movie[] = [];
 
@@ -31,15 +36,32 @@ export class SessionFormComponent implements OnInit {
   ngOnInit(): void {
     this.sessionForm = new FormGroup({
       sessionID: new FormControl(this.sessionData ? this.sessionData.sessionID : ''),
-      sessionDate: new FormControl(this.sessionData ? this.sessionData.sessionDate : '', [Validators.required]),
-      endSession: new FormControl(this.sessionData ? this.sessionData.endSession : '', [Validators.required]),
-      price: new FormControl(this.sessionData ? this.sessionData.price : true, [Validators.required]),
+      sessionDate: new FormControl(this.sessionData ? this.sessionData.sessionDate : ''.toLocaleString(), [Validators.required]),
+      sessionTime: new FormControl(this.sessionData ? this.dateTimeCustom.transformToTime(this.sessionData.sessionDate) : '', [Validators.required]),
+      endSession: new FormControl(this.sessionData ? this.dateTimeCustom.transform(this.sessionData.endSession) : '', [Validators.required]),
+      price: new FormControl(this.sessionData ? this.sessionData.price.toFixed(2) : '0.00', [Validators.required]),
       movieCtrl: new FormControl(this.sessionData ? this.sessionData.movie.title : '', [Validators.required]),
       cineRoomCtrl: new FormControl(this.sessionData ? this.sessionData.cineRoom.name : '', [Validators.required]),
     });
 
     this.loadMoviesInputFilter();
     this.loadCineRoomsInputFilter();
+  }
+
+  get sessionDate(): FormControl {
+    return this.sessionForm.get('sessionDate')! as FormControl;
+  }
+
+  get sessionTime(): FormControl {
+    return this.sessionForm.get('sessionTime')! as FormControl;
+  }
+
+  get endSession(): FormControl {
+    return this.sessionForm.get('endSession')! as FormControl;
+  }
+
+  get price(): FormControl {
+    return this.sessionForm.get('price')! as FormControl;
   }
 
   get movieCtrl(): FormControl {

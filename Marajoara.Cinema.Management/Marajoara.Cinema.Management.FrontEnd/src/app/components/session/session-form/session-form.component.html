@@ -1,5 +1,6 @@
 <div class="form-container">
   <form (ngSubmit)="submit(formDir)" [formGroup]="sessionForm" #formDir="ngForm">
+
     <div class="form-group">
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Filme</mat-label>
@@ -14,6 +15,7 @@
         </mat-autocomplete>
       </mat-form-field>
     </div>
+
     <div class="form-group">
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Sala</mat-label>
@@ -27,7 +29,40 @@
         </mat-autocomplete>
       </mat-form-field>
     </div>
+
+    <div class="form-group">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Data</mat-label>
+        <input matInput readonly="true" [matDatepicker]="picker1" placeholder="DD/MM/AAAA" [formControl]="sessionDate">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Horário</mat-label>
+        <input matInput type="time" [formControl]="sessionTime" formControlName="sessionTime" required>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Final da sessão</mat-label>
+        <input matInput type="text" readonly="true" [formControl]="endSession" formControlName="endSession">
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <mat-form-field appearance="fill" color="primary">
+        <mat-label>Preço (R$):</mat-label>
+        <input matInput type="text" placeholder="Valor da sessão (R$)" formControlName="price" min="0" required />
+        <span matSuffix>Reais</span>
+      </mat-form-field>
+    </div>
+
     <mat-divider></mat-divider>
+
     <div class="button-flex-container">
       <button mat-raised-button color="primary">Salvar</button>
       <button mat-raised-button (click)="cancel()" type="button" color="basic">

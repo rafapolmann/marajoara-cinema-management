@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Session } from 'src/app/models/Session';
-import { TotastrService } from 'src/app/services/toastr.service';
+import { ToastrService } from 'src/app/services/toastr.service';
 import { firstValueFrom } from 'rxjs';
 import { SessionService } from 'src/app/services/SessionService';
 
@@ -15,7 +15,7 @@ export class SessionEditComponent implements OnInit {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private sessionService: SessionService,
-    private toastr: TotastrService,) { }
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
