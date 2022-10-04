@@ -24,6 +24,7 @@ import { DateTimeCustomFormat } from './core/pipes/date-time-custom-format';
 import { SessionAddComponent } from './features/session/session-add/session-add.component';
 import { SessionFormComponent } from './components/session/session-form/session-form.component';
 import { SessionEditComponent } from './features/session/session-edit/session-edit.component';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,9 @@ import { SessionEditComponent } from './features/session/session-edit/session-ed
     BrowserAnimationsModule,
     MaterialModule,
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

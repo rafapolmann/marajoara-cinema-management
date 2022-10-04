@@ -1,39 +1,42 @@
 <div class="form-container">
   <form (ngSubmit)="submit(formDir)" [formGroup]="sessionForm" #formDir="ngForm">
-
     <div class="form-group">
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Filme</mat-label>
-        <input matInput (click)="loadMoviesInputFilter()" aria-label="Filme" [matAutocomplete]="autoMovie"
-          [formControl]="movieCtrl" placeholder="Título do filme" formControlName="movieCtrl" required />
-        <mat-autocomplete #autoMovie="matAutocomplete">
-          <mat-option *ngFor="let movie of filteredMovies | async" [value]="movie.title">
+        <input matInput  aria-label="Filme" [matAutocomplete]="autoMovie"
+          placeholder="Título do filme" formControlName="movieCtrl" required (ngModelChange)="endSessionChange()" />
+        <mat-autocomplete #autoMovie="matAutocomplete" [displayWith]="movieAutoCompleteDisplayWith">
+          <mat-option *ngFor="let movie of filteredMovies | async" [value]="movie">
             <span>{{ movie.title }}</span> |
-            <small>Audio original: {{ movie.isOriginalAudio ? 'Sim' : 'Não' }}</small> |
-            <small>Projeção: {{ movie.is3D ? '3D' : 'Normal' }}</small>
+            <small>Audio original:
+              {{ movie.isOriginalAudio ? "Sim" : "Não" }}</small> |
+            <small>Projeção: {{ movie.is3D ? "3D" : "Normal" }}</small>
           </mat-option>
         </mat-autocomplete>
+        <mat-error *ngIf="movieCtrl.errors?.['incorrect']">Selecione um Filme válido</mat-error>
       </mat-form-field>
     </div>
 
     <div class="form-group">
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Sala</mat-label>
-        <input matInput (click)="loadCineRoomsInputFilter()" aria-label="Sala" [matAutocomplete]="autoCine"
-          [formControl]="cineRoomCtrl" placeholder="Sala de cinema" formControlName="cineRoomCtrl" required />
-        <mat-autocomplete #autoCine="matAutocomplete">
-          <mat-option *ngFor="let cineRoom of filteredCineRooms | async" [value]="cineRoom.name">
+        <input matInput aria-label="Sala" [matAutocomplete]="autoCine"
+         placeholder="Sala de cinema" formControlName="cineRoomCtrl" required />
+        <mat-autocomplete #autoCine="matAutocomplete" [displayWith]="cineRoomAutoCompleteDisplayWith">
+          <mat-option *ngFor="let cineRoom of filteredCineRooms | async" [value]="cineRoom">
             <span>{{ cineRoom.name }}</span> |
             <small>Nº de assentos: {{ cineRoom.totalSeats }}</small>
           </mat-option>
         </mat-autocomplete>
+        <mat-error *ngIf="cineRoomCtrl.errors?.['incorrect']">Selecione uma Sala válida</mat-error>
       </mat-form-field>
     </div>
 
     <div class="form-group">
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Data</mat-label>
-        <input matInput readonly="true" [matDatepicker]="picker1" placeholder="DD/MM/AAAA" [formControl]="sessionDate">
+        <input matInput readonly="true" [matDatepicker]="picker1" (ngModelChange)="endSessionChange()" placeholder="DD/MM/AAAA"
+          [formControl]="sessionDate" />
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
       </mat-form-field>
@@ -42,14 +45,14 @@
     <div class="form-group">
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Horário</mat-label>
-        <input matInput type="time" [formControl]="sessionTime" formControlName="sessionTime" required>
+        <input matInput type="time" [formControl]="sessionTime" (ngModelChange)="endSessionChange()" formControlName="sessionTime" required />
       </mat-form-field>
     </div>
 
     <div class="form-group">
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Final da sessão</mat-label>
-        <input matInput type="text" readonly="true" [formControl]="endSession" formControlName="endSession">
+        <input matInput type="text" readonly="true" [formControl]="endSession" formControlName="endSession" />
       </mat-form-field>
     </div>
 

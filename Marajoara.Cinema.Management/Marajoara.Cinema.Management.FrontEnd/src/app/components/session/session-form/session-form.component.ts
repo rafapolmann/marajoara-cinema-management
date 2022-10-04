@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective, Validators, } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormGroupDirective, Validators, } from '@angular/forms';
 import { Session } from 'src/app/models/Session';
 import { firstValueFrom, Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -40,8 +40,8 @@ export class SessionFormComponent implements OnInit {
       sessionTime: new FormControl(this.sessionData ? this.dateTimeCustom.transformToTime(this.sessionData.sessionDate) : '', [Validators.required]),
       endSession: new FormControl(this.sessionData ? this.dateTimeCustom.transform(this.sessionData.endSession) : '', [Validators.required]),
       price: new FormControl(this.sessionData ? this.sessionData.price.toFixed(2) : '0.00', [Validators.required]),
-      movieCtrl: new FormControl(this.sessionData ? this.sessionData.movie.title : '', [Validators.required]),
-      cineRoomCtrl: new FormControl(this.sessionData ? this.sessionData.cineRoom.name : '', [Validators.required]),
+      movieCtrl: new FormControl(this.sessionData ? this.sessionData.movie : '', [Validators.required,this.RequireMatch]),
+      cineRoomCtrl: new FormControl(this.sessionData ? this.sessionData.cineRoom : '', [Validators.required, this.RequireMatch]),
     });
 
     this.loadMoviesInputFilter();
@@ -76,12 +76,13 @@ export class SessionFormComponent implements OnInit {
     this.movies = await firstValueFrom(this.movieService.getAll());
     this.filteredMovies = this.movieCtrl.valueChanges.pipe(
       startWith(''),
-      map((movie) => (movie ? this.filterMovies(movie) : this.movies.slice()))
+      map((movie) => (movie ? this.filterMovies(movie.title) : this.movies.slice()))
     );
   }
 
   private filterMovies(value: string): Movie[] {
-    return this.movies.filter((movie) =>
+    var hasNoValue =!value;
+    return hasNoValue?this.movies: this.movies.filter((movie) =>
       movie.title.toLowerCase().includes(value.toLowerCase())
     );
   }
@@ -90,12 +91,13 @@ export class SessionFormComponent implements OnInit {
     this.cineRooms = await firstValueFrom(this.cineRoomService.getAll());
     this.filteredCineRooms = this.cineRoomCtrl.valueChanges.pipe(
       startWith(''),
-      map((cineRoom) => (cineRoom ? this.filterCineRooms(cineRoom) : this.cineRooms.slice()))
+      map((cineRoom) => (cineRoom ? this.filterCineRooms(cineRoom.name) : this.cineRooms.slice()))
     );
   }
 
   private filterCineRooms(value: string): CineRoom[] {
-    return this.cineRooms.filter((cineRoom) =>
+    var hasNoValue =!value;
+    return hasNoValue? this.cineRooms: this.cineRooms.filter((cineRoom) =>
       cineRoom.name.toLowerCase().includes(value.toLowerCase())
     );
   }
@@ -109,9 +111,41 @@ export class SessionFormComponent implements OnInit {
     if (this.sessionForm.invalid) {
       return;
     }
-    this.onSubmit.emit(this.sessionForm.value);
+    //this.onSubmit.emit(this.sessionForm.value);
     //Resets the form.
-    this.sessionForm.reset();
-    formDirective.resetForm();
+    // this.sessionForm.reset();
+    // formDirective.resetForm();
   }
+  endSessionChange(){
+    const movieDuration:number = this.movieCtrl.value.minutes;
+    const _date:Date = new Date(this.sessionDate.value);    
+
+    const time:number[] = this.sessionTime.value.split(':');
+    console.log(_date.getDay());
+    console.log(_date.getMonth());
+
+    const fullDate = new Date(_date.getFullYear(),_date.getMonth(),_date.getDay(), time[0], time[1],0,0);
+    
+    fullDate.setMinutes(fullDate.getMinutes() + movieDuration);    
+    this.endSession.setValue(this.dateTimeCustom.transform(fullDate));
+
+  }
+
+  movieAutoCompleteDisplayWith(obj?: Movie): string  {
+    return obj ? obj.title : '';
+  }
+  
+  cineRoomAutoCompleteDisplayWith(obj?: CineRoom): string  {
+    return obj ? obj.name : '';
+  }
+
+  RequireMatch(control: AbstractControl) {
+    const selection: any = control.value;
+    if (typeof selection === 'string') {
+        return { incorrect: true };
+    }
+    return null;
+  }
+  
 }
+
