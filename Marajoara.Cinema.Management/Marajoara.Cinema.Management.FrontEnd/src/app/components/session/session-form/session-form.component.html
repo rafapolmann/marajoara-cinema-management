@@ -3,14 +3,14 @@
     <div class="form-group">
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Filme</mat-label>
-        <input matInput  aria-label="Filme" [matAutocomplete]="autoMovie"
-          placeholder="Título do filme" formControlName="movieCtrl" required (ngModelChange)="endSessionChange()" />
+        <input matInput aria-label="Filme" [matAutocomplete]="autoMovie" placeholder="Título do filme"
+          formControlName="movieCtrl" required (ngModelChange)="endSessionChange()" />
         <mat-autocomplete #autoMovie="matAutocomplete" [displayWith]="movieAutoCompleteDisplayWith">
           <mat-option *ngFor="let movie of filteredMovies | async" [value]="movie">
             <span>{{ movie.title }}</span> |
-            <small>Audio original:
-              {{ movie.isOriginalAudio ? "Sim" : "Não" }}</small> |
-            <small>Projeção: {{ movie.is3D ? "3D" : "Normal" }}</small>
+            <small>Audio original: {{ movie.isOriginalAudio ? "Sim" : "Não" }}</small> |
+            <small>Projeção: {{ movie.is3D ? "3D" : "Normal" }}</small> |
+            <small>Duração (min.): {{ movie.minutes }}</small>
           </mat-option>
         </mat-autocomplete>
         <mat-error *ngIf="movieCtrl.errors?.['incorrect']">Selecione um Filme válido</mat-error>
@@ -20,8 +20,8 @@
     <div class="form-group">
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Sala</mat-label>
-        <input matInput aria-label="Sala" [matAutocomplete]="autoCine"
-         placeholder="Sala de cinema" formControlName="cineRoomCtrl" required />
+        <input matInput aria-label="Sala" [matAutocomplete]="autoCine" placeholder="Sala de cinema"
+          formControlName="cineRoomCtrl" required />
         <mat-autocomplete #autoCine="matAutocomplete" [displayWith]="cineRoomAutoCompleteDisplayWith">
           <mat-option *ngFor="let cineRoom of filteredCineRooms | async" [value]="cineRoom">
             <span>{{ cineRoom.name }}</span> |
@@ -35,17 +35,20 @@
     <div class="form-group">
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Data</mat-label>
-        <input matInput readonly="true" [matDatepicker]="picker1" (ngModelChange)="endSessionChange()" placeholder="DD/MM/AAAA"
-          [formControl]="sessionDate" />
+        <input matInput readonly="true" [matDatepicker]="picker1" (ngModelChange)="endSessionChange()"
+          placeholder="DD/MM/AAAA" [formControl]="sessionDate" />
         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
+        <mat-error *ngIf="sessionDate.invalid && sessionDate.errors?.['required']">A data é obrigatória</mat-error>
       </mat-form-field>
     </div>
 
     <div class="form-group">
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Horário</mat-label>
-        <input matInput type="time" [formControl]="sessionTime" (ngModelChange)="endSessionChange()" formControlName="sessionTime" required />
+        <input matInput type="time" [formControl]="sessionTime" (ngModelChange)="endSessionChange()"
+          formControlName="sessionTime" required />
+        <mat-error *ngIf="sessionTime.invalid && sessionTime.errors?.['required']">O horário é obrigatório</mat-error>
       </mat-form-field>
     </div>
 
@@ -59,8 +62,10 @@
     <div class="form-group">
       <mat-form-field appearance="fill" color="primary">
         <mat-label>Preço (R$):</mat-label>
-        <input matInput type="text" placeholder="Valor da sessão (R$)" formControlName="price" min="0" required />
+        <input matInput type="number" step="0.10" placeholder="Valor da sessão (R$)" formControlName="price" min="0"
+          required (change)="priceChange()" />
         <span matSuffix>Reais</span>
+        <mat-error *ngIf="price.invalid && price.errors?.['required']">O valor da sessão é obrigatório</mat-error>
       </mat-form-field>
     </div>
 

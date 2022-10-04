@@ -23,7 +23,6 @@ export class SessionService {
   }
 
   getById(sessionId: number): Observable<Session> {
-    console.log(`${this.controllerUri}/${sessionId}`);
     return this.marajoaraApiService.get<Session>(
       `${this.controllerUri}/${sessionId}`
     );

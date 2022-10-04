@@ -38,41 +38,17 @@ export class SessionFormComponent implements OnInit {
   constructor(
     private movieService: MovieService,
     private cineRoomService: CineRoomService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.sessionForm = new FormGroup({
-      sessionID: new FormControl(
-        this.sessionData ? this.sessionData.sessionID : ''
-      ),
-      sessionDate: new FormControl(
-        this.sessionData ? this.sessionData.sessionDate : ''.toLocaleString(),
-        [Validators.required]
-      ),
-      sessionTime: new FormControl(
-        this.sessionData
-          ? this.dateTimeCustom.transformToTime(this.sessionData.sessionDate)
-          : '',
-        [Validators.required]
-      ),
-      endSession: new FormControl(
-        this.sessionData
-          ? this.dateTimeCustom.transform(this.sessionData.endSession)
-          : '',
-        [Validators.required]
-      ),
-      price: new FormControl(
-        this.sessionData ? this.sessionData.price.toFixed(2) : '0.00',
-        [Validators.required]
-      ),
-      movieCtrl: new FormControl(
-        this.sessionData ? this.sessionData.movie : '',
-        [Validators.required, this.RequireMatch]
-      ),
-      cineRoomCtrl: new FormControl(
-        this.sessionData ? this.sessionData.cineRoom : '',
-        [Validators.required, this.RequireMatch]
-      ),
+      sessionID: new FormControl(this.sessionData ? this.sessionData.sessionID : ''),
+      sessionDate: new FormControl(this.sessionData ? this.sessionData.sessionDate : ''.toLocaleString(), [Validators.required]),
+      sessionTime: new FormControl(this.sessionData ? this.dateTimeCustom.transformToTime(this.sessionData.sessionDate) : '', [Validators.required]),
+      endSession: new FormControl(this.sessionData ? this.dateTimeCustom.transform(this.sessionData.endSession) : ''),
+      price: new FormControl(this.sessionData ? this.sessionData.price.toFixed(2) : '0.00', [Validators.required]),
+      movieCtrl: new FormControl(this.sessionData ? this.sessionData.movie : '', [Validators.required, this.RequireMatch]),
+      cineRoomCtrl: new FormControl(this.sessionData ? this.sessionData.cineRoom : '', [Validators.required, this.RequireMatch]),
     });
 
     this.loadMoviesInputFilter();
@@ -155,24 +131,32 @@ export class SessionFormComponent implements OnInit {
     // this.sessionForm.reset();
     // formDirective.resetForm();
   }
+
+  priceChange() {
+    if (this.price.valid) {
+      this.price.setValue(this.price.value.toFixed(2));
+    }
+  }
+
   endSessionChange() {
-    const movieDuration: number = this.movieCtrl.value.minutes;
-    const _date: Date = new Date(this.sessionDate.value);
+    if (this.movieCtrl.valid && this.sessionDate.valid && this.sessionTime.valid) {
+      const movieDuration: number = this.movieCtrl.value.minutes;
+      const _date: Date = new Date(this.sessionDate.value);
+      const time: number[] = this.sessionTime.value.split(':');
+      const fullDate = new Date(
+        _date.getFullYear(),
+        _date.getMonth(),
+        _date.getDate(),
+        time[0],
+        time[1],
+        0,
+        0
+      );
 
-    const time: number[] = this.sessionTime.value.split(':');
-
-    const fullDate = new Date(
-      _date.getFullYear(),
-      _date.getMonth(),
-      _date.getDate(),
-      time[0],
-      time[1],
-      0,
-      0
-    );
-
-    fullDate.setMinutes(fullDate.getMinutes() + movieDuration);
-    this.endSession.setValue(this.dateTimeCustom.transform(fullDate));
+      fullDate.setMinutes(fullDate.getMinutes() + movieDuration);
+      this.endSession.setValue(this.dateTimeCustom.transform(fullDate));
+    } else
+      this.endSession.setValue("");
   }
 
   movieAutoCompleteDisplayWith(obj?: Movie): string {

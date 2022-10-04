@@ -24,7 +24,6 @@ export class SessionEditComponent implements OnInit {
 
   async loadSession(sessionId: number) {
     this.sessionData = await firstValueFrom(this.sessionService.getById(sessionId));
-    console.log(JSON.stringify("this.sessionData", undefined, " "));
   }
 
   async onSubmit(session: Session) {
