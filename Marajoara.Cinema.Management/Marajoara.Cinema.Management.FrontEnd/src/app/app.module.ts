@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { MaterialModule } from './core/material/material.module';
 
@@ -24,6 +24,7 @@ import { DateTimeCustomFormat } from './core/pipes/date-time-custom-format';
 import { SessionAddComponent } from './features/session/session-add/session-add.component';
 import { SessionFormComponent } from './components/session/session-form/session-form.component';
 import { SessionEditComponent } from './features/session/session-edit/session-edit.component';
+import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,11 @@ import { SessionEditComponent } from './features/session/session-edit/session-ed
     BrowserAnimationsModule,
     MaterialModule,
   ],
-  providers: [],
+  providers: [{
+    provide:HTTP_INTERCEPTORS,
+    useClass: LoadingInterceptor,
+    multi:true,
+  }],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
