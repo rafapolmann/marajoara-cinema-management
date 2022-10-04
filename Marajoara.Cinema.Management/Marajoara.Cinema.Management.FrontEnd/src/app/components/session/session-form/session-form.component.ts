@@ -120,11 +120,9 @@ export class SessionFormComponent implements OnInit {
     const movieDuration:number = this.movieCtrl.value.minutes;
     const _date:Date = new Date(this.sessionDate.value);    
 
-    const time:number[] = this.sessionTime.value.split(':');
-    console.log(_date.getDay());
-    console.log(_date.getMonth());
+    const time:number[] = this.sessionTime.value.split(':');    
 
-    const fullDate = new Date(_date.getFullYear(),_date.getMonth(),_date.getDay(), time[0], time[1],0,0);
+    const fullDate = new Date(_date.getFullYear(),_date.getMonth(),_date.getDate(), time[0], time[1],0,0);
     
     fullDate.setMinutes(fullDate.getMinutes() + movieDuration);    
     this.endSession.setValue(this.dateTimeCustom.transform(fullDate));
