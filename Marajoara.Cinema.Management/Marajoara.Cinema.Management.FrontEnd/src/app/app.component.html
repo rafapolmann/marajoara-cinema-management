@@ -21,8 +21,11 @@
       <a mat-list-item routerLink="/tickets">Tickets</a>
     </mat-nav-list>
   </mat-sidenav>
-  <mat-sidenav-content  >
-    <router-outlet ></router-outlet>
+  <mat-sidenav-content>
+    <div class="progress-bar-wrapper" *ngIf="loadingService.loading$ | async as loading">
+      <mat-progress-bar color="warn" class="" mode="indeterminate" value="100"></mat-progress-bar>
+    </div>
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
 <mat-toolbar class="footer" color="primary">

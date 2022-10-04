@@ -19,30 +19,35 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 const MODULES = [
-  MatNativeDateModule,
-  MatSidenavModule,
-  MatToolbarModule,
-  MatNativeDateModule,
-  MatIconModule,
-  MatListModule,
-  MatTableModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatButtonModule,
-  MatPaginatorModule,
-  MatCheckboxModule,
-  MatDialogModule,
-  MatButtonModule,
-  MatDividerModule,
-  MatSlideToggleModule,
-  MatCardModule,
-  MatButtonToggleModule,
-  MatSnackBarModule,
-  MatAutocompleteModule,
-  MatSelectModule,
-  MatDatepickerModule,
+    MatNativeDateModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatNativeDateModule,
+    MatIconModule,
+    MatListModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatPaginatorModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatSlideToggleModule,
+    MatCardModule,
+    MatButtonToggleModule,
+    MatSnackBarModule,
+    MatAutocompleteModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+
 ];
 
 @NgModule({

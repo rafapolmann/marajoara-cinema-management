@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { MaterialModule } from './core/material/material.module';
 
@@ -24,40 +24,45 @@ import { DateTimeCustomFormat } from './core/pipes/date-time-custom-format';
 import { SessionAddComponent } from './features/session/session-add/session-add.component';
 import { SessionFormComponent } from './components/session/session-form/session-form.component';
 import { SessionEditComponent } from './features/session/session-edit/session-edit.component';
+import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    MovieFormComponent,
-    MovieEditComponent,
-    MovieAddComponent,
-    MovieListComponent,
-    MovieCardComponent,
-    ConfirmDialogComponent,
-    CineroomListComponent,
-    CineroomAddComponent,
-    CineroomSeatPickerComponent,
-    CineroomFormComponent,
-    CineroomEditComponent,
-    SessionListComponent,
-    DateTimeCustomFormat,
-    SessionAddComponent,
-    SessionFormComponent,
-    SessionEditComponent,
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-  ],
-  providers: [
+    declarations: [
+        AppComponent,
+        MovieFormComponent,
+        MovieEditComponent,
+        MovieAddComponent,
+        MovieListComponent,
+        MovieCardComponent,
+        ConfirmDialogComponent,
+        CineroomListComponent,
+        CineroomAddComponent,
+        CineroomSeatPickerComponent,
+        CineroomFormComponent,
+        CineroomEditComponent,
+        SessionListComponent,
+        DateTimeCustomFormat,
+        SessionAddComponent,
+        SessionFormComponent,
+        SessionEditComponent,
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        AppRoutingModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+    ],
+    providers: [{
+        provide: HTTP_INTERCEPTORS,
+        useClass: LoadingInterceptor,
+        multi: true,
+    },
     { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
-  ],
-  bootstrap: [AppComponent],
+    ],
+    bootstrap: [AppComponent],
 })
 export class AppModule { }
