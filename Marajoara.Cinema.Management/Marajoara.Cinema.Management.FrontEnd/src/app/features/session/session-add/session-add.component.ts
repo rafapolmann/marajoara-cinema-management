@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { Session } from 'src/app/models/Session';
+import { Session, SessionCommand } from 'src/app/models/Session';
 import { SessionService } from 'src/app/services/SessionService';
 
 @Component({
@@ -10,12 +10,12 @@ import { SessionService } from 'src/app/services/SessionService';
   styleUrls: ['./session-add.component.scss'],
 })
 export class SessionAddComponent implements OnInit {
-  constructor(private sessionService: SessionService, private router: Router) {}
+  constructor(private sessionService: SessionService, private router: Router) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
-  onSubmit(session: Session) {
-    this.saveSession(session);
+  onSubmit(sessionCommand: SessionCommand) {
+    this.saveSession(sessionCommand);
   }
 
   onCancel() {
@@ -26,16 +26,15 @@ export class SessionAddComponent implements OnInit {
     this.router.navigate(['/sessions']);
   }
 
-  async saveSession(session: Session) {
+  async saveSession(sessionCommand: SessionCommand) {
     try {
-      session.sessionID = await firstValueFrom(
-        this.sessionService.add(session)
+      sessionCommand.sessionID = await firstValueFrom(
+        this.sessionService.add(sessionCommand)
       );
     } catch (exception: any) {
       console.log(exception);
       alert(
-        `error status ${exception.status}; Message: ${
-          Object.values(exception.error)[0]
+        `error status ${exception.status}; Message: ${Object.values(exception.error)[0]
         }`
       );
     } finally {

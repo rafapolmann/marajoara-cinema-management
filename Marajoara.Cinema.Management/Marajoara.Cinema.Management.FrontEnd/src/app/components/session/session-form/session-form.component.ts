@@ -6,7 +6,7 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
-import { Session } from 'src/app/models/Session';
+import { Session, SessionCommand } from 'src/app/models/Session';
 import { firstValueFrom, Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Movie } from 'src/app/models/Movie';
@@ -21,7 +21,7 @@ import { DateTimeCustomFormat } from 'src/app/core/pipes/date-time-custom-format
   styleUrls: ['./session-form.component.scss'],
 })
 export class SessionFormComponent implements OnInit {
-  @Output() onSubmit = new EventEmitter<Session>();
+  @Output() onSubmit = new EventEmitter<SessionCommand>();
   @Output() onCancel = new EventEmitter();
   @Input() sessionData!: Session;
 
@@ -45,7 +45,7 @@ export class SessionFormComponent implements OnInit {
       sessionID: new FormControl(this.sessionData ? this.sessionData.sessionID : ''),
       sessionDate: new FormControl(this.sessionData ? this.sessionData.sessionDate : ''.toLocaleString(), [Validators.required]),
       sessionTime: new FormControl(this.sessionData ? this.dateTimeCustom.transformToTime(this.sessionData.sessionDate) : '', [Validators.required]),
-      endSession: new FormControl(this.sessionData ? this.dateTimeCustom.transform(this.sessionData.endSession) : ''),
+      endSession: new FormControl(this.sessionData ? this.dateTimeCustom.transform(this.sessionData.endSession!) : ''),
       price: new FormControl(this.sessionData ? this.sessionData.price.toFixed(2) : '0.00', [Validators.required]),
       movieCtrl: new FormControl(this.sessionData ? this.sessionData.movie : '', [Validators.required, this.RequireMatch]),
       cineRoomCtrl: new FormControl(this.sessionData ? this.sessionData.cineRoom : '', [Validators.required, this.RequireMatch]),
@@ -53,6 +53,10 @@ export class SessionFormComponent implements OnInit {
 
     this.loadMoviesInputFilter();
     this.loadCineRoomsInputFilter();
+  }
+
+  get sessionID(): FormControl {
+    return this.sessionForm.get('sessionID')! as FormControl;
   }
 
   get sessionDate(): FormControl {
@@ -88,10 +92,14 @@ export class SessionFormComponent implements OnInit {
   }
 
   private filterMovies(): Movie[] {
+    if (!this.movieCtrl.value)
+      return this.movies.slice();
+
     var value = this.movieCtrl.value;
     value = typeof value === 'string' ? value : value!.title;
 
-    if (!value) return this.movies.slice();
+    if (!value)
+      return this.movies.slice();
 
     return this.movies.filter((movie) =>
       movie.title.toLowerCase().includes(value.toLowerCase())
@@ -107,10 +115,14 @@ export class SessionFormComponent implements OnInit {
   }
 
   private filterCineRooms(): CineRoom[] {
+    if (!this.cineRoomCtrl.value)
+      return this.cineRooms.slice();
+
     var value = this.cineRoomCtrl.value;
     value = typeof value === 'string' ? value : value!.name;
 
-    if (!value) return this.cineRooms.slice();
+    if (!value)
+      return this.cineRooms.slice();
 
     return this.cineRooms.filter((cineRoom) =>
       cineRoom.name.toLowerCase().includes(value.toLowerCase())
@@ -122,14 +134,28 @@ export class SessionFormComponent implements OnInit {
   }
 
   submit(formDirective: FormGroupDirective): void {
-    console.log(this.sessionForm);
-    if (this.sessionForm.invalid) {
+    if (this.sessionForm.invalid)
       return;
-    }
-    //this.onSubmit.emit(this.sessionForm.value);
+
+    const sessionToEmit = this.getSessionToSubmit();
+    this.onSubmit.emit(sessionToEmit);
+
     //Resets the form.
-    // this.sessionForm.reset();
-    // formDirective.resetForm();
+    this.sessionForm.reset();
+    formDirective.resetForm();
+  }
+
+
+  getSessionToSubmit(): SessionCommand {
+    const sessionCommand: SessionCommand = {
+      sessionID: this.sessionID.value,
+      price: this.price.value,
+      sessionDate: this.getFullDate().toISOString(),
+      movieID: this.movieCtrl.value.movieID,
+      cineRoomID: this.cineRoomCtrl.value.cineRoomID
+    };
+
+    return sessionCommand;
   }
 
   priceChange() {
@@ -138,20 +164,29 @@ export class SessionFormComponent implements OnInit {
     }
   }
 
+  getFullDate(): Date {
+    const _date: Date = new Date(this.sessionDate.value);
+    const time: number[] = this.sessionTime.value.split(':');
+    const fullDate = new Date(
+      _date.getFullYear(),
+      _date.getMonth(),
+      _date.getDate(),
+      time[0],
+      time[1],
+      0,
+      0
+    );
+
+    return fullDate;
+  }
+
+
   endSessionChange() {
     if (this.movieCtrl.valid && this.sessionDate.valid && this.sessionTime.valid) {
       const movieDuration: number = this.movieCtrl.value.minutes;
       const _date: Date = new Date(this.sessionDate.value);
       const time: number[] = this.sessionTime.value.split(':');
-      const fullDate = new Date(
-        _date.getFullYear(),
-        _date.getMonth(),
-        _date.getDate(),
-        time[0],
-        time[1],
-        0,
-        0
-      );
+      const fullDate = this.getFullDate();
 
       fullDate.setMinutes(fullDate.getMinutes() + movieDuration);
       this.endSession.setValue(this.dateTimeCustom.transform(fullDate));

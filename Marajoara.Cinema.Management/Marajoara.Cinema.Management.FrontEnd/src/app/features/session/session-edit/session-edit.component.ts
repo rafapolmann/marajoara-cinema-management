@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Session } from 'src/app/models/Session';
+import { Session, SessionCommand } from 'src/app/models/Session';
 import { ToastrService } from 'src/app/services/toastr.service';
 import { firstValueFrom } from 'rxjs';
 import { SessionService } from 'src/app/services/SessionService';
@@ -26,9 +26,9 @@ export class SessionEditComponent implements OnInit {
     this.sessionData = await firstValueFrom(this.sessionService.getById(sessionId));
   }
 
-  async onSubmit(session: Session) {
+  async onSubmit(sessionCommand: SessionCommand) {
     try {
-      await firstValueFrom(this.sessionService.update(session));
+      await firstValueFrom(this.sessionService.update(sessionCommand));
     } catch (exception: any) {
       this.toastr.showErrorMessage(`error status ${exception.status}; Message: ${Object.values(exception.error)[0]}`);
     } finally {

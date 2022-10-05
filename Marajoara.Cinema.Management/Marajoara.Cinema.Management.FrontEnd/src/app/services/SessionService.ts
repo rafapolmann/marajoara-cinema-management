@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Session } from '../models/Session';
+import { Session, SessionCommand } from '../models/Session';
 import { MarajoaraApiService } from './MarajoaraApiService';
 
 @Injectable({
@@ -10,12 +10,12 @@ export class SessionService {
   private controllerUri: string = 'session';
   constructor(private marajoaraApiService: MarajoaraApiService) { }
 
-  add(session: Session): Observable<number> {
-    return this.marajoaraApiService.post(this.controllerUri, session);
+  add(sessionCommand: SessionCommand): Observable<number> {
+    return this.marajoaraApiService.post(this.controllerUri, sessionCommand);
   }
 
-  update(session: Session): Observable<boolean> {
-    return this.marajoaraApiService.put(this.controllerUri, session);
+  update(sessionCommand: SessionCommand): Observable<boolean> {
+    return this.marajoaraApiService.put(this.controllerUri, sessionCommand);
   }
 
   delete(sessionID: number): Observable<boolean> {
