@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { Session, SessionCommand } from 'src/app/models/Session';
 import { SessionService } from 'src/app/services/SessionService';
+import { ToastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-session-add',
@@ -10,7 +11,10 @@ import { SessionService } from 'src/app/services/SessionService';
   styleUrls: ['./session-add.component.scss'],
 })
 export class SessionAddComponent implements OnInit {
-  constructor(private sessionService: SessionService, private router: Router) { }
+  constructor(
+    private sessionService: SessionService,
+    private router: Router,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void { }
 
@@ -32,11 +36,7 @@ export class SessionAddComponent implements OnInit {
         this.sessionService.add(sessionCommand)
       );
     } catch (exception: any) {
-      console.log(exception);
-      alert(
-        `error status ${exception.status}; Message: ${Object.values(exception.error)[0]
-        }`
-      );
+      this.toastr.showErrorMessage(`error status ${exception.status} - ${Object.values(exception.error)[0]}`);
     } finally {
       this.navigateToList();
     }
