@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { formatDate } from '@angular/common';
 
 @Pipe({
   name: 'dateTimeCustomFormat',
@@ -32,5 +33,25 @@ export class DateTimeCustomFormat implements PipeTransform {
       month: '2-digit',
       day: '2-digit',
     });
+  }
+
+  transformToISOString(value: Date): string {
+    return formatDate(value, "yyyy-MM-ddTHH:mm:ss", "en-US");
+  }
+
+  getFullDate(baseDate: Date, time: string): Date {
+    const _date: Date = new Date(baseDate);
+    const timeProperties: string[] = time.split(':');
+    const fullDate = new Date(
+      _date.getFullYear(),
+      _date.getMonth(),
+      _date.getDate(),
+      Number(timeProperties[0]),
+      Number(timeProperties[1]),
+      0,
+      0
+    );
+
+    return fullDate;
   }
 }
