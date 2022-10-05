@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/components/common/confirm-dialog/confirm-dialog.component';
 
-import { TotastrService } from 'src/app/services/toastr.service';
+import { ToastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-cineroom-list',
@@ -29,7 +29,7 @@ export class CineroomListComponent implements OnInit {
     private cineRoomService: CineRoomService,
     private router: Router,
     private dialog: MatDialog,
-    private toastr: TotastrService
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {

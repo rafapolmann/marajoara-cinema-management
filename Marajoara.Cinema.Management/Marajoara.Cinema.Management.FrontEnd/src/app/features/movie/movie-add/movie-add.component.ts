@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { Movie } from 'src/app/models/Movie';
 import { MovieService } from 'src/app/services/MovieService';
-import { TotastrService } from 'src/app/services/toastr.service';
+import { ToastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-movie-add',
@@ -14,10 +14,10 @@ export class MovieAddComponent implements OnInit {
   constructor(
     private movieService: MovieService,
     private router: Router,
-    private toastr: TotastrService
-  ) {}
+    private toastr: ToastrService
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   onSubmit(movie: Movie) {
     this.saveMovie(movie);

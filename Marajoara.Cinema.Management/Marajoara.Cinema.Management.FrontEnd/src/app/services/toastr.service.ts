@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
 
-/** @description 
- * Service used for showing toast like notifications; 
+/** @description
+ * Service used for showing toast like notifications;
  * Uses the MatSnackBar component
  */
 
 @Injectable({
   providedIn: 'root',
 })
-export class TotastrService {  
+export class ToastrService {
   constructor(private snackBar: MatSnackBar) {}
 
   /**
@@ -21,7 +21,7 @@ export class TotastrService {
   showErrorMessage(message:string, actionText:string='Fechar'):MatSnackBarRef<TextOnlySnackBar> {
     return this.snackBar.open(
         message,
-        actionText,        
+        actionText,
         {
           verticalPosition: 'top',
           horizontalPosition: 'right',

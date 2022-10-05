@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CineRoom } from 'src/app/Models/CineRoom';
 import { firstValueFrom } from 'rxjs';
 import { CineRoomService } from 'src/app/services/CineRoomService';
-import { TotastrService } from 'src/app/services/toastr.service';
+import { ToastrService } from 'src/app/services/toastr.service';
 
 
 @Component({
@@ -18,7 +18,7 @@ export class CineroomEditComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private cineRoomService: CineRoomService,
-    private toastr: TotastrService,
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
@@ -48,5 +48,5 @@ export class CineroomEditComponent implements OnInit {
   navigateToList(): void {
     this.router.navigateByUrl('/cinerooms');
   }
-  
+
 }

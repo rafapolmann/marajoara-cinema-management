@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Movie } from 'src/app/Models/Movie';
 import { firstValueFrom } from 'rxjs';
 import { MovieService } from 'src/app/services/MovieService';
-import { TotastrService } from 'src/app/services/toastr.service';
+import { ToastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-movie-edit',
@@ -17,8 +17,8 @@ export class MovieEditComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private movieService: MovieService,
-    private toastr:TotastrService,
-  ) {}
+    private toastr: ToastrService,
+  ) { }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -29,10 +29,10 @@ export class MovieEditComponent implements OnInit {
     this.movieAux = await firstValueFrom(this.movieService.getById(movieId));
     this.loadPoster(this.movieAux.movieID);
   }
-  
+
   async loadPoster(movieId: number) {
     this.movieAux.poster = await firstValueFrom(this.movieService.getPosterById(movieId));
-    this.movieData = this.movieAux;    
+    this.movieData = this.movieAux;
   }
 
   async onSubmit(movie: Movie) {
@@ -47,11 +47,11 @@ export class MovieEditComponent implements OnInit {
       this.navigateToList();
     }
   }
-  onCancel(){
+  onCancel() {
     this.navigateToList();
   }
 
-  navigateToList(){
-    this.router.navigateByUrl('/movies');    
+  navigateToList() {
+    this.router.navigateByUrl('/movies');
   }
 }

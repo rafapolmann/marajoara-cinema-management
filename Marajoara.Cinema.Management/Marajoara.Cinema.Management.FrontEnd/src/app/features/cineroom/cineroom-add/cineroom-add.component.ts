@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { CineRoom } from 'src/app/models/CineRoom';
 import { CineRoomService } from 'src/app/services/CineRoomService';
-import { TotastrService } from 'src/app/services/toastr.service';
+import { ToastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-cineroom-add',
@@ -14,7 +14,7 @@ export class CineroomAddComponent implements OnInit {
   constructor(
     private cineRoomService: CineRoomService,
     private router: Router,
-    private toastr: TotastrService
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {}

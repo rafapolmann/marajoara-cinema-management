@@ -14,37 +14,44 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 const MODULES = [
-  MatNativeDateModule,
-  MatSidenavModule,
-  MatToolbarModule,
-  MatNativeDateModule,
-  MatIconModule,
-  MatListModule,
-  MatTableModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatButtonModule,
-  MatPaginatorModule,
-  MatCheckboxModule,
-  MatDialogModule,
-  MatButtonModule,
-  MatDividerModule,
-  MatSlideToggleModule,
-  MatCardModule,
-  MatButtonToggleModule,
-  MatSnackBarModule,
-  MatProgressSpinnerModule,
-  MatProgressBarModule,
-  
+    MatNativeDateModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatNativeDateModule,
+    MatIconModule,
+    MatListModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatPaginatorModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatSlideToggleModule,
+    MatCardModule,
+    MatButtonToggleModule,
+    MatSnackBarModule,
+    MatAutocompleteModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+
 ];
-/**teste */
+
 @NgModule({
+  
   exports: [MODULES],
 })
-export class MaterialModule {}
+export class MaterialModule { }

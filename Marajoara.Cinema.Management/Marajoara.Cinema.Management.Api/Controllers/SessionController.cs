@@ -23,28 +23,28 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             _logger = logger;
         }
 
-        [Authorize(Roles = "Manager")]
+        //[Authorize(Roles = "Manager")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddSessionCommand addSessionCommand)
         {
             return HandleResult(await _mediator.Send(addSessionCommand));
         }
 
-        [Authorize(Roles = "Manager")]
+        //[Authorize(Roles = "Manager")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             return HandleResult(await _mediator.Send(new DeleteSessionCommand(id)));
         }
 
-        [Authorize(Roles = "Manager")]
+        //[Authorize(Roles = "Manager")]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] UpdateSessionCommand updateSessionCommand)
         {
             return HandleResult(await _mediator.Send(updateSessionCommand));
         }
 
-        [Authorize(Roles = "Manager,Attendant")]
+        //[Authorize(Roles = "Manager,Attendant")]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -75,7 +75,7 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             return HandleResult(await _mediator.Send(new GetSessionsByDateRangeQuery(initialDate, finalDate)));
         }
 
-        [Authorize(Roles = "Manager,Attendant")]
+        //[Authorize(Roles = "Manager,Attendant")]
         [HttpGet("ByCineRoom/{cineRoomID}")]
         public async Task<IActionResult> GetByCineRoom(int cineRoomID)
         {
