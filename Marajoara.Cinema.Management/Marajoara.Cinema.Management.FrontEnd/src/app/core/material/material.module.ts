@@ -21,6 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSortModule } from '@angular/material/sort';
 
 const MODULES = [
     MatNativeDateModule,
@@ -47,6 +48,7 @@ const MODULES = [
     MatDatepickerModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
+    MatSortModule,
 
 ];
 

@@ -16,34 +16,34 @@
   </mat-form-field>
 </div>
 <div>
-  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8">
 
-    <ng-container matColumnDef="movieTitle">
-      <mat-header-cell *matHeaderCellDef>Título do filme</mat-header-cell>
+    <ng-container matColumnDef="movie.Title">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>Título do filme</mat-header-cell>
       <mat-cell *matCellDef="let element">{{ element.movie.title }}</mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="cineRoomName">
-      <mat-header-cell *matHeaderCellDef>Sala</mat-header-cell>
+    <ng-container matColumnDef="cineRoom.name">
+      <mat-header-cell  mat-sort-header *matHeaderCellDef>Sala</mat-header-cell>
       <mat-cell *matCellDef="let element">{{ element.cineRoom.name }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="sessionDate">
-      <mat-header-cell *matHeaderCellDef>Data da sessão</mat-header-cell>
+      <mat-header-cell  mat-sort-header *matHeaderCellDef>Data da sessão</mat-header-cell>
       <mat-cell *matCellDef="let element">{{
         element.sessionDate | dateTimeCustomFormat
         }}</mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="endSessionDate">
-      <mat-header-cell *matHeaderCellDef>Final da sessão</mat-header-cell>
+    <ng-container matColumnDef="endSession">
+      <mat-header-cell  mat-sort-header *matHeaderCellDef>Final da sessão</mat-header-cell>
       <mat-cell *matCellDef="let element">{{
         element.endSession | dateTimeCustomFormat
         }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="price">
-      <mat-header-cell *matHeaderCellDef>Valor (R$)</mat-header-cell>
+      <mat-header-cell  mat-sort-header *matHeaderCellDef>Valor (R$)</mat-header-cell>
       <mat-cell *matCellDef="let element">{{
         formatPrice(element.price)
         }}</mat-cell>

@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { CineRoom } from 'src/app/Models/CineRoom';
 import { CineRoomService } from 'src/app/services/CineRoomService';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,8 +7,8 @@ import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/components/common/confirm-dialog/confirm-dialog.component';
-
 import { ToastrService } from 'src/app/services/toastr.service';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-cineroom-list',
@@ -23,8 +23,7 @@ export class CineroomListComponent implements OnInit {
   selectedCineRoom!: CineRoom;
 
   @ViewChild('paginator') paginator!: MatPaginator;
-  @ViewChild('dialogContent') dialogContent!: ConfirmDialogComponent;
-
+  @ViewChild(MatSort) sort!: MatSort;
   constructor(
     private cineRoomService: CineRoomService,
     private router: Router,
@@ -40,6 +39,7 @@ export class CineroomListComponent implements OnInit {
     this.dataToDisplay = await firstValueFrom(this.cineRoomService.getAll());
     this.dataSource = new MatTableDataSource(this.dataToDisplay);
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: any): void {

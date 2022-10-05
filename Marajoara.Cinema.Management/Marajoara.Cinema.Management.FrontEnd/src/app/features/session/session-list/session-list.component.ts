@@ -10,6 +10,7 @@ import { ConfirmDialogComponent } from 'src/app/components/common/confirm-dialog
 import { DateTimeCustomFormat } from 'src/app/core/pipes/date-time-custom-format';
 
 import { ToastrService } from 'src/app/services/toastr.service';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-session-list',
@@ -18,10 +19,10 @@ import { ToastrService } from 'src/app/services/toastr.service';
 })
 export class SessionListComponent implements OnInit {
   displayedColumns: string[] = [
-    'movieTitle',
-    'cineRoomName',
+    'movie.Title',
+    'cineRoom.name',
     'sessionDate',
-    'endSessionDate',
+    'endSession',
     'price',
   ];
   dataToDisplay: Session[] = [];
@@ -32,6 +33,7 @@ export class SessionListComponent implements OnInit {
   dateTimeCustom: DateTimeCustomFormat = new DateTimeCustomFormat();
 
   @ViewChild('paginator') paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private sessionService: SessionService,
@@ -46,7 +48,8 @@ export class SessionListComponent implements OnInit {
 
   async loadSessions() {
     this.dataToDisplay = await firstValueFrom(this.sessionService.getAll());
-    this.dataSource = new MatTableDataSource(this.dataToDisplay);
+    this.dataSource = new MatTableDataSource(this.dataToDisplay);    
+    this.configureSort();    
     this.configureFilter();
 
     this.dataSource.paginator = this.paginator;
@@ -59,7 +62,16 @@ export class SessionListComponent implements OnInit {
       data.movie.title.toLowerCase().indexOf(filter.toLowerCase()) != -1 ||
       data.cineRoom.name.toLowerCase().indexOf(filter.toLowerCase()) != -1;
   }
-
+  configureSort():void{
+    this.dataSource.sort = this.sort;
+    this.dataSource.sortingDataAccessor =(obj:any, property)=>{
+      switch(property){
+        case 'movie.Title':return obj.movie.title;
+        case 'cineRoom.name':return obj.cineRoom.name;
+        default: return obj[property];        
+      }
+    }
+  }
   formatPrice(price: Number): string {
     return `R$ ${price.toFixed(2)}`;
   }
