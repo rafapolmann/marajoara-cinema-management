@@ -1,11 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  FormGroupDirective,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormGroupDirective, Validators, } from '@angular/forms';
 import { Session, SessionCommand } from 'src/app/models/Session';
 import { firstValueFrom, Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -145,12 +139,13 @@ export class SessionFormComponent implements OnInit {
     formDirective.resetForm();
   }
 
-
   getSessionToSubmit(): SessionCommand {
+    const fullDate = this.dateTimeCustom.getFullDate(this.sessionDate.value, this.sessionTime.value);
+
     const sessionCommand: SessionCommand = {
       sessionID: this.sessionID.value,
       price: this.price.value,
-      sessionDate: this.getFullDate().toISOString(),
+      sessionDate: this.dateTimeCustom.transformToISOString(fullDate),
       movieID: this.movieCtrl.value.movieID,
       cineRoomID: this.cineRoomCtrl.value.cineRoomID
     };
@@ -164,29 +159,10 @@ export class SessionFormComponent implements OnInit {
     }
   }
 
-  getFullDate(): Date {
-    const _date: Date = new Date(this.sessionDate.value);
-    const time: number[] = this.sessionTime.value.split(':');
-    const fullDate = new Date(
-      _date.getFullYear(),
-      _date.getMonth(),
-      _date.getDate(),
-      time[0],
-      time[1],
-      0,
-      0
-    );
-
-    return fullDate;
-  }
-
-
   endSessionChange() {
     if (this.movieCtrl.valid && this.sessionDate.valid && this.sessionTime.valid) {
       const movieDuration: number = this.movieCtrl.value.minutes;
-      const _date: Date = new Date(this.sessionDate.value);
-      const time: number[] = this.sessionTime.value.split(':');
-      const fullDate = this.getFullDate();
+      const fullDate = this.dateTimeCustom.getFullDate(this.sessionDate.value, this.sessionTime.value);
 
       fullDate.setMinutes(fullDate.getMinutes() + movieDuration);
       this.endSession.setValue(this.dateTimeCustom.transform(fullDate));
