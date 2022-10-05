@@ -19,20 +19,20 @@
     </mat-form-field>  
   </div>
   <div>
-    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <mat-table [dataSource]="dataSource" matSort  class="mat-elevation-z8">
       <ng-container matColumnDef="cineRoomID">
-        <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
         <mat-cell *matCellDef="let element">{{ element.cineRoomID }}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
+        <mat-header-cell mat-sort-header *matHeaderCellDef>Nome</mat-header-cell>
         <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="totalSeats">
-        <mat-header-cell *matHeaderCellDef>Total de assentos</mat-header-cell>
+        <mat-header-cell  mat-sort-header *matHeaderCellDef>Total de assentos</mat-header-cell>
         <mat-cell *matCellDef="let element">{{ element.totalSeats }}</mat-cell>
       </ng-container>
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row> 
       <mat-row
         *matRowDef="let row; columns: displayedColumns"
         [ngClass]="{ highlight: selectedCineRoomID == row.cineRoomID }"

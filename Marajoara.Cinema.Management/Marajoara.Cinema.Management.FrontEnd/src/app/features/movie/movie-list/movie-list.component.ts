@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/components/common/confirm-dialog/confirm-dialog.component';
 import { ToastrService } from 'src/app/services/toastr.service';
+import { MatSort } from '@angular/material/sort';
 @Component({
   selector: 'app-movie-list',
   templateUrl: './movie-list.component.html',
@@ -27,8 +28,8 @@ export class MovieListComponent implements OnInit {
   selectedMovieID: number = -1;
   selectedMovie!: Movie;
 
-  @ViewChild('paginator') paginator!: MatPaginator;
-  @ViewChild('dialogContent') dialogContent!: ConfirmDialogComponent;
+  @ViewChild('paginator') paginator!: MatPaginator;  
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private movieService: MovieService,
@@ -45,6 +46,7 @@ export class MovieListComponent implements OnInit {
     this.dataToDisplay = await firstValueFrom(this.movieService.getAll());
     this.dataSource = new MatTableDataSource(this.dataToDisplay);
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: any): void {
@@ -91,8 +93,7 @@ export class MovieListComponent implements OnInit {
     }
   }
   openDeleteMovieDialog() {
-    return this.dialog.open(ConfirmDialogComponent, {
-      //width: '350px',
+    return this.dialog.open(ConfirmDialogComponent, {      
       data: {
         title: 'Exclusão de filme',
         message: `Deseja mesmo excluir o filme ${this.selectedMovie.title}?`,
