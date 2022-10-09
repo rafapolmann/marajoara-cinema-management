@@ -23,6 +23,7 @@ export class UserAccountEditComponent implements OnInit {
   }
 
   async loadSession(userAccountId: number) {
+    console.log(userAccountId);
     this.userAccountData = await firstValueFrom(this.userAccountService.getById(userAccountId));
   }
   async onSubmit(userAccount: UserAccount) {

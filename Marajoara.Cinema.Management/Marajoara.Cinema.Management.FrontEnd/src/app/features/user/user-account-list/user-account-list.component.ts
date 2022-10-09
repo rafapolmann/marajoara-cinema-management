@@ -61,7 +61,7 @@ export class UserAccountListComponent implements OnInit {
   }
 
   highlight(row: any) {
-    this.selectedUserAccountID = row.cineRoomID;
+    this.selectedUserAccountID = row.userAccountID;
     this.selectedUserAccount = row;
   }
 
