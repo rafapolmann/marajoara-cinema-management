@@ -9,6 +9,8 @@ import { MovieListComponent } from './features/movie/movie-list/movie-list.compo
 import { SessionAddComponent } from './features/session/session-add/session-add.component';
 import { SessionEditComponent } from './features/session/session-edit/session-edit.component';
 import { SessionListComponent } from './features/session/session-list/session-list.component';
+import { UserAccountAddComponent } from './features/user/user-account-add/user-account-add.component';
+import { UserAccountEditComponent } from './features/user/user-account-edit/user-account-edit.component';
 import { UserAccountListComponent } from './features/user/user-account-list/user-account-list.component';
 
 const routes: Routes = [
@@ -23,6 +25,8 @@ const routes: Routes = [
   { path: 'newsession', component: SessionAddComponent },
   { path: 'session/:id/edit', component: SessionEditComponent },
   { path: 'users', component: UserAccountListComponent },
+  { path: 'newuseraccount', component: UserAccountAddComponent },
+  { path: 'useraccount/:id/edit', component: UserAccountEditComponent },
 ];
 
 @NgModule({
