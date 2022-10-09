@@ -16,6 +16,8 @@ export class UserAccountFormComponent implements OnInit {
   userAccountForm!: FormGroup;
   matcher = new MyErrorStateMatcher();
 
+  accountLevels: string[] = ['Gerente', 'Atendente', 'Cliente',];
+
   constructor() { }
 
   ngOnInit(): void {
@@ -24,10 +26,22 @@ export class UserAccountFormComponent implements OnInit {
       userAccountID: new FormControl(this.userAccountData ? this.userAccountData.userAccountID : ''),
       name: new FormControl(this.userAccountData ? this.userAccountData.name : '', [Validators.required]),
       mail: new FormControl(this.userAccountData ? this.userAccountData.mail : '', [Validators.required, Validators.email]),
-      level: new FormControl(this.userAccountData ? this.userAccountData.level : 0, [Validators.required]),
+      level: new FormControl(this.userAccountData ? this.getAccountLevel(this.userAccountData.level) : '', [Validators.required]),
       photoFile: new FormControl(''),
     });
+  }
 
+  getAccountLevel(value: number): string {
+    switch (value) {
+      case 1:
+        return "Gerente";
+      case 2:
+        return "Atendente";
+      case 3:
+        return "Cliente";
+      default:
+        return "";
+    }
   }
 
   get name() {
