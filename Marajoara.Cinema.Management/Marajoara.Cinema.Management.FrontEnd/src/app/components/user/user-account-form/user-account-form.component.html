@@ -12,9 +12,8 @@
     <div class="form-group">
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>E-mail</mat-label>
-        <input type="email" matInput [formControl]="mail" [errorStateMatcher]="matcher"
+        <input type="email" readonly="{{isEditForm}}" matInput [formControl]="mail" [errorStateMatcher]="matcher"
           placeholder="Ex. user@marajoara.com">
-        <!-- <mat-hint>Ex. user@marajoara.com</mat-hint> -->
         <mat-error *ngIf="mail.hasError('email') && !mail.hasError('required')">
           Endereço de e-mail está inválido!
         </mat-error>

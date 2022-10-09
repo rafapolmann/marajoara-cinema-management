@@ -15,10 +15,10 @@ namespace Marajoara.Cinema.Management.Api.Validators.UserAccountModule
                 .EmailAddress()
                 .WithMessage("Customer mail is invalid.");
 
-            RuleFor(cr => cr.Password)
-                .NotEmpty()
-                .WithMessage("Customer password cannot be null or empty.");
-            
+            //RuleFor(cr => cr.Password)
+            //    .NotEmpty()
+            //    .WithMessage("Customer password cannot be null or empty.");
+
         }
     }
 }

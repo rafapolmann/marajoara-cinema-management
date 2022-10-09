@@ -2,7 +2,6 @@
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Queries;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -56,6 +55,12 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         public async Task<IActionResult> NewManger([FromBody] AddManagerUserAccountCommand customer)
         {
             return HandleResult(await _mediator.Send(customer));
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] UpdateUserAccountBasicPropertiesCommand updateUserAccountCommand)
+        {
+            return HandleResult(await _mediator.Send(updateUserAccountCommand));
         }
 
         [HttpDelete("{id}")]

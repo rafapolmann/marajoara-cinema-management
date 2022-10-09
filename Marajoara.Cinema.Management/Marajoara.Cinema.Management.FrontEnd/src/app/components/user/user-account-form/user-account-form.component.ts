@@ -15,13 +15,12 @@ export class UserAccountFormComponent implements OnInit {
 
   userAccountForm!: FormGroup;
   matcher = new MyErrorStateMatcher();
-
-  accountLevels: string[] = ['Gerente', 'Atendente', 'Cliente',];
+  isEditForm: boolean = true;
+  accountLevels: string[] = ['Cliente', 'Atendente', 'Gerente'];
 
   constructor() { }
 
   ngOnInit(): void {
-
     this.userAccountForm = new FormGroup({
       userAccountID: new FormControl(this.userAccountData ? this.userAccountData.userAccountID : ''),
       name: new FormControl(this.userAccountData ? this.userAccountData.name : '', [Validators.required]),
@@ -29,6 +28,8 @@ export class UserAccountFormComponent implements OnInit {
       level: new FormControl(this.userAccountData ? this.getAccountLevel(this.userAccountData.level) : '', [Validators.required]),
       photoFile: new FormControl(''),
     });
+
+    this.isEditForm = this.userAccountData ? true : false;
   }
 
   getAccountLevel(value: number): string {
@@ -57,15 +58,35 @@ export class UserAccountFormComponent implements OnInit {
   }
 
   submit(formDirective: FormGroupDirective): void {
-    console.log(this.userAccountForm.value);
     if (this.userAccountForm.invalid) {
       return;
     }
-    //this.onSubmit.emit(this.userAccountForm.value);
+    const userAccountCommand: UserAccount = this.getUserAccountCommand();
+    this.onSubmit.emit(userAccountCommand);
 
     //Resets the form.
     this.userAccountForm.reset();
     formDirective.resetForm();
+  }
+
+  private getUserAccountCommand(): UserAccount {
+    return {
+      userAccountID: this.userAccountData ? this.userAccountData.userAccountID : 0,
+      name: this.name.value,
+      mail: this.mail.value,
+      level: this.getAccountLevelId(),
+    };
+  }
+
+  getAccountLevelId(): number {
+    if (this.level.value === 'Gerente')
+      return 1;
+    if (this.level.value === 'Atendente')
+      return 2;
+    if (this.level.value === 'Cliente')
+      return 3;
+
+    return 0;
   }
 
   cancel() {

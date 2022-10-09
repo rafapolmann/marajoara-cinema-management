@@ -30,7 +30,7 @@
     </ng-container>
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns"
-      [ngClass]="{ highlight: selectedUserAccountID == row.cineRoomID }" (click)="highlight(row)"></mat-row>
+      [ngClass]="{ highlight: selectedUserAccountID == row.userAccountID }" (click)="highlight(row)"></mat-row>
   </mat-table>
   <mat-paginator #paginator [pageSize]="15" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons>
   </mat-paginator>

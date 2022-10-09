@@ -22,7 +22,20 @@ export class UserAccountService {
   }
 
   add(userAccount: UserAccount): Observable<number> {
-    return this.marajoaraApiService.post(this.controllerUri, userAccount);
+    return this.marajoaraApiService.post(this.getAddUrl(userAccount.level), userAccount);
+  }
+
+  private getAddUrl(accessLevel: number): string {
+    switch (accessLevel) {
+      case 1:
+        return `${this.controllerUri}/manager`;
+      case 2:
+        return `${this.controllerUri}/attendant`;
+      case 3:
+        return `${this.controllerUri}/customer`;
+      default:
+        return "";
+    }
   }
 
   update(userAccount: UserAccount): Observable<boolean> {
