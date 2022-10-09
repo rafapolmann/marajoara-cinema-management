@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Marajoara.Cinema.Management.Api.Controllers
 {
     [ApiController]
-    [Authorize(Roles = "Manager")]
+    //[Authorize(Roles = "Manager")]
     [Route("api/[controller]")]
     public class UserAccountController : ApiControllerBase
     {

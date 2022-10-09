@@ -1,0 +1,37 @@
+<div>
+  <span>Lista de Conta de Usuários</span>
+  <button mat-raised-button (click)="onAddClick()">
+    <mat-icon>add_circle</mat-icon>
+  </button>
+  <button mat-raised-button [disabled]="selectedUserAccountID===-1" (click)="onEditClick()">
+    <mat-icon>edit</mat-icon>
+  </button>
+  <button mat-raised-button [disabled]="selectedUserAccountID ===-1" (click)="onDeleteClick()">
+    <mat-icon>delete</mat-icon>
+  </button>
+  <mat-form-field appearance="fill">
+    <mat-label>Filtro</mat-label>
+    <input (keyup)="applyFilter($event)" matInput placeholder="Ex.: Nome ou e-mail" />
+  </mat-form-field>
+</div>
+<div>
+  <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>Nome</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="mail">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>E-Mail</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.mail }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="level">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>Tipo de conta</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ getUserAccountTypeDescription(element.level) }}</mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"
+      [ngClass]="{ highlight: selectedUserAccountID == row.cineRoomID }" (click)="highlight(row)"></mat-row>
+  </mat-table>
+  <mat-paginator #paginator [pageSize]="15" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons>
+  </mat-paginator>
+</div>

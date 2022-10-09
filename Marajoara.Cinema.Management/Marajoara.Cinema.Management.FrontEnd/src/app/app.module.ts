@@ -26,6 +26,7 @@ import { SessionFormComponent } from './components/session/session-form/session-
 import { SessionEditComponent } from './features/session/session-edit/session-edit.component';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { UserAccountListComponent } from './features/user/user-account-list/user-account-list.component';
 
 @NgModule({
     declarations: [
@@ -46,6 +47,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
         SessionAddComponent,
         SessionFormComponent,
         SessionEditComponent,
+        UserAccountListComponent,
     ],
     imports: [
         BrowserModule,
