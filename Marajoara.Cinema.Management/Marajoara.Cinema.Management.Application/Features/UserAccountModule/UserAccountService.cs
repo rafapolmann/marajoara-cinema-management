@@ -44,6 +44,9 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
 
         private int AddUserAccount(UserAccount userAccount)
         {
+            if (_unitOfWork.UserAccounts.RetrieveByMail(userAccount.Mail) != null)
+                throw new Exception($"Already exists User Account with e-mail address: {userAccount.Mail}.");
+
             userAccount.Password = GetDeaultPassword(userAccount.Name);
 
             userAccount.Validate();
@@ -62,6 +65,9 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
             userAccount = GetUserAccountByID(userAccount.UserAccountID);
             if (userAccount == null)
                 throw new Exception("User account not found!");
+
+            if (_unitOfWork.Tickets.RetrieveByUserAccount(userAccount).Count() > 0)
+                throw new Exception($"Cannot possible remove user account {userAccount.Name}. There are tickets linked with this account.");
 
             if (userAccount.Level == AccessLevel.Manager)
                 CheckIfLastManagerAccount();

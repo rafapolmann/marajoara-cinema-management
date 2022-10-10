@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule;
 using Marajoara.Cinema.Management.Domain.Common;
+using Marajoara.Cinema.Management.Domain.TicketModule;
 using Marajoara.Cinema.Management.Domain.UnitOfWork;
 using Marajoara.Cinema.Management.Domain.UserAccountModule;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -25,6 +26,276 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
             _fileImageServiceMock = new Mock<IFileImageService>();
             _userAccountService = new UserAccountService(_unitOfWorkMock.Object, _fileImageServiceMock.Object);
         }
+
+        #region AddUserAccount
+        [TestMethod]
+        public void UserAccountService_AddAttendantUserAccount_Should_Add_New_UserAccount_With_Dafault_Password_And_AccessLevel_Attendant()
+        {
+            UserAccount userAccountOnDB = GetUserAccountToTest();
+            int dbCurrentID = userAccountOnDB.UserAccountID;
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.RetrieveByMail(userAccountOnDB.Mail)).Returns(userAccountOnDB);
+
+            string accountName = "AttendantToAdd";
+            string defaultPass = string.Concat(accountName.ToLower().Replace(" ", ""), "P@ssW0rd");
+
+            UserAccount userAccountToAdd = GetUserAccountToTest(dbCurrentID + 1, accountName, "attendant@email.com", "passwordToIgnore", AccessLevel.Customer);
+
+            _userAccountService.AddAttendantUserAccount(userAccountToAdd).Should().Be(dbCurrentID + 1);
+
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.RetrieveByMail(userAccountToAdd.Mail), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Add(userAccountToAdd), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Add(It.Is<UserAccount>(ua => ua.Name.Equals(userAccountToAdd.Name) &&
+                                                                                        ua.Mail.Equals(userAccountToAdd.Mail) &&
+                                                                                        ua.Password.Equals(defaultPass) &&
+                                                                                        ua.Photo == null &&
+                                                                                        ua.Level.Equals(AccessLevel.Attendant))), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
+        }
+
+        [TestMethod]
+        public void UserAccountService_AddAttendantUserAccount_Should_Throw_Exception_When_UserAccount_To_Add_Mail_Already_Exists()
+        {
+            string userMail = "userMail@mail.com";
+            UserAccount userAccountToAdd = GetUserAccountToTest(0, "newAttendant", userMail);
+            UserAccount userAccountOnDB = GetUserAccountToTest(1, "userOndDB", userMail);
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.RetrieveByMail(userAccountOnDB.Mail)).Returns(userAccountOnDB);
+
+            Action action = () => _userAccountService.AddAttendantUserAccount(userAccountToAdd);
+            action.Should().Throw<Exception>().WithMessage($"Already exists User Account with e-mail address: {userMail}.");
+
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.RetrieveByMail(userAccountToAdd.Mail), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Add(It.IsAny<UserAccount>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+
+        [TestMethod]
+        public void UserAccountService_AddCustomerUserAccount_Should_Add_New_UserAccount_With_Dafault_Password_And_AccessLevel_Customer()
+        {
+            UserAccount userAccountOnDB = GetUserAccountToTest();
+            int dbCurrentID = userAccountOnDB.UserAccountID;
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.RetrieveByMail(userAccountOnDB.Mail)).Returns(userAccountOnDB);
+
+            string accountName = "CustomerToAdd";
+            string defaultPass = string.Concat(accountName.ToLower().Replace(" ", ""), "P@ssW0rd");
+
+            UserAccount userAccountToAdd = GetUserAccountToTest(dbCurrentID + 1, accountName, "customer@email.com", "passwordToIgnore", AccessLevel.Attendant);
+
+            _userAccountService.AddCustomerUserAccount(userAccountToAdd).Should().Be(dbCurrentID + 1);
+
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.RetrieveByMail(userAccountToAdd.Mail), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Add(userAccountToAdd), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Add(It.Is<UserAccount>(ua => ua.Name.Equals(userAccountToAdd.Name) &&
+                                                                                        ua.Mail.Equals(userAccountToAdd.Mail) &&
+                                                                                        ua.Password.Equals(defaultPass) &&
+                                                                                        ua.Photo == null &&
+                                                                                        ua.Level.Equals(AccessLevel.Customer))), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
+        }
+
+        [TestMethod]
+        public void UserAccountService_AddCustomerUserAccount_Should_Throw_Exception_When_UserAccount_To_Add_Mail_Already_Exists()
+        {
+            string userMail = "userMail@mail.com";
+            UserAccount userAccountToAdd = GetUserAccountToTest(0, "newCustomer", userMail);
+            UserAccount userAccountOnDB = GetUserAccountToTest(1, "userOndDB", userMail);
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.RetrieveByMail(userAccountOnDB.Mail)).Returns(userAccountOnDB);
+
+            Action action = () => _userAccountService.AddCustomerUserAccount(userAccountToAdd);
+            action.Should().Throw<Exception>().WithMessage($"Already exists User Account with e-mail address: {userMail}.");
+
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.RetrieveByMail(userAccountToAdd.Mail), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Add(It.IsAny<UserAccount>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void UserAccountService_AddManagerUserAccount_Should_Add_New_UserAccount_With_Dafault_Password_And_AccessLevel_Manager()
+        {
+            UserAccount userAccountOnDB = GetUserAccountToTest();
+            int dbCurrentID = userAccountOnDB.UserAccountID;
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.RetrieveByMail(userAccountOnDB.Mail)).Returns(userAccountOnDB);
+
+            string accountName = "ManagerToAdd";
+            string defaultPass = string.Concat(accountName.ToLower().Replace(" ", ""), "P@ssW0rd");
+
+            UserAccount userAccountToAdd = GetUserAccountToTest(dbCurrentID + 1, accountName, "manager@email.com", "passwordToIgnore", AccessLevel.Attendant);
+
+            _userAccountService.AddManagerUserAccount(userAccountToAdd).Should().Be(dbCurrentID + 1);
+
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.RetrieveByMail(userAccountToAdd.Mail), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Add(userAccountToAdd), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Add(It.Is<UserAccount>(ua => ua.Name.Equals(userAccountToAdd.Name) &&
+                                                                                        ua.Mail.Equals(userAccountToAdd.Mail) &&
+                                                                                        ua.Password.Equals(defaultPass) &&
+                                                                                        ua.Photo == null &&
+                                                                                        ua.Level.Equals(AccessLevel.Manager))), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
+        }
+
+        [TestMethod]
+        public void UserAccountService_AddManagerUserAccount_Should_Throw_Exception_When_UserAccount_To_Add_Mail_Already_Exists()
+        {
+            string userMail = "userMail@mail.com";
+            UserAccount userAccountToAdd = GetUserAccountToTest(0, "newManager", userMail);
+            UserAccount userAccountOnDB = GetUserAccountToTest(1, "userOndDB", userMail);
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.RetrieveByMail(userAccountOnDB.Mail)).Returns(userAccountOnDB);
+
+            Action action = () => _userAccountService.AddManagerUserAccount(userAccountToAdd);
+            action.Should().Throw<Exception>().WithMessage($"Already exists User Account with e-mail address: {userMail}.");
+
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.RetrieveByMail(userAccountToAdd.Mail), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Add(It.IsAny<UserAccount>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+        #endregion AddUserAccount
+
+        #region Gets_UserAccount
+        [TestMethod]
+        public void UserAccountService_GetUserAccountByID_Should_Return_UserAccount_When_UserAccount_ID_Exists()
+        {
+            int userAccountToRetriveID = 1;
+
+            UserAccount userAccountOnDB = GetUserAccountToTest();
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(userAccountOnDB.UserAccountID)).Returns(userAccountOnDB);
+
+            _userAccountService.GetUserAccountByID(userAccountToRetriveID).Should().NotBeNull();
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userAccountToRetriveID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void UserAccountService_GetUserAccountByID_Should_Return_Null_When_UserAccount_ID_Not_Exists()
+        {
+            int userAccountToRetriveID = 2;
+
+            UserAccount userAccountOnDB = GetUserAccountToTest();
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(userAccountOnDB.UserAccountID)).Returns(userAccountOnDB);
+
+            _userAccountService.GetUserAccountByID(userAccountToRetriveID).Should().BeNull();
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userAccountToRetriveID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void UserAccountService_GetAll_Should_Return_All_UserAccounts()
+        {
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.RetrieveAll()).Returns(new List<UserAccount> { GetUserAccountToTest() });
+
+            _userAccountService.GetAll().Should().HaveCount(1);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.RetrieveAll(), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void UserAccountService_GetAll_Should_Return_Empty_Collection_When_There_Are_No_UserAccounts()
+        {
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.RetrieveAll()).Returns(new List<UserAccount>());
+
+            _userAccountService.GetAll().Should().BeEmpty();
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.RetrieveAll(), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+        #endregion Gets_UserAccount
+
+        #region RemoveUserAccount
+        [TestMethod]
+        public void UserAccountService_RemoveUserAccount_Should_Remove_A_Given_UserAccount_When_UserAccountID_Exists()
+        {
+            UserAccount userAccountToDelete = new UserAccount { UserAccountID = 1 };
+            UserAccount userAccountOnDB = GetUserAccountToTest(1, "userAccount", "user@mail.com", "pass", AccessLevel.Customer);
+
+            _unitOfWorkMock.Setup(uow => uow.Tickets.RetrieveByUserAccount(userAccountOnDB)).Returns(new List<Ticket>());
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(userAccountOnDB.UserAccountID)).Returns(userAccountOnDB);
+
+            _userAccountService.RemoveUserAccount(userAccountToDelete).Should().BeTrue();
+
+            _unitOfWorkMock.Verify(uow => uow.Tickets.RetrieveByUserAccount(userAccountOnDB), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userAccountToDelete.UserAccountID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Delete(userAccountOnDB), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
+        }
+
+        [TestMethod]
+        public void UserAccountService_RemoveUserAccount_Should_Remove_A_Given_Manager_UserAccount_Verifying_If_Is_The_Last_Manager_When_UserAccountID_Exists()
+        {
+            UserAccount userAccountToDelete = new UserAccount { UserAccountID = 1 };
+            UserAccount userAccountManagerOnDB = GetUserAccountToTest(1, "userAccount", "user@mail.com", "pass", AccessLevel.Manager);
+            UserAccount otherUserAccountManagerOnDB = GetUserAccountToTest(2, "otherAccount", "other@mail.com", "pass", AccessLevel.Manager);
+
+            _unitOfWorkMock.Setup(uow => uow.Tickets.RetrieveByUserAccount(userAccountManagerOnDB)).Returns(new List<Ticket>());
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(userAccountManagerOnDB.UserAccountID)).Returns(userAccountManagerOnDB);
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.RetrieveByAccessLevel(AccessLevel.Manager)).Returns(new List<UserAccount> { userAccountManagerOnDB, otherUserAccountManagerOnDB });
+
+            _userAccountService.RemoveUserAccount(userAccountToDelete).Should().BeTrue();
+
+            _unitOfWorkMock.Verify(uow => uow.Tickets.RetrieveByUserAccount(userAccountManagerOnDB), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.RetrieveByAccessLevel(AccessLevel.Manager), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userAccountToDelete.UserAccountID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Delete(userAccountManagerOnDB), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
+        }
+
+        [TestMethod]
+        public void UserAccountService_RemoveUserAccount_Should_Throw_Exception_When_UserAccount_To_Delete_Is_The_Last_Manager()
+        {
+            UserAccount userAccountToDelete = new UserAccount { UserAccountID = 1 };
+            UserAccount userAccountManagerOnDB = GetUserAccountToTest(1, "userAccount", "user@mail.com", "pass", AccessLevel.Manager);
+
+            _unitOfWorkMock.Setup(uow => uow.Tickets.RetrieveByUserAccount(userAccountManagerOnDB)).Returns(new List<Ticket>());
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(userAccountManagerOnDB.UserAccountID)).Returns(userAccountManagerOnDB);
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.RetrieveByAccessLevel(AccessLevel.Manager)).Returns(new List<UserAccount> { userAccountManagerOnDB });
+
+            Action action = () => _userAccountService.RemoveUserAccount(userAccountToDelete);
+            action.Should().Throw<Exception>().WithMessage(@"Will not be possible to change level or delete the account before create another manager account.");
+
+            _unitOfWorkMock.Verify(uow => uow.Tickets.RetrieveByUserAccount(userAccountManagerOnDB), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.RetrieveByAccessLevel(AccessLevel.Manager), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userAccountToDelete.UserAccountID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Delete(userAccountManagerOnDB), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void UserAccountService_RemoveUserAccount_Should_Throw_Exception_When_UserAccountID_Not_Exists()
+        {
+            UserAccount userAccountToDelete = new UserAccount { UserAccountID = 2 };
+            UserAccount userAccountOnDB = GetUserAccountToTest(1);
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(userAccountOnDB.UserAccountID)).Returns(userAccountOnDB);
+
+            Action action = () => _userAccountService.RemoveUserAccount(userAccountToDelete);
+            action.Should().Throw<Exception>().WithMessage("User account not found!");
+
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userAccountToDelete.UserAccountID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Delete(It.IsAny<UserAccount>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void UserAccountService_RemoveUserAccount_Should_Throw_Exception_When_UserAccount_Is_Linked_With_Some_Ticket()
+        {
+            UserAccount userAccountToDelete = new UserAccount { UserAccountID = 1 };
+            UserAccount userAccountOnDB = GetUserAccountToTest(1);
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(userAccountOnDB.UserAccountID)).Returns(userAccountOnDB);
+            _unitOfWorkMock.Setup(uow => uow.Tickets.RetrieveByUserAccount(userAccountOnDB)).Returns(new List<Ticket> { new Ticket() });
+            
+            Action action = () => _userAccountService.RemoveUserAccount(userAccountToDelete);
+            action.Should().Throw<Exception>().WithMessage($"Cannot possible remove user account {userAccountOnDB.Name}. There are tickets linked with this account.");
+
+            _unitOfWorkMock.Verify(uow => uow.Tickets.RetrieveByUserAccount(userAccountOnDB), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userAccountToDelete.UserAccountID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Delete(It.IsAny<UserAccount>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+        #endregion RemoveUserAccount
 
         #region UpdateUserAccountBasicProperties
         [TestMethod]
@@ -87,7 +358,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         public void UserAccountService_UpdateUserAccountBasicProperties_Should_Not_Update_Photo()
         {
             UserAccount userToUpdate = GetUserAccountToTest(1, "UserNewName", "username@email.com", "password", AccessLevel.Customer);
-           
+
             UserAccount userAccountOnDB = GetUserAccountToTest(1, "UserNameAttendant", "username@email.com", "password", AccessLevel.Attendant);
             userAccountOnDB.Photo = new byte[] { 0, 0, 0 };
 
