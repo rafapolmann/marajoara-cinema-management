@@ -6,6 +6,7 @@ using Marajoara.Cinema.Management.Domain.UserAccountModule;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Marajoara.Cinema.Management.Tests.Unit.Application
@@ -24,6 +25,120 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
             _fileImageServiceMock = new Mock<IFileImageService>();
             _userAccountService = new UserAccountService(_unitOfWorkMock.Object, _fileImageServiceMock.Object);
         }
+
+        #region UpdateUserAccountBasicProperties
+        [TestMethod]
+        public void UserAccountService_UpdateUserAccountBasicProperties_Should_Update_Name_And_AccessLevel()
+        {
+            UserAccount userToUpdate = GetUserAccountToTest(1, "UserNewName", "username@email.com", "password", AccessLevel.Customer);
+            UserAccount userAccountOnDB = GetUserAccountToTest(1, "UserNameAttendant", "username@email.com", "password", AccessLevel.Attendant);
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(userAccountOnDB.UserAccountID)).Returns(userAccountOnDB);
+
+            _userAccountService.UpdateUserAccountBasicProperties(userToUpdate).Should().BeTrue();
+
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userToUpdate.UserAccountID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(userAccountOnDB), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(It.Is<UserAccount>(ua => ua.Name.Equals(userToUpdate.Name) &&
+                                                                                           ua.Mail.Equals(userAccountOnDB.Mail) &&
+                                                                                           ua.Password.Equals(userAccountOnDB.Password) &&
+                                                                                           ua.Photo == userAccountOnDB.Photo &&
+                                                                                           ua.Level.Equals(userToUpdate.Level))), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
+        }
+
+        [TestMethod]
+        public void UserAccountService_UpdateUserAccountBasicProperties_Should_Not_Update_Password()
+        {
+            string newPassword = "NEW_password";
+            UserAccount userToUpdate = GetUserAccountToTest(1, "UserNewName", "username@email.com", newPassword, AccessLevel.Customer);
+            UserAccount userAccountOnDB = GetUserAccountToTest(1, "UserNameAttendant", "username@email.com", "password", AccessLevel.Attendant);
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(userAccountOnDB.UserAccountID)).Returns(userAccountOnDB);
+
+            _userAccountService.UpdateUserAccountBasicProperties(userToUpdate).Should().BeTrue();
+
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userToUpdate.UserAccountID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(userAccountOnDB), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(It.Is<UserAccount>(ua => ua.Password.Equals(userAccountOnDB.Password) &&
+                                                                                           !ua.Password.Equals(newPassword))), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
+        }
+
+        [TestMethod]
+        public void UserAccountService_UpdateUserAccountBasicProperties_Should_Not_Update_Mail()
+        {
+            string newMail = "NEW_mail@marajoara.com";
+            UserAccount userToUpdate = GetUserAccountToTest(1, "UserNewName", newMail, "password", AccessLevel.Customer);
+            UserAccount userAccountOnDB = GetUserAccountToTest(1, "UserNameAttendant", "username@email.com", "password", AccessLevel.Attendant);
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(userAccountOnDB.UserAccountID)).Returns(userAccountOnDB);
+
+            _userAccountService.UpdateUserAccountBasicProperties(userToUpdate).Should().BeTrue();
+
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userToUpdate.UserAccountID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(userAccountOnDB), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(It.Is<UserAccount>(ua => ua.Mail.Equals(userAccountOnDB.Mail) &&
+                                                                                           !ua.Mail.Equals(newMail))), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
+        }
+
+        [TestMethod]
+        public void UserAccountService_UpdateUserAccountBasicProperties_Should_Not_Update_Photo()
+        {
+            UserAccount userToUpdate = GetUserAccountToTest(1, "UserNewName", "username@email.com", "password", AccessLevel.Customer);
+           
+            UserAccount userAccountOnDB = GetUserAccountToTest(1, "UserNameAttendant", "username@email.com", "password", AccessLevel.Attendant);
+            userAccountOnDB.Photo = new byte[] { 0, 0, 0 };
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(userAccountOnDB.UserAccountID)).Returns(userAccountOnDB);
+
+            _userAccountService.UpdateUserAccountBasicProperties(userToUpdate).Should().BeTrue();
+
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userToUpdate.UserAccountID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(userAccountOnDB), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(It.Is<UserAccount>(ua => ua.Photo.Equals(userAccountOnDB.Photo) &&
+                                                                                           !ua.Photo.Equals(userToUpdate.Photo))), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
+        }
+
+        [TestMethod]
+        public void UserAccountService_UpdateUserAccountBasicProperties_Should_Throw_Exception_When_UserAccount_ID_Not_Exists()
+        {
+            int userAccountID = 2;
+            UserAccount userToUpdate = GetUserAccountToTest(userAccountID, "UserNewName");
+            UserAccount userAccountOnDB = GetUserAccountToTest(1, "UserName");
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(userAccountOnDB.UserAccountID)).Returns(userAccountOnDB);
+
+            Action action = () => _userAccountService.UpdateUserAccountBasicProperties(userToUpdate);
+
+            action.Should().Throw<Exception>().WithMessage("UserAccount to update not found.");
+
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userAccountID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(It.IsAny<UserAccount>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void UserAccountService_UpdateUserAccountBasicProperties_Should_Throw_Exception_When_UserAccount_Level_Changed_And_Is_The_Last_Manager()
+        {
+            UserAccount userToUpdate = GetUserAccountToTest(1, "UserNewName", "username@email.com", "password", AccessLevel.Customer);
+            UserAccount userAccountOnDB = GetUserAccountToTest(1, "UserName");
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(userAccountOnDB.UserAccountID)).Returns(userAccountOnDB);
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.RetrieveByAccessLevel(AccessLevel.Manager)).Returns(new List<UserAccount> { userAccountOnDB });
+
+            Action action = () => _userAccountService.UpdateUserAccountBasicProperties(userToUpdate);
+
+            action.Should().Throw<Exception>().WithMessage(@"Will not be possible to change level or delete the account before create another manager account.");
+
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userToUpdate.UserAccountID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.RetrieveByAccessLevel(AccessLevel.Manager), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(It.IsAny<UserAccount>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+        #endregion UpdateUserAccountBasicProperties
 
         #region UserPhoto
         [TestMethod]

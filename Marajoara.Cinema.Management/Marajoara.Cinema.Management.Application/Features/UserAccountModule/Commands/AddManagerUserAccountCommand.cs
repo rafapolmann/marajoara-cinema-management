@@ -6,6 +6,5 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule.Com
 {
     public class AddManagerUserAccountCommand : AddUserAccountCommand, IRequest<Result<Exception, int>>
     {
-
     }
 }

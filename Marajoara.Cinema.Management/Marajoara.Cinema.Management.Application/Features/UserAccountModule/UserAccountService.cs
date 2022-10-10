@@ -64,11 +64,8 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
                 throw new Exception("User account not found!");
 
             if (userAccount.Level == AccessLevel.Manager)
-            { //If is a manager account, must check if it's the only one. Must always have 1 manager account in the DB
-                var managerCount = _unitOfWork.UserAccounts.RetrieveByAccessLevel(AccessLevel.Manager).Count();
-                if (managerCount == 1)
-                    throw new Exception("Impossible to delete this manager!");
-            }
+                CheckIfLastManagerAccount();
+
             _unitOfWork.UserAccounts.Delete(userAccount);
             _unitOfWork.Commit();
             //Todo: check if is a scenario that the return is not true. Otherwise, alter the method to be nonvalue-returning.
@@ -129,12 +126,7 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
                 throw new Exception($"UserAccount to update not found.");
 
             if (userAccountOnDB.Level == AccessLevel.Manager && userAccountToUpdate.Level != AccessLevel.Manager)
-            { //If is a manager account, must check if it's the only one. Must always have 1 manager account in the DB
-                var managerCount = _unitOfWork.UserAccounts.RetrieveByAccessLevel(AccessLevel.Manager).Count();
-                if (managerCount == 1)
-                    throw new Exception(@"This is the last manager account in the system. 
-                                          Will not be possible to change the account type before create another manager account.");
-            }
+                CheckIfLastManagerAccount();
 
             userAccountOnDB.Name = userAccountToUpdate.Name;
             userAccountOnDB.Level = userAccountToUpdate.Level;
@@ -143,6 +135,13 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
             _unitOfWork.Commit();
 
             return true;
+        }
+
+        private void CheckIfLastManagerAccount()
+        {
+            var managerCount = _unitOfWork.UserAccounts.RetrieveByAccessLevel(AccessLevel.Manager).Count();
+            if (managerCount == 1)
+                throw new Exception(@"Will not be possible to change level or delete the account before create another manager account.");
         }
     }
 }
