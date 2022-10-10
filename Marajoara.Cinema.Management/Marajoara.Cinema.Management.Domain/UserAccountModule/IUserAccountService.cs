@@ -76,5 +76,13 @@ namespace Marajoara.Cinema.Management.Domain.UserAccountModule
         /// <param name="userAccountID">ID used as parameter in the command.</param>
         /// <returns>Returns true if process succeeds.</returns>
         bool DeleteUserAccountPhoto(int userAccountID);
+
+        /// <summary>
+        /// Will update basic properties (name and access level) to user account in the system.
+        /// If UserAccountID not found in database, throws an Exception.
+        /// </summary>
+        /// <param name="userAccountID">ID used as parameter in the command.</param>
+        /// <returns>Returns true if process will succeed.</returns>
+        bool UpdateUserAccountBasicProperties(UserAccount userAccountToUpdate);
     }
 }
