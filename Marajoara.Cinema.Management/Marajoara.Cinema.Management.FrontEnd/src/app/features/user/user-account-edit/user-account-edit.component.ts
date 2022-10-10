@@ -19,10 +19,10 @@ export class UserAccountEditComponent implements OnInit {
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.loadSession(id);
+    this.loadUserAccount(id);
   }
 
-  async loadSession(userAccountId: number) {
+  async loadUserAccount(userAccountId: number) {
     this.userAccountData = await firstValueFrom(this.userAccountService.getById(userAccountId));
   }
   async onSubmit(userAccount: UserAccount) {
