@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormControlDirective, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { Movie } from 'src/app/models/Movie';
 
 @Component({
@@ -25,14 +25,13 @@ export class MovieFormComponent implements OnInit {
       minutes: new FormControl(this.movieData ? this.movieData.minutes : 10, [Validators.required, Validators.max(600), Validators.min(10)]),
       posterFile: new FormControl(''),
     });
-    console.log(this.movieForm);
+
     if (this.movieData && this.movieData.poster) {
       this.posterImgSrc = `data:image/png;base64,${this.movieData.poster}`;
     }
   }
 
   get title() {
-    console.log("get");
     return this.movieForm.get('title')!;
   }
 
@@ -43,18 +42,16 @@ export class MovieFormComponent implements OnInit {
   get minutes() {
     return this.movieForm.get('minutes')!;
   }
+
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
 
     this.movieForm.patchValue({ posterFile: file });
 
-
-
     const reader = new FileReader();
     reader.onload = e => this.posterImgSrc = String(reader.result);
 
     reader.readAsDataURL(file);
-
   }
 
   onCleanFile() {
@@ -69,12 +66,13 @@ export class MovieFormComponent implements OnInit {
   cancel() {
     this.onCancel.emit();
   }
+
   submit(formDirective: FormGroupDirective): void {
     if (this.movieForm.invalid) {
       return;
     }
     this.onSubmit.emit(this.movieForm.value);
-    console.log(this.movieForm.value);
+
     //Resets the form.
     this.movieForm.reset();
     formDirective.resetForm();
