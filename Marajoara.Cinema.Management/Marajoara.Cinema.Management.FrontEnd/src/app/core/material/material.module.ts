@@ -22,6 +22,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSortModule } from '@angular/material/sort';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const MODULES = [
     MatNativeDateModule,
@@ -49,11 +50,11 @@ const MODULES = [
     MatProgressSpinnerModule,
     MatProgressBarModule,
     MatSortModule,
-
+    MatTooltipModule,
 ];
 
 @NgModule({
-  
+
   exports: [MODULES],
 })
 export class MaterialModule { }
