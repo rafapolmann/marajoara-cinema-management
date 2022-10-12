@@ -32,7 +32,8 @@ span {
 
 mat-cell > span.ellipsis {
   font-size:medium;
-  margin-left: 0.5em;
+  margin-left: 0.2em;
+  margin-right: 0.2em;
   font-weight: normal;
   text-overflow: ellipsis;
   overflow: hidden;
