@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/components/common/confirm-dialog/confirm-dialog.component';
 import { ToastrService } from 'src/app/services/toastr.service';
+import { MatSort } from '@angular/material/sort';
 @Component({
   selector: 'app-movie-list',
   templateUrl: './movie-list.component.html',
@@ -15,27 +16,26 @@ import { ToastrService } from 'src/app/services/toastr.service';
 })
 export class MovieListComponent implements OnInit {
   displayedColumns: string[] = [
-    'movieID',
     'title',
     'description',
     'isOriginalAudio',
     'is3D',
-    'minutes',
-  ];
+    'minutes',];
+
   dataToDisplay: Movie[] = [];
   dataSource = new MatTableDataSource(this.dataToDisplay);
   selectedMovieID: number = -1;
   selectedMovie!: Movie;
 
   @ViewChild('paginator') paginator!: MatPaginator;
-  @ViewChild('dialogContent') dialogContent!: ConfirmDialogComponent;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private movieService: MovieService,
     private router: Router,
     private dialog: MatDialog,
     private toastr: ToastrService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadMovies();
@@ -45,6 +45,7 @@ export class MovieListComponent implements OnInit {
     this.dataToDisplay = await firstValueFrom(this.movieService.getAll());
     this.dataSource = new MatTableDataSource(this.dataToDisplay);
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: any): void {
@@ -56,17 +57,21 @@ export class MovieListComponent implements OnInit {
     this.selectedMovieID = row.movieID;
     this.selectedMovie = row;
   }
+
   onAddClick() {
     this.router.navigateByUrl('newmovie');
   }
 
   onEditClick() {
-    if (this.selectedMovieID === -1) return;
+    if (this.selectedMovieID === -1)
+      return;
+
     this.router.navigateByUrl(`movie/${this.selectedMovieID}/edit`);
   }
 
   async onDeleteClick() {
-    if (this.selectedMovieID === -1) return;
+    if (this.selectedMovieID === -1)
+      return;
 
     if (!(await firstValueFrom(this.openDeleteMovieDialog().afterClosed())))
       return;
@@ -75,12 +80,12 @@ export class MovieListComponent implements OnInit {
       await this.deleteSelected();
     } catch (exception: any) {
       this.toastr.showErrorMessage(
-        `error status ${exception.status} - ${
-          Object.values(exception.error)[0]
+        `error status ${exception.status} - ${Object.values(exception.error)[0]
         }`
       );
     }
   }
+
   async deleteSelected() {
     if (await firstValueFrom(this.movieService.delete(this.selectedMovieID))) {
       const index = this.dataSource.data.indexOf(this.selectedMovie, 0);
@@ -90,9 +95,9 @@ export class MovieListComponent implements OnInit {
       this.dataSource._updateChangeSubscription();
     }
   }
+
   openDeleteMovieDialog() {
     return this.dialog.open(ConfirmDialogComponent, {
-      //width: '350px',
       data: {
         title: 'Exclusão de filme',
         message: `Deseja mesmo excluir o filme ${this.selectedMovie.title}?`,

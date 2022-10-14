@@ -26,6 +26,10 @@ import { SessionFormComponent } from './components/session/session-form/session-
 import { SessionEditComponent } from './features/session/session-edit/session-edit.component';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { UserAccountListComponent } from './features/user/user-account-list/user-account-list.component';
+import { UserAccountAddComponent } from './features/user/user-account-add/user-account-add.component';
+import { UserAccountEditComponent } from './features/user/user-account-edit/user-account-edit.component';
+import { UserAccountFormComponent } from './components/user/user-account-form/user-account-form.component';
 import { MovieInTheaterComponent } from './features/movie/movie-in-theater/movie-in-theater.component';
 import { MovieDetailsComponent } from './features/movie/movie-details/movie-details.component';
 
@@ -48,6 +52,10 @@ import { MovieDetailsComponent } from './features/movie/movie-details/movie-deta
         SessionAddComponent,
         SessionFormComponent,
         SessionEditComponent,
+        UserAccountListComponent,
+        UserAccountAddComponent,
+        UserAccountEditComponent,
+        UserAccountFormComponent,
         MovieInTheaterComponent,
         MovieDetailsComponent,
     ],

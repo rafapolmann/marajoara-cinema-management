@@ -1,0 +1,5 @@
+<div class="container">
+  <h2>Edição de Conta de Usuário</h2>
+  <app-user-account-form *ngIf="userAccountData" (onSubmit)="onSubmit($event)" (onCancel)="onCancel()"
+    [userAccountData]="userAccountData"></app-user-account-form>
+</div>

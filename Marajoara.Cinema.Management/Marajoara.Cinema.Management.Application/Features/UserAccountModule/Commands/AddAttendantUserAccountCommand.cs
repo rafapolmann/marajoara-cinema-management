@@ -4,10 +4,7 @@ using System;
 
 namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule.Commands
 {
-    public class AddAttendantUserAccountCommand : IRequest<Result<Exception, int>>
+    public class AddAttendantUserAccountCommand : AddUserAccountCommand, IRequest<Result<Exception, int>>
     {
-        public string Name { get; set; }
-        public string Mail { get; set; }
-        public string Password { get; set; }
     }
 }

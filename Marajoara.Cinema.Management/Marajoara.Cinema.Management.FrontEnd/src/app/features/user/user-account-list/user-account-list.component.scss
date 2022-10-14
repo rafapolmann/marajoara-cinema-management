@@ -16,7 +16,7 @@
 }
 
 span {
-  font-size:x-large;
+  font-size: x-large;
   margin-left: 0.5em;
   font-weight: bold;
 }
@@ -28,14 +28,4 @@ span {
   min-width: 100px;
   max-width: 500px;
   width: 100%;
-}
-
-mat-cell > span.ellipsis {
-  font-size:medium;
-  margin-left: 0.2em;
-  margin-right: 0.2em;
-  font-weight: normal;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
 }

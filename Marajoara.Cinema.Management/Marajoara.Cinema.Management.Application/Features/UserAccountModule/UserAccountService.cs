@@ -10,10 +10,12 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
 {
     public class UserAccountService : IUserAccountService
     {
+        private const string DEFAULT_SYSTEM_PASSWORD_PART = "P@ssW0rd";
+
         private readonly IMarajoaraUnitOfWork _unitOfWork;
         private readonly IFileImageService _fileImageService;
-        
-        public UserAccountService(IMarajoaraUnitOfWork unitOfWork, IFileImageService  fileImageService)
+
+        public UserAccountService(IMarajoaraUnitOfWork unitOfWork, IFileImageService fileImageService)
         {
             _unitOfWork = unitOfWork;
             _fileImageService = fileImageService;
@@ -42,10 +44,20 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
 
         private int AddUserAccount(UserAccount userAccount)
         {
+            if (_unitOfWork.UserAccounts.RetrieveByMail(userAccount.Mail) != null)
+                throw new Exception($"Already exists User Account with e-mail address: {userAccount.Mail}.");
+
+            userAccount.Password = GetDeaultPassword(userAccount.Name);
+
             userAccount.Validate();
             _unitOfWork.UserAccounts.Add(userAccount);
             _unitOfWork.Commit();
             return userAccount.UserAccountID;
+        }
+
+        private string GetDeaultPassword(string userAccountName)
+        {
+            return string.Concat(userAccountName.Replace(" ", "").ToLower(), DEFAULT_SYSTEM_PASSWORD_PART);
         }
 
         public bool RemoveUserAccount(UserAccount userAccount)
@@ -54,12 +66,12 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
             if (userAccount == null)
                 throw new Exception("User account not found!");
 
+            if (_unitOfWork.Tickets.RetrieveByUserAccount(userAccount).Count() > 0)
+                throw new Exception($"Cannot possible remove user account {userAccount.Name}. There are tickets linked with this account.");
+
             if (userAccount.Level == AccessLevel.Manager)
-            { //If is a manager account, must check if it's the only one. Must always have 1 manager account in the DB
-                var managerCount = _unitOfWork.UserAccounts.RetrieveByAccessLevel(AccessLevel.Manager).Count();
-                if (managerCount == 1)
-                    throw new Exception("Impossible to delete this manager!");
-            }
+                CheckIfLastManagerAccount();
+
             _unitOfWork.UserAccounts.Delete(userAccount);
             _unitOfWork.Commit();
             //Todo: check if is a scenario that the return is not true. Otherwise, alter the method to be nonvalue-returning.
@@ -111,6 +123,31 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
             _unitOfWork.Commit();
 
             return true;
+        }
+
+        public bool UpdateUserAccountBasicProperties(UserAccount userAccountToUpdate)
+        {
+            UserAccount userAccountOnDB = _unitOfWork.UserAccounts.Retrieve(userAccountToUpdate.UserAccountID);
+            if (userAccountOnDB == null)
+                throw new Exception($"UserAccount to update not found.");
+
+            if (userAccountOnDB.Level == AccessLevel.Manager && userAccountToUpdate.Level != AccessLevel.Manager)
+                CheckIfLastManagerAccount();
+
+            userAccountOnDB.Name = userAccountToUpdate.Name;
+            userAccountOnDB.Level = userAccountToUpdate.Level;
+
+            _unitOfWork.UserAccounts.Update(userAccountOnDB);
+            _unitOfWork.Commit();
+
+            return true;
+        }
+
+        private void CheckIfLastManagerAccount()
+        {
+            var managerCount = _unitOfWork.UserAccounts.RetrieveByAccessLevel(AccessLevel.Manager).Count();
+            if (managerCount == 1)
+                throw new Exception(@"Will not be possible to change level or delete the account before create another manager account.");
         }
     }
 }
