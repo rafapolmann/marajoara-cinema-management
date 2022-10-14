@@ -20,11 +20,11 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF.Configuration
                    .HasForeignKey(s => s.CineRoomID).IsRequired()
                    .OnDelete(DeleteBehavior.Cascade);
 
-            //FK_Movie
-            builder.Property(cr => cr.MovieID).HasColumnName("MovieID");
-            builder.HasOne(s => s.Movie).WithMany()
-                   .HasForeignKey(s => s.MovieID).IsRequired()
-                   .OnDelete(DeleteBehavior.Cascade);
+            ////FK_Movie
+            //builder.Property(cr => cr.MovieID).HasColumnName("MovieID");
+            //builder.HasOne(s => s.Movie).WithMany()
+            //       .HasForeignKey(s => s.MovieID).IsRequired()
+            //       .OnDelete(DeleteBehavior.Cascade);
 
             builder.Ignore(cr => cr.EndSession);
         }

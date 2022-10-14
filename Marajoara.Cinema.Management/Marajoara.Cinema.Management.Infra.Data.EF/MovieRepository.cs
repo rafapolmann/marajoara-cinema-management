@@ -1,6 +1,7 @@
 ﻿using Marajoara.Cinema.Management.Domain.MovieModule;
 using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -35,6 +36,12 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
             return DBContext.Movies
                             .Where(mv => mv.MovieID == movieID)
                             .FirstOrDefault();
+        }
+
+        public IEnumerable<Movie> RetrieveBySessionDate(DateTime initialDate, DateTime finalDate)
+        {
+            return DBContext.Movies.Include(m => m.Sessions)
+                                     .Where(m=> m.Sessions.Any(s => s.SessionDate >= initialDate && s.SessionDate <= finalDate));
         }
 
         public Movie RetrieveByTitle(string movieTitle)

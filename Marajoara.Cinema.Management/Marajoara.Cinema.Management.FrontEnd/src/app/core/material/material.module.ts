@@ -21,6 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 const MODULES = [
     MatNativeDateModule,
@@ -47,7 +48,8 @@ const MODULES = [
     MatDatepickerModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
-
+    MatGridListModule,
+    
 ];
 
 @NgModule({

@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Movie } from '../models/Movie';
+import { Movie, MovieFull } from '../models/Movie';
 import { Observable } from 'rxjs';
 import { MarajoaraApiService } from './MarajoaraApiService';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class MovieService {
   private controllerUri: string = 'movie';
+  private inTheaterUri:string = 'InTheater' 
   private posterUri: string = `poster`;
+   
   constructor(private marajoaraApiService: MarajoaraApiService) {}
 
   getAll(): Observable<Movie[]> {
@@ -19,6 +22,16 @@ export class MovieService {
     return this.marajoaraApiService.get<Movie>(
       `${this.controllerUri}/${movieId}`
     );
+  }
+
+  getInTheater(): Observable<MovieFull[]> {
+    const baseDate = new Date();
+    const startDate:string = baseDate.toISOString();
+    baseDate.setDate(baseDate.getDate()+30) ;
+    const endDate:string = baseDate.toISOString();
+    console.log(startDate);
+    console.log(endDate);
+    return this.marajoaraApiService.get<MovieFull[]>(`${this.controllerUri}/${this.inTheaterUri}/${startDate}/${endDate}`);
   }
 
   getPosterById(movieId: number): Observable<string> {

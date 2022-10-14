@@ -5,6 +5,7 @@ import { CineroomEditComponent } from './features/cineroom/cineroom-edit/cineroo
 import { CineroomListComponent } from './features/cineroom/cineroom-list/cineroom-list.component';
 import { MovieAddComponent } from './features/movie/movie-add/movie-add.component';
 import { MovieEditComponent } from './features/movie/movie-edit/movie-edit.component';
+import { MovieInTheaterComponent } from './features/movie/movie-in-theater/movie-in-theater.component';
 import { MovieListComponent } from './features/movie/movie-list/movie-list.component';
 import { SessionAddComponent } from './features/session/session-add/session-add.component';
 import { SessionEditComponent } from './features/session/session-edit/session-edit.component';
@@ -12,6 +13,7 @@ import { SessionListComponent } from './features/session/session-list/session-li
 
 const routes: Routes = [
   { path: '', component: MovieListComponent },
+  { path: 'in-theater', component: MovieInTheaterComponent },  
   { path: 'movies', component: MovieListComponent },
   { path: 'movie/:id/edit', component: MovieEditComponent },
   { path: 'newmovie', component: MovieAddComponent },

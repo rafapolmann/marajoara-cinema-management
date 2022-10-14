@@ -26,6 +26,8 @@ import { SessionFormComponent } from './components/session/session-form/session-
 import { SessionEditComponent } from './features/session/session-edit/session-edit.component';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MovieInTheaterComponent } from './features/movie/movie-in-theater/movie-in-theater.component';
+import { MovieDetailsComponent } from './features/movie/movie-details/movie-details.component';
 
 @NgModule({
     declarations: [
@@ -46,6 +48,8 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
         SessionAddComponent,
         SessionFormComponent,
         SessionEditComponent,
+        MovieInTheaterComponent,
+        MovieDetailsComponent,
     ],
     imports: [
         BrowserModule,

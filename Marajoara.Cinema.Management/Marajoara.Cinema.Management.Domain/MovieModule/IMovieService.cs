@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Marajoara.Cinema.Management.Domain.MovieModule
@@ -74,5 +75,13 @@ namespace Marajoara.Cinema.Management.Domain.MovieModule
         /// <param name="movieID">ID used as parameter in the command.</param>
         /// <returns>Returns true if process succeeds.</returns>
         bool DeleteMoviePoster(int movieID);
+
+        /// <summary>
+        /// Returns the movies with sessions between dates informed.
+        /// </summary>
+        /// <param name="initialDate">The start date</param>
+        /// <param name="finalDate">The end date</param>
+        /// <returns>A list of Movie with the sessions included</returns>
+        IEnumerable<Movie> GetMovieBySessionDateRange(DateTime initialDate, DateTime finalDate);
     }
 }

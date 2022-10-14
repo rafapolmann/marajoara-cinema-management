@@ -52,7 +52,7 @@ namespace Marajoara.Cinema.Management.Application.Features.MovieModule
         }
 
         public IEnumerable<Movie> GetAllMovies()
-        {
+        {            
             return  _unitOfWork.Movies.RetrieveAll();
         }
 
@@ -127,6 +127,11 @@ namespace Marajoara.Cinema.Management.Application.Features.MovieModule
             _unitOfWork.Commit();
 
             return true;
+        }
+
+        public IEnumerable<Movie> GetMovieBySessionDateRange(DateTime initialDate, DateTime finalDate)
+        {
+            return _unitOfWork.Movies.RetrieveBySessionDate(initialDate, finalDate);
         }
     }
 }

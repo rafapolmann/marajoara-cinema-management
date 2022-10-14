@@ -17,3 +17,10 @@ export interface SessionCommand {
   movieID: number;
   cineRoomID: number;
 }
+
+export interface SessionFlat{
+  sessionID :number,
+   sessionDate :Date,
+    endSession:Date,
+     price:number
+}
