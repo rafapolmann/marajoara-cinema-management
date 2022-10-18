@@ -28,10 +28,16 @@ export class MovieService {
     const baseDate = new Date();
     const startDate:string = baseDate.toISOString();
     baseDate.setDate(baseDate.getDate()+30) ;
-    const endDate:string = baseDate.toISOString();
-    console.log(startDate);
-    console.log(endDate);
+    const endDate:string = baseDate.toISOString();    
     return this.marajoaraApiService.get<MovieFull[]>(`${this.controllerUri}/${this.inTheaterUri}/${startDate}/${endDate}`);
+  }
+
+  getInTheaterMovieDetails(movieID:number): Observable<MovieFull> {
+    const baseDate = new Date();
+    const startDate:string = baseDate.toISOString();
+    baseDate.setDate(baseDate.getDate()+30) ;
+    const endDate:string = baseDate.toISOString();    
+    return this.marajoaraApiService.get<MovieFull>(`${this.controllerUri}/${this.inTheaterUri}/${movieID}/${startDate}/${endDate}`);
   }
 
   getPosterById(movieId: number): Observable<string> {

@@ -4,6 +4,7 @@ import { CineroomAddComponent } from './features/cineroom/cineroom-add/cineroom-
 import { CineroomEditComponent } from './features/cineroom/cineroom-edit/cineroom-edit.component';
 import { CineroomListComponent } from './features/cineroom/cineroom-list/cineroom-list.component';
 import { MovieAddComponent } from './features/movie/movie-add/movie-add.component';
+import { MovieDetailsComponent } from './features/movie/movie-details/movie-details.component';
 import { MovieEditComponent } from './features/movie/movie-edit/movie-edit.component';
 import { MovieInTheaterComponent } from './features/movie/movie-in-theater/movie-in-theater.component';
 import { MovieListComponent } from './features/movie/movie-list/movie-list.component';
@@ -15,8 +16,9 @@ import { UserAccountEditComponent } from './features/user/user-account-edit/user
 import { UserAccountListComponent } from './features/user/user-account-list/user-account-list.component';
 
 const routes: Routes = [
-  { path: '', component: MovieListComponent },
+  { path: '', component: MovieInTheaterComponent },
   { path: 'in-theater', component: MovieInTheaterComponent },  
+  { path: 'in-theater/:id/details', component: MovieDetailsComponent },
   { path: 'movies', component: MovieListComponent },
   { path: 'movie/:id/edit', component: MovieEditComponent },
   { path: 'newmovie', component: MovieAddComponent },
@@ -29,6 +31,7 @@ const routes: Routes = [
   { path: 'users', component: UserAccountListComponent },
   { path: 'newuseraccount', component: UserAccountAddComponent },
   { path: 'useraccount/:id/edit', component: UserAccountEditComponent },
+
 ];
 
 @NgModule({

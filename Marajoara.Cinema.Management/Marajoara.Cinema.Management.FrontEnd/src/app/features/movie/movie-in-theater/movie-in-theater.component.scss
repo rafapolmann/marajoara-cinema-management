@@ -1,19 +1,21 @@
-$container-padding: 15px;
+$card-padding: 5px;
 $card-width: 300px;
-$card-height: 500px;
-$card-header-height: 50px;
-$card-footer-height: 90px;
-$card-poster-height: calc(
-  $card-height - $card-footer-height - $card-header-height - $container-padding
-);
+$card-height:490px ;
+
 .header {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-wrap: nowrap;
   gap: 1em;
-  margin-right: 1em;
+  padding-right: 1em;
+  padding-top: 1em;
   flex-grow: 1;
+  
+}
+ button{
+  height: 50px;
+  align-self: flex-start;      
 }
 .filter--grow{
   flex-grow: 3;
@@ -93,6 +95,7 @@ h1 {
 }
 
 .poster {
+  padding: 5px 5px 0 5px;
   width: $card-width;
   height: $card-height;
   object-fit: contain;

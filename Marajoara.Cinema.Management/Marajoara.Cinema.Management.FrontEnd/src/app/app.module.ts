@@ -32,6 +32,7 @@ import { UserAccountEditComponent } from './features/user/user-account-edit/user
 import { UserAccountFormComponent } from './components/user/user-account-form/user-account-form.component';
 import { MovieInTheaterComponent } from './features/movie/movie-in-theater/movie-in-theater.component';
 import { MovieDetailsComponent } from './features/movie/movie-details/movie-details.component';
+import { HoursPipe } from './core/pipes/hours.pipe';
 
 @NgModule({
     declarations: [
@@ -58,6 +59,7 @@ import { MovieDetailsComponent } from './features/movie/movie-details/movie-deta
         UserAccountFormComponent,
         MovieInTheaterComponent,
         MovieDetailsComponent,
+        HoursPipe,
     ],
     imports: [
         BrowserModule,
