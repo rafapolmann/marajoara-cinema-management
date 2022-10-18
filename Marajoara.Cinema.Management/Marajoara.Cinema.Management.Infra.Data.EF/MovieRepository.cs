@@ -3,6 +3,7 @@ using Marajoara.Cinema.Management.Infra.Data.EF.Commom;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Marajoara.Cinema.Management.Infra.Data.EF
@@ -37,11 +38,29 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
                             .Where(mv => mv.MovieID == movieID)
                             .FirstOrDefault();
         }
-
         public IEnumerable<Movie> RetrieveBySessionDate(DateTime initialDate, DateTime finalDate)
         {
-            return DBContext.Movies.Include(m => m.Sessions)
-                                     .Where(m=> m.Sessions.Any(s => s.SessionDate >= initialDate && s.SessionDate <= finalDate));
+            //var result = from m in DBContext.Movies.Include(m => m.Sessions.Where(s => s.SessionDate >= initialDate && s.SessionDate <= finalDate))
+            //             join s in DBContext.Sessions on m.MovieID equals s.MovieID
+            //             where  s.SessionDate >= initialDate && s.SessionDate <= finalDate
+            //             select m;
+
+            //var result = from s in DBContext.Sessions 
+            //             join m in DBContext.Movies.Include(m => m.Sessions) on s.MovieID equals m.MovieID
+            //             where s.SessionDate >= initialDate && s.SessionDate <= finalDate
+            //             select m;
+
+            var result = DBContext.Movies.Where(m => m.Sessions.Any(s => s.SessionDate >= initialDate && s.SessionDate <= finalDate)).Include(m => m.Sessions.Where(s => s.SessionDate >= initialDate && s.SessionDate <= finalDate));
+
+            var test = result.Distinct();
+            return result.Distinct();
+        }
+
+        public Movie RetrieveBySessionDate(int movieID, DateTime initialDate, DateTime finalDate)
+        {
+            var result = DBContext.Movies.Include(m => m.Sessions.Where(s => s.SessionDate >= initialDate && s.SessionDate <= finalDate)).FirstOrDefault(m => m.MovieID == movieID);
+
+            return result;
         }
 
         public Movie RetrieveByTitle(string movieTitle)
@@ -56,4 +75,5 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
             DBContext.Entry(movieToUpdate).State = EntityState.Modified;
         }
     }
+
 }

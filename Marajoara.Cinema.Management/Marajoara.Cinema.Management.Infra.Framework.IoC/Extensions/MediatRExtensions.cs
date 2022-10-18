@@ -78,7 +78,7 @@ namespace Marajoara.Cinema.Management.Infra.Framework.IoC.Extensions
             kernel.Bind<IRequestHandler<UpdateMoviePosterCommand, Result<Exception, bool>>>().To<UpdateMoviePosterHandler>();
             kernel.Bind<IRequestHandler<GetMoviePosterQuery, Result<Exception, byte[]>>>().To<GetMoviePosterHandler>();
             kernel.Bind<IRequestHandler<DeleteMoviePosterCommand, Result<Exception, bool>>>().To<DeleteMoviePosterHandler>();
-            kernel.Bind<IRequestHandler<GetMoviesBySessionDateQuery, Result<Exception, List<MovieWithSessionsModel>>>>().To<GetMoviesBySessionDateHandler>();
+            kernel.Bind<IRequestHandler<GetMoviesBySessionDateQuery, Result<Exception, List<MovieWithSessionsModel>>>>().To<GetMoviesBySessionDateHandler>();            
 
         }
 

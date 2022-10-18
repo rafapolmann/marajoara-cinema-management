@@ -133,5 +133,11 @@ namespace Marajoara.Cinema.Management.Application.Features.MovieModule
         {
             return _unitOfWork.Movies.RetrieveBySessionDate(initialDate, finalDate);
         }
+
+        public Movie GetMovieBySessionDateRange(int movieID ,DateTime initialDate, DateTime finalDate)
+        {
+            return _unitOfWork.Movies.RetrieveBySessionDate(movieID, initialDate, finalDate);
+            
+        }
     }
 }
