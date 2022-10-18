@@ -27,7 +27,7 @@ namespace Marajoara.Cinema.Management.Application.Features.MovieModule.Handlers
         {
             Result<Exception, List<MovieWithSessionsModel>> result = Result.Run(() =>
             {
-                return _mapper.Map<List<MovieWithSessionsModel>>(_movieService.GetMovieBySessionDateRange(request.InitialDate,request.FinalDate));
+                return _mapper.Map<List<MovieWithSessionsModel>>(_movieService.GetMoviesBySessionDateRange(request.InitialDate,request.FinalDate));
             });
 
             return Task.FromResult(result);

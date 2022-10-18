@@ -82,7 +82,7 @@ namespace Marajoara.Cinema.Management.Domain.MovieModule
         /// <param name="initialDate">The start date</param>
         /// <param name="finalDate">The end date</param>
         /// <returns>A list of Movie with the sessions included</returns>
-        IEnumerable<Movie> GetMovieBySessionDateRange(DateTime initialDate, DateTime finalDate);
+        IEnumerable<Movie> GetMoviesBySessionDateRange(DateTime initialDate, DateTime finalDate);
 
         /// <summary>
         /// Returns a movie With the sessions between the two dates informed. 

@@ -129,7 +129,7 @@ namespace Marajoara.Cinema.Management.Application.Features.MovieModule
             return true;
         }
 
-        public IEnumerable<Movie> GetMovieBySessionDateRange(DateTime initialDate, DateTime finalDate)
+        public IEnumerable<Movie> GetMoviesBySessionDateRange(DateTime initialDate, DateTime finalDate)
         {
             return _unitOfWork.Movies.RetrieveBySessionDate(initialDate, finalDate);
         }
