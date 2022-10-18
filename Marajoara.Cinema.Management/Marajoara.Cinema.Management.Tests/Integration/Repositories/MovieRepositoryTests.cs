@@ -307,5 +307,44 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
             _marajoaraUnitOfWork.Dispose();
 
         }
+
+
+        [TestMethod]
+        public void UnitOfWork_Should_Return_Empty_When_There_Is_No_Session_In_Between_Dates_From_Database()
+        {
+            DateTime baseDate = new DateTime(2022, 1, 1);
+            CineRoom cineRoom = GetCineRoomToTest();
+            Movie movieToAdd01 = GetMovieToTest("movie01");
+            Movie movieToAdd02 = GetMovieToTest("movie02");
+            Movie movieToAdd03 = GetMovieToTest("movie03");
+
+            Session session1 = GetSessionToTest(cineRoom, movieToAdd01, baseDate.AddDays(-1));
+            Session session2 = GetSessionToTest(cineRoom, movieToAdd01, baseDate.AddDays(1));
+            Session session3 = GetSessionToTest(cineRoom, movieToAdd01, baseDate.AddDays(2));
+            Session session4 = GetSessionToTest(cineRoom, movieToAdd02, baseDate.AddDays(1));
+
+            Session session5 = GetSessionToTest(cineRoom, movieToAdd03, baseDate.AddDays(-2));
+
+            _marajoaraUnitOfWork.Movies.Add(movieToAdd01);
+            _marajoaraUnitOfWork.Movies.Add(movieToAdd02);
+            _marajoaraUnitOfWork.Movies.Add(movieToAdd03);
+            _marajoaraUnitOfWork.Sessions.Add(session1);
+            _marajoaraUnitOfWork.Sessions.Add(session2);
+            _marajoaraUnitOfWork.Sessions.Add(session3);
+            _marajoaraUnitOfWork.Sessions.Add(session4);
+            _marajoaraUnitOfWork.Sessions.Add(session5);
+
+            _marajoaraUnitOfWork.Commit();
+
+            _marajoaraUnitOfWork.Dispose();
+            _marajoaraUnitOfWork = GetNewEmptyUnitOfWorkInstance(false);
+
+            List<Movie> moviesOnDB = _marajoaraUnitOfWork.Movies.RetrieveBySessionDate(baseDate.AddDays(3), baseDate.AddDays(4)).ToList();
+            moviesOnDB.Should().BeNullOrEmpty();
+            moviesOnDB.Should().HaveCount(0);
+
+            _marajoaraUnitOfWork.Dispose();
+
+        }
     }
 }
