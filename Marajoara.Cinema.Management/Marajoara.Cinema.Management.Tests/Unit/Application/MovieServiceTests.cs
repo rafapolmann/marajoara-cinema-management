@@ -112,6 +112,33 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
             _unitOfWorkMock.Verify(uow => uow.Movies.RetrieveAll(), Times.Once);
             _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
         }
+
+
+        [TestMethod]
+        public void MovieService_GetMoviesBySessionDateRange_Should_Return_Movies()
+        {
+            DateTime startDate = new DateTime(2022, 1, 1);
+            DateTime endDate = new DateTime(2022, 1, 30);
+            _unitOfWorkMock.Setup(uow => uow.Movies.RetrieveBySessionDate(startDate, endDate)).Returns(new List<Movie> { GetMovieToTest() });
+
+            _movieService.GetMoviesBySessionDateRange(startDate,endDate).Should().HaveCount(1);
+            _unitOfWorkMock.Verify(uow => uow.Movies.RetrieveBySessionDate(startDate, endDate), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void MovieService_GetMovieBySessionDateRange_Should_Return_Movie()
+        {
+            int movieId = 10;
+            DateTime startDate = new DateTime(2022, 1, 1);
+            DateTime endDate = new DateTime(2022, 1, 30);
+            _unitOfWorkMock.Setup(uow => uow.Movies.RetrieveBySessionDate(movieId, startDate, endDate)).Returns(GetMovieToTest(movieId) );
+
+            _movieService.GetMovieBySessionDateRange(movieId, startDate, endDate).Should().NotBeNull();
+
+            _unitOfWorkMock.Verify(uow => uow.Movies.RetrieveBySessionDate(movieId,startDate, endDate), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
         #endregion Gets_Movie
 
         #region RemoveMovie
