@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Marajoara.Cinema.Management.Domain.UserAccountModule;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,8 @@ namespace Marajoara.Cinema.Management.Application.Authorization.Models
     {
         public int UserAccountID { get; set; }
         public string Name { get; set; }
-        public string Mail{ get; set; }
+        public AccessLevel Level { get; set; }
+        public string Mail { get; set; }
         public string Token { get; set; }
 
     }

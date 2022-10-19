@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +13,13 @@ export class LoginComponent implements OnInit {
   form!: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
-  ) { }
+    private authService: AuthenticationService,
+    private router:Router,
+  ) { 
+
+    if(this.authService.authorizedUserAccount)
+      this.router.navigateByUrl('');
+  }
 
   ngOnInit() {
     this.createForm();
@@ -31,9 +40,20 @@ export class LoginComponent implements OnInit {
     return this.form.get('password')! as FormControl;
   }
 
-  onSubmit() {
+  async onSubmit() {
+    if(!this.form.valid)
+      return;
+
+     const user = await firstValueFrom( this.authService.login(this.mail.value, this.password.value));
+     this.router.navigateByUrl('');
     //this.authService.signinUser(email, password);
-    console.log(`email:${this.mail.value} - password: ${this.password.value}`);
+    // `email:${this.mail.value} - password: ${this.password.value}`);/
+  }
+  gurgo(){
+    console.log(JSON.stringify(this.authService.authorizedUserAccount, undefined, ' '));
+  }
+  facibrugui(){
+    this.authService.logout();
   }
 
 }
