@@ -1,9 +1,13 @@
+<div class="background">
+    <img src="./assets/common/background.jpg" />
+</div>
 <div class="login-container">
     <div class="login-content">
         <mat-toolbar class="login-toolbar" color="primary">Registrar</mat-toolbar>
-        <mat-card>
+        <div class="form-wrapper">
+
             <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="onSubmit()">
-                <div class="form-group">
+                <div >
                     <mat-form-field appearance="fill">
                         <mat-icon matPrefix>person_outline</mat-icon>
                         <mat-label>Nome:</mat-label>
@@ -11,7 +15,7 @@
                         <mat-error *ngIf="name.hasError('required')">O nome é obrigatório</mat-error>
                     </mat-form-field>
                 </div>
-                <div class="form-group">
+                <div >
                     <mat-form-field appearance="fill">
                         <mat-icon matPrefix>email</mat-icon>
                         <mat-label>Email:</mat-label>
@@ -41,6 +45,6 @@
                     <button type="button" mat-raised-button color="warn" routerLink="/login">Voltar</button>
                 </div>
             </form>
-        </mat-card>
+        </div>
     </div>
 </div>
