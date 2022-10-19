@@ -30,6 +30,9 @@ import { UserAccountListComponent } from './features/user/user-account-list/user
 import { UserAccountAddComponent } from './features/user/user-account-add/user-account-add.component';
 import { UserAccountEditComponent } from './features/user/user-account-edit/user-account-edit.component';
 import { UserAccountFormComponent } from './components/user/user-account-form/user-account-form.component';
+import { MovieInTheaterComponent } from './features/movie/movie-in-theater/movie-in-theater.component';
+import { MovieDetailsComponent } from './features/movie/movie-details/movie-details.component';
+import { HoursPipe } from './core/pipes/hours.pipe';
 
 @NgModule({
     declarations: [
@@ -54,6 +57,9 @@ import { UserAccountFormComponent } from './components/user/user-account-form/us
         UserAccountAddComponent,
         UserAccountEditComponent,
         UserAccountFormComponent,
+        MovieInTheaterComponent,
+        MovieDetailsComponent,
+        HoursPipe,
     ],
     imports: [
         BrowserModule,

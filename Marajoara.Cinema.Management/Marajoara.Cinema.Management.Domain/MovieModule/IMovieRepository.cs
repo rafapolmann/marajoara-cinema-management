@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Marajoara.Cinema.Management.Domain.MovieModule
 {
@@ -41,5 +42,26 @@ namespace Marajoara.Cinema.Management.Domain.MovieModule
         /// </summary>
         /// <returns>Returns collection of the Movies from database.</returns>
         IEnumerable<Movie> RetrieveAll();
+
+
+        /// <summary>
+        /// Returns the movies with sessions in between the informed dates
+        /// </summary>
+        /// <param name="initialDate">The start date</param>
+        /// <param name="finalDate">The end date</param>
+        /// <returns>A list of Session</returns>   
+        IEnumerable<Movie> RetrieveBySessionDate(DateTime initialDate, DateTime finalDate);
+
+
+        /// <summary>
+        /// Returns a movie with sessions in between the informed dates
+        /// </summary>
+        /// <param name="initialDate">The start date</param>
+        /// <param name="finalDate">The end date</param>
+        /// <param name="movieID">Movie's ID</param>
+        /// <returns></returns>
+        Movie RetrieveBySessionDate(int movieID, DateTime initialDate, DateTime finalDate);
+
+
     }
 }

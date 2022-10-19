@@ -17,6 +17,11 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF.Configuration
             builder.Property(m => m.Minutes).IsRequired().HasColumnName("Minutes");
             builder.Property(m => m.Is3D).IsRequired().HasColumnName("Is3D");
             builder.Property(m => m.IsOriginalAudio).IsRequired().HasColumnName("IsOriginalAudio");
+
+            //FK Session
+            builder.HasMany(m => m.Sessions).WithOne()
+                   .HasForeignKey(s => s.MovieID).IsRequired()
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

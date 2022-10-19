@@ -10,6 +10,7 @@ namespace Marajoara.Cinema.Management.Application.Features.SessionModule
         public SessionMappingProfile()
         {
             CreateMap<Session, SessionModel>();
+            CreateMap<Session, SessionFlatModel>();
             CreateMap<AddSessionCommand, Session>();
             CreateMap<UpdateSessionCommand, Session>();
             CreateMap<DeleteSessionCommand, Session>(); 

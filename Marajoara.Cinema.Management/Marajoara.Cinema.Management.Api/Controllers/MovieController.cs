@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace Marajoara.Cinema.Management.Api.Controllers
@@ -40,6 +41,19 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         {
             return HandleResult(await _mediator.Send(new AllMoviesQuery()));
         }
+        
+        [HttpGet("InTheater/{initialDate}/{finalDate}")]
+        public async Task<IActionResult> Get(DateTime initialDate, DateTime finalDate)
+        {
+            return HandleResult(await _mediator.Send(new GetMoviesBySessionDateQuery(initialDate,finalDate)));
+        }
+
+        [HttpGet("InTheater/{movieID}/{initialDate}/{finalDate}")]
+        public async Task<IActionResult> Get(int movieID, DateTime initialDate, DateTime finalDate)
+        {
+            return HandleResult(await _mediator.Send(new GetMovieWithSessionsByDateQuery(movieID, initialDate, finalDate)));
+        }
+
 
         [HttpDelete("ByTitle/{title}")]
         public async Task<IActionResult> Delete(string title)

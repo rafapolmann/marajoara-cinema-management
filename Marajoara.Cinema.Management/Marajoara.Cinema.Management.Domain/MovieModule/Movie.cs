@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Marajoara.Cinema.Management.Domain.SessionModule;
+using System;
+using System.Collections.Generic;
 
 namespace Marajoara.Cinema.Management.Domain.MovieModule
 {
@@ -11,6 +13,7 @@ namespace Marajoara.Cinema.Management.Domain.MovieModule
         public int Minutes { get; set; }
         public bool Is3D { get; set; }
         public bool IsOriginalAudio { get; set; }
+        public virtual ICollection<Session> Sessions { get; set; }
 
         public bool Validate()
         {

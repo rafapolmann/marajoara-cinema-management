@@ -10,6 +10,7 @@ namespace Marajoara.Cinema.Management.Application.Features.MovieModule
         public MovieMappingProfile()
         {
             CreateMap<Movie, MovieModel>();
+            CreateMap<Movie, MovieWithSessionsModel>();
             CreateMap<DeleteMovieCommand, Movie>();
             CreateMap<AddMovieCommand, Movie>();
             CreateMap<UpdateMovieCommand, Movie>();
