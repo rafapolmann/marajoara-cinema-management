@@ -48,7 +48,7 @@ h1 {
   .movie-details-row {
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: flex-start;
     flex-wrap: wrap;
     gap: 1em;
     padding-left: 1em;

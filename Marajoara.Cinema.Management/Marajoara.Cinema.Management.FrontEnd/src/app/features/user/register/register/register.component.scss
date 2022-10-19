@@ -1,0 +1,45 @@
+
+.login-container {    
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    background: rgba(236, 232, 232, 0.5);
+    padding: 60;
+  }
+  
+  form {
+    width: 100%;
+  }
+  .form-group{
+    padding: 0 1em;
+  }
+  
+  .login-content {
+    width: 400px;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .login-toolbar {
+    justify-content: center;
+  }
+  
+  .mat-form-field {
+    width: 100%;
+    display: block;
+  }
+  
+  .mat-raised-button {
+    width: 100%;        
+    margin: 0 .5em;
+  }
+  .submit-container{
+   
+    display:flex;
+    justify-content:center;
+    
+}
+mat-divider{
+    margin: 2em 0 1em 0;
+}

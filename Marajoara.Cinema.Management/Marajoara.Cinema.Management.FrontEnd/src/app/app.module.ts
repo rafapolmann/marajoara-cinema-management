@@ -33,6 +33,8 @@ import { UserAccountFormComponent } from './components/user/user-account-form/us
 import { MovieInTheaterComponent } from './features/movie/movie-in-theater/movie-in-theater.component';
 import { MovieDetailsComponent } from './features/movie/movie-details/movie-details.component';
 import { HoursPipe } from './core/pipes/hours.pipe';
+import { LoginComponent } from './features/user/login/login/login.component';
+import { RegisterComponent } from './features/user/register/register/register.component';
 
 @NgModule({
     declarations: [
@@ -60,6 +62,8 @@ import { HoursPipe } from './core/pipes/hours.pipe';
         MovieInTheaterComponent,
         MovieDetailsComponent,
         HoursPipe,
+        LoginComponent,
+        RegisterComponent,
     ],
     imports: [
         BrowserModule,
