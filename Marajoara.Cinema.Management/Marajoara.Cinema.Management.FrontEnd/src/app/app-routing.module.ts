@@ -16,7 +16,7 @@ import { UserAccountEditComponent } from './features/user/user-account-edit/user
 import { UserAccountListComponent } from './features/user/user-account-list/user-account-list.component';
 
 const routes: Routes = [
-  { path: '', component: MovieInTheaterComponent },
+  { path: '', component: MovieListComponent },
   { path: 'in-theater', component: MovieInTheaterComponent },  
   { path: 'in-theater/:id/details', component: MovieDetailsComponent },
   { path: 'movies', component: MovieListComponent },

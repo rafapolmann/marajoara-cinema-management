@@ -40,15 +40,7 @@ namespace Marajoara.Cinema.Management.Infra.Data.EF
         }
         public IEnumerable<Movie> RetrieveBySessionDate(DateTime initialDate, DateTime finalDate)
         {
-            //var result = from m in DBContext.Movies.Include(m => m.Sessions.Where(s => s.SessionDate >= initialDate && s.SessionDate <= finalDate))
-            //             join s in DBContext.Sessions on m.MovieID equals s.MovieID
-            //             where  s.SessionDate >= initialDate && s.SessionDate <= finalDate
-            //             select m;
-
-            //var result = from s in DBContext.Sessions 
-            //             join m in DBContext.Movies.Include(m => m.Sessions) on s.MovieID equals m.MovieID
-            //             where s.SessionDate >= initialDate && s.SessionDate <= finalDate
-            //             select m;
+            //Todo: Find a way to generate a better query. (should improve performance)
 
             var result = DBContext.Movies.Where(m => m.Sessions.Any(s => s.SessionDate >= initialDate && s.SessionDate <= finalDate)).Include(m => m.Sessions.Where(s => s.SessionDate >= initialDate && s.SessionDate <= finalDate));
 

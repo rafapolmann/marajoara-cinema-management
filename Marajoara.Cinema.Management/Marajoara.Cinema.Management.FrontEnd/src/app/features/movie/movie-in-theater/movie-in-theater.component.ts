@@ -2,11 +2,7 @@ import { formatDate } from '@angular/common';
 import {
   Component,
   OnInit,
-  ViewChildren,
-  ElementRef,
   AfterViewInit,
-  QueryList,
-  ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
@@ -22,13 +18,10 @@ import { MovieService } from 'src/app/services/MovieService';
 })
 export class MovieInTheaterComponent implements OnInit, AfterViewInit {
   dataToDisplay: MovieFull[] = [];
-  // filteredData: MovieFull[] = [];
   dataSource = new MatTableDataSource(this.dataToDisplay);
   
   minDate!: Date;
   maxDate!: Date;
-  // startDateFilter!:Date;
-  // endDateFilter!:Date;  
   dateTimeCustom: DateTimeCustomFormat = new DateTimeCustomFormat();
 
    
@@ -54,30 +47,11 @@ export class MovieInTheaterComponent implements OnInit, AfterViewInit {
     this.dataToDisplay.map(m=> m.sessions.map(s=> {
       s.sessionDate = new Date(s.sessionDate);
     }));
-    // this.filteredData=  this.dataToDisplay;
 
     this.dataSource = new MatTableDataSource(this.dataToDisplay);
-    // this.dataSource.paginator = this.paginator;
     this.dataSource.filterPredicate = (movie: MovieFull, filter: string) =>
     movie.title.toLowerCase().indexOf(filter.trim().toLowerCase()) != -1 && this.compareSessionDates(movie);
   }
-
-  // applyFilter(event: any): void {
-  //   // this.dataSource.filter =  event.target.value.trim().toLocaleLowerCase();
-    
-  //   this.dataSource.filter = this.textFilter;
-  // }
-  // applyDateFilter(dateRangeStart: HTMLInputElement, dateRangeEnd: HTMLInputElement) {    
-    
-  //   // this.startDateFilter = this.getFullDate(dateRangeStart.value, false);
-  //   // this.endDateFilter = this.getFullDate(dateRangeEnd.value,true);    
-  //   // console.log(this.startDateFilter);
-  //   // console.log(this.endDateFilter);
-  //   console.log(this.filterForm.get('endDate')!.value?.year);
-  //   this.dataSource.filter += ' ';
-
-  // }
-
 
   applyFilter(){    
     this.dataSource.filter = this.textFilter;
@@ -90,41 +64,11 @@ export class MovieInTheaterComponent implements OnInit, AfterViewInit {
       this.dataSource.filter += ' ';
     }
 
-    // this.dataSource.filter=' '+ Math.random();
-    // this.dataSource.filter =oldValue;
   }
   
   clearFilters(){
     this.filterForm.reset();
     this.applyFilter();
-  }
-
-  // clearFilters(text: HTMLInputElement, dateRangeStart: HTMLInputElement, dateRangeEnd: HTMLInputElement):void{
-  //   text.value='';
-  //   // dateRangeEnd.value='';
-  //   // dateRangeStart.value='';
-  //   this.filterForm.reset();
-    
-  //   this.dataSource.filter ='';
-  // }
-
-  getFullDate(dateTxt:string,forceEndOfTheDay:boolean): Date {
-    const _dt:string[] = dateTxt.split('/');
-    const year:number = Number(_dt[2]);
-    const month:number = Number(_dt[1]);
-    const day:number = Number(_dt[0]);
-    
-    const fullDate = new Date(
-      year,
-      month-1,
-      day,
-      forceEndOfTheDay?23: 0,
-      forceEndOfTheDay?59: 0,      
-      forceEndOfTheDay?59: 0,      
-      0,
-    );
-
-    return fullDate;
   }
 
   compareSessionDates(movie:MovieFull):boolean{
