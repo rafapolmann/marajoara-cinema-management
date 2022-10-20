@@ -17,7 +17,8 @@ $background-color: #f3f1f1;
   align-items: center;
   justify-content: center;
   width: 200px;
-  background: $background-color
+  background: $background-color;
+  flex-grow: 1;
 }
 
 .header {
@@ -26,6 +27,9 @@ $background-color: #f3f1f1;
   left: 0;
   right: 0;
   z-index: 1;
+}
+.grow{
+    flex-grow: 2;
 }
 
 .footer {

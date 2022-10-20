@@ -23,6 +23,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatMenuModule} from '@angular/material/menu';
 
 const MODULES = [
     MatNativeDateModule,
@@ -51,6 +52,7 @@ const MODULES = [
     MatProgressBarModule,
     MatSortModule,
     MatTooltipModule,
+    MatMenuModule,
 ];
 
 @NgModule({

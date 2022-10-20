@@ -12,7 +12,7 @@ export interface AuthorizedUserAccount{
     token:string  
 }
 
-enum AccessLevel{
+export enum AccessLevel{
   manager=1,
   attendant = 2,
   customer = 3,

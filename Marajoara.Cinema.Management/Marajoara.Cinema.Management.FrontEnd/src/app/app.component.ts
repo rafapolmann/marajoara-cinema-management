@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, AfterContentChecked, Component, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Observable } from 'rxjs';
-import { AuthorizedUserAccount } from './models/UserAccount';
+import { AccessLevel, AuthorizedUserAccount } from './models/UserAccount';
 import { AuthenticationService } from './services/authentication.service';
 import { LoadingService } from './services/loading.service';
 
@@ -11,6 +10,7 @@ import { LoadingService } from './services/loading.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements AfterContentChecked {
+  
   title = 'Cine Marajoara';
   user!: AuthorizedUserAccount;// AuthorizedUserAccount | undefined;
   @ViewChild('sidenav') sidenav!: MatSidenav;
@@ -25,7 +25,9 @@ export class AppComponent implements AfterContentChecked {
   private userChanged(u: AuthorizedUserAccount){
     this.user = u;
   }
-
+  public get AccessLevel() {
+    return AccessLevel; 
+  }
   ngAfterContentChecked(): void {
     this.changeDetector.detectChanges();
   }
@@ -33,5 +35,9 @@ export class AppComponent implements AfterContentChecked {
     if (this.sidenav) {
       this.sidenav.toggle()
     }
+  }
+
+  logout(){
+    this.authService.logout();
   }
 }
