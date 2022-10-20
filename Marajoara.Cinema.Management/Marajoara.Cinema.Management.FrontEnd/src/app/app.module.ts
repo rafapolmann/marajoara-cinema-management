@@ -33,6 +33,10 @@ import { UserAccountFormComponent } from './components/user/user-account-form/us
 import { MovieInTheaterComponent } from './features/movie/movie-in-theater/movie-in-theater.component';
 import { MovieDetailsComponent } from './features/movie/movie-details/movie-details.component';
 import { HoursPipe } from './core/pipes/hours.pipe';
+import { LoginComponent } from './features/user/login/login/login.component';
+import { RegisterComponent } from './features/user/register/register/register.component';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { TokenInterceptor } from './core/interceptors/token.interceptor';
 
 @NgModule({
     declarations: [
@@ -60,6 +64,8 @@ import { HoursPipe } from './core/pipes/hours.pipe';
         MovieInTheaterComponent,
         MovieDetailsComponent,
         HoursPipe,
+        LoginComponent,
+        RegisterComponent,
     ],
     imports: [
         BrowserModule,
@@ -70,12 +76,26 @@ import { HoursPipe } from './core/pipes/hours.pipe';
         BrowserAnimationsModule,
         MaterialModule,
     ],
-    providers: [{
-        provide: HTTP_INTERCEPTORS,
-        useClass: LoadingInterceptor,
-        multi: true,
-    },
-    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: LoadingInterceptor,
+            multi: true,
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ErrorInterceptor,
+            multi: true,
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: TokenInterceptor,
+            multi: true,
+        },
+        {
+            provide: MAT_DATE_LOCALE,
+            useValue: 'pt-BR'
+        },
     ],
     bootstrap: [AppComponent],
 })

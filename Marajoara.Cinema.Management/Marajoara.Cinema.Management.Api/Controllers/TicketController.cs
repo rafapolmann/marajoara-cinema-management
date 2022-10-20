@@ -31,8 +31,7 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             return HandleResult(await _mediator.Send(new AllTicketsQuery()));
         }
        
-        [Authorize(Roles = "Manager,Attendant")]
-        [AllowAnonymous]
+        [Authorize(Roles = "Manager,Attendant")]        
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -45,7 +44,7 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         {
             return HandleResult(await _mediator.Send(new GetTicketByCodeQuery(code)));
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddTicketCommand addTicketCommand)
         {

@@ -1,3 +1,9 @@
+$background-color: #f3f1f1;
+.wrapper{
+  background: $background-color;
+  width: 100%;
+  height: 100%;
+}
 .container {
   position: absolute;
   top: 60px;
@@ -11,7 +17,8 @@
   align-items: center;
   justify-content: center;
   width: 200px;
-  background: rgba(236, 232, 232, 0.5);
+  background: $background-color;
+  flex-grow: 1;
 }
 
 .header {
@@ -20,6 +27,9 @@
   left: 0;
   right: 0;
   z-index: 1;
+}
+.grow{
+    flex-grow: 2;
 }
 
 .footer {
