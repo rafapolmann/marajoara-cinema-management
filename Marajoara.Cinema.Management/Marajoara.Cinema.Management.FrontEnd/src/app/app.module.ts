@@ -11,7 +11,6 @@ import { MovieFormComponent } from './components/movie/movie-form/movie-form.com
 import { MovieEditComponent } from './features/movie/movie-edit/movie-edit.component';
 import { MovieAddComponent } from './features/movie/movie-add/movie-add.component';
 import { MovieListComponent } from './features/movie/movie-list/movie-list.component';
-import { MovieCardComponent } from './components/movie/movie-card/movie-card.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmDialogComponent } from './components/common/confirm-dialog/confirm-dialog.component';
 import { CineroomListComponent } from './features/cineroom/cineroom-list/cineroom-list.component';
@@ -46,7 +45,6 @@ import { UserAccountProfileComponent } from './features/user/user-account-profil
         MovieEditComponent,
         MovieAddComponent,
         MovieListComponent,
-        MovieCardComponent,
         ConfirmDialogComponent,
         CineroomListComponent,
         CineroomAddComponent,

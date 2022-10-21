@@ -49,8 +49,6 @@ export class UserAccountService {
   }
 
   getPhotoByUserId(userAccountId: number): Observable<string> {
-    return this.marajoaraApiService.get<string>(
-      `${this.controllerUri}/${userAccountId}/${this.photoUri}`
-    );
+    return this.marajoaraApiService.get<string>(`${this.controllerUri}/${userAccountId}/${this.photoUri}`);
   }
 }

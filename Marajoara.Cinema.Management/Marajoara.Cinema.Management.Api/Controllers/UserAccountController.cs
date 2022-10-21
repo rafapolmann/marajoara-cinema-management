@@ -71,19 +71,19 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         }
 
 
-        [HttpPut("Photo")]
+        [HttpPut("{userAccountID}/Photo")]
         public async Task<IActionResult> UploadPoster(int userAccountID, IFormFile file)
         {
             return HandleResult(await _mediator.Send(new UpdateUserAccountPhotoCommand(userAccountID, file.OpenReadStream())));
         }
 
-        [HttpGet("Photo")]
+        [HttpGet("{userAccountID}/Photo")]
         public async Task<IActionResult> GetPoster(int userAccountID)
         {
             return HandleResult(await _mediator.Send(new GetUserAccountPhotoQuery(userAccountID)));
         }
 
-        [HttpDelete("Photo")]
+        [HttpDelete("{userAccountID}/Photo")]
         public async Task<IActionResult> DeletePoster(int userAccountID)
         {
             return HandleResult(await _mediator.Send(new DeleteUserAccountPhotoCommand(userAccountID)));

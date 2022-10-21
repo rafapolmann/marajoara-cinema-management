@@ -1,6 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, Validators, NgForm } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 import { UserAccount } from 'src/app/models/UserAccount';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { UserAccountService } from 'src/app/services/UserAccountService';
 
 @Component({
   selector: 'app-user-account-profile',
@@ -10,19 +13,40 @@ import { UserAccount } from 'src/app/models/UserAccount';
 export class UserAccountProfileComponent implements OnInit {
 
   photoImgSrc!: string;
-
-  @Input() userAccountData!: UserAccount;
+  userAccountData!: UserAccount;
   userProfileForm!: FormGroup;
-  constructor() { }
+
+  constructor(
+    private authUserAccountService: AuthenticationService,
+    private userAccountService: UserAccountService) { }
 
   ngOnInit(): void {
     this.userProfileForm = new FormGroup({
-      userAccountID: new FormControl(this.userAccountData ? this.userAccountData.userAccountID : ''),
-      name: new FormControl(this.userAccountData ? this.userAccountData.name : '', [Validators.required]),
-      mail: new FormControl(this.userAccountData ? this.userAccountData.mail : '', [Validators.required, Validators.email]),
-      //level: new FormControl(this.userAccountData ? this.getAccountLevel(this.userAccountData.level) : '', [Validators.required]),
+      userAccountID: new FormControl(''),
+      name: new FormControl('', [Validators.required]),
+      mail: new FormControl('', [Validators.required, Validators.email]),
       photoFile: new FormControl(''),
     });
+
+    this.loadUserAccount();
+  }
+
+  async loadUserAccount() {
+    const userAccountId = this.authUserAccountService.authorizedUserAccount.userAccountID;
+
+    this.userAccountData = await firstValueFrom(this.userAccountService.getById(userAccountId));
+    this.userAccountData.poster = await firstValueFrom(this.userAccountService.getPhotoByUserId(userAccountId));
+
+    if (this.userAccountData && this.userAccountData.poster) {
+      this.photoImgSrc = `data:image/png;base64,${this.userAccountData.poster}`;
+    }
+
+    this.name.setValue(this.userAccountData.name);
+    this.mail.setValue(this.userAccountData.mail);
+  }
+
+  get photoFile() {
+    return this.userProfileForm.get('photoFile')! as FormControl;
   }
 
   get name() {
