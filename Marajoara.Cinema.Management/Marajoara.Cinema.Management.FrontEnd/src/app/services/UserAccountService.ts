@@ -9,6 +9,8 @@ import { UserAccount } from '../models/UserAccount';
 })
 export class UserAccountService {
   private controllerUri: string = 'UserAccount';
+  private photoUri: string = `photo`;
+
   constructor(private marajoaraApiService: MarajoaraApiService) { }
 
   getAll(): Observable<UserAccount[]> {
@@ -44,5 +46,11 @@ export class UserAccountService {
 
   delete(userAccountId: number): Observable<boolean> {
     return this.marajoaraApiService.delete(`${this.controllerUri}/${userAccountId}`)
+  }
+
+  getPhotoByUserId(userAccountId: number): Observable<string> {
+    return this.marajoaraApiService.get<string>(
+      `${this.controllerUri}/${userAccountId}/${this.photoUri}`
+    );
   }
 }

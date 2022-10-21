@@ -1,0 +1,44 @@
+.button-flex-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.mat-raised-button {
+  margin: 5px;
+  min-width: 120px;
+}
+
+.form-container {
+  overflow-x: hidden;
+}
+
+.photo-container {
+  display: inline-block;
+  margin-bottom: 1em;
+  width: 325px;
+}
+mat-card img {
+  width: auto;
+  margin-top: 0.1em;
+  margin-bottom: 0;
+  display: inline-block;
+  max-width: 450px;
+  max-height: 350px;
+}
+
+.mat-card-content {
+  margin: 0;
+}
+
+.photo-container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-group-flex-row mat-checkbox {
+  margin-bottom: 15px;
+}

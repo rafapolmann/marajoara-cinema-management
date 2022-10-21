@@ -37,6 +37,7 @@ import { LoginComponent } from './features/user/login/login/login.component';
 import { RegisterComponent } from './features/user/register/register/register.component';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { TokenInterceptor } from './core/interceptors/token.interceptor';
+import { UserAccountProfileComponent } from './features/user/user-account-profile/user-account-profile.component';
 
 @NgModule({
     declarations: [
@@ -66,6 +67,7 @@ import { TokenInterceptor } from './core/interceptors/token.interceptor';
         HoursPipe,
         LoginComponent,
         RegisterComponent,
+        UserAccountProfileComponent,
     ],
     imports: [
         BrowserModule,

@@ -17,6 +17,7 @@ import { RegisterComponent } from './features/user/register/register/register.co
 import { UserAccountAddComponent } from './features/user/user-account-add/user-account-add.component';
 import { UserAccountEditComponent } from './features/user/user-account-edit/user-account-edit.component';
 import { UserAccountListComponent } from './features/user/user-account-list/user-account-list.component';
+import { UserAccountProfileComponent } from './features/user/user-account-profile/user-account-profile.component';
 import { AccessLevel } from './models/UserAccount'
 
 
@@ -46,6 +47,7 @@ const userModuleRoutes: Routes = [
       ]
     }
   },
+  { path: 'userprofile', component: UserAccountProfileComponent, canActivate: [AuthGuard] },
 ];
 
 /** MOVIE MODULE ROUTES DEFINITION */
