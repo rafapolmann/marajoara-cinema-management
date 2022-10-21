@@ -74,7 +74,7 @@ export class UserAccountFormComponent implements OnInit {
       userAccountID: this.userAccountData ? this.userAccountData.userAccountID : 0,
       name: this.name.value,
       mail: this.mail.value,
-      level: this.getAccountLevelId(),
+      level: this.getAccountLevelId()
     };
   }
 

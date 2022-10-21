@@ -19,7 +19,6 @@ export class AppComponent implements AfterContentChecked {
     private changeDetector: ChangeDetectorRef,
     private authService: AuthenticationService,
   ) {
-
     this.authService.user.subscribe(u => this.userChanged(u));
   }
 

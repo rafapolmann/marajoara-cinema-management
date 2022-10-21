@@ -3,8 +3,8 @@ export interface UserAccount {
   name: string,
   mail: string,
   level: number,
-  poster?: string,
-  posterFile?: File,
+  photo?: string,
+  photoFile?: File,
 }
 export interface AuthorizedUserAccount {
   userAccountID: number,

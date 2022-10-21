@@ -70,7 +70,6 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             return HandleResult(await _mediator.Send(new DeleteUserAccountCommand(id)));
         }
 
-
         [HttpPut("{userAccountID}/Photo")]
         public async Task<IActionResult> UploadPoster(int userAccountID, IFormFile file)
         {
@@ -88,6 +87,5 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         {
             return HandleResult(await _mediator.Send(new DeleteUserAccountPhotoCommand(userAccountID)));
         }
-
     }
 }

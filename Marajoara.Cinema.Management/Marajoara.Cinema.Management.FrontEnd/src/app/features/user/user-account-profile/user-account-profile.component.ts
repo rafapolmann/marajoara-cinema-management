@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, Validators, NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { UserAccount } from 'src/app/models/UserAccount';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { ToastrService } from 'src/app/services/toastr.service';
 import { UserAccountService } from 'src/app/services/UserAccountService';
 
 @Component({
@@ -11,12 +13,14 @@ import { UserAccountService } from 'src/app/services/UserAccountService';
   styleUrls: ['./user-account-profile.component.scss']
 })
 export class UserAccountProfileComponent implements OnInit {
-
   photoImgSrc!: string;
   userAccountData!: UserAccount;
   userProfileForm!: FormGroup;
+  shouldUpdatePhoto: boolean = false;
 
   constructor(
+    private toastr: ToastrService,
+    private router: Router,
     private authUserAccountService: AuthenticationService,
     private userAccountService: UserAccountService) { }
 
@@ -35,10 +39,10 @@ export class UserAccountProfileComponent implements OnInit {
     const userAccountId = this.authUserAccountService.authorizedUserAccount.userAccountID;
 
     this.userAccountData = await firstValueFrom(this.userAccountService.getById(userAccountId));
-    this.userAccountData.poster = await firstValueFrom(this.userAccountService.getPhotoByUserId(userAccountId));
+    this.userAccountData.photo = await firstValueFrom(this.userAccountService.getPhotoByUserId(userAccountId));
 
-    if (this.userAccountData && this.userAccountData.poster) {
-      this.photoImgSrc = `data:image/png;base64,${this.userAccountData.poster}`;
+    if (this.userAccountData && this.userAccountData.photo) {
+      this.photoImgSrc = `data:image/png;base64,${this.userAccountData.photo}`;
     }
 
     this.name.setValue(this.userAccountData.name);
@@ -61,32 +65,47 @@ export class UserAccountProfileComponent implements OnInit {
     if (this.userProfileForm.invalid) {
       return;
     }
-    // const userAccountCommand: UserAccount = this.getUserAccountCommand();
-    // this.onSubmit.emit(userAccountCommand);
+    try {
+      this.updateUserAccountData();
+      this.router.navigateByUrl('/in-theater');
+    } catch (exception: any) {
+      this.toastr.showErrorMessage(`error status ${exception.status}; Message: ${Object.values(exception.error)[0]}`);
+      this.authUserAccountService.logout();
+    } finally {
+      this.userProfileForm.reset();
+      formDirective.resetForm();
+    }
+  }
 
-    //Resets the form.
-    this.userProfileForm.reset();
-    formDirective.resetForm();
+  async updateUserAccountData() {
+    this.userAccountData.name = this.name.value;
+    await firstValueFrom(this.userAccountService.update(this.userAccountData));
+    if (this.userAccountData.photoFile && this.shouldUpdatePhoto) {
+      await firstValueFrom(this.userAccountService.updatePhoto(this.userAccountData));
+    } else if (this.shouldUpdatePhoto) {
+      await firstValueFrom(this.userAccountService.deletePhoto(this.userAccountData.userAccountID));
+    }
   }
 
   cancel() {
-
+    this.router.navigateByUrl('/in-theater');
   }
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
-
-    this.userProfileForm.patchValue({ posterFile: file });
+    this.userAccountData.photoFile = file;
+    this.userProfileForm.patchValue({ photoFile: file });
 
     const reader = new FileReader();
     reader.onload = e => this.photoImgSrc = String(reader.result);
 
     reader.readAsDataURL(file);
+    this.shouldUpdatePhoto = true;
   }
 
   onCleanFile() {
-    this.userProfileForm.patchValue({ posterFile: null });
+    this.userProfileForm.patchValue({ photoFile: null });
     this.photoImgSrc = '';
+    this.shouldUpdatePhoto = true;
   }
-
 }
