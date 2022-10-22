@@ -31,6 +31,5 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         {
             return HandleResult(await _mediator.Send(customer));
         }
-
     }
 }

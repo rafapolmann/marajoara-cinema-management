@@ -12,19 +12,20 @@ using System.Threading.Tasks;
 namespace Marajoara.Cinema.Management.Api.Controllers
 {
     [ApiController]
-    [Authorize]
     [Route("api/[controller]")]
     public class MovieController : ApiControllerBase
     {
         private readonly IMediator _mediator;
         private readonly ILogger<MovieController> _logger;
 
-        public MovieController(ILogger<MovieController> logger, IMediator mediator)
+        public MovieController(ILogger<MovieController> logger,
+                               IMediator mediator,
+                               IHttpContextAccessor context) : base(context)
         {
             _mediator = mediator;
             _logger = logger;
         }
-        
+
         [Authorize(Roles = "Manager")]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
@@ -74,21 +75,21 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         {
             return HandleResult(await _mediator.Send(new DeleteMovieCommand(id)));
         }
-        
+
         [Authorize(Roles = "Manager")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddMovieCommand addMovieCommand)
         {
             return HandleResult(await _mediator.Send(addMovieCommand));
         }
-        
+
         [Authorize(Roles = "Manager")]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] UpdateMovieCommand updateMovieCommand)
         {
             return HandleResult(await _mediator.Send(updateMovieCommand));
         }
-        
+
         [Authorize(Roles = "Manager")]
         [HttpPut("{movieID}/Poster")]
         public async Task<IActionResult> UploadPoster(int movieID, IFormFile file)

@@ -3,6 +3,7 @@ using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.CineRoomModule.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -17,7 +18,9 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         private readonly IMediator _mediator;
         private readonly ILogger<CineRoomController> _logger;
 
-        public CineRoomController(ILogger<CineRoomController> logger, IMediator mediator)
+        public CineRoomController(ILogger<CineRoomController> logger,
+                                  IMediator mediator,
+                                  IHttpContextAccessor context) : base(context)
         {
             _mediator = mediator;
             _logger = logger;
