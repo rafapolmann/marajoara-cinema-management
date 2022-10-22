@@ -89,7 +89,7 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         }
 
         [Authorize(Roles = "Manager,Attendant,Customer")]
-        [HttpPut("Photo")]
+        [HttpPut("{userAccountID}/Photo")]
         public async Task<IActionResult> UploadPhoto(int userAccountID, IFormFile file)
         {
             var callback = ValitadeUserPermission(userAccountID);
