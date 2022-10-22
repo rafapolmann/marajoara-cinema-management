@@ -51,6 +51,14 @@ export class AuthenticationService {
     return JSON.parse(userJson!) as AuthorizedUserAccount;
   }
 
+  updateUserName(name: string) {
+    const currentUser = this.authorizedUserAccount;
+    currentUser.name = name;
+
+    this.saveUserLocalStorage(currentUser);
+    this.userSubject.next(currentUser);
+  }
+
   private saveUserLocalStorage(user: AuthorizedUserAccount) {
     localStorage.setItem('user', JSON.stringify(user));
   }

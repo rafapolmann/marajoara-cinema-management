@@ -8,16 +8,16 @@ namespace Marajoara.Cinema.Management.Api.Base
 {
     public class ApiControllerBase : Controller
     {
-        public IActionResult HandleResult<TFailure, TSuccess>(Result<TFailure, TSuccess> callback) where TFailure : Exception
+        public IActionResult HandleResult<TFailure, TSuccess>(Result<TFailure, TSuccess> callback, HttpStatusCode statusCode = HttpStatusCode.InternalServerError) where TFailure : Exception
         {
-            return callback.IsSuccess ? Ok(callback.Success) : HandleFailure(callback.Failure);
+            return callback.IsSuccess ? Ok(callback.Success) : HandleFailure(callback.Failure, statusCode);
         }
 
-        public IActionResult HandleFailure<T>(T exceptionToHandle) where T : Exception
+        public IActionResult HandleFailure<T>(T exceptionToHandle, HttpStatusCode statusCode) where T : Exception
         {
             ExceptionPayload exceptionPayload = ExceptionPayload.New(exceptionToHandle);
 
-            return StatusCode(HttpStatusCode.InternalServerError.GetHashCode(), exceptionPayload);
+            return StatusCode(statusCode.GetHashCode(), exceptionPayload);
         }
     }
 }
