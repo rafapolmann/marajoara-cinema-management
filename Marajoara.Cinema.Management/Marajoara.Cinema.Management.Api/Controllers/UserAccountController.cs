@@ -11,83 +11,100 @@ using System.Threading.Tasks;
 namespace Marajoara.Cinema.Management.Api.Controllers
 {
     [ApiController]
-    [Authorize(Roles = "Manager")]
     [Route("api/[controller]")]
     public class UserAccountController : ApiControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ILogger<CineRoomController> _logger;
-        public UserAccountController(ILogger<CineRoomController> logger, IMediator mediator)
+        private readonly ILogger<UserAccountController> _logger;
+        public UserAccountController(ILogger<UserAccountController> logger,
+                                     IMediator mediator,
+                                     IHttpContextAccessor context) : base(context)
         {
             _mediator = mediator;
             _logger = logger;
         }
+
+        [Authorize(Roles = "Manager")]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             return HandleResult(await _mediator.Send(new AllUserAccountsQuery()));
         }
 
+        [Authorize(Roles = "Manager,Attendant,Customer")]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return HandleResult(await _mediator.Send(new GetUserAccountQuery(id)));
+            var callback = ValitadeUserPermission(id);
+            return callback.IsSuccess ? HandleResult(await _mediator.Send(new GetUserAccountQuery(id))) : HandleResult(callback);
         }
 
+        [Authorize(Roles = "Manager,Attendant")]
         [HttpGet("{id}/tickets")]
         public async Task<IActionResult> GetTickets(int id)
         {
             return HandleResult(await _mediator.Send(new GetUserAccountTicketsQuery(id)));
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPost("Customer")]
         public async Task<IActionResult> NewCustomer([FromBody] AddCustomerUserAccountCommand customer)
         {
             return HandleResult(await _mediator.Send(customer));
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPost("Attendant")]
         public async Task<IActionResult> NewAttendand([FromBody] AddAttendantUserAccountCommand customer)
         {
             return HandleResult(await _mediator.Send(customer));
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPost("Manager")]
         public async Task<IActionResult> NewManger([FromBody] AddManagerUserAccountCommand customer)
         {
             return HandleResult(await _mediator.Send(customer));
         }
 
+        [Authorize(Roles = "Manager,Attendant,Customer")]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] UpdateUserAccountBasicPropertiesCommand updateUserAccountCommand)
         {
-            return HandleResult(await _mediator.Send(updateUserAccountCommand));
+            var callback = ValitadeUserPermission(updateUserAccountCommand.UserAccountID);
+            return callback.IsSuccess ? HandleResult(await _mediator.Send(updateUserAccountCommand)) : HandleResult(callback);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             return HandleResult(await _mediator.Send(new DeleteUserAccountCommand(id)));
         }
 
-
+        [Authorize(Roles = "Manager,Attendant,Customer")]
         [HttpPut("Photo")]
-        public async Task<IActionResult> UploadPoster(int userAccountID, IFormFile file)
+        public async Task<IActionResult> UploadPhoto(int userAccountID, IFormFile file)
         {
-            return HandleResult(await _mediator.Send(new UpdateUserAccountPhotoCommand(userAccountID, file.OpenReadStream())));
+            var callback = ValitadeUserPermission(userAccountID);
+            return callback.IsSuccess ? HandleResult(await _mediator.Send(new UpdateUserAccountPhotoCommand(userAccountID, file.OpenReadStream()))) :
+                                        HandleResult(callback);
         }
 
+        [Authorize(Roles = "Manager,Attendant,Customer")]
         [HttpGet("Photo")]
-        public async Task<IActionResult> GetPoster(int userAccountID)
+        public async Task<IActionResult> GetPhoto(int userAccountID)
         {
-            return HandleResult(await _mediator.Send(new GetUserAccountPhotoQuery(userAccountID)));
+            var callback = ValitadeUserPermission(userAccountID);
+            return callback.IsSuccess ? HandleResult(await _mediator.Send(new GetUserAccountPhotoQuery(userAccountID))) : HandleResult(callback);
         }
 
+        [Authorize(Roles = "Manager,Attendant,Customer")]
         [HttpDelete("Photo")]
-        public async Task<IActionResult> DeletePoster(int userAccountID)
+        public async Task<IActionResult> DeletePhoto(int userAccountID)
         {
-            return HandleResult(await _mediator.Send(new DeleteUserAccountPhotoCommand(userAccountID)));
+            var callback = ValitadeUserPermission(userAccountID);
+            return callback.IsSuccess ? HandleResult(await _mediator.Send(new DeleteUserAccountPhotoCommand(userAccountID))) : HandleResult(callback);
         }
-
     }
 }
