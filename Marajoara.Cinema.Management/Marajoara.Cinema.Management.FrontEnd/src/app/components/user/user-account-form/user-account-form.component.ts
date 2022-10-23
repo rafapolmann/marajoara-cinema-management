@@ -2,6 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserAccount } from 'src/app/models/UserAccount';
 import { FormControl, FormGroup, FormGroupDirective, Validators, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
+import { firstValueFrom } from 'rxjs';
+import { UserAccountService } from 'src/app/services/UserAccountService';
 
 @Component({
   selector: 'app-user-account-form',
@@ -18,7 +21,7 @@ export class UserAccountFormComponent implements OnInit {
   isEditForm: boolean = true;
   accountLevels: string[] = ['Cliente', 'Atendente', 'Gerente'];
 
-  constructor() { }
+  constructor(private userService: UserAccountService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.userAccountForm = new FormGroup({
@@ -92,9 +95,13 @@ export class UserAccountFormComponent implements OnInit {
   cancel() {
     this.onCancel.emit();
   }
+
+  async resetPassword() {
+    const user = this.getUserAccountCommand();
+    await firstValueFrom(this.userService.resetPassword(user));
+  }
 }
 
-/** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;

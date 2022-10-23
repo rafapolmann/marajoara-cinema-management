@@ -55,11 +55,6 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
             return userAccount.UserAccountID;
         }
 
-        private string GetDeaultPassword(string userAccountName)
-        {
-            return string.Concat(userAccountName.Replace(" ", "").ToLower(), DEFAULT_SYSTEM_PASSWORD_PART);
-        }
-
         public bool RemoveUserAccount(UserAccount userAccount)
         {
             userAccount = GetUserAccountByID(userAccount.UserAccountID);
@@ -143,11 +138,33 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
             return true;
         }
 
+        public bool ResetUserAccountPassword(UserAccount userAccount)
+        {
+            UserAccount userAccountOnDB = _unitOfWork.UserAccounts.Retrieve(userAccount.UserAccountID);
+            if (userAccountOnDB == null)
+                throw new Exception($"UserAccount to update not found.");
+
+            if (!userAccount.Mail.Equals(userAccountOnDB.Mail))
+                throw new Exception($"Invalid UserAccount login: {userAccount.Mail}.");
+
+            userAccountOnDB.Password = GetDeaultPassword(userAccountOnDB.Mail.Split("@").First());
+            _unitOfWork.UserAccounts.Update(userAccountOnDB);
+            _unitOfWork.Commit();
+
+            return true;
+        }
+
+        private string GetDeaultPassword(string userAccountName)
+        {
+            return string.Concat(userAccountName.Replace(" ", "").ToLower(), DEFAULT_SYSTEM_PASSWORD_PART);
+        }
+
         private void CheckIfLastManagerAccount()
         {
             var managerCount = _unitOfWork.UserAccounts.RetrieveByAccessLevel(AccessLevel.Manager).Count();
             if (managerCount == 1)
                 throw new Exception(@"Will not be possible to change level or delete the account before create another manager account.");
         }
+
     }
 }

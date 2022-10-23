@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Marajoara.Cinema.Management.Application.Authorization.Commands;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Models;
 using Marajoara.Cinema.Management.Domain.UserAccountModule;
@@ -15,6 +16,7 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
             CreateMap<AddManagerUserAccountCommand, UserAccount>();
             CreateMap<DeleteUserAccountCommand, UserAccount>();
             CreateMap<UpdateUserAccountBasicPropertiesCommand, UserAccount>();
+            CreateMap<ResetUserAccountPasswordCommand, UserAccount>();
         }
     }
 }

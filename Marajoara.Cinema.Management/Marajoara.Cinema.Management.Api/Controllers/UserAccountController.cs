@@ -1,17 +1,12 @@
 ﻿using Marajoara.Cinema.Management.Api.Base;
-using Marajoara.Cinema.Management.Api.Helpers;
+using Marajoara.Cinema.Management.Application.Authorization.Commands;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Commands;
-using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Models;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Queries;
-using Marajoara.Cinema.Management.Domain.Common.ResultModule;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System.Threading;
-using System;
 using System.Threading.Tasks;
 
 namespace Marajoara.Cinema.Management.Api.Controllers
@@ -111,6 +106,20 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         {
             var callback = ValitadeUserPermission(userAccountID);
             return callback.IsSuccess ? HandleResult(await _mediator.Send(new DeleteUserAccountPhotoCommand(userAccountID))) : HandleResult(callback);
+        }
+
+        [Authorize(Roles = "Manager")]
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetUserAccountPasswordCommand resetPasswordCommand)
+        {
+            return HandleResult(await _mediator.Send(resetPasswordCommand));
+        }
+
+        //[Authorize(Roles = "Manager,Attendant,Customer")]
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangeUserAccountPasswordCommand changePasswordCommand)
+        {
+            return HandleResult(await _mediator.Send(changePasswordCommand));
         }
     }
 }

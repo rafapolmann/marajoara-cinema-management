@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { CineRoom } from '../models/CineRoom';
 import { Observable } from 'rxjs';
 import { MarajoaraApiService } from './MarajoaraApiService';
 import { UserAccount } from '../models/UserAccount';
@@ -66,4 +65,7 @@ export class UserAccountService {
     return this.marajoaraApiService.delete<string>(`${this.controllerUri}/${userAccountId}/${this.photoUri}`);
   }
 
+  resetPassword(userAccount: UserAccount): Observable<boolean> {
+    return this.marajoaraApiService.post(`${this.controllerUri}/reset-password`, userAccount);
+  }
 }
