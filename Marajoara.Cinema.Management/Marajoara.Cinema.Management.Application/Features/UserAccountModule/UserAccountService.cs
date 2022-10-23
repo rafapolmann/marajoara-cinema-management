@@ -154,6 +154,25 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
             return true;
         }
 
+        public bool ChangeUserAccountPassword(UserAccount userAccount, string newPassword)
+        {
+            if (string.IsNullOrWhiteSpace(newPassword) || newPassword.Length < 6)
+                throw new Exception($"The new password does not attend the security criterias.");
+
+            UserAccount userAccountOnDB = _unitOfWork.UserAccounts.Retrieve(userAccount.UserAccountID);
+            if (userAccountOnDB == null)
+                throw new Exception($"UserAccount to update not found.");
+
+            if (!userAccount.Mail.Equals(userAccountOnDB.Mail) || !userAccount.Password.Equals(userAccountOnDB.Password))
+                throw new Exception($"Invalid UserAccount login: {userAccount.Mail}.");
+
+            userAccountOnDB.Password = newPassword;
+            _unitOfWork.UserAccounts.Update(userAccountOnDB);
+            _unitOfWork.Commit();
+
+            return true;
+        }
+
         private string GetDeaultPassword(string userAccountName)
         {
             return string.Concat(userAccountName.Replace(" ", "").ToLower(), DEFAULT_SYSTEM_PASSWORD_PART);
@@ -165,6 +184,5 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
             if (managerCount == 1)
                 throw new Exception(@"Will not be possible to change level or delete the account before create another manager account.");
         }
-
     }
 }

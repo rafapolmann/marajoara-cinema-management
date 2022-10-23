@@ -114,7 +114,7 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             return HandleResult(await _mediator.Send(resetPasswordCommand));
         }
 
-        //[Authorize(Roles = "Manager,Attendant,Customer")]
+        [Authorize(Roles = "Manager,Attendant,Customer")]
         [HttpPost("change-password")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangeUserAccountPasswordCommand changePasswordCommand)
         {

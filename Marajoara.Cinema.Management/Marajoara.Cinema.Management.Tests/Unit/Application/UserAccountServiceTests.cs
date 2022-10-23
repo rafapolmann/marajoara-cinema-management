@@ -548,9 +548,9 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
 
         #region ResetUserAccountPassword
         [TestMethod]
-        public void UserAccountService_ResetUserAccountPassword_Should_Throw_Exception_When_UserAccount_To_Reset_Pass_Has_Mail_Is_Different()
+        public void UserAccountService_ResetUserAccountPassword_Should_Update_UserAccount_Password_To_System_Deafult()
         {
-            string newPassword = "usernameP@ssW0rd";
+            string resetedPassword = "usernameP@ssW0rd";
             int userAccountID = 1;
             UserAccount userToResetPass = GetUserAccountToTest(userAccountID, "UserName", "username@mail.com");
             UserAccount userAccountOnDB = GetUserAccountToTest(userAccountID, "UserName", "username@mail.com");
@@ -561,7 +561,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
 
             _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userToResetPass.UserAccountID), Times.Once);
             _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(userAccountOnDB), Times.Once);
-            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(It.Is<UserAccount>(ua => ua.Password.Equals(newPassword) &&
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(It.Is<UserAccount>(ua => ua.Password.Equals(resetedPassword) &&
                                                                                            ua.UserAccountID.Equals(userAccountOnDB.UserAccountID) &&
                                                                                            ua.Level.Equals(userAccountOnDB.Level) &&
                                                                                            ua.Mail.Equals(userAccountOnDB.Mail) &&
@@ -571,7 +571,7 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         }
 
         [TestMethod]
-        public void UserAccountService_ResetUserAccountPassword_Should_Update_UserAccount_Password_To_System_Deafult()
+        public void UserAccountService_ResetUserAccountPassword_Should_Should_Throw_Exception_When_UserAccount_ID_Not_Exists()
         {
             int userAccountID = 2;
             UserAccount userToResetPass = GetUserAccountToTest(userAccountID);
@@ -607,11 +607,150 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
         }
         #endregion ResetUserAccountPassword
 
+        #region ChangeUserAccountPassword
+        [TestMethod]
+        public void UserAccountService_ChangeUserAccountPassword_Should_Update_UserAccount_Password()
+        {
+            string passwordToUpdate = "newP@ssW0rd123";
+            int userAccountID = 1;
+            UserAccount userAccountToUpdate = GetUserAccountToTest(userAccountID, "UserName", "username@mail.com");
+            UserAccount userAccountOnDB = GetUserAccountToTest(userAccountID, "UserName", "username@mail.com");
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(userAccountOnDB.UserAccountID)).Returns(userAccountOnDB);
+
+            _userAccountService.ChangeUserAccountPassword(userAccountToUpdate, passwordToUpdate).Should().BeTrue();
+
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userAccountToUpdate.UserAccountID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(userAccountOnDB), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(It.Is<UserAccount>(ua => ua.Password.Equals(passwordToUpdate) &&
+                                                                                           ua.UserAccountID.Equals(userAccountOnDB.UserAccountID) &&
+                                                                                           ua.Level.Equals(userAccountOnDB.Level) &&
+                                                                                           ua.Mail.Equals(userAccountOnDB.Mail) &&
+                                                                                           ua.Photo == null &&
+                                                                                           ua.Name.Equals(userAccountOnDB.Name))), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
+        }
+
+        [TestMethod]
+        public void UserAccountService_ChangeUserAccountPassword_Should_Throw_Exception_When_New_Password_Is_Null()
+        {
+            string newPassword = null;
+            int userAccountID = 1;
+            UserAccount userToResetPass = GetUserAccountToTest(userAccountID, "UserName", "username@mail.com");
+            UserAccount userAccountOnDB = GetUserAccountToTest(userAccountID, "UserName", "username@mail.com");
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(userAccountOnDB.UserAccountID)).Returns(userAccountOnDB);
+
+            Action action = () => _userAccountService.ChangeUserAccountPassword(userToResetPass, newPassword);
+
+            action.Should().Throw<Exception>().WithMessage($"The new password does not attend the security criterias.");
+
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userAccountID), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(It.IsAny<UserAccount>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void UserAccountService_ChangeUserAccountPassword_Should_Throw_Exception_When_New_Password_Is_Empty()
+        {
+            string newPassword = string.Empty;
+            int userAccountID = 1;
+            UserAccount userToResetPass = GetUserAccountToTest(userAccountID, "UserName", "username@mail.com");
+            UserAccount userAccountOnDB = GetUserAccountToTest(userAccountID, "UserName", "username@mail.com");
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(userAccountOnDB.UserAccountID)).Returns(userAccountOnDB);
+
+            Action action = () => _userAccountService.ChangeUserAccountPassword(userToResetPass, newPassword);
+
+            action.Should().Throw<Exception>().WithMessage($"The new password does not attend the security criterias.");
+
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userAccountID), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(It.IsAny<UserAccount>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void UserAccountService_ChangeUserAccountPassword_Should_Throw_Exception_When_New_Password_Length_Is_Less_Than_Six_Characters()
+        {
+            string newPassword = "12345";
+            int userAccountID = 1;
+            UserAccount userToResetPass = GetUserAccountToTest(userAccountID, "UserName", "username@mail.com");
+            UserAccount userAccountOnDB = GetUserAccountToTest(userAccountID, "UserName", "username@mail.com");
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(userAccountOnDB.UserAccountID)).Returns(userAccountOnDB);
+
+            Action action = () => _userAccountService.ChangeUserAccountPassword(userToResetPass, newPassword);
+
+            action.Should().Throw<Exception>().WithMessage($"The new password does not attend the security criterias.");
+
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userAccountID), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(It.IsAny<UserAccount>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void UserAccountService_ChangeUserAccountPassword_Should_Throw_Exception_When_UserAccount_ID_Not_Exists()
+        {
+            string newPassword = "newP@ssW0rd123";
+            int userAccountID = 2;
+            UserAccount userToResetPass = GetUserAccountToTest(userAccountID);
+            UserAccount userAccountOnDB = GetUserAccountToTest(1, "UserName");
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(userAccountOnDB.UserAccountID)).Returns(userAccountOnDB);
+
+            Action action = () => _userAccountService.ChangeUserAccountPassword(userToResetPass, newPassword);
+
+            action.Should().Throw<Exception>().WithMessage("UserAccount to update not found.");
+
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userAccountID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(It.IsAny<UserAccount>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void UserAccountService_ChangeUserAccountPassword_Should_Throw_Exception_When_UserAccount_To_Update_Password_Has_Mail_Different_On_DB()
+        {
+            string newPassword = "newP@ssW0rd123";
+            int userAccountID = 1;
+            UserAccount userToResetPass = GetUserAccountToTest(userAccountID, "UserName", "different@mail.com");
+            UserAccount userAccountOnDB = GetUserAccountToTest(userAccountID, "UserName", "username@mail.com");
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(userAccountOnDB.UserAccountID)).Returns(userAccountOnDB);
+
+            Action action = () => _userAccountService.ChangeUserAccountPassword(userToResetPass, newPassword);
+
+            action.Should().Throw<Exception>().WithMessage($"Invalid UserAccount login: {userToResetPass.Mail}.");
+
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userAccountID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(It.IsAny<UserAccount>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+
+        [TestMethod]
+        public void UserAccountService_ChangeUserAccountPassword_Should_Throw_Exception_When_UserAccount_To_Update_Password_Has_Password_To_Validate_Different_On_DB()
+        {
+            string newPassword = "newP@ssW0rd123";
+            int userAccountID = 1;
+            UserAccount userToResetPass = GetUserAccountToTest(userAccountID, "UserName", "username@mail.com", "passwordToValidate");
+            UserAccount userAccountOnDB = GetUserAccountToTest(userAccountID, "UserName", "username@mail.com", "passwordOnDB");
+
+            _unitOfWorkMock.Setup(uow => uow.UserAccounts.Retrieve(userAccountOnDB.UserAccountID)).Returns(userAccountOnDB);
+
+            Action action = () => _userAccountService.ChangeUserAccountPassword(userToResetPass, newPassword);
+
+            action.Should().Throw<Exception>().WithMessage($"Invalid UserAccount login: {userToResetPass.Mail}.");
+
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Retrieve(userAccountID), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.UserAccounts.Update(It.IsAny<UserAccount>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+        }
+        #endregion ChangeUserAccountPassword
+
         private UserAccount GetUserAccountToTest(int userAccountID = 1,
-                                         string name = "UserName",
-                                         string mail = "username@mail.com",
-                                         string password = "password",
-                                         AccessLevel level = AccessLevel.Manager)
+                                                 string name = "UserName",
+                                                 string mail = "username@mail.com",
+                                                 string password = "password",
+                                                 AccessLevel level = AccessLevel.Manager)
         {
             return new UserAccount
             {
