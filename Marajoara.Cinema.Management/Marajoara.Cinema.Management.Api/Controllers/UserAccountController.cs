@@ -1,5 +1,4 @@
 ﻿using Marajoara.Cinema.Management.Api.Base;
-using Marajoara.Cinema.Management.Application.Authorization.Commands;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Queries;
 using MediatR;

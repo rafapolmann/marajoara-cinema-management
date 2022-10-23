@@ -2,7 +2,7 @@
 using MediatR;
 using System;
 
-namespace Marajoara.Cinema.Management.Application.Authorization.Commands
+namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule.Commands
 {
     public class ChangeUserAccountPasswordCommand : IRequest<Result<Exception, bool>>
     {

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using Marajoara.Cinema.Management.Application.Authorization.Commands;
-using Marajoara.Cinema.Management.Application.Authorization.Models;
+using Marajoara.Cinema.Management.Application.Features.UserAccountModule.Commands;
 using Marajoara.Cinema.Management.Domain.Common.ResultModule;
 using Marajoara.Cinema.Management.Domain.UserAccountModule;
 using MediatR;
@@ -8,7 +7,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Marajoara.Cinema.Management.Application.Authorization.Handlers
+namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule.Handlers
 {
     public class ResetUserAccountPasswordHandler : IRequestHandler<ResetUserAccountPasswordCommand, Result<Exception, bool>>
     {
