@@ -1,0 +1,52 @@
+<div class="container">
+  <h2>Edição de Conta de Usuário</h2>
+</div>
+<div class="form-container">
+  <form (ngSubmit)="submit(formDir)" [formGroup]="userProfileForm" #formDir="ngForm">
+    <div class="form-group">
+      <mat-form-field appearance="fill">
+        <mat-label>Nome:</mat-label>
+        <input matInput placeholder="Nome do usuário" formControlName="name" required />
+        <mat-error *ngIf="name.invalid && name.errors?.['required']">O nome é obrigatório</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>E-mail</mat-label>
+        <input type="email" readonly="true" matInput [formControl]="mail" placeholder="Ex. user@marajoara.com">
+        <mat-error *ngIf="mail.hasError('email') && !mail.hasError('required')">
+          Endereço de e-mail está inválido!
+        </mat-error>
+        <mat-error *ngIf="mail.hasError('required')"> O e-mail é obrigatório </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="photo-container">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-subtitle>Foto do perfil:</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngIf="photoImgSrc">
+            <img mat-card-image [src]="photoImgSrc" />
+          </div>
+          <div *ngIf="!photoImgSrc">
+            <p>Selecione uma imagem</p>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <input #posterInput hidden="true" type="file" onclick="this.value=null" (change)="onFileSelected($event)"
+            accept=".bmp,.jpg,.png" />
+          <button type="button" (click)="posterInput.click()" mat-button>Selecionar arquivo</button>
+          <button type="button" (click)="onCleanFile()" mat-button>Limpar</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="button-flex-container">
+      <button mat-raised-button color="primary">Salvar</button>
+      <button mat-raised-button (click)="cancel()" type="button" color="basic">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>

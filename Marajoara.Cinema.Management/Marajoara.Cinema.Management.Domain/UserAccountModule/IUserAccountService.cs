@@ -35,7 +35,7 @@ namespace Marajoara.Cinema.Management.Domain.UserAccountModule
         /// <param name="userAccountID">Id of the User Account</param>
         /// <returns>Returns user account or null if not found.</returns>
         UserAccount GetUserAccountByID(int userAccountID);
-        
+
         /// <summary>
         /// Get all User Account.
         /// </summary>
@@ -84,5 +84,22 @@ namespace Marajoara.Cinema.Management.Domain.UserAccountModule
         /// <param name="userAccountID">ID used as parameter in the command.</param>
         /// <returns>Returns true if process will succeed.</returns>
         bool UpdateUserAccountBasicProperties(UserAccount userAccountToUpdate);
+
+        /// <summary>
+        /// Will reset UserAccount password to system default.
+        /// If UserAccountID not found in database, throws an Exception.
+        /// </summary>
+        /// <param name="userAccount">UserAccount that should reset password.</param>
+        /// <returns>Returns true if process will succeed.</returns>
+        bool ResetUserAccountPassword(UserAccount userAccount);
+
+        /// <summary>
+        /// Updates the password of a user account.
+        /// If UserAccountID not found in database or new password is not valid, throws an Exception.
+        /// </summary>
+        /// <param name="userAccount">UserAccount that should reset password.</param>
+        /// <param name="newPassword">New password value.</param>
+        /// <returns>Returns true if process will succeed.</returns>
+        bool ChangeUserAccountPassword(UserAccount userAccount, string newPassword);
     }
 }

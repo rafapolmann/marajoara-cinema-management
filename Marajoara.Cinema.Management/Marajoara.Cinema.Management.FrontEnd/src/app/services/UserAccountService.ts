@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { CineRoom } from '../models/CineRoom';
 import { Observable } from 'rxjs';
 import { MarajoaraApiService } from './MarajoaraApiService';
-import { UserAccount } from '../models/UserAccount';
+import { UserAccount, UserAccountChangePassword } from '../models/UserAccount';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserAccountService {
   private controllerUri: string = 'UserAccount';
+  private photoUri: string = `photo`;
+
   constructor(private marajoaraApiService: MarajoaraApiService) { }
 
   getAll(): Observable<UserAccount[]> {
@@ -44,5 +45,31 @@ export class UserAccountService {
 
   delete(userAccountId: number): Observable<boolean> {
     return this.marajoaraApiService.delete(`${this.controllerUri}/${userAccountId}`)
+  }
+
+  getPhotoByUserId(userAccountId: number): Observable<string> {
+    return this.marajoaraApiService.get<string>(`${this.controllerUri}/${userAccountId}/${this.photoUri}`);
+  }
+
+  updatePhoto(userAccount: UserAccount): Observable<boolean> {
+    const formData = new FormData();
+    formData.append('file', userAccount.photoFile!);
+
+    return this.marajoaraApiService.put(
+      `${this.controllerUri}/${userAccount.userAccountID}/${this.photoUri}`,
+      formData
+    );
+  }
+
+  deletePhoto(userAccountId: number): Observable<string> {
+    return this.marajoaraApiService.delete<string>(`${this.controllerUri}/${userAccountId}/${this.photoUri}`);
+  }
+
+  resetPassword(userAccount: UserAccount): Observable<boolean> {
+    return this.marajoaraApiService.post(`${this.controllerUri}/reset-password`, userAccount);
+  }
+
+  changePassword(userAccountChangePassword: UserAccountChangePassword): Observable<boolean> {
+    return this.marajoaraApiService.post(`${this.controllerUri}/change-password`, userAccountChangePassword);
   }
 }
