@@ -5,7 +5,7 @@ export interface UserAccount {
   level: number
 }
 export interface AuthorizedUserAccount{  
-    userAccountID:Number,
+    userAccountID:number,
     name:string,
     level:AccessLevel,
     mail:string,

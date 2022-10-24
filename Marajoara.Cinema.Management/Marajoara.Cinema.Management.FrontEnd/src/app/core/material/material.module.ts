@@ -24,6 +24,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatStepperModule} from '@angular/material/stepper';
 
 const MODULES = [
     MatNativeDateModule,
@@ -53,6 +54,8 @@ const MODULES = [
     MatSortModule,
     MatTooltipModule,
     MatMenuModule,
+    MatStepperModule,
+    
 ];
 
 @NgModule({

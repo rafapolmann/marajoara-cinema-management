@@ -37,6 +37,9 @@ import { LoginComponent } from './features/user/login/login/login.component';
 import { RegisterComponent } from './features/user/register/register/register.component';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { TokenInterceptor } from './core/interceptors/token.interceptor';
+import { TicketListComponent } from './features/ticket/ticket-list/ticket-list.component';
+import { TicketAddComponent } from './features/ticket/ticket-add/ticket-add.component';
+import { CurrentUserTicketListComponent } from './features/ticket/current-user-ticket-list/current-user-ticket-list.component';
 
 @NgModule({
     declarations: [
@@ -66,6 +69,9 @@ import { TokenInterceptor } from './core/interceptors/token.interceptor';
         HoursPipe,
         LoginComponent,
         RegisterComponent,
+        TicketListComponent,
+        TicketAddComponent,
+        CurrentUserTicketListComponent,
     ],
     imports: [
         BrowserModule,

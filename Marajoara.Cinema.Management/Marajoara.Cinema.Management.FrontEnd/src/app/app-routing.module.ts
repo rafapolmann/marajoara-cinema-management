@@ -12,6 +12,9 @@ import { MovieListComponent } from './features/movie/movie-list/movie-list.compo
 import { SessionAddComponent } from './features/session/session-add/session-add.component';
 import { SessionEditComponent } from './features/session/session-edit/session-edit.component';
 import { SessionListComponent } from './features/session/session-list/session-list.component';
+import { CurrentUserTicketListComponent } from './features/ticket/current-user-ticket-list/current-user-ticket-list.component';
+import { TicketAddComponent } from './features/ticket/ticket-add/ticket-add.component';
+import { TicketListComponent } from './features/ticket/ticket-list/ticket-list.component';
 import { LoginComponent } from './features/user/login/login/login.component';
 import { RegisterComponent } from './features/user/register/register/register.component';
 import { UserAccountAddComponent } from './features/user/user-account-add/user-account-add.component';
@@ -134,6 +137,26 @@ const sessionModuleRoutes: Routes = [
   },
 ];
 
+
+/** SESSION MODULE ROUTES DEFINITION */
+const ticketModuleRoutes: Routes = [
+  {
+    path: 'tickets', component: TicketListComponent, canActivate: [AuthGuard],
+    data: {
+      role: [
+        AccessLevel.manager,
+        AccessLevel.attendant,
+      ]
+    }
+  },
+  {
+    path: 'mytickets', component: CurrentUserTicketListComponent, canActivate: [AuthGuard],    
+  }, 
+  {
+    path: 'newticket', component: TicketAddComponent, canActivate: [AuthGuard],    
+  },
+];
+
 /** LOGIN ROUTES DEFINITION */
 const loginRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -146,7 +169,8 @@ const loginRoutes: Routes = [
     RouterModule.forRoot(movieModuleRoutes, { onSameUrlNavigation: 'reload' }),
     RouterModule.forRoot(cineRoomModuleRoutes, { onSameUrlNavigation: 'reload' }),
     RouterModule.forRoot(sessionModuleRoutes, { onSameUrlNavigation: 'reload' }),
-    RouterModule.forRoot(userModuleRoutes, { onSameUrlNavigation: 'reload' })],
+    RouterModule.forRoot(userModuleRoutes, { onSameUrlNavigation: 'reload' }),
+    RouterModule.forRoot(ticketModuleRoutes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule],
 })
 export class AppRoutingModule { }

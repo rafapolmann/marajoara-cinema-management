@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-cineroom-seat-picker',
@@ -7,6 +7,7 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 })
 export class CineroomSeatPickerComponent implements OnInit {
   @Output() selectedSeat: number =-1;
+  @Output() onSelectSeat = new EventEmitter<number>();
   @Input() set occupiedSeats(value:number[]){
     this._occupiedSeats = value;
     this.refreshSeats();
@@ -46,6 +47,7 @@ export class CineroomSeatPickerComponent implements OnInit {
 
   onSeatClick(seatNumber: number) {
     this.selectedSeat = seatNumber;
+    this.onSelectSeat.emit(seatNumber);
   }
 
   refreshSeats(): void {

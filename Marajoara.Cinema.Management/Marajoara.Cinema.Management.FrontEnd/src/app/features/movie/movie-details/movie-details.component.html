@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="movie-details-row">
-        <button routerLink="/ticket" [queryParams]="{sessionId:session.sessionID}"
+        <button routerLink="/newticket" [queryParams]="{sessionId:session.sessionID}"
             *ngFor="let session of movie.sessions" mat-stroked-button class="button--small" color="primary">
             <span>{{ session.sessionDate | date:'dd/MM - HH:mm'}}</span>
         </button>

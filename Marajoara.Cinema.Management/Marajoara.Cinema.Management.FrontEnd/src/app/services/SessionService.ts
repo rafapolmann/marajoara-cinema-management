@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Session, SessionCommand } from '../models/Session';
+import { Session, SessionCommand, SessionSeat } from '../models/Session';
 import { MarajoaraApiService } from './MarajoaraApiService';
 
 @Injectable({
@@ -25,6 +25,11 @@ export class SessionService {
   getById(sessionId: number): Observable<Session> {
     return this.marajoaraApiService.get<Session>(
       `${this.controllerUri}/${sessionId}`
+    );
+  }
+  getOccupiedSeats(sessionId: number): Observable<SessionSeat[]> {
+    return this.marajoaraApiService.get<SessionSeat[]>(
+      `${this.controllerUri}/${sessionId}/occupiedseats`
     );
   }
 

@@ -31,7 +31,8 @@
         <a mat-list-item *ngIf="user.level === AccessLevel.manager" routerLink="/movies">Filmes</a>
         <a mat-list-item *ngIf="user.level === AccessLevel.manager" routerLink="/cinerooms">Salas</a>
         <a mat-list-item *ngIf="user.level === AccessLevel.manager" routerLink="/users">Usuários</a>
-        <a mat-list-item routerLink="/tickets">Tickets</a>
+        <a mat-list-item  *ngIf="user.level <= AccessLevel.attendant" routerLink="/tickets">Tickets</a>
+        <a mat-list-item routerLink="/mytickets">Meus Tickets</a>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>

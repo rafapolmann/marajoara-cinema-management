@@ -1,0 +1,82 @@
+<div class="header">
+    <h1>Novo Ticket</h1>
+</div>
+<mat-vertical-stepper [linear]="true" #stepper>
+    <mat-step linear="true" [stepControl]="movieForm" errorMessage="Selecione um Filme">
+        <form [formGroup]="movieForm">
+            <ng-template matStepLabel>{{movieForm.valid? 'Filme: '+ movie.value.title : 'Filme'}} </ng-template>
+            <div class="form-field">
+                <mat-form-field appearance="fill" [formGroup]="movieForm">
+                    <mat-label>{{movieStepText}}</mat-label>
+                    <input matInput aria-label="Filme" [matAutocomplete]="autoMovie" placeholder="Título do filme"
+                        formControlName="movie" required />
+                    <mat-autocomplete #autoMovie="matAutocomplete" [displayWith]="movieAutoCompleteDisplayWith">
+                        <mat-option *ngFor="let movie of filteredMovies | async" [value]="movie">
+                            <span>{{ movie.title }}</span> |
+                            <small>{{ movie.isOriginalAudio ? "Legendado" : "Dublado" }}</small> |
+                            <small>Projeção: {{ movie.is3D ? "3D" : "Normal" }}</small> |
+                            <small>Duração: {{ movie.minutes |hours}}</small>
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="movie.errors?.['incorrect']">Selecione um Filme válido.</mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                <button mat-button matStepperNext>Próximo</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="sessionForm" errorMessage="Selecione a Sessão">
+        <form [formGroup]="sessionForm">
+            <ng-template matStepLabel>{{sessionStepText}} </ng-template>
+            <div class="form-field">
+                <mat-form-field appearance="fill" [formGroup]="sessionForm">
+                    <mat-label>Sessão</mat-label>
+                    <input matInput aria-label="Sessão" [matAutocomplete]="autoSession"
+                        placeholder="Data e hora da sessão" formControlName="session" required />
+                    <mat-autocomplete #autoSession="matAutocomplete" [displayWith]="sessionAutoCompleteDisplayWith">
+                        <mat-option *ngFor="let s of filteredSessions | async" [value]="s">
+                            <span>{{ s.sessionDate | dateTimeCustomFormat }}</span> |
+                            <small>{{ s.price | currency }}</small>
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="session.errors?.['incorrect']">Selecione uma Sessão válida.</mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                <button mat-button matStepperPrevious>Voltar</button>
+                <button mat-button matStepperNext>Próximo</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="seatForm" errorMessage="Selecione o Assento">
+        <form [formGroup]="seatForm">
+            <ng-template matStepLabel>{{seatStepText}} </ng-template>
+            <div class="form-field" >
+                <app-cineroom-seat-picker *ngIf="cineRoom" [columnCount]="cineRoom.seatsColumn!"
+                    [rowCount]="cineRoom.seatsRow!" [occupiedSeats]="occupiedSeats" (onSelectSeat)="onSelectedSeat($event)" >
+                </app-cineroom-seat-picker>                 
+            </div>
+            <div>
+                <button mat-button matStepperPrevious>Voltar</button>
+                <button mat-button matStepperNext>Próximo</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Finalizar</ng-template>
+        <p>Revisar ticket:</p>
+        <p>{{movieStepText}}</p>
+        <p>{{sessionStepText}}</p>
+        <p>{{seatStepText}}</p>
+        <p>Valor: R$ {{ selectedSession?.price?.toFixed(2)}}</p>
+
+
+        <div>
+            <button mat-button matStepperPrevious>Voltar</button>
+            <button mat-button [disabled]="this.movieForm.invalid || this.sessionForm.invalid || this.seatForm.invalid" (click)="onSubmit()" color="primary">Finalizar</button>
+            <!-- <button mat-button (click)="stepper.reset()">Reset</button> -->
+            
+        </div>
+    </mat-step>
+</mat-vertical-stepper>
