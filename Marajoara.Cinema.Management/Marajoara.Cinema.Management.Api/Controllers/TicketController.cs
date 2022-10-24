@@ -3,6 +3,7 @@ using Marajoara.Cinema.Management.Application.Features.TicketModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.TicketModule.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -17,8 +18,10 @@ namespace Marajoara.Cinema.Management.Api.Controllers
     public class TicketController : ApiControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ILogger<CineRoomController> _logger;
-        public TicketController(ILogger<CineRoomController> logger, IMediator mediator)
+        private readonly ILogger<TicketController> _logger;
+        public TicketController(ILogger<TicketController> logger,
+                                IMediator mediator,
+                                IHttpContextAccessor context) : base(context)
         {
             _mediator = mediator;
             _logger = logger;
