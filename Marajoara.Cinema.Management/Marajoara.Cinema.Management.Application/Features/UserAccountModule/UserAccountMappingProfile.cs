@@ -15,6 +15,8 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
             CreateMap<AddManagerUserAccountCommand, UserAccount>();
             CreateMap<DeleteUserAccountCommand, UserAccount>();
             CreateMap<UpdateUserAccountBasicPropertiesCommand, UserAccount>();
+            CreateMap<ResetUserAccountPasswordCommand, UserAccount>();
+            CreateMap<ChangeUserAccountPasswordCommand, UserAccount>();
         }
     }
 }

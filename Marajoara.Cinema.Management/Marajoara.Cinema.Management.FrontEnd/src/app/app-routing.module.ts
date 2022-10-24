@@ -15,11 +15,13 @@ import { SessionListComponent } from './features/session/session-list/session-li
 import { CurrentUserTicketListComponent } from './features/ticket/current-user-ticket-list/current-user-ticket-list.component';
 import { TicketAddComponent } from './features/ticket/ticket-add/ticket-add.component';
 import { TicketListComponent } from './features/ticket/ticket-list/ticket-list.component';
+import { ChangePasswordComponent } from './features/user/change-password/change-password.component';
 import { LoginComponent } from './features/user/login/login/login.component';
 import { RegisterComponent } from './features/user/register/register/register.component';
 import { UserAccountAddComponent } from './features/user/user-account-add/user-account-add.component';
 import { UserAccountEditComponent } from './features/user/user-account-edit/user-account-edit.component';
 import { UserAccountListComponent } from './features/user/user-account-list/user-account-list.component';
+import { UserAccountProfileComponent } from './features/user/user-account-profile/user-account-profile.component';
 import { AccessLevel } from './models/UserAccount'
 
 
@@ -49,6 +51,8 @@ const userModuleRoutes: Routes = [
       ]
     }
   },
+  { path: 'userprofile', component: UserAccountProfileComponent, canActivate: [AuthGuard] },
+  { path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard] },
 ];
 
 /** MOVIE MODULE ROUTES DEFINITION */

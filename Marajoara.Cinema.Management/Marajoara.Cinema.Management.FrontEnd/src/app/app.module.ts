@@ -11,7 +11,6 @@ import { MovieFormComponent } from './components/movie/movie-form/movie-form.com
 import { MovieEditComponent } from './features/movie/movie-edit/movie-edit.component';
 import { MovieAddComponent } from './features/movie/movie-add/movie-add.component';
 import { MovieListComponent } from './features/movie/movie-list/movie-list.component';
-import { MovieCardComponent } from './components/movie/movie-card/movie-card.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmDialogComponent } from './components/common/confirm-dialog/confirm-dialog.component';
 import { CineroomListComponent } from './features/cineroom/cineroom-list/cineroom-list.component';
@@ -37,6 +36,8 @@ import { LoginComponent } from './features/user/login/login/login.component';
 import { RegisterComponent } from './features/user/register/register/register.component';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { TokenInterceptor } from './core/interceptors/token.interceptor';
+import { UserAccountProfileComponent } from './features/user/user-account-profile/user-account-profile.component';
+import { ChangePasswordComponent } from './features/user/change-password/change-password.component';
 import { TicketListComponent } from './features/ticket/ticket-list/ticket-list.component';
 import { TicketAddComponent } from './features/ticket/ticket-add/ticket-add.component';
 import { CurrentUserTicketListComponent } from './features/ticket/current-user-ticket-list/current-user-ticket-list.component';
@@ -48,7 +49,6 @@ import { CurrentUserTicketListComponent } from './features/ticket/current-user-t
         MovieEditComponent,
         MovieAddComponent,
         MovieListComponent,
-        MovieCardComponent,
         ConfirmDialogComponent,
         CineroomListComponent,
         CineroomAddComponent,
@@ -69,6 +69,9 @@ import { CurrentUserTicketListComponent } from './features/ticket/current-user-t
         HoursPipe,
         LoginComponent,
         RegisterComponent,
+        UserAccountProfileComponent,
+        ChangePasswordComponent,
+        ConfirmDialogComponent,
         TicketListComponent,
         TicketAddComponent,
         CurrentUserTicketListComponent,

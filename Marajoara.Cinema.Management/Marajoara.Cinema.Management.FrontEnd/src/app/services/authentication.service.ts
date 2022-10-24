@@ -5,57 +5,61 @@ import { AuthorizedUserAccount } from '../models/UserAccount';
 import { Router } from '@angular/router';
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class AuthenticationService {
-    private controllerUri: string = 'Authorization';
+  private controllerUri: string = 'Authorization';
 
-    private userSubject!: BehaviorSubject<AuthorizedUserAccount>;
-    public user!: Observable<AuthorizedUserAccount>;
+  private userSubject!: BehaviorSubject<AuthorizedUserAccount>;
+  public user!: Observable<AuthorizedUserAccount>;
 
-    constructor(private marajoaraApiService: MarajoaraApiService,
-        private router: Router,) {
+  constructor(private marajoaraApiService: MarajoaraApiService,
+    private router: Router,) {
 
-        this.userSubject = new BehaviorSubject<AuthorizedUserAccount>(this.getUserFromStorage());
-        this.user = this.userSubject.asObservable();
-    }
+    this.userSubject = new BehaviorSubject<AuthorizedUserAccount>(this.getUserFromStorage());
+    this.user = this.userSubject.asObservable();
+  }
 
-    login(email: string, password: string): Observable<AuthorizedUserAccount> {
-        return this.marajoaraApiService.post<AuthorizedUserAccount>(`${this.controllerUri}/login`, { mail: email, password: password })
-            .pipe(
-                map(u => {
-                    this.saveUserLocalStorage(u);
-                    this.userSubject.next(u);
-                    return u;
-                }));
-    }
+  login(email: string, password: string): Observable<AuthorizedUserAccount> {
+    return this.marajoaraApiService.post<AuthorizedUserAccount>(`${this.controllerUri}/login`, { mail: email, password: password })
+      .pipe(map(u => {
+        this.saveUserLocalStorage(u);
+        this.userSubject.next(u);
+        return u;
+      }));
+  }
 
-    register(name: string, email: string) {
-        return this.marajoaraApiService.post<number>(`${this.controllerUri}/register`, { name: name, mail: email });
-    }
+  register(name: string, email: string) {
+    return this.marajoaraApiService.post<number>(`${this.controllerUri}/register`, { name: name, mail: email });
+  }
 
-    logout() {
-        localStorage.removeItem('user');
-        this.userSubject.next(this.getUserFromStorage());
-        this.router.navigateByUrl('/login');
-    }
+  logout() {
+    localStorage.removeItem('user');
+    this.userSubject.next(this.getUserFromStorage());
+    this.router.navigateByUrl('/login');
+  }
 
-    public get authorizedUserAccount(): AuthorizedUserAccount {
-        return this.userSubject.value;
-    }
+  public get authorizedUserAccount(): AuthorizedUserAccount {
+    return this.userSubject.value;
+  }
 
-    private getUserFromStorage():any {
-        const userJson = localStorage.getItem('user');
-        if (!userJson)
-            return undefined;
+  private getUserFromStorage(): any {
+    const userJson = localStorage.getItem('user');
+    if (!userJson)
+      return undefined;
 
-        return JSON.parse(userJson!) as AuthorizedUserAccount;
-    }
+    return JSON.parse(userJson!) as AuthorizedUserAccount;
+  }
 
-    private saveUserLocalStorage(user: AuthorizedUserAccount) {
-        localStorage.setItem('user', JSON.stringify(user));
-    }
+  updateUserName(name: string) {
+    const currentUser = this.authorizedUserAccount;
+    currentUser.name = name;
 
+    this.saveUserLocalStorage(currentUser);
+    this.userSubject.next(currentUser);
+  }
 
-
+  private saveUserLocalStorage(user: AuthorizedUserAccount) {
+    localStorage.setItem('user', JSON.stringify(user));
+  }
 }

@@ -83,7 +83,7 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         }
 
         [Authorize(Roles = "Manager,Attendant,Customer")]
-        [HttpPut("Photo")]
+        [HttpPut("{userAccountID}/Photo")]
         public async Task<IActionResult> UploadPhoto(int userAccountID, IFormFile file)
         {
             var callback = ValitadeUserPermission(userAccountID);
@@ -92,7 +92,7 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         }
 
         [Authorize(Roles = "Manager,Attendant,Customer")]
-        [HttpGet("Photo")]
+        [HttpGet("{userAccountID}/Photo")]
         public async Task<IActionResult> GetPhoto(int userAccountID)
         {
             var callback = ValitadeUserPermission(userAccountID);
@@ -100,11 +100,25 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         }
 
         [Authorize(Roles = "Manager,Attendant,Customer")]
-        [HttpDelete("Photo")]
+        [HttpDelete("{userAccountID}/Photo")]
         public async Task<IActionResult> DeletePhoto(int userAccountID)
         {
             var callback = ValitadeUserPermission(userAccountID);
             return callback.IsSuccess ? HandleResult(await _mediator.Send(new DeleteUserAccountPhotoCommand(userAccountID))) : HandleResult(callback);
+        }
+
+        [Authorize(Roles = "Manager")]
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetUserAccountPasswordCommand resetPasswordCommand)
+        {
+            return HandleResult(await _mediator.Send(resetPasswordCommand));
+        }
+
+        [Authorize(Roles = "Manager,Attendant,Customer")]
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangeUserAccountPasswordCommand changePasswordCommand)
+        {
+            return HandleResult(await _mediator.Send(changePasswordCommand));
         }
     }
 }

@@ -47,17 +47,12 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
             if (_unitOfWork.UserAccounts.RetrieveByMail(userAccount.Mail) != null)
                 throw new Exception($"Already exists User Account with e-mail address: {userAccount.Mail}.");
 
-            userAccount.Password = GetDeaultPassword(userAccount.Name);
+            userAccount.Password = GetDefaultPassword(userAccount.Name);
 
             userAccount.Validate();
             _unitOfWork.UserAccounts.Add(userAccount);
             _unitOfWork.Commit();
             return userAccount.UserAccountID;
-        }
-
-        private string GetDeaultPassword(string userAccountName)
-        {
-            return string.Concat(userAccountName.Replace(" ", "").ToLower(), DEFAULT_SYSTEM_PASSWORD_PART);
         }
 
         public bool RemoveUserAccount(UserAccount userAccount)
@@ -141,6 +136,46 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
             _unitOfWork.Commit();
 
             return true;
+        }
+
+        public bool ResetUserAccountPassword(UserAccount userAccount)
+        {
+            UserAccount userAccountOnDB = _unitOfWork.UserAccounts.Retrieve(userAccount.UserAccountID);
+            if (userAccountOnDB == null)
+                throw new Exception($"UserAccount to update not found.");
+
+            if (!userAccount.Mail.Equals(userAccountOnDB.Mail))
+                throw new Exception($"Invalid UserAccount login: {userAccount.Mail}.");
+
+            userAccountOnDB.Password = GetDefaultPassword(userAccountOnDB.Mail.Split("@").First());
+            _unitOfWork.UserAccounts.Update(userAccountOnDB);
+            _unitOfWork.Commit();
+
+            return true;
+        }
+
+        public bool ChangeUserAccountPassword(UserAccount userAccount, string newPassword)
+        {
+            if (string.IsNullOrWhiteSpace(newPassword) || newPassword.Length < 6)
+                throw new Exception($"The new password does not attend the security criterias.");
+
+            UserAccount userAccountOnDB = _unitOfWork.UserAccounts.Retrieve(userAccount.UserAccountID);
+            if (userAccountOnDB == null)
+                throw new Exception($"UserAccount to update not found.");
+
+            if (!userAccount.Mail.Equals(userAccountOnDB.Mail) || !userAccount.Password.Equals(userAccountOnDB.Password))
+                throw new Exception($"Invalid UserAccount login: {userAccount.Mail}.");
+
+            userAccountOnDB.Password = newPassword;
+            _unitOfWork.UserAccounts.Update(userAccountOnDB);
+            _unitOfWork.Commit();
+
+            return true;
+        }
+
+        private string GetDefaultPassword(string userAccountName)
+        {
+            return string.Concat(userAccountName.Replace(" ", "").ToLower(), DEFAULT_SYSTEM_PASSWORD_PART);
         }
 
         private void CheckIfLastManagerAccount()

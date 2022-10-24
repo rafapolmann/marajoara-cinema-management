@@ -2,6 +2,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserAccount } from 'src/app/models/UserAccount';
 import { FormControl, FormGroup, FormGroupDirective, Validators, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
+import { firstValueFrom } from 'rxjs';
+import { UserAccountService } from 'src/app/services/UserAccountService';
+import { ToastrService } from 'src/app/services/toastr.service';
+import { ConfirmDialogComponent } from 'src/app/components/common/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-user-account-form',
@@ -18,7 +23,10 @@ export class UserAccountFormComponent implements OnInit {
   isEditForm: boolean = true;
   accountLevels: string[] = ['Cliente', 'Atendente', 'Gerente'];
 
-  constructor() { }
+  constructor(
+    private userService: UserAccountService,
+    private dialog: MatDialog,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.userAccountForm = new FormGroup({
@@ -74,7 +82,7 @@ export class UserAccountFormComponent implements OnInit {
       userAccountID: this.userAccountData ? this.userAccountData.userAccountID : 0,
       name: this.name.value,
       mail: this.mail.value,
-      level: this.getAccountLevelId(),
+      level: this.getAccountLevelId()
     };
   }
 
@@ -92,9 +100,38 @@ export class UserAccountFormComponent implements OnInit {
   cancel() {
     this.onCancel.emit();
   }
+
+  async onResetPasswordClick() {
+    if (!(await firstValueFrom(this.openDeleteDialog().afterClosed())))
+      return;
+
+    try {
+      await this.resetPassword();
+    } catch (exception: any) {
+      this.toastr.showErrorMessage(
+        `error status ${exception.status} - ${Object.values(exception.error)[0]
+        }`
+      );
+    }
+  }
+
+  async resetPassword() {
+    const user = this.getUserAccountCommand();
+    await firstValueFrom(this.userService.resetPassword(user));
+  }
+
+  openDeleteDialog() {
+    return this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Restaurar senha padrão',
+        message: `Deseja mesmo restaurar a senha padrão para o usuário: "${this.mail.value}"?`,
+        cancelText: 'Não',
+        confirmText: 'Sim',
+      },
+    });
+  }
 }
 
-/** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
