@@ -68,6 +68,7 @@ import { ChangePasswordComponent } from './features/user/change-password/change-
         RegisterComponent,
         UserAccountProfileComponent,
         ChangePasswordComponent,
+        ConfirmDialogComponent,
     ],
     imports: [
         BrowserModule,
