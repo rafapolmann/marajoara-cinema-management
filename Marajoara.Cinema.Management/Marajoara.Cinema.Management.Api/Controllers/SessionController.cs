@@ -47,7 +47,7 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             return HandleResult(await _mediator.Send(updateSessionCommand));
         }
 
-        [Authorize(Roles = "Manager,Attendant")]
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {

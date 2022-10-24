@@ -34,6 +34,13 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             return HandleResult(await _mediator.Send(new AllTicketsQuery()));
         }
 
+        [HttpGet("user/{id}")]
+        public async Task<IActionResult> GetByUser(int id)
+        {
+            var callback = ValitadeUserPermission(id);
+            return callback.IsSuccess ? HandleResult(await _mediator.Send(new GetTicketsByUserAccountQuery(id))) : HandleResult(callback);
+        }
+
         [Authorize(Roles = "Manager,Attendant")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -48,17 +55,25 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             return HandleResult(await _mediator.Send(new GetTicketByCodeQuery(code)));
         }
 
+        [Authorize(Roles = "Manager,Attendant")]
+        [HttpPost("Used")]
+        public async Task<IActionResult> SetAsUsed([FromBody] SetTicketAsUsedCommand setTicketAsUsedCmd)
+        {
+            return HandleResult(await _mediator.Send(setTicketAsUsedCmd));
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddTicketCommand addTicketCommand)
         {
             return HandleResult(await _mediator.Send(addTicketCommand));
         }
 
-        [Authorize(Roles = "Manager")]
+        
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            return HandleResult(await _mediator.Send(new DeleteTicketCommand(id)));
+            var callback = ValitadeUserPermission(id);
+            return callback.IsSuccess ? HandleResult(await _mediator.Send(new DeleteTicketCommand(id))) : HandleResult(callback);
         }
     }
 }

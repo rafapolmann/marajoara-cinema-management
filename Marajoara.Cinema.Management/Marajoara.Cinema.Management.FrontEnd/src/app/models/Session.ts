@@ -22,5 +22,11 @@ export interface SessionFlat{
   sessionID :number,
    sessionDate :Date,
     endSession:Date,
-     price:number
+     price:number,
+     cineRoomID:number,
+}
+
+export interface SessionSeat {
+  sessionID:number,
+  seatNumber:number,
 }

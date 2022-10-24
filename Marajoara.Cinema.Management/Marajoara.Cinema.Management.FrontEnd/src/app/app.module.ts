@@ -38,6 +38,9 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { TokenInterceptor } from './core/interceptors/token.interceptor';
 import { UserAccountProfileComponent } from './features/user/user-account-profile/user-account-profile.component';
 import { ChangePasswordComponent } from './features/user/change-password/change-password.component';
+import { TicketListComponent } from './features/ticket/ticket-list/ticket-list.component';
+import { TicketAddComponent } from './features/ticket/ticket-add/ticket-add.component';
+import { CurrentUserTicketListComponent } from './features/ticket/current-user-ticket-list/current-user-ticket-list.component';
 
 @NgModule({
     declarations: [
@@ -69,6 +72,9 @@ import { ChangePasswordComponent } from './features/user/change-password/change-
         UserAccountProfileComponent,
         ChangePasswordComponent,
         ConfirmDialogComponent,
+        TicketListComponent,
+        TicketAddComponent,
+        CurrentUserTicketListComponent,
     ],
     imports: [
         BrowserModule,

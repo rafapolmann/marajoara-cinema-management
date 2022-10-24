@@ -53,5 +53,13 @@ namespace Marajoara.Cinema.Management.Domain.TicketModule
         /// <param name="ticketToRemove">Ticket for removal</param>
         /// <returns>Success of the operation</returns>
         bool RemoveTicket(Ticket ticketToRemove);
+
+
+        /// <summary>
+        /// Retrive a given ticket as used by. If not found or already used throws exception.
+        /// </summary>
+        /// <param name="ticketGuid">Ticket code (Guid)</param>
+        /// <returns>True if succeeds</returns>
+        bool SetTicketAsUsed(Guid ticketGuid);
     }
 }

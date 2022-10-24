@@ -49,11 +49,11 @@ export class LoginComponent implements OnInit {
     //this.authService.signinUser(email, password);
     // `email:${this.mail.value} - password: ${this.password.value}`);/
   }
-  gurgo(){
-    console.log(JSON.stringify(this.authService.authorizedUserAccount, undefined, ' '));
+  googleLogin(){
+    //Todo: facebook login
   }
-  facibrugui(){
-    this.authService.logout();
+  facebookLogin(){
+    //Todo:facebook login
   }
 
 }

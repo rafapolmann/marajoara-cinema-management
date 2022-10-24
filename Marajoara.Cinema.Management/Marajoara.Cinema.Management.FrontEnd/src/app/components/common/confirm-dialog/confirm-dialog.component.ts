@@ -19,14 +19,12 @@ export class ConfirmDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<ConfirmDialogComponent>
   ) {}
 
-  ngOnInit(): void {
-    console.log(this.params);
+  ngOnInit(): void {    
     if (!this.params) this.dialogRef.close(false);
     if (!this.params.title) this.params.title = 'Título';
     if (!this.params.message) this.params.message = 'Mensagem';
     if (!this.params.cancelText) this.params.cancelText = 'Cancelar';
-    if (!this.params.confirmText) this.params.confirmText = 'Ok';
-    console.log(this.params);
+    if (!this.params.confirmText) this.params.confirmText = 'Ok';    
   }
   onConfirm() {
     this.dialogRef.close(true);

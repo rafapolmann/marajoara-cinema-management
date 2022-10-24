@@ -25,7 +25,7 @@
 
             <div class="movie-details">
                 <div class="movie-details-row">
-                    <a [routerLink]="['./',movie.movieID,'details']">
+                    <a [routerLink]="['../','in-theater',movie.movieID,'details']">
                         <h2>{{movie.title}}</h2>
                     </a>
                 </div>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="movie-details-row">
 
-                    <button mat-raised-button [routerLink]="['./',movie.movieID,'details']"> Sinopse e horários</button>
+                    <button mat-raised-button [routerLink]="['../','in-theater',movie.movieID,'details']"> Sinopse e horários</button>
                 </div>
             </div>
         </div>

@@ -535,5 +535,7 @@ namespace Marajoara.Cinema.Management.Tests.Integration.Repositories
             Action action = () => _marajoaraUnitOfWork.Tickets.RetrieveByUserAccount(null);
             action.Should().Throw<ArgumentException>().WithMessage("UserAccount parameter cannot be null. (Parameter 'customer')");
         }
+
+
     }
 }

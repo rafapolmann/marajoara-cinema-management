@@ -1,0 +1,27 @@
+.form-field {    
+    padding-top: 1em;
+
+    & mat-form-field {
+        width: 100%;
+    }
+}
+.header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 1em;
+    padding-right: 1em;
+    padding-top: 1em;
+    flex-grow: 1;
+    
+  }
+
+  
+h1 {
+    font-size: x-large;
+    margin-left: 0.5em;
+    font-weight: bold;
+    white-space: nowrap;  
+  
+  }

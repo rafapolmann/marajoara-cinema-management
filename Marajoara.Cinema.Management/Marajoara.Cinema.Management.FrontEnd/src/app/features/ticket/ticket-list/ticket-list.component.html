@@ -1,0 +1,69 @@
+<div class="header">
+    <h1>Lista de Tickets</h1>  
+    <button mat-raised-button  [disabled]="selectedTicketID === -1  ||  selectedTicket.used" (click)="onUseTicketClick()" matTooltip="Marcar Ticket como Utilizado">
+      <mat-icon>fact_check</mat-icon>
+    </button> 
+    <button mat-raised-button color="warn" [disabled]="selectedTicketID === -1" (click)="onDeleteClick()" matTooltip="Excluir Ticket">
+        <mat-icon>delete</mat-icon>
+      </button> 
+    <mat-form-field appearance="fill" class="filter--grow">
+        <mat-label>Filtro</mat-label>
+        <input (keyup)="applyFilter($event)" matInput
+            placeholder="Ex.:Código, Título do filme, Nome da sala, Data da sessão ou Comprador." />
+    </mat-form-field>
+</div>
+<div>
+    <mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8">        
+        <ng-container matColumnDef="code">
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Código</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.code }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="sessionMovieTitle">
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Título do filme</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.sessionMovieTitle }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="cineRoom.name">
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Sala</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.cineRoom.name }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="sessionSessionDate">
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Data da sessão</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.sessionSessionDate | dateTimeCustomFormat }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="sessionCineRoomName">
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Sala</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.sessionCineRoomName }}</mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="seatNumber">
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Assento</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.seatNumber}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="userAccountName">
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Comprador</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.userAccountName}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="used">
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Usado</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                {{element.used ? 'Usado':'Pendente'}} 
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="sessionPrice">
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Valor (R$)</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{formatPrice(element.sessionPrice)}}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"
+            [ngClass]="{ highlight: selectedTicketID == row.ticketID }" (click)="highlight(row)"></mat-row>
+    </mat-table>
+    <mat-paginator #paginator [pageSize]="15" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons>
+    </mat-paginator>
+</div>
