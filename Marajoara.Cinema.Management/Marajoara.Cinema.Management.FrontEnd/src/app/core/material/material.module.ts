@@ -40,7 +40,6 @@ const MODULES = [
     MatPaginatorModule,
     MatCheckboxModule,
     MatDialogModule,
-    MatButtonModule,
     MatDividerModule,
     MatSlideToggleModule,
     MatCardModule,
