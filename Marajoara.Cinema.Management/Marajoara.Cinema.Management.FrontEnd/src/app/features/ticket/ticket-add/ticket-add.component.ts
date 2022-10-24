@@ -125,7 +125,7 @@ export class TicketAddComponent implements OnInit {
     if (this.movieForm.valid)
       return `Filme: ${this.movie.value.title}`;
 
-    return 'filme'
+    return 'Filme'
   }
 
   get sessionStepText(): string {
