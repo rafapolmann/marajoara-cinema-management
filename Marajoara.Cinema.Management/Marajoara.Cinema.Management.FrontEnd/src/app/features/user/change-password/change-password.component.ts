@@ -14,8 +14,9 @@ import { FormValidations } from 'src/app/services/form-validations.service';
   styleUrls: ['./change-password.component.scss']
 })
 export class ChangePasswordComponent implements OnInit {
-
   changePasswordForm!: FormGroup;
+  userName!: string;
+  userMail!: string;
   constructor(
     private toastr: ToastrService,
     private router: Router,
@@ -29,6 +30,9 @@ export class ChangePasswordComponent implements OnInit {
       newPassword: new FormControl('', [Validators.required]),
       confirmPassword: new FormControl('', [Validators.required, FormValidations.equalsTo('newPassword')]),
     });
+
+    this.userName= this.authUserAccountService.authorizedUserAccount.name;
+    this.userMail= this.authUserAccountService.authorizedUserAccount.mail;
   }
 
   get oldPassword() {
@@ -69,7 +73,7 @@ export class ChangePasswordComponent implements OnInit {
   getChangePasswordCommand(): UserAccountChangePassword {
     return {
       userAccountID: this.authUserAccountService.authorizedUserAccount.userAccountID,
-      mail: this.authUserAccountService.authorizedUserAccount.mail,
+      mail: this.userMail,
       password: this.oldPassword.value,
       newPassword: this.newPassword.value
     };
