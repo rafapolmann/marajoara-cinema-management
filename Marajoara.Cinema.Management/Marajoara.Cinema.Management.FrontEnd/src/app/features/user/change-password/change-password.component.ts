@@ -15,7 +15,7 @@ import { FormValidations } from 'src/app/services/form-validations.service';
 })
 export class ChangePasswordComponent implements OnInit {
   changePasswordForm!: FormGroup;
-  userName!: string;
+  userAccountID!: number;
   userMail!: string;
   constructor(
     private toastr: ToastrService,
@@ -31,8 +31,8 @@ export class ChangePasswordComponent implements OnInit {
       confirmPassword: new FormControl('', [Validators.required, FormValidations.equalsTo('newPassword')]),
     });
 
-    this.userName= this.authUserAccountService.authorizedUserAccount.name;
-    this.userMail= this.authUserAccountService.authorizedUserAccount.mail;
+    this.userAccountID = this.authUserAccountService.authorizedUserAccount.userAccountID;
+    this.userMail = this.authUserAccountService.authorizedUserAccount.mail;
   }
 
   get oldPassword() {
@@ -72,7 +72,7 @@ export class ChangePasswordComponent implements OnInit {
 
   getChangePasswordCommand(): UserAccountChangePassword {
     return {
-      userAccountID: this.authUserAccountService.authorizedUserAccount.userAccountID,
+      userAccountID: this.userAccountID,
       mail: this.userMail,
       password: this.oldPassword.value,
       newPassword: this.newPassword.value
