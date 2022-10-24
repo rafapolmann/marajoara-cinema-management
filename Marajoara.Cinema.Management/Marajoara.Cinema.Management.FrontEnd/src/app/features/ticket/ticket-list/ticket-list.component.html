@@ -1,8 +1,5 @@
 <div class="header">
-    <h1>Lista de Tickets</h1>
-     <button mat-raised-button routerLink="/newticket" matTooltip="Novo Ticket">
-      <mat-icon>add_circle</mat-icon>
-    </button>    
+    <h1>Lista de Tickets</h1>  
     <button mat-raised-button  [disabled]="selectedTicketID === -1  ||  selectedTicket.used" (click)="onUseTicketClick()" matTooltip="Marcar Ticket como Utilizado">
       <mat-icon>fact_check</mat-icon>
     </button> 
