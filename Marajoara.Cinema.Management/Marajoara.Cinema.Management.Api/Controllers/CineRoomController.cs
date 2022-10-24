@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 namespace Marajoara.Cinema.Management.Api.Controllers
 {
     [ApiController]
-    [Authorize(Roles = "Manager")]
+    [Authorize]
+    //[Authorize(Roles = "Manager")]
     [Route("api/[controller]")]
     public class CineRoomController : ApiControllerBase
     {
@@ -25,7 +26,7 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             _mediator = mediator;
             _logger = logger;
         }
-
+        
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -43,25 +44,27 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         {
             return HandleResult(await _mediator.Send(new AllCineRoomsQuery()));
         }
-
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddCineRoomCommand addCineRoomCommand)
         {
             return HandleResult(await _mediator.Send(addCineRoomCommand));
         }
-
+        [Authorize(Roles = "Manager")]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] UpdateCineRoomCommand updateCineRoomCommand)
         {
             return HandleResult(await _mediator.Send(updateCineRoomCommand));
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpDelete("ByName/{name}")]
         public async Task<IActionResult> Delete(string name)
         {
             return HandleResult(await _mediator.Send(new DeleteCineRoomCommand(name)));
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
