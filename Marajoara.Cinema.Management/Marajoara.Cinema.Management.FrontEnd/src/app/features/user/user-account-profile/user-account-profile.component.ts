@@ -65,17 +65,13 @@ export class UserAccountProfileComponent implements OnInit {
     if (this.userProfileForm.invalid) {
       return;
     }
-    try {
-      this.updateUserAccountData();
-      this.authUserAccountService.updateUserName(this.name.value);
-      this.router.navigateByUrl('/in-theater');
-    } catch (exception: any) {
-      this.toastr.showErrorMessage(`error status ${exception.status}; Message: ${Object.values(exception.error)[0]}`);
-      this.authUserAccountService.logout();
-    } finally {
-      this.userProfileForm.reset();
-      formDirective.resetForm();
-    }
+
+    this.updateUserAccountData();
+    this.authUserAccountService.updateUserName(this.name.value);
+    this.router.navigateByUrl('/in-theater');
+
+    this.userProfileForm.reset();
+    formDirective.resetForm();
   }
 
   async updateUserAccountData() {

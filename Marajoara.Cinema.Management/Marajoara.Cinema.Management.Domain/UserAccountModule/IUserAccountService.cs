@@ -94,7 +94,7 @@ namespace Marajoara.Cinema.Management.Domain.UserAccountModule
         bool ResetUserAccountPassword(UserAccount userAccount);
 
         /// <summary>
-        /// Will update password to user account in the system.
+        /// Updates the password of a user account.
         /// If UserAccountID not found in database or new password is not valid, throws an Exception.
         /// </summary>
         /// <param name="userAccount">UserAccount that should reset password.</param>

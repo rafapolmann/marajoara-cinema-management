@@ -51,18 +51,8 @@ export class ChangePasswordComponent implements OnInit {
     if (this.changePasswordForm.invalid) {
       return;
     }
-
-    try {
-      this.updateUserAccountPassword();
-      this.router.navigateByUrl('/in-theater');
-    } catch (exception: any) {
-      console.log(JSON.stringify(exception, undefined, " "));
-
-      this.toastr.showErrorMessage(`error status ${exception.status}; Message: ${Object.values(exception.error)[0]}`);
-    } finally {
-      this.changePasswordForm.reset();
-      formDirective.resetForm();
-    }
+    this.updateUserAccountPassword();
+    this.router.navigateByUrl('/in-theater');
   }
 
   async updateUserAccountPassword() {

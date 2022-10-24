@@ -47,7 +47,7 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
             if (_unitOfWork.UserAccounts.RetrieveByMail(userAccount.Mail) != null)
                 throw new Exception($"Already exists User Account with e-mail address: {userAccount.Mail}.");
 
-            userAccount.Password = GetDeaultPassword(userAccount.Name);
+            userAccount.Password = GetDefaultPassword(userAccount.Name);
 
             userAccount.Validate();
             _unitOfWork.UserAccounts.Add(userAccount);
@@ -147,7 +147,7 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
             if (!userAccount.Mail.Equals(userAccountOnDB.Mail))
                 throw new Exception($"Invalid UserAccount login: {userAccount.Mail}.");
 
-            userAccountOnDB.Password = GetDeaultPassword(userAccountOnDB.Mail.Split("@").First());
+            userAccountOnDB.Password = GetDefaultPassword(userAccountOnDB.Mail.Split("@").First());
             _unitOfWork.UserAccounts.Update(userAccountOnDB);
             _unitOfWork.Commit();
 
@@ -173,7 +173,7 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
             return true;
         }
 
-        private string GetDeaultPassword(string userAccountName)
+        private string GetDefaultPassword(string userAccountName)
         {
             return string.Concat(userAccountName.Replace(" ", "").ToLower(), DEFAULT_SYSTEM_PASSWORD_PART);
         }
