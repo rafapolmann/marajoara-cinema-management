@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MarajoaraApiService } from './MarajoaraApiService';
-import { UserAccount } from '../models/UserAccount';
+import { UserAccount, UserAccountChangePassword } from '../models/UserAccount';
 
 @Injectable({
   providedIn: 'root',
@@ -67,5 +67,9 @@ export class UserAccountService {
 
   resetPassword(userAccount: UserAccount): Observable<boolean> {
     return this.marajoaraApiService.post(`${this.controllerUri}/reset-password`, userAccount);
+  }
+
+  changePassword(userAccountChangePassword: UserAccountChangePassword): Observable<boolean> {
+    return this.marajoaraApiService.post(`${this.controllerUri}/change-password`, userAccountChangePassword);
   }
 }

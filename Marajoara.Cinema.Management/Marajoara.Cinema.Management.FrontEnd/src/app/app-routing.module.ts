@@ -12,6 +12,7 @@ import { MovieListComponent } from './features/movie/movie-list/movie-list.compo
 import { SessionAddComponent } from './features/session/session-add/session-add.component';
 import { SessionEditComponent } from './features/session/session-edit/session-edit.component';
 import { SessionListComponent } from './features/session/session-list/session-list.component';
+import { ChangePasswordComponent } from './features/user/change-password/change-password.component';
 import { LoginComponent } from './features/user/login/login/login.component';
 import { RegisterComponent } from './features/user/register/register/register.component';
 import { UserAccountAddComponent } from './features/user/user-account-add/user-account-add.component';
@@ -48,6 +49,7 @@ const userModuleRoutes: Routes = [
     }
   },
   { path: 'userprofile', component: UserAccountProfileComponent, canActivate: [AuthGuard] },
+  { path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard] },
 ];
 
 /** MOVIE MODULE ROUTES DEFINITION */

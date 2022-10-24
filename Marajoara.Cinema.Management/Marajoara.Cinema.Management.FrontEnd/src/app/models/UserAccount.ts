@@ -6,12 +6,20 @@ export interface UserAccount {
   photo?: string,
   photoFile?: File,
 }
+
 export interface AuthorizedUserAccount {
   userAccountID: number,
   name: string,
   level: AccessLevel,
   mail: string,
   token: string
+}
+
+export interface UserAccountChangePassword {
+  userAccountID: number,
+  mail: string,
+  password: string,
+  newPassword: string,
 }
 
 export enum AccessLevel {

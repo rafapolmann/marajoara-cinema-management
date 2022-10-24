@@ -16,6 +16,10 @@
           <mat-icon>switch_account</mat-icon>
           <span>Perfil</span>
         </button>
+        <button mat-menu-item [routerLink]="['change-password']">
+          <mat-icon>lock_reset</mat-icon>
+          <span>Redefinir Senha</span>
+        </button>
         <button mat-menu-item (click)="logout()">
           <mat-icon>logout</mat-icon>
           <span>Sair</span>

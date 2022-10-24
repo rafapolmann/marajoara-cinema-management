@@ -37,6 +37,7 @@ import { RegisterComponent } from './features/user/register/register/register.co
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { TokenInterceptor } from './core/interceptors/token.interceptor';
 import { UserAccountProfileComponent } from './features/user/user-account-profile/user-account-profile.component';
+import { ChangePasswordComponent } from './features/user/change-password/change-password.component';
 
 @NgModule({
     declarations: [
@@ -66,6 +67,7 @@ import { UserAccountProfileComponent } from './features/user/user-account-profil
         LoginComponent,
         RegisterComponent,
         UserAccountProfileComponent,
+        ChangePasswordComponent,
     ],
     imports: [
         BrowserModule,
