@@ -1,0 +1,75 @@
+$background-color: #f3f1f1;
+.wrapper {
+  background: $background-color;
+  width: 100%;
+  height: 100%;
+}
+.container {
+  position: absolute;
+  top: 60px;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+}
+
+.sidenav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  background: $background-color;
+  flex-grow: 1;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+.grow {
+  flex-grow: 2;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-button {
+  color: whitesmoke;
+  border-style: none;
+  background: inherit;
+}
+
+.footer-span {
+  font-weight: bold;
+  color: #e4e14e;
+}
+
+.progress-bar-wrapper {
+  opacity: 0.666;
+}
+
+.profile-menu {
+  background-color: rgb(146, 9, 9);
+}
+
+.user-name{
+  text-transform: capitalize;
+  font-size: large;
+  font-weight: 500;
+  align-content: center;
+  padding: 0.5em 1em 0.5em 1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width:180px;
+  min-width:100px;
+  display:block;
+}

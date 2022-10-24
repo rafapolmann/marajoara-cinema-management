@@ -1,0 +1,105 @@
+<div class="form-container">
+  <form
+    (ngSubmit)="submit(formDir)"
+    [formGroup]="cineRoomForm"
+    #formDir="ngForm"
+  >
+    <div class="form-group">
+      <mat-form-field appearance="fill">
+        <mat-label>Nome:</mat-label>
+        <input
+          matInput
+          placeholder="Nome da sala"
+          formControlName="name"
+          required
+        />
+        <mat-error *ngIf="name.invalid && name.errors?.['required']"
+          >O nome é obrigatório</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <mat-form-field appearance="fill" color="primary">
+        <mat-label>Colunas:</mat-label>
+        <input
+          matInput
+          type="number"
+          placeholder="Número de colunas da sala"
+          formControlName="seatsColumn"
+          min="1"
+          required
+          (change)="onSeatCountChange()"          
+
+        />
+        <span matSuffix>colunas</span>
+        <div *ngIf="seatsColumn.invalid">
+          <mat-error *ngIf="seatsColumn.errors?.['required']"
+            >O número de colunas é obrigatória</mat-error
+          >
+          <mat-error *ngIf="seatsColumn.errors?.['min']"
+            >A sala deve ter ao menos 1 coluna</mat-error
+          >
+         
+        </div>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <mat-form-field appearance="fill" color="primary">
+        <mat-label>Fileiras:</mat-label>
+        <input
+          matInput
+          type="number"
+          placeholder="Número de fileiras da sala"
+          formControlName="seatsRow"
+          min="1"
+          required
+          (ngModelChange)="onSeatCountChange()"
+        />
+        <span matSuffix>fileiras</span>
+        <div *ngIf="seatsRow.invalid">
+          <mat-error *ngIf="seatsRow.errors?.['required']"
+            >O número de fileiras é obrigatória</mat-error
+          >
+          <mat-error *ngIf="seatsRow.errors?.['min']"
+            >A sala deve ter ao menos 1 fileira</mat-error
+          >
+         
+        </div>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+        <mat-form-field appearance="fill" color="primary">
+          <mat-label>Total de assentos:</mat-label>
+          <input
+            matInput
+            readonly="true"
+            type="number"
+            placeholder="Total de assentos na sala"
+            formControlName="totalSeats"            
+
+          />
+          
+          <div *ngIf=" totalSeats!.invalid">            
+            <mat-error *ngIf="totalSeats!.errors?.['min']"
+              >A sala deve ter ao menos 20 assentos</mat-error
+            >
+            <mat-error *ngIf="totalSeats!.errors?.['max']"
+            >A sala deve ter no máximo 100 assentos</mat-error
+          >
+          </div>
+        </mat-form-field>
+      </div>
+    
+    <app-cineroom-seat-picker [readonlyMode]="true" [rowCount]="seatsRow.value" [columnCount]="seatsColumn.value" ></app-cineroom-seat-picker>
+   
+    <mat-divider></mat-divider>
+    <div class="button-flex-container">
+      <button mat-raised-button color="primary">Salvar</button>
+      <button mat-raised-button (click)="cancel()" type="button" color="basic">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>

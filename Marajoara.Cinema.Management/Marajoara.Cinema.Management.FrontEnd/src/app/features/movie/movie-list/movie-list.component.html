@@ -1,0 +1,56 @@
+<div>
+  <span>Lista de Filmes</span>
+  <button mat-raised-button (click)="onAddClick()">
+    <mat-icon>add_circle</mat-icon>
+  </button>
+  <button mat-raised-button [disabled]="selectedMovieID===-1" (click)="onEditClick()">
+    <mat-icon>edit</mat-icon>
+  </button>
+  <button mat-raised-button [disabled]="selectedMovieID ===-1" (click)="onDeleteClick()">
+    <mat-icon>delete</mat-icon>
+  </button>
+  <mat-form-field appearance="fill">
+    <mat-label>Filtro</mat-label>
+    <input (keyup)="applyFilter($event)" matInput placeholder="Ex. Gladiador..." />
+  </mat-form-field>
+</div>
+<div>
+  <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <ng-container matColumnDef="title">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>Título</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.title }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>Descrição</mat-header-cell>
+      <mat-cell *matCellDef="let element" fxFlex="50" [matTooltip]="element.description">
+        <span class="ellipsis">{{element.description}}</span>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="isOriginalAudio">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>Áudio Original</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{
+        element.isOriginalAudio ? "Sim" : "Não"
+        }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="is3D">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>3D</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{
+        element.is3D ? "Sim" : "Não"
+        }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="minutes">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>Minutos</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.minutes }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ highlight: selectedMovieID == row.movieID }"
+      (click)="highlight(row)"></mat-row>
+  </mat-table>
+  <mat-paginator #paginator [pageSize]="15" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons>
+  </mat-paginator>
+</div>

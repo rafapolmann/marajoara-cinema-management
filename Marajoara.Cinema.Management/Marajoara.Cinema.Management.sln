@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31702.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marajoara.Cinema.Management.Domain", "Marajoara.Cinema.Management.Domain\Marajoara.Cinema.Management.Domain.csproj", "{9AEFEC2E-8D2E-4F2C-889E-163DCF434156}"
 EndProject
@@ -24,8 +24,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marajoara.Cinema.Management.Infra.Data.EF", "Marajoara.Cinema.Management.Infra.Data.EF\Marajoara.Cinema.Management.Infra.Data.EF.csproj", "{41213B28-9403-4410-9F47-32FDB808C6EF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marajoara.Cinema.Management.Infra.Framework.IoC", "Marajoara.Cinema.Management.Infra.Framework.IoC\Marajoara.Cinema.Management.Infra.Framework.IoC.csproj", "{C3A6C40B-0D2C-4BCE-8FC9-22223E96654C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-Presentation", "1-Presentation", "{E8D92CA4-01CC-4A3C-A54F-CF6DC49642EF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marajoara.Cinema.Management.ConsoleTest", "Marajoara.Cinema.Management.ConsoleTest\Marajoara.Cinema.Management.ConsoleTest.csproj", "{6F14EC77-B22A-4769-B101-444953203863}"
 EndProject

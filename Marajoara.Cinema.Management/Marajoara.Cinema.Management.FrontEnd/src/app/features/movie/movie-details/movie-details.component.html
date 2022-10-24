@@ -1,0 +1,34 @@
+<div *ngIf="movie" class="content">
+    <h1>
+        {{movie.title}}
+    </h1>
+    <div class="movie-wrapper">
+        <div #card class="card" >
+        <img class="poster" [src]="'data:image/png;base64, ' + movie.poster" />
+    </div>
+        <div class="movie-details-row">
+            <div class="movie-description">
+                <span >{{movie.description}} </span>
+            </div>
+            <div>
+                <span>Duração: {{ movie.minutes | hours}}</span>
+                <mat-icon color="accent"> local_movies</mat-icon>
+            </div>
+            <div>
+                <span>{{ movie.is3D ? "Projeção 3D" : "Projeção 2D" }} </span>
+                <mat-icon color="accent">switch_video</mat-icon>
+            </div>
+            <div class=".card-footer-row-item">
+                <span>{{ movie.isOriginalAudio ? "Legendado" : "Dublado" }} </span>
+                <mat-icon color="accent"> surround_sound</mat-icon>
+            </div>
+        </div>
+    </div>
+    <div class="movie-details-row">
+        <button routerLink="/newticket" [queryParams]="{sessionId:session.sessionID}"
+            *ngFor="let session of movie.sessions" mat-stroked-button class="button--small" color="primary">
+            <span>{{ session.sessionDate | date:'dd/MM - HH:mm'}}</span>
+        </button>
+    </div>
+
+</div>

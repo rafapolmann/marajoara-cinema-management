@@ -1,0 +1,50 @@
+<div>
+    <span>Lista de Salas</span>
+    <button mat-raised-button (click)="onAddClick()">
+      <mat-icon>add_circle</mat-icon>
+    </button>
+    <button mat-raised-button [disabled]="selectedCineRoomID===-1" (click)="onEditClick()">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-raised-button [disabled]="selectedCineRoomID ===-1" (click)="onDeleteClick()">
+      <mat-icon>delete</mat-icon>
+    </button>
+    <mat-form-field appearance="fill">
+      <mat-label>Filtro</mat-label>
+      <input
+        (keyup)="applyFilter($event)"
+        matInput
+        placeholder="Ex. Sala 1"
+      />
+    </mat-form-field>  
+  </div>
+  <div>
+    <mat-table [dataSource]="dataSource" matSort  class="mat-elevation-z8">
+      <ng-container matColumnDef="cineRoomID">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.cineRoomID }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <mat-header-cell mat-sort-header *matHeaderCellDef>Nome</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="totalSeats">
+        <mat-header-cell  mat-sort-header *matHeaderCellDef>Total de assentos</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.totalSeats }}</mat-cell>
+      </ng-container>
+       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row> 
+      <mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        [ngClass]="{ highlight: selectedCineRoomID == row.cineRoomID }"
+        (click)="highlight(row)"
+      ></mat-row>
+    </mat-table>
+    <mat-paginator
+      #paginator
+      [pageSize]="15"
+      [pageSizeOptions]="[5, 10, 15]"
+      showFirstLastButtons
+    >
+    </mat-paginator>  
+  </div>
+  

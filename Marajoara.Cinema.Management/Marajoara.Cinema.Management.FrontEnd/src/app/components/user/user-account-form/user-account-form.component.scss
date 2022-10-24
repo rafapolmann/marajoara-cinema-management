@@ -1,0 +1,18 @@
+.button-flex-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.mat-raised-button {
+  margin: 5px;
+  min-width: 120px;
+}
+.form-container {
+  overflow-x: hidden;
+}
+
+.reset-password {
+  padding-bottom: 0.5em;
+}

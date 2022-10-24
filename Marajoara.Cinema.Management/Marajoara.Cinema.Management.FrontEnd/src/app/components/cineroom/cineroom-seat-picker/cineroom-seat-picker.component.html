@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="cineromm-screen"></div>
+  <table>
+    <tr *ngFor="let row of _rows">
+      <td *ngFor="let column of _columns">
+        <button
+          class="seat-button"
+          mat-raised-button
+          style="width: 100%"
+          [disabled]="isSeatDisabled(row * _columnCount - _columnCount + column)"
+          [color]="
+            selectedSeat == row * _columnCount - _columnCount + column
+              ? 'warn'
+              : 'primary' 
+          "
+          type="button"
+          (click)="onSeatClick(row * _columnCount - _columnCount + column)"
+        >
+          Nº {{ row * _columnCount - _columnCount + column }}
+        </button>
+      </td>
+    </tr>
+  </table>
+</div>

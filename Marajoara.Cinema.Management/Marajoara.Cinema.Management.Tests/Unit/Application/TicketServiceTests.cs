@@ -349,6 +349,74 @@ namespace Marajoara.Cinema.Management.Tests.Unit.Application
 
         #endregion Gets_Get Ticket
 
+        #region Set Ticket as Used
+
+        [TestMethod]
+        public void TicketService_Set_Ticket_As_Used_Should_Set_As_Used()
+        {
+            CineRoom sessionCineRoom = GetCineRoomToTest();
+            Movie sessionMovie = GetMovieToTest();
+            Session ticketSession = GetCompleteSessionToTest();
+            UserAccount ticketUserAccount = GetUserAccountToTest();
+            DateTime purchaseDate = DateTime.Now;
+
+            Ticket ticketToTest = GetTicketToTest(1, purchaseDate, Guid.NewGuid(), 30, 1, false, ticketSession, ticketUserAccount);
+
+
+            _unitOfWorkMock.Setup(uow => uow.Tickets.RetrieveByCode(ticketToTest.Code)).Returns(ticketToTest);
+            _unitOfWorkMock.Setup(uow => uow.Tickets.Update(It.IsAny<Ticket>()));
+
+
+            _ticketService.SetTicketAsUsed(ticketToTest.Code).Should().BeTrue();
+
+
+            _unitOfWorkMock.Verify(uow => uow.Tickets.Update(It.Is<Ticket>(t => t.Used.Equals(true && t.Code.Equals(ticketToTest.Code)))), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Tickets.RetrieveByCode(ticketToTest.Code), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Once);
+
+        }
+
+
+        [TestMethod]
+        public void TicketService_Set_Ticket_As_Used_Should_Throw_Exception_When_Ticket_Is_Already_Used()
+        {
+            CineRoom sessionCineRoom = GetCineRoomToTest();
+            Movie sessionMovie = GetMovieToTest();
+            Session ticketSession = GetCompleteSessionToTest();
+            UserAccount ticketUserAccount = GetUserAccountToTest();
+            DateTime purchaseDate = DateTime.Now;
+            Ticket ticketToTest = GetTicketToTest(1, purchaseDate, Guid.NewGuid(), 30, 1, true, ticketSession, ticketUserAccount);
+
+            _unitOfWorkMock.Setup(uow => uow.Tickets.RetrieveByCode(ticketToTest.Code)).Returns(ticketToTest);
+            _unitOfWorkMock.Setup(uow => uow.Tickets.Update(It.IsAny<Ticket>()));
+
+            Action action = () => _ticketService.SetTicketAsUsed(ticketToTest.Code); 
+            action.Should().Throw<Exception>().WithMessage($"Ticket {ticketToTest.Code} already used!");
+            
+            _unitOfWorkMock.Verify(uow => uow.Tickets.RetrieveByCode(ticketToTest.Code), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Tickets.Update(It.Is<Ticket>(t => t.Used.Equals(true && t.Code.Equals(ticketToTest.Code)))), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+
+        }
+        
+        [TestMethod]
+        public void TicketService_Set_Ticket_As_Used_Should_Throw_Exception_When_Ticket_Doesnt_Exist()
+        {
+            Guid code = Guid.NewGuid();
+
+            _unitOfWorkMock.Setup(uow => uow.Tickets.RetrieveByCode(code));
+            _unitOfWorkMock.Setup(uow => uow.Tickets.Update(It.IsAny<Ticket>()));
+
+            Action action = () => _ticketService.SetTicketAsUsed(code);
+            action.Should().Throw<Exception>().WithMessage($"Ticket not found: {code}");
+
+            _unitOfWorkMock.Verify(uow => uow.Tickets.RetrieveByCode(code), Times.Once);
+            _unitOfWorkMock.Verify(uow => uow.Tickets.Update(It.IsAny<Ticket>()), Times.Never);
+            _unitOfWorkMock.Verify(uow => uow.Commit(), Times.Never);
+
+        }
+        #endregion Set Ticket as Used
+
         private CineRoom GetCineRoomToTest(int cineRoomID = 1,
                                            string name = "CineRoomName",
                                            int seatsColumn = 5,

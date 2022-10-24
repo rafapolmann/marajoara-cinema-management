@@ -1,0 +1,52 @@
+<div class="wrapper">
+  <mat-toolbar *ngIf="user" class="header" color="primary">
+    <button class="menu-button" type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav()">
+      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    </button>
+    <div class="grow">
+      <span>{{ title }}</span>
+    </div>
+    <div>
+      <button mat-mini-fab color="primary" [matMenuTriggerFor]="menu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <span class="user-name">{{user.name}}</span>
+        <button mat-menu-item [routerLink]="['userprofile']">
+          <mat-icon>switch_account</mat-icon>
+          <span>Perfil</span>
+        </button>
+        <button mat-menu-item [routerLink]="['change-password']">
+          <mat-icon>lock_reset</mat-icon>
+          <span>Redefinir Senha</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Sair</span>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+  <mat-sidenav-container class="container">
+    <mat-sidenav *ngIf="user" #sidenav mode="side" opened class="sidenav">
+      <mat-nav-list>
+        <a mat-list-item routerLink="/in-theater">Em Cartaz</a>
+        <a mat-list-item *ngIf="user.level === AccessLevel.manager" routerLink="/sessions">Sessões</a>
+        <a mat-list-item *ngIf="user.level === AccessLevel.manager" routerLink="/movies">Filmes</a>
+        <a mat-list-item *ngIf="user.level === AccessLevel.manager" routerLink="/cinerooms">Salas</a>
+        <a mat-list-item *ngIf="user.level === AccessLevel.manager" routerLink="/users">Usuários</a>
+        <a mat-list-item  *ngIf="user.level <= AccessLevel.attendant" routerLink="/tickets">Tickets</a>
+        <a mat-list-item routerLink="/mytickets">Meus Tickets</a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="progress-bar-wrapper" *ngIf="loadingService.loading$ | async as loading">
+        <mat-progress-bar color="warn" class="" mode="indeterminate" value="100"></mat-progress-bar>
+      </div>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  <mat-toolbar *ngIf="user" class="footer" color="primary">
+    <p><span class="footer-span">Marajoara</span> &copy; 2022</p>
+  </mat-toolbar>
+</div>

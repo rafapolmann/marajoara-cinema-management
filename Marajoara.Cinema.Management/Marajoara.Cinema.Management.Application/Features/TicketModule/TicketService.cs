@@ -84,6 +84,19 @@ namespace Marajoara.Cinema.Management.Application.Features.TicketModule
             return ticket;
         }
 
+        public bool SetTicketAsUsed(Guid ticketGuid)
+        {
+            var ticketOnDb =RetrieveTicketByCode(ticketGuid);
+            if (ticketOnDb.Used)
+                throw new Exception($"Ticket {ticketOnDb.Code} already used!");
+
+            ticketOnDb.Used = true;
+            _unitOfWork.Tickets.Update(ticketOnDb);
+            _unitOfWork.Commit();
+
+            return true;
+        }
+
         private Ticket GetValidatedTicket(Ticket ticket)
         {
             Session ticketSession = _sessionService.GetSession(ticket.SessionID);

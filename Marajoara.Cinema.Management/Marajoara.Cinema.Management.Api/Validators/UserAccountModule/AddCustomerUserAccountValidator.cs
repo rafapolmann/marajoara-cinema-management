@@ -14,11 +14,6 @@ namespace Marajoara.Cinema.Management.Api.Validators.UserAccountModule
             RuleFor(cr => cr.Mail)
                 .EmailAddress()
                 .WithMessage("Customer mail is invalid.");
-
-            RuleFor(cr => cr.Password)
-                .NotEmpty()
-                .WithMessage("Customer password cannot be null or empty.");
-            
         }
     }
 }

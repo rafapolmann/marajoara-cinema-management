@@ -1,0 +1,120 @@
+<div class="header">
+    <h1>Em Cartaz</h1>
+    <mat-form-field appearance="fill">
+        <mat-label>Filtro por data</mat-label>
+        <mat-date-range-input [formGroup]="filterForm"  [rangePicker]="picker" [min]="minDate" [max]="maxDate">
+            <input formControlName="startDate" #startDate (dateChange)="applyDateFilter()" matStartDate placeholder="Data inicial">
+            <input formControlName="endDate" #endDate (dateChange)="applyDateFilter()" matEndDate placeholder="Data final">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+    <mat-form-field [formGroup]="filterForm" class="filter--grow" appearance="fill">
+        <mat-label>Filtro por filme</mat-label>
+        <input formControlName="text" #textFilter matInput (keyup)="applyFilter()" placeholder="Ex. Gladiador..." />
+    </mat-form-field>
+    <button mat-raised-button (click)="clearFilters()"  #tooltip="matTooltip" 
+    matTooltip="Limpar pesquisa" >
+        <mat-icon>clear_all</mat-icon>
+      </button>
+</div>
+<div class="content">
+    <div #card class="card" *ngFor="let movie of dataSource.filteredData">
+        <div class="movie-wrapper">
+            <img class="poster" [src]="'data:image/png;base64, ' + movie.poster" />
+
+            <div class="movie-details">
+                <div class="movie-details-row">
+                    <a [routerLink]="['../','in-theater',movie.movieID,'details']">
+                        <h2>{{movie.title}}</h2>
+                    </a>
+                </div>
+                <div class="movie-details-row">
+                    <div>
+                        <span>{{ movie.minutes}}</span>
+                        <mat-icon color="accent"> local_movies</mat-icon>
+                    </div>
+                    <div>
+                        <span>{{ movie.is3D ? "3D" : "2D" }} </span>
+                        <mat-icon color="accent">switch_video</mat-icon>
+                    </div>
+                    <div class=".card-footer-row-item">
+                        <span>{{ movie.isOriginalAudio ? "Legendado" : "Dublado" }} </span>
+                        <mat-icon color="accent"> surround_sound</mat-icon>
+                    </div>
+                </div>
+                <div class="movie-details-row">
+
+                    <button mat-raised-button [routerLink]="['../','in-theater',movie.movieID,'details']"> Sinopse e horários</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+ <button (click)="onLeftBtnClick()">esquerda</button>
+<button (click)="onRightBtnClick()">direita</button>
+<div class="container">
+    <button class="arrow-left" (click)="onLeftBtnClick()">◄</button>
+    <button class="arrow-right" (click)="onRightBtnClick()">►</button>
+    <div class="cards-wrapper">
+        <div  class="cards-container">
+            <div #card class="card current-card" *ngFor="let movie of dataToDisplay">
+
+                <div class="card-header">
+                    <h3> {{movie.title}} </h3>
+                </div>
+
+                <div class="poster-wrapper">
+                    <img class="poster" [src]="'data:image/png;base64, ' + movie.poster" />
+                </div>
+
+                <div class="card-footer">
+                    <div class="card-footer-row">
+                        <div>
+                            <span>{{ movie.minutes}}</span>
+                            <mat-icon color="accent"> local_movies</mat-icon>
+                        </div>
+                        <div>
+                            <span>{{ movie.is3D ? "3D" : "2D" }} </span>
+                            <mat-icon color="accent">switch_video</mat-icon>
+                        </div>
+                        <div class=".card-footer-row-item">
+                            <span>{{ movie.isOriginalAudio ? "Legendado" : "Dublado" }} </span>
+                            <mat-icon color="accent"> surround_sound</mat-icon>
+                        </div>
+                    </div>
+                    <div class="card-footer-row">
+                        <div *ngFor="let session of movie.sessions">
+                            <button mat-stroked-button class="button--small" color="primary">
+                                <span>{{ session.sessionDate | date:'dd/MM - HH:mm'}}</span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>  -->

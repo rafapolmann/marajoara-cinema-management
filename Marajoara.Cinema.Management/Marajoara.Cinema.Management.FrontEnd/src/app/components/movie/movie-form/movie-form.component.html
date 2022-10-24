@@ -1,0 +1,116 @@
+<div class="form-container">
+  <form (ngSubmit)="submit(formDir)" [formGroup]="movieForm" #formDir="ngForm">
+    <div class="form-group">
+      <mat-form-field appearance="fill">
+        <mat-label>Título:</mat-label>
+        <input
+          matInput
+          placeholder="Título do filme"
+          formControlName="title"
+          required
+        />
+        <mat-error
+          *ngIf="description.invalid && description.errors?.['required']"
+          >O título é obrigatório</mat-error
+        >
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field appearance="fill">
+        <mat-label>Descrição:</mat-label>
+        <textarea
+          matInput
+          rows="4"
+          placeholder="Descrição do filme"
+          formControlName="description"
+          required
+        ></textarea>
+        <mat-error
+          *ngIf="description.invalid && description.errors?.['required']"
+          >A descrição é obrigatória</mat-error
+        >
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <mat-form-field appearance="fill" color="primary">
+        <mat-label>Duração:</mat-label>
+        <input
+          matInput
+          type="number"
+          placeholder="Duração do filme"
+          formControlName="minutes"
+          min="10"
+          required
+        />
+        <span matSuffix>minutos</span>
+        <div *ngIf="minutes.invalid">
+          <mat-error *ngIf="minutes.errors?.['required']"
+            >A duração é obrigatória</mat-error
+          >
+          <mat-error *ngIf="minutes.errors?.['min']"
+            >A duração deve ter ao menos 10 minutos</mat-error
+          >
+          <mat-error *ngIf="minutes.errors?.['max']"
+            >A duração deve ser menor que 600 minutos</mat-error
+          >
+        </div>
+      </mat-form-field>
+    </div>
+    <div class="form-group-flex-row">
+      <div class="checkbox-container">
+        <mat-checkbox
+          color="primary"
+          class="checkbox-margin"
+          formControlName="isOriginalAudio"
+          >Audio original</mat-checkbox
+        >
+        <mat-checkbox
+          color="primary"
+          class="checkbox-margin"
+          formControlName="is3D"
+          >Projeção 3D</mat-checkbox
+        >
+      </div>
+    </div>
+    <div class="poster-container">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-subtitle>Poster:</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div *ngIf="posterImgSrc">
+            <img mat-card-image [src]="posterImgSrc" />
+          </div>
+          <div *ngIf="!posterImgSrc">
+            <p>Selecione uma imagem</p>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <input
+            #posterInput
+            hidden="true"
+            type="file"
+            onclick="this.value=null"
+            (change)="onFileSelected($event)"
+            accept=".bmp,.jpg,.png"
+          />
+          <button type="button" (click)="posterInput.click()" mat-button>
+            Selecionar arquivo
+          </button>
+          <button type="button" (click)="onCleanFile()" mat-button>
+            Limpar
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="button-flex-container">
+      <button mat-raised-button color="primary">Salvar</button>
+      <button mat-raised-button (click)="cancel()" type="button" color="basic">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>

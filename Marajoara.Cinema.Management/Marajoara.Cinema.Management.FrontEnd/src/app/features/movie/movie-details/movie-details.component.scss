@@ -1,0 +1,60 @@
+$card-width: 300px;
+$card-height: 500px;
+
+.content{
+    margin: 0 1em;
+}
+h1 {
+    font-size: x-large;
+    margin-left: 0.5em;
+    font-weight: bold;
+    white-space: nowrap;  
+  
+  }
+  
+  
+
+.card {
+  border-radius: 5px;
+  border: solid 1px rgba(128, 128, 128, 0.445);
+
+  padding: 0;
+  margin: 0;
+  -webkit-box-shadow: 7px 7px 7px 0px rgba(107, 102, 107, 1);
+  -moz-box-shadow: 7px 7px 7px 0px rgba(107, 102, 107, 1);
+  box-shadow: 7px 7px 7px 0px rgba(107, 102, 107, 1);
+}
+  
+.poster {
+  padding: 5px 5px 0 5px;
+  width: $card-width;
+  height: $card-height;
+  object-fit: contain;
+}
+
+.movie-wrapper{
+    display: flex;
+    min-width: $card-width *2;
+    
+    align-items: flex-start;
+  }
+  .movie-description{ 
+    display: inline-block;    
+    padding-top: 1em;
+    font-size: medium;
+    width: 100%;
+  }
+
+  .movie-details-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 1em;
+    padding-left: 1em;
+    margin: 2em 0.5em;
+    & mat-icon {
+        vertical-align: middle;
+      }
+  }
+

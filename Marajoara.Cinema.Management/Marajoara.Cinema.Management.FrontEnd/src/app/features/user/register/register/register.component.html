@@ -1,0 +1,36 @@
+<div class="background">
+  <img src="./assets/common/background.jpg" />
+</div>
+<div class="login-container">
+  <div class="login-content">
+    <mat-toolbar class="login-toolbar" color="primary">Registrar</mat-toolbar>
+    <div class="form-wrapper">
+      <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="onSubmit()">
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-icon matPrefix>person_outline</mat-icon>
+            <mat-label>Nome:</mat-label>
+            <input autofocus type="text" matInput placeholder="João Silva" formControlName="name">
+            <mat-error *ngIf="name.hasError('required')">O nome é obrigatório</mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-icon matPrefix>email</mat-icon>
+            <mat-label>Email:</mat-label>
+            <input autofocus type="mail" matInput placeholder="usuario@marajoara.com.br" formControlName="mail">
+            <mat-error *ngIf="mail.hasError('email') && !mail.hasError('required')">
+              Endereço de e-mail está inválido!
+            </mat-error>
+            <mat-error *ngIf="mail.hasError('required')"> O e-mail é obrigatório </mat-error>
+          </mat-form-field>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="submit-container">
+          <button [disabled]="form.invalid" type="submit" mat-raised-button color="primary">Registrar</button>
+          <button type="button" mat-raised-button color="warn" routerLink="/login">Voltar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,7 @@ using Marajoara.Cinema.Management.Application.Features.SessionModule.Commands;
 using Marajoara.Cinema.Management.Application.Features.SessionModule.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -17,7 +18,9 @@ namespace Marajoara.Cinema.Management.Api.Controllers
         private readonly IMediator _mediator;
         private readonly ILogger<SessionController> _logger;
 
-        public SessionController(ILogger<SessionController> logger, IMediator mediator)
+        public SessionController(ILogger<SessionController> logger,
+                                 IMediator mediator,
+                                 IHttpContextAccessor context) : base(context)
         {
             _mediator = mediator;
             _logger = logger;
@@ -44,7 +47,7 @@ namespace Marajoara.Cinema.Management.Api.Controllers
             return HandleResult(await _mediator.Send(updateSessionCommand));
         }
 
-        [Authorize(Roles = "Manager,Attendant")]
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
