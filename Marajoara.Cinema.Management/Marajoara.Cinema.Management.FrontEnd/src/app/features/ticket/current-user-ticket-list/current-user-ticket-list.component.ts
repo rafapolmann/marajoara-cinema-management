@@ -9,7 +9,6 @@ import { firstValueFrom } from 'rxjs';
 import { ConfirmDialogComponent } from 'src/app/components/common/confirm-dialog/confirm-dialog.component';
 import { DateTimeCustomFormat } from 'src/app/core/pipes/date-time-custom-format';
 import { TicketFlat } from 'src/app/models/Ticket';
-import { AuthenticationService } from 'src/app/services/authentication.service';
 import { TicketService } from 'src/app/services/ticket.service';
 import { ToastrService } from 'src/app/services/toastr.service';
 
@@ -62,8 +61,6 @@ export class CurrentUserTicketListComponent implements OnInit {
     this.dataSource.filterPredicate = (data: TicketFlat, filter: string) =>
       this.dateTimeCustom.transform(data.sessionSessionDate).indexOf(filter) != -1 ||
       this.dateTimeCustom.transform(data.purchaseDate).indexOf(filter) != -1 ||
-      //this.dateTimeCustom.transform(data.endSession!).indexOf(filter) != -1 ||
-      //data.price.toString().indexOf(filter) != -1 ||
       data.userAccountName.toLowerCase().indexOf(filter.toLowerCase()) != -1 ||
       data.code.toLowerCase().indexOf(filter.toLowerCase()) != -1 ||
       data.sessionMovieTitle.toLowerCase().indexOf(filter.toLowerCase()) != -1 ||
@@ -72,13 +69,6 @@ export class CurrentUserTicketListComponent implements OnInit {
 
   configureSort(): void {
     this.dataSource.sort = this.sort;
-    // this.dataSource.sortingDataAccessor =(obj:any, property)=>{
-    //   switch(property){
-    //     case 'movie.Title':return obj.movie.title;
-    //     case 'cineRoom.name':return obj.cineRoom.name;
-    //     default: return obj[property];        
-    //   }
-    // }
   }
   formatPrice(price: Number): string {
     return `R$ ${price.toFixed(2)}`;

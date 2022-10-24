@@ -75,8 +75,6 @@
         <div>
             <button mat-button matStepperPrevious>Voltar</button>
             <button mat-button [disabled]="this.movieForm.invalid || this.sessionForm.invalid || this.seatForm.invalid" (click)="onSubmit()" color="primary">Finalizar</button>
-            <!-- <button mat-button (click)="stepper.reset()">Reset</button> -->
-            
-        </div>
+       </div>
     </mat-step>
 </mat-vertical-stepper>

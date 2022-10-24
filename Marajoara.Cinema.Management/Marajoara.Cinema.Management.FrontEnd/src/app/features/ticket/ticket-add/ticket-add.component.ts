@@ -143,7 +143,7 @@ export class TicketAddComponent implements OnInit {
   }
 
   async loadCineRoom() {
-    if (!this.selectedSession)
+    if (!this.selectedSession || typeof this.selectedSession === 'string')
       this.cineRoom = undefined;
     else {
       this.loadOccupiedSeats();
@@ -206,13 +206,13 @@ export class TicketAddComponent implements OnInit {
     this.seat.setValue(seat);
   }
 
-  async onSubmit() {
-    if (this.movieForm.valid || this.sessionForm.valid || this.seatForm.valid)
+  async onSubmit() {    
+    if (this.movieForm.invalid || this.sessionForm.invalid || this.seatForm.invalid)
       return;
 
     await firstValueFrom(this.ticketService.add(this.selectedSession!.sessionID, this.seat!.value));
     this.toastrService.showErrorMessage('Ticket finalizado com sucesso!', 'fechar');
-    this.router.navigateByUrl('tickets');
+    this.router.navigateByUrl('mytickets');
   }
 
   movieAutoCompleteDisplayWith(obj?: MovieFull): string {

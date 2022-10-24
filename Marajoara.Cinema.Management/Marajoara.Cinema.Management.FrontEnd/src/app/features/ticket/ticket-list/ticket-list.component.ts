@@ -59,8 +59,6 @@ export class TicketListComponent implements OnInit {
   configureFilter(): void {
     this.dataSource.filterPredicate = (data: TicketFlat, filter: string) =>
       this.dateTimeCustom.transform(data.sessionSessionDate).indexOf(filter) != -1 ||
-      //this.dateTimeCustom.transform(data.endSession!).indexOf(filter) != -1 ||
-      //data.price.toString().indexOf(filter) != -1 ||
       data.userAccountName.toLowerCase().indexOf(filter.toLowerCase()) != -1 ||
       data.code.toLowerCase().indexOf(filter.toLowerCase()) != -1 ||
       data.sessionMovieTitle.toLowerCase().indexOf(filter.toLowerCase()) != -1 ||
@@ -69,13 +67,6 @@ export class TicketListComponent implements OnInit {
 
   configureSort(): void {
     this.dataSource.sort = this.sort;
-    // this.dataSource.sortingDataAccessor =(obj:any, property)=>{
-    //   switch(property){
-    //     case 'movie.Title':return obj.movie.title;
-    //     case 'cineRoom.name':return obj.cineRoom.name;
-    //     default: return obj[property];        
-    //   }
-    // }
   }
   formatPrice(price: Number): string {
     return `R$ ${price.toFixed(2)}`;
