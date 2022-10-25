@@ -15,19 +15,19 @@ export class RegisterComponent implements OnInit {
   form!: FormGroup;
 
   constructor(
-      private formBuilder: FormBuilder,      
-      private authService:AuthenticationService,
-      private alertService: ToastrService
+    private formBuilder: FormBuilder,
+    private authService: AuthenticationService,
+    private alertService: ToastrService,
+    private router:Router
   ) { }
 
   ngOnInit() {
-      this.form = this.formBuilder.group({
-          name: new FormControl( '', [Validators.required]),  
-          mail: new FormControl('', [Validators.required, Validators.email]),
-          // password: ['', [Validators.required, Validators.minLength(6)]]
-      });
+    this.form = this.formBuilder.group({
+      name: new FormControl('', [Validators.required]),
+      mail: new FormControl('', [Validators.required, Validators.email]),
+    });
   }
-  
+
   get name() {
     return this.form.get('name')! as FormControl;
   }
@@ -39,18 +39,13 @@ export class RegisterComponent implements OnInit {
   get password() {
     return this.form.get('password')! as FormControl;
   }
+  async onSubmit() {
+    if (this.form.invalid) {
+      return;
+    }
+    const userId = await firstValueFrom(this.authService.register(this.name.value, this.mail.value));
+    this.form.reset();
 
-
-  
-
-  async onSubmit() {      
-      if (this.form.invalid) {
-          return;
-      }
-      // console.log(JSON.stringify(this.form.value,undefined, ' '));
-      const userId = await firstValueFrom(this.authService.register(this.name.value,this.mail.value));
-      this.form.reset();
-
-      this.alertService.showErrorMessage(`${userId}`);
+    this.router.navigateByUrl('login');
   }
 }

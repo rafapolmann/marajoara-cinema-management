@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthenticationService,
     private router:Router,
-  ) { 
+  ) {
 
     if(this.authService.authorizedUserAccount)
       this.router.navigateByUrl('');
@@ -46,8 +46,6 @@ export class LoginComponent implements OnInit {
 
      const user = await firstValueFrom( this.authService.login(this.mail.value, this.password.value));
      this.router.navigateByUrl('');
-    //this.authService.signinUser(email, password);
-    // `email:${this.mail.value} - password: ${this.password.value}`);/
   }
   googleLogin(){
     //Todo: facebook login
