@@ -1,0 +1,43 @@
+version: "1.0"
+services: 
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver-prod
+    environment: 
+      SA_PASSWORD: "sql123!@#"
+      ACCEPT_EULA: "Y"
+    ports:
+      - 1433:1433
+    restart: unless-stopped
+    networks: 
+      - cine-network
+    volumes:
+      - c:/sqlvol/data:/var/opt/mssql/data
+      - c:/sqlvol/log:/var/opt/mssql/log
+      - c:/sqlvol/secrets:/var/opt/mssql/secrets
+
+  marajoara-backend:
+    image: marajoara-image:latest
+    container_name: marajoara-api    
+    environment:
+      SQLSERVER__HOSTNAME: "sqlserver-prod"
+    ports:
+      - 44500:80
+    restart: unless-stopped
+    networks: 
+      - cine-network
+    depends_on: 
+      - "sqlserver"
+
+  marajoara-front:
+    image: marajoara-front:latest
+    container_name: marajoara-front
+    ports:
+      - 4300:80
+    restart: unless-stopped
+    depends_on: 
+      - "marajoara-backend"
+
+networks:
+  cine-network:
+    driver: bridge

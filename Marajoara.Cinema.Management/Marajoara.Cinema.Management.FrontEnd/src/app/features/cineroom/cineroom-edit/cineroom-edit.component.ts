@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { CineRoom } from 'src/app/Models/CineRoom';
+import { CineRoom } from 'src/app/models/CineRoom';
 import { firstValueFrom } from 'rxjs';
 import { CineRoomService } from 'src/app/services/CineRoomService';
 import { ToastrService } from 'src/app/services/toastr.service';
