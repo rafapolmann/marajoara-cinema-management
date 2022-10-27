@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { CineRoom } from 'src/app/Models/CineRoom';
+import { CineRoom } from 'src/app/models/CineRoom';
 import { CineRoomService } from 'src/app/services/CineRoomService';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';

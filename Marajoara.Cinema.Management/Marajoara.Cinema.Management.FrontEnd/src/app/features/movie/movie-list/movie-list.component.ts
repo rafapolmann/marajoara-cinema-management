@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
-import { Movie } from 'src/app/Models/Movie';
+import { Movie } from 'src/app/models/Movie';
 import { MovieService } from 'src/app/services/MovieService';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';

@@ -32,10 +32,10 @@ namespace Marajoara.Cinema.Management.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCorsPolicy();
-
+            
             services.AddRepositorySetup(Configuration);
             services.AddApplicationSetup();            
-
+            
             //Used so IHttpContextAccessor can be accessed in the abstractvalidator class
             services.AddHttpContextAccessor();
 
@@ -63,7 +63,7 @@ namespace Marajoara.Cinema.Management.Api
             services.AddMediatR(typeof(AppModule).Assembly);
             services.AddValidatorsFromAssembly(typeof(Startup).Assembly);
             services.AddFluentValidationAutoValidation();            
-
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Marajoara.Cinema.Management.Api", Version = "v1" });
@@ -102,7 +102,7 @@ namespace Marajoara.Cinema.Management.Api
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ITokenService tokenService)
         {
             _tokenService = tokenService;
-
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

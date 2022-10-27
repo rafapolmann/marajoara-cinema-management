@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Marajoara.Cinema.Management.Api.Extensions
 {
@@ -19,7 +20,7 @@ namespace Marajoara.Cinema.Management.Api.Extensions
         {
             services.AddDbContext<MarajoaraContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("MarajoaraDb"));
+                options.UseSqlServer(GetDatabaseConnectionString(configuration));
                 options.UseLoggerFactory(LoggerFactory.Create(builder => { builder.AddDebug(); }));
             });
 
@@ -30,6 +31,20 @@ namespace Marajoara.Cinema.Management.Api.Extensions
             services.AddScoped<ISessionRepository, SessionRepository>();
             services.AddScoped<ITicketRepository, TicketRepository>();
             services.AddScoped<IUserAccountRepository, UserAccountRepository>();
+        }
+
+        private static string GetDatabaseConnectionString(IConfiguration configuration)
+        {
+            string serverDbHostName = Environment.GetEnvironmentVariable("SQLCINE_HOSTNAME");
+
+            if (string.IsNullOrEmpty(serverDbHostName))
+                return configuration.GetConnectionString("MarajoaraDb");//from appsettings.json
+
+            string dbUser = Environment.GetEnvironmentVariable("SQLCINE_UserName");
+            string dbUserPassword = Environment.GetEnvironmentVariable("SQLCINE_PASSWORD");
+            string dbName = Environment.GetEnvironmentVariable("SQLCINE_DatabaseName");
+
+            return $"Data Source={serverDbHostName};Database={dbName};User Id={dbUser};Password={dbUserPassword};";
         }
     }
 }
