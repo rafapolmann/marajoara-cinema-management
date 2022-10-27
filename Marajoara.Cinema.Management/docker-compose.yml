@@ -1,4 +1,4 @@
-version: "1.0"
+version: "3"
 services: 
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -18,9 +18,14 @@ services:
 
   marajoara-backend:
     image: marajoara-image:latest
-    container_name: marajoara-api    
-    environment:
-      SQLSERVER__HOSTNAME: "sqlserver-prod"
+    container_name: marajoara-api
+    build:
+      context: .   
+    environment:      
+      SQLCINE_UserName: "sa"
+      SQLCINE_PASSWORD: "sql123!@#"
+      SQLCINE_HOSTNAME: "sqlserver-prod"
+      SQLCINE_DatabaseName: "CineMarajoara"
     ports:
       - 44500:80
     restart: unless-stopped
@@ -32,6 +37,8 @@ services:
   marajoara-front:
     image: marajoara-front:latest
     container_name: marajoara-front
+    build:
+      context: \Marajoara.Cinema.Management.FrontEnd
     ports:
       - 4300:80
     restart: unless-stopped
