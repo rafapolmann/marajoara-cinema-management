@@ -113,4 +113,4 @@ Adicione notas adicionais sobre como implantar isso em um sistema ativo
 
 ## 📄 Licença
 
-This project is licensed under the MIT License - see [LICENSE.md](https://github.com/usuario/projeto/licenca) for details.
+This project is licensed under the MIT License - see [LICENSE.md](https://github.com/rafapolmann/marajoara-cinema-management/LICENSE.md) for details.
