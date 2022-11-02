@@ -61,7 +61,7 @@ These instructions will permit you getting a copy of the project in your local m
 
 #### Local deployment
 * For build and run the application in Docker containers, you should have Docker installed. In our develop environment, we have used **Docker Desktop**.
-* Deployment on Kubertnetes in local machine, you could use **KinD**.
+* Deployment on Kubernetes in local machine, you could use **KinD**.
 
 
 #### Obs.: All links for each setup could be found in **[Built With](https://github.com/rafapolmann/marajoara-cinema-management?readme=1#%EF%B8%8F-built-with)** section.
