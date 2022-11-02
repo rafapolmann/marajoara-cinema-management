@@ -90,7 +90,7 @@ npm install
 
 In this case the application will use SQL Server LocalDB.
 * You must execute **Marajoara.Cinema.Management.Api** with **Visual Studio**.
-* You need change the **environment.ts** file in **Marajoara.Cinema.Management.FrontEnd** to use port: **44328** in baseApiUrl.
+* You need to change the **environment.ts** file in **Marajoara.Cinema.Management.FrontEnd** to use port: **44328** in baseApiUrl.
 * Open **Marajoara.Cinema.Management.FrontEnd** directory with **VS Code**, open a new Terminal Command tab and execute the command below:
 
 ```
@@ -120,7 +120,7 @@ After above steps:
 
 You must have Docker and KinD installed in your machine.
 
-* For create a cluster, open a **Terminal Command** in **Marajoara.Cinema.Management\Kubernetes** (where are YAML configurations files)
+* For creating a cluster, open a **Terminal Command** in **Marajoara.Cinema.Management\Kubernetes** (where are YAML configurations files)
 * You should create a folder in **c:/kubedata** or change the **create-cluster.yaml** properties for a directory of your preference.
 * Execute in **Terminal Command** the following commands:
 
@@ -155,7 +155,7 @@ kubectl apply -f .\MarajoaraFrontendService.yaml
 After above steps:
 * Access this address: http://localhost:4400/
 
-#### Obs.: Cannot possible make both deployment (Docker and Kind) simultaneously in the same machine because back-end api use the same port: 44500.
+#### Obs.: Cannot possibly make both deployment (Docker and Kind) simultaneously in the same machine because back-end API use the same port: 44500.
 
 ## ✒️ Authors
 
