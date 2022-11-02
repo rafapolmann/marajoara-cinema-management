@@ -166,7 +166,7 @@ In order to create an account, you should inform an user name and e-mail.
 The default password will be created with pattern below:
 
 * First part of e-mail.
-* Concatened with system default sufix: **P@ssW0rd**
+* Concatenated with system default sufix: **P@ssW0rd**
 
 ```
 Example:
