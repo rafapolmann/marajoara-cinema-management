@@ -47,6 +47,9 @@ namespace Marajoara.Cinema.Management.Application.Features.UserAccountModule
             if (_unitOfWork.UserAccounts.RetrieveByMail(userAccount.Mail) != null)
                 throw new Exception($"Already exists User Account with e-mail address: {userAccount.Mail}.");
 
+            if (_unitOfWork.UserAccounts.RetrieveByAccessLevel(AccessLevel.Manager).Count() == 0)
+                userAccount.Level = AccessLevel.Manager;
+
             userAccount.Password = GetDefaultPassword(userAccount.Name);
 
             userAccount.Validate();
