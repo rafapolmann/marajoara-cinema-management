@@ -114,4 +114,4 @@ After above steps:
 
 ## 📄 Licença
 
-This project is licensed under the MIT License - see [LICENSE.md](https://github.com/rafapolmann/marajoara-cinema-management/LICENSE.md) for details.
+This project is licensed under the MIT License - see [LICENSE.txt](https://github.com/rafapolmann/marajoara-cinema-management/LICENSE.txt) for details.
