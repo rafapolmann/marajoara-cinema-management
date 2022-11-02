@@ -107,22 +107,62 @@ After above steps:
 You must have Docker installed in your machine.
 
 * Open a **Terminal Command** in **Marajoara.Cinema.Management** directory (where is **docker-compose.yml** file).
-* You should create a folder in **c:/sqlvol/** or change the docker-compose.yml properties to a directory of your preference.
-*Execute in **Terminal Command** the following command:
+* You should create a folder in **c:/sqlvol/** or change the **docker-compose.yml** properties for a directory of your preference.
+* Execute in **Terminal Command** the following command:
 
 ```
 docker-compose up -d
 ```
 After above steps:
 * Access this address: http://localhost:4300/
+
 ### Kubernetes (Kind)
 
-## ✒️ Autores
+You must have Docker and KinD installed in your machine.
+
+* For create a cluster, open a **Terminal Command** in **Marajoara.Cinema.Management\Kubernetes** (where are YAML configurations files)
+* You should create a folder in **c:/kubedata** or change the **create-cluster.yaml** properties for a directory of your preference.
+* Execute in **Terminal Command** the following commands:
+
+```
+kind create cluster --name {your-cluster-name} --config .\create-cluster.yaml
+```
+```
+kubectl apply -f .\PersistentVolume.yaml
+```
+```
+kubectl apply -f .\PersistentVolumeClaim.yaml
+```
+```
+kubectl apply -f .\SqlServerDeployment.yaml
+```
+```
+kubectl apply -f .\SqlServerService.yaml
+```
+```
+kubectl apply -f .\MarajoaraBackendDeployment.yaml
+```
+```
+kubectl apply -f .\MarajoaraBackendService.yaml
+```
+```
+kubectl apply -f .\MarajoaraFrontendDeployment.yaml
+```
+```
+kubectl apply -f .\MarajoaraFrontendService.yaml
+```
+
+After above steps:
+* Access this address: http://localhost:4400/
+
+#### Obs.: Cannot possible make both deployment (Docker and Kind) simultaneously in the same machine because back-end api use the same port: 44500.
+
+## ✒️ Authors
 
 * [**Rafael Polmann**](https://github.com/rafapolmann) - *developer*
 * [**Akauam Pitrez Westphal**](https://github.com/Akauam) - *developer*
 
 
-## 📄 Licença
+## 📄 License
 
 This project is licensed under the MIT License - see [LICENSE.txt](https://github.com/rafapolmann/marajoara-cinema-management/LICENSE.txt) for details.
