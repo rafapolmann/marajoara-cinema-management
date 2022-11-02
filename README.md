@@ -104,6 +104,17 @@ After above steps:
 
 ### Docker Compose
 
+You must have Docker installed in your machine.
+
+* Open a **Terminal Command** in **Marajoara.Cinema.Management** directory (where is **docker-compose.yml** file).
+* You should create a folder in **c:/sqlvol/** or change the docker-compose.yml properties to a directory of your preference.
+*Execute in **Terminal Command** the following command:
+
+```
+docker-compose up -d
+```
+After above steps:
+* Access this address: http://localhost:4300/
 ### Kubernetes (Kind)
 
 ## ✒️ Autores
