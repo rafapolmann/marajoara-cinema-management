@@ -157,6 +157,23 @@ After above steps:
 
 #### Obs.: Cannot possibly make both deployment (Docker and Kind) simultaneously in the same machine because back-end API use the same port: 44500.
 
+### 🔩 First execution
+
+In the first time that you running the application, there wil not have registered user. You should click in ***Resgitre-se aqui*** to create an user account.
+
+In order to create an account, you should inform an user name and e-mail. 
+
+The default password will be created with pattern below:
+
+* First part of e-mail.
+* Concatened with system default sufix: **P@ssW0rd**
+
+```
+Example:
+User e-mail: newuser@somemail.com
+Password: newuserP@ssW0rd
+```
+
 ## ✒️ Authors
 
 * [**Rafael Polmann**](https://github.com/rafapolmann) - *developer*
