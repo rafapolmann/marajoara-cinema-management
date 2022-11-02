@@ -1,0 +1,16 @@
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
+nodes:
+- role: control-plane
+  extraPortMappings:
+  - containerPort: 4400
+    hostPort: 4400
+    listenAddress: "0.0.0.0" 
+    protocol: tcp
+  - containerPort: 44500
+    hostPort: 44500
+    listenAddress: "0.0.0.0" 
+    protocol: tcp
+  extraMounts:
+  - hostPath: C:/kubedata
+    containerPath: /kubedata

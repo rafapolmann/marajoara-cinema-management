@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: marajoarafront-service
+spec:
+  type: NodePort
+  selector:
+    app: marajoarafront
+  ports:
+  - port: 4400
+    targetPort: 80

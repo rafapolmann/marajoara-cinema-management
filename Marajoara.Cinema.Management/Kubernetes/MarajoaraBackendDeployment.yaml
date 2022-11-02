@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: marajoarabackend-deployment
+spec:
+  selector:
+    matchLabels:
+      app: marajoarabackend
+  template:
+    metadata:
+      labels:
+        app: marajoarabackend
+    spec:
+      containers:
+      - name: marajoarabackend
+        image: rafaelpolmann/marajoara-backend:latest
+        ports:
+        - containerPort: 80
+          hostPort: 44500
+        env:
+        - name: SQLCINE_UserName
+          value: "sa"
+        - name: SQLCINE_PASSWORD
+          value: "sql123!@#"
+        - name: SQLCINE_HOSTNAME
+          value: "mssql-service"
+        - name: SQLCINE_DatabaseName
+          value: "CineMarajoara"  

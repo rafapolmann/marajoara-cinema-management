@@ -17,7 +17,7 @@ services:
       - c:/sqlvol/secrets:/var/opt/mssql/secrets
 
   marajoara-backend:
-    image: marajoara-image:latest
+    image: marajoara-backend:latest
     container_name: marajoara-api
     build:
       context: .   
