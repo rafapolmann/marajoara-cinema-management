@@ -64,7 +64,7 @@ These instructions will permit you getting a copy of the project in your local m
 * Deployment on Kubertnetes in local machine, you could use **KinD**.
 
 
-#### Obs.: All links for each setup could be found in **[Built With](https://github.com/rafapolmann/marajoara-cinema-management/new/master?readme=1#%EF%B8%8F-built-with)** section.
+#### Obs.: All links for each setup could be found in **[Built With](https://github.com/rafapolmann/marajoara-cinema-management?readme=1#%EF%B8%8F-built-with)** section.
 
 
 ### ⌨️ Clone Git Repository
@@ -102,8 +102,9 @@ After above steps:
 
 ## 📦 Deployment
 
-Adicione notas adicionais sobre como implantar isso em um sistema ativo
+### Docker Compose
 
+### Kubernetes (Kind)
 
 ## ✒️ Autores
 
