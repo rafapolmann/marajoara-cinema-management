@@ -6,11 +6,11 @@ This project presents a system for the management of cinema with the following f
 * Movie register
 * Session register
 * In theater presentation
-* Management and buy tickets
+* Management and ticket order
 
-During the development process was following the best practices like DDD, layered architecture, SOLID, Unit Tests and Integration Tests.
+Best practices like, DDD, layered architecture, SOLID, Unit Tests and Integration Tests, were followed during the development.
 
-This project has had as purpose the study of the frameworks and components used in its development.
+The purpose of this project was the study of it's used components and frameworks.
 
 ## 🛠️ Built With
 
@@ -60,8 +60,8 @@ These instructions will permit you getting a copy of the project in your local m
 * You must have NodeJs installed
 
 #### Local deployment
-* For build and run the application in Docker containers, you should have Docker installed. In our develop environment, we have used **Docker Desktop**.
-* Deployment on Kubernetes in local machine, you could use **KinD**.
+* For building and running the application in Docker containers, you should have Docker installed. In our development environment, we used **Docker Desktop**.
+* For deployment on Kubernetes in local machine, you could use **KinD**.
 
 
 #### Obs.: All links for each setup could be found in **[Built With](https://github.com/rafapolmann/marajoara-cinema-management?readme=1#%EF%B8%8F-built-with)** section.
@@ -69,7 +69,7 @@ These instructions will permit you getting a copy of the project in your local m
 
 ### ⌨️ Clone Git Repository
 
-For clone the repository in your local machine, you just create a folder, open a Terminal Command in this directory and execute the command below:
+For cloning the repository in your local machine, you just create a folder, open a Terminal Command in this directory and execute the command below:
 
 
 ```
@@ -120,7 +120,7 @@ After above steps:
 
 You must have Docker and KinD installed in your machine.
 
-* For creating a cluster, open a **Terminal Command** in **Marajoara.Cinema.Management\Kubernetes** (where are YAML configurations files)
+* To create a cluster, open a **Terminal Command** in **Marajoara.Cinema.Management\Kubernetes** (where are YAML configurations files)
 * You should create a folder in **c:/kubedata** or change the **create-cluster.yaml** properties for a directory of your preference.
 * Execute in **Terminal Command** the following commands:
 
@@ -155,11 +155,12 @@ kubectl apply -f .\MarajoaraFrontendService.yaml
 After above steps:
 * Access this address: http://localhost:4400/
 
-#### Obs.: Cannot possibly make both deployment (Docker and Kind) simultaneously in the same machine because back-end API use the same port: 44500.
+#### Obs.: Both deployment (Docker and Kind) can't be up simultaneously on the same machine because back-end API use the same port: 44500.
 
 ### 🔩 First execution
 
-In the first time that you running the application, there wil not have registered user. You should click in ***Resgitre-se aqui*** to create an user account.
+On the first time running the application, there will be no user on the database. You should click in ***Registre-se aqui*** to create a user account.
+OBS: The first user registered will have the Manager Access Level. The following will be registered as Customer
 
 In order to create an account, you should inform an user name and e-mail. 
 
