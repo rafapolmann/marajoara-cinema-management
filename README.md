@@ -183,4 +183,4 @@ Password: newuserP@ssW0rd
 
 ## 📄 License
 
-This project is licensed under the MIT License - see [LICENSE.md](https://github.com/rafapolmann/marajoara-cinema-management/LICENSE.md) for details.
+This project is licensed under the MIT License - see [LICENSE.md](https://github.com/rafapolmann/marajoara-cinema-management/blob/master/LICENSE.md) for details.
